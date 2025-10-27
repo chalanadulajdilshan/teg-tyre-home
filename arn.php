@@ -402,6 +402,8 @@ $arn_id = $COMPANY_PROFILE_DETAILS->company_code . '/ARN/00/' . ($lastId + 1);
                                                     </div>
                                                 </div>
 
+
+                                                <div class="col-md-2 hidden">
                                                 <div class="col-6 col-sm-4 col-md-2 col-lg-1">
                                                     <label class="form-label">Rec Qty</label>
                                                     <input type="number" class=" form-control form-control-sm"
