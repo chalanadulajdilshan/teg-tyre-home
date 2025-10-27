@@ -4,19 +4,14 @@ class Dag
 {
     public $id;
     public $ref_no;
-    public $job_number;
     public $customer_id;
 
     public $department_id;
     public $received_date;
     public $delivery_date;
     public $customer_request_date;
-    public $dag_company_id;
-    public $company_issued_date;
-    public $company_delivery_date;
+    public $vehicle_no;
     public $remark;
-    public $receipt_no;
-    public $status;
 
     public $is_print;
 
@@ -31,19 +26,14 @@ class Dag
             if ($result) {
                 $this->id = $result['id'];
                 $this->ref_no = $result['ref_no'];
-                $this->job_number = $result['job_number'];
                 $this->department_id = $result['department_id'];
                 $this->customer_id = $result['customer_id'];
 
                 $this->received_date = $result['received_date'];
                 $this->delivery_date = $result['delivery_date'];
                 $this->customer_request_date = $result['customer_request_date'];
-                $this->dag_company_id = $result['dag_company_id'];
-                $this->company_issued_date = $result['company_issued_date'];
-                $this->company_delivery_date = $result['company_delivery_date'];
+                $this->vehicle_no = $result['vehicle_no'];
                 $this->remark = $result['remark'];
-                $this->receipt_no = $result['receipt_no'];
-                $this->status = $result['status'];
                 $this->is_print = $result['is_print'];
             }
         }
@@ -56,13 +46,11 @@ class Dag
         $this->remark = mysqli_real_escape_string($db->DB_CON, $this->remark);
 
         $query = "INSERT INTO `dag` (
-            `ref_no`, `job_number`, `department_id`,`customer_id`, `received_date`, `delivery_date`, `customer_request_date`,
-            `dag_company_id`, `company_issued_date`, `company_delivery_date`,
-            `remark`, `receipt_no`, `status`
+            `ref_no`, `department_id`,`customer_id`, `received_date`, `delivery_date`, `customer_request_date`,
+            `vehicle_no`, `remark`
         ) VALUES (
-            '{$this->ref_no}', '{$this->job_number}', '{$this->department_id}','{$this->customer_id}', '{$this->received_date}', '{$this->delivery_date}', '{$this->customer_request_date}',
-            '{$this->dag_company_id}', '{$this->company_issued_date}', '{$this->company_delivery_date}',
-            '{$this->remark}', '{$this->receipt_no}', '{$this->status}'
+            '{$this->ref_no}', '{$this->department_id}','{$this->customer_id}', '{$this->received_date}', '{$this->delivery_date}', '{$this->customer_request_date}',
+            '{$this->vehicle_no}', '{$this->remark}'
         )";
 
         $result = $db->readQuery($query);
@@ -81,18 +69,13 @@ class Dag
 
         $query = "UPDATE `dag` SET 
             `ref_no` = '{$this->ref_no}',
-            `job_number` = '{$this->job_number}',
             `department_id` = '{$this->department_id}',
             `received_date` = '{$this->received_date}',
             `delivery_date` = '{$this->delivery_date}',
             `customer_request_date` = '{$this->customer_request_date}',
-            `dag_company_id` = '{$this->dag_company_id}',
-            `company_issued_date` = '{$this->company_issued_date}',
-            `company_delivery_date` = '{$this->company_delivery_date}',
+            `vehicle_no` = '{$this->vehicle_no}',
             `remark` = '{$this->remark}',
-            `receipt_no` = '{$this->receipt_no}',
-            `is_print` = '{$this->is_print}', 
-            `status` = '{$this->status}'
+            `is_print` = '{$this->is_print}'
             WHERE `id` = '{$this->id}'";
 
         return $db->readQuery($query);
@@ -101,8 +84,17 @@ class Dag
     // Delete
     public function delete()
     {
-        $query = "DELETE FROM `dag` WHERE `id` = '{$this->id}'";
         $db = new Database();
+
+        if (!$this->id) {
+            return false;
+        }
+
+        // Remove all related dag_item rows first
+        $queryDeleteItems = "DELETE FROM `dag_item` WHERE `dag_id` = '{$this->id}'";
+        $db->readQuery($queryDeleteItems);
+
+        $query = "DELETE FROM `dag` WHERE `id` = '{$this->id}'";
         return $db->readQuery($query);
     }
 
@@ -170,7 +162,7 @@ class Dag
                      dc.name as company_name,
                      b.name as belt_design,
                      di.barcode as barcode,
-                     di.vehicle_no as vehicle_no,
+                     di.vehicle_no as item_vehicle_no,
                      di.qty as qty,
                      di.total_amount as total_amount
               FROM dag d

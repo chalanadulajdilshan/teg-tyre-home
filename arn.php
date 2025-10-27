@@ -129,7 +129,7 @@ $arn_id = $COMPANY_PROFILE_DETAILS->company_code . '/ARN/00/' . ($lastId + 1);
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-2">
+                                            <div class="col-md-2 hidden">
                                                 <label for="PO_No" class="form-label">PO No</label>
                                                 <div class="input-group">
                                                     <input id="po_no" type="text" class="form-control"
@@ -141,7 +141,7 @@ $arn_id = $COMPANY_PROFILE_DETAILS->company_code . '/ARN/00/' . ($lastId + 1);
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-2 hidden">
                                                 <label class="form-label" for="entry_date">PO Date</label>
                                                 <input id="order_date" name="order_date" type="text"
                                                     class="form-control  " placeholder="Select Po Date" readonly>
@@ -248,7 +248,7 @@ $arn_id = $COMPANY_PROFILE_DETAILS->company_code . '/ARN/00/' . ($lastId + 1);
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-2">
+                                            <div class="col-md-2 hidden">
                                                 <label for="arn_status" class="form-label">ARN Status</label>
                                                 <div class="input-group mb-3">
                                                     <select id="arn_status" name="arn_status" class="form-select">
@@ -341,13 +341,13 @@ $arn_id = $COMPANY_PROFILE_DETAILS->company_code . '/ARN/00/' . ($lastId + 1);
                                                 <div class="input-group mb-3">
                                                     <select id="payment_type" name="payment_type" class="form-select">
                                                         <option value="">Select Payment Type</option>
-                                                        <option value="Cash">Cash </option>
-                                                        <option value="Credit">Credit</option>
+                                                        <option value="1">Cash </option>
+                                                        <option value="2">Credit</option>
                                                     </select>
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-2">
+                                            <div class="col-md-2 hidden">
                                                 <label class="form-label">Pending Credit Note Amount</label>
                                                 <input type="number" id="credit_note_amount" name="credit_note_amount"
                                                     class="form-control" placeholder="Amount">

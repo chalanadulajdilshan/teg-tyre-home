@@ -420,12 +420,13 @@ class SalesInvoice
 
     public function getCreditInvoicesByCustomerAndStatus($status, $customer_id)
     {
-        
+
         $query = "SELECT * FROM `sales_invoice` 
                  WHERE `sale_type` = 2 
                  AND `status` = $status 
                  AND `customer_id` = $customer_id 
-                 AND `grand_total` > `outstanding_settle_amount`
+                 AND `grand_total` > `outstanding_settle_amount`      
+                 AND `is_cancel`='0'
                  ORDER BY `invoice_date` DESC";
         $db = new Database();
         $result = $db->readQuery($query);

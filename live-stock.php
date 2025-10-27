@@ -90,21 +90,33 @@ try {
                             <div class="card">
                                 <div class="card-body">
                                     <!-- Department Filter -->
-                                    <div class="row mb-3">
-                                        <div class="col-md-3">
-                                            <button id="exportToExcel" class="btn btn-primary">Export to Excel</button>
-                                            <button id="exportToPdf" class="btn btn-warning">Export to PDF</button>
+                                    <div class="row mb-3 align-items-end">
+                                        <div class="col-md-6">
+                                            <div class="d-flex align-items-center" style="height: 100%;">
+                                                <div class="me-2">
+                                                    <button id="exportToExcel" class="btn btn-primary me-2">
+                                                        <i class="fas fa-file-excel me-1"></i> Export to Excel
+                                                    </button>
+                                                    <button id="exportToPdf" class="btn btn-warning">
+                                                        <i class="fas fa-file-pdf me-1"></i> Export to PDF
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-md-3">
-                                            <label for="filter_department_id" class="form-label">Filter by Department</label>
-                                            <select class="form-control select2" id="filter_department_id" name="filter_department_id">
-                                                <option value="all" selected>Show All Departments</option>
-                                                <?php foreach ($departments as $department): ?>
-                                                    <option value="<?php echo $department['id']; ?>">
-                                                        <?php echo htmlspecialchars($department['name']); ?>
-                                                    </option>
-                                                <?php endforeach; ?>
-                                            </select>
+                                        <div class="col-md-6">
+                                            <div class="form-group mb-0">
+                                                <label for="filter_department_id" class="form-label">Filter by Department</label>
+                                                <div class="input-group">
+                                                    <select class="form-control select2" id="filter_department_id" name="filter_department_id">
+                                                        <option value="all" selected>Show All Departments</option>
+                                                        <?php foreach ($departments as $department): ?>
+                                                            <option value="<?php echo $department['id']; ?>">
+                                                                <?php echo htmlspecialchars($department['name']); ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -119,7 +131,7 @@ try {
                                                     <th>Department</th>
                                                     <th>Category</th>
                                                     <th>Selling</th>
-                                                    <th>Dealer Price</th>
+                                                    <th>Invoice Price</th>
                                                     <th>Quantity</th>
                                                     <th>Stock Status</th>
                                                 </tr>

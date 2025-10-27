@@ -18,9 +18,9 @@ class Database
         } else {
             // Online DB settings
             $this->host = 'localhost';
-            $this->name = 'chalcepi_teg-tyre-home';
-            $this->user = 'chalcepi_teg-tyre-home';
-            $this->password = 'KA3R)aC4o^,Y';
+            $this->name = 'chalcepi_dstyre';
+            $this->user = 'chalcepi_dstyre';
+            $this->password = '7e$A!ccu7~gx';
             $this->DB_CON ='';
         }
 

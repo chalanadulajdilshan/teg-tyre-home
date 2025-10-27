@@ -15,6 +15,7 @@ class DocumentTracking
     public $pr_id;
     public $arn_id;
     public $payment_receipt_id;
+    public $payment_receipt_supplier_id;
     public $sales_return_id;
     public $vat_percentage;
     public $created_at;
@@ -40,11 +41,10 @@ class DocumentTracking
     public function create()
     {
         $query = "INSERT INTO `document_tracking` (
-            `company_code`, `accounting_year_start`, `accounting_year_end`, `invoice_id`, 
-            `quotation_id`, `arn_id`, `vat_percentage`, `created_at`, `updated_at`
+            `company_code`, `accounting_year_start`, `accounting_year_end`, `invoice_id`, `cash_id`, `credit_id`, `quotation_id`, `arn_id`, `vat_percentage`, `created_at`, `updated_at`
         ) VALUES (
             '{$this->company_code}', '{$this->accounting_year_start}', '{$this->accounting_year_end}', 
-            '{$this->invoice_id}', '{$this->quotation_id}', '{$this->arn_id}', '{$this->vat_percentage}', 
+            '{$this->invoice_id}', '{$this->cash_id}', '{$this->credit_id}', '{$this->quotation_id}', '{$this->arn_id}', '{$this->vat_percentage}', 
             NOW(), NOW()
         )";
 
@@ -66,6 +66,8 @@ class DocumentTracking
             `accounting_year_start` = '{$this->accounting_year_start}',
             `accounting_year_end` = '{$this->accounting_year_end}',
             `invoice_id` = '{$this->invoice_id}',
+            `cash_id` = '{$this->cash_id}',
+            `credit_id` = '{$this->credit_id}',
             `quotation_id` = '{$this->quotation_id}',
             `arn_id` = '{$this->arn_id}',
             `vat_percentage` = '{$this->vat_percentage}',
@@ -140,6 +142,7 @@ class DocumentTracking
             'credit' => 'credit_id',
             'sales_return' => 'sales_return_id',
             'payment_receipt' => 'payment_receipt_id',
+            'payment_receipt_supplier' => 'payment_receipt_supplier_id',
             'arn' => 'arn_id'
         ];
 

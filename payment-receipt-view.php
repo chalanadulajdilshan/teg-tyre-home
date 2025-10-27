@@ -3,12 +3,52 @@
 include 'class/include.php';
 include './auth.php';
 
-//doc id get by session 
-$DOCUMENT_TRACKING = new DocumentTracking($doc_id);
+// Check if ID is provided in the URL
+$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-// Get the last inserted quotation
-$lastId = $DOCUMENT_TRACKING->payment_receipt_id;
-$payment_receipt_id = $COMPANY_PROFILE_DETAILS->company_code . '/CPR/00/0' . ($lastId + 1);
+// Initialize empty receipt data
+$receipt = null;
+$customer = null;
+$paymentMethods = [];
+
+// If ID is provided, load the receipt data
+if ($id > 0) {
+    $PAYMENT_RECEIPT = new PaymentReceipt($id);
+    if ($PAYMENT_RECEIPT->id) {
+        $receipt = [
+            'id' => $PAYMENT_RECEIPT->id,
+            'receipt_no' => $PAYMENT_RECEIPT->receipt_no,
+            'customer_id' => $PAYMENT_RECEIPT->customer_id,
+            'entry_date' => $PAYMENT_RECEIPT->entry_date,
+            'amount_paid' => $PAYMENT_RECEIPT->amount_paid,
+            'remark' => $PAYMENT_RECEIPT->remark,
+            'created_at' => $PAYMENT_RECEIPT->created_at
+        ];
+        
+        // Load customer details
+        $CUSTOMER = new CustomerMaster($PAYMENT_RECEIPT->customer_id);
+        if ($CUSTOMER->id) {
+            $customer = [
+                'id' => $CUSTOMER->id,
+                'code' => $CUSTOMER->code,
+                'name' => $CUSTOMER->name,
+                'address' => $CUSTOMER->address,
+                'email' => $CUSTOMER->email,
+                'mobile' => $CUSTOMER->mobile_number
+            ];
+        }
+        
+        // Load payment methods
+        $PAYMENT_METHODS = new PaymentReceiptMethod();
+        $paymentMethods = $PAYMENT_METHODS->getByReceiptId($id);
+    }
+}
+
+// If no receipt found with the given ID, redirect to the list
+if ($id > 0 && empty($receipt)) {
+    header('Location: payment-receipt.php');
+    exit();
+}
 
 ?>
 
@@ -106,74 +146,71 @@ $payment_receipt_id = $COMPANY_PROFILE_DETAILS->company_code . '/CPR/00/0' . ($l
                                                 <input type="hidden" id="customer_id">
 
 
+                                                <!-- Hidden receipt ID -->
+                                                <input type="hidden" name="id" value="<?php echo $receipt ? $receipt['id'] : ''; ?>">
+                                                
                                                 <div class="col-md-2">
-                                                    <label for="reciptNo" class="form-label">Recipt No</label>
+                                                    <label for="code" class="form-label">Receipt No</label>
                                                     <div class="input-group mb-3">
                                                         <input type="text" id="code" name="code"
-                                                            value="<?php echo $payment_receipt_id ?>"
+                                                            value="<?php echo $receipt ? htmlspecialchars($receipt['receipt_no']) : ''; ?>"
                                                             class="form-control" readonly>
-
-                                                        <button class="btn btn-info" type="button"
-                                                            data-bs-toggle="modal" data-bs-target="#paymentReceiptModal">
-                                                            <i class="uil uil-search me-1"></i>
-                                                        </button>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-md-3">
-                                                    <label for="customerCode" class="form-label">Customer Code</label>
+                                                    <label for="customer_code" class="form-label">Customer Code</label>
                                                     <div class="input-group mb-3">
                                                         <input id="customer_code" name="customer_code" type="text"
+                                                            value="<?php echo $customer ? htmlspecialchars($customer['code']) : ''; ?>"
                                                             placeholder="Customer code" class="form-control" readonly>
-                                                        <button class="btn btn-info" type="button" id="customerModalBtn"
-                                                            data-bs-toggle="modal" data-bs-target="#customerModal">
-                                                            <i class="uil uil-search me-1"></i>
-                                                        </button>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-md-3">
-                                                    <label for="customerName" class="form-label">Customer Name</label>
+                                                    <label for="customer_name" class="form-label">Customer Name</label>
                                                     <div class="input-group mb-3">
                                                         <input id="customer_name" name="customer_name" type="text"
-                                                            class="form-control" placeholder="Enter Customer Name"
-                                                            readonly>
+                                                            value="<?php echo $customer ? htmlspecialchars($customer['name']) : ''; ?>"
+                                                            class="form-control" placeholder="Customer name" readonly>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-md-4">
-                                                    <label for="customerAddress" class="form-label">Customer
-                                                        Address</label>
+                                                    <label for="customer_address" class="form-label">Customer Address</label>
                                                     <div class="input-group mb-3">
                                                         <input id="customer_address" name="customer_address" type="text"
-                                                            class="form-control" placeholder="Enter customer address"
-                                                            readonly>
+                                                            value="<?php echo $customer ? htmlspecialchars($customer['address']) : ''; ?>"
+                                                            class="form-control" placeholder="Customer address" readonly>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-md-3">
                                                     <label for="entry_date" class="form-label">Entry Date</label>
                                                     <div class="input-group" id="datepicker2">
-                                                        <input type="texentry_datet" class="form-control date-picker"
-                                                            id="entry_date" name="entry_date"> <span
-                                                            class="input-group-text"><i
-                                                                class="mdi mdi-calendar"></i></span>
+                                                        <input type="text" class="form-control date-picker"
+                                                            id="entry_date" name="entry_date"
+                                                            value="<?php echo $receipt ? htmlspecialchars($receipt['entry_date']) : date('Y-m-d'); ?>">
+                                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-md-6">
-                                                    <label for="remark" class="form-label"># Enter Remark</label>
+                                                    <label for="remark" class="form-label">Remark</label>
                                                     <div class="input-group mb-3">
                                                         <input id="remark" name="remark" type="text"
-                                                            class="form-control" placeholder="">
+                                                            value="<?php echo $receipt ? htmlspecialchars($receipt['remark']) : ''; ?>"
+                                                            class="form-control" placeholder="Enter remark">
                                                     </div>
                                                 </div>
+                                                
                                                 <div class="col-md-3">
-                                                    <label for="cash_total" class="form-label text-danger fw-bold">Cash Amount</label>
+                                                    <label for="amount_paid" class="form-label text-primary fw-bold">Total Amount</label>
                                                     <div class="input-group">
-                                                        <input type="number" class="form-control border-danger text-danger" id="cash_total"
-                                                            placeholder="Enter Cash Amount" name="cash_total" min="0"
-                                                            step="0.01">
+                                                        <input type="number" class="form-control border-primary text-primary" 
+                                                            id="amount_paid" name="amount_paid" 
+                                                            value="<?php echo $receipt ? htmlspecialchars($receipt['amount_paid']) : '0.00'; ?>"
+                                                            readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -317,37 +354,133 @@ $payment_receipt_id = $COMPANY_PROFILE_DETAILS->company_code . '/CPR/00/0' . ($l
                                             </div>
 
                                         </div>
-                                        <!-- Table -->
+                                        <!-- Payment Methods Summary Table -->
                                         <div class="table-responsive mt-4">
-                                            <table class="table table-bordered" id="invoiceTable">
+                                            <h6 class="mb-3">Payment Methods Summary</h6>
+                                            <table class="table table-bordered">
                                                 <thead class="table-light">
                                                     <tr>
-
-                                                        <th>Invoice Date</th>
+                                                        <th>#</th>
+                                                        <th>Payment Type</th>
                                                         <th>Invoice No</th>
-                                                        <th>Invoice Value</th>
-                                                        <th>Paid</th>
-                                                        <th>Overdue</th>
-                                                        <th>Chq Pay</th>
-                                                        <th>Cash Pay</th>
-                                                        <th>Total Pay</th>
-                                                        <th>Inv Balance</th>
-                                                        <th>Action </th>
+                                                        <th>Amount</th>
+                                                        <th>Cheque No</th>
+                                                        <th>Cheque Date</th>
+                                                        <th>Bank</th>
+                                                        <th>Branch</th>
+                                                        <th>Status</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="invoiceBody">
-                                                    <tr id="noItemRow">
-                                                        <td colspan="11" class="text-center text-muted">No items
-                                                            added</td>
-                                                    </tr>
+                                                <tbody>
+                                                    <?php if (!empty($paymentMethods)): ?>
+                                                        <?php foreach ($paymentMethods as $index => $method): ?>
+                                                            <tr>
+                                                                <td><?php echo $index + 1; ?></td>
+                                                                <td>
+                                                                    <?php
+                                                                    $paymentTypeId = $method['payment_type_id'] ?? 0;
+                                                                    switch ($paymentTypeId) {
+                                                                        case 1:
+                                                                            echo '<span class="badge bg-success">Cash</span>';
+                                                                            break;
+                                                                        case 2:
+                                                                            echo '<span class="badge bg-primary">Cheque</span>';
+                                                                            break;
+                                                                        default:
+                                                                            echo '<span class="badge bg-secondary">Payment Type ' . htmlspecialchars($paymentTypeId) . '</span>';
+                                                                    }
+                                                                    ?>
+                                                                </td>
+                                                                <td><?php echo htmlspecialchars($method['invoice_id'] ?? 'N/A'); ?></td>
+                                                                <td><?php echo number_format($method['amount'] ?? 0, 2); ?></td>
+                                                                <td>
+                                                                    <?php
+                                                                    $paymentTypeId = $method['payment_type_id'] ?? 0;
+                                                                    echo ($paymentTypeId == 1) ? 'N/A' : htmlspecialchars($method['cheq_no'] ?? 'N/A');
+                                                                    ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php
+                                                                    echo ($paymentTypeId == 1) ? 'N/A' : htmlspecialchars($method['cheq_date'] ?? 'N/A');
+                                                                    ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php
+                                                                    echo ($paymentTypeId == 1) ? 'N/A' : htmlspecialchars($method['bank_id'] ?? 'N/A');
+                                                                    ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php
+                                                                    echo ($paymentTypeId == 1) ? 'N/A' : htmlspecialchars($method['branch_id'] ?? 'N/A');
+                                                                    ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php if (isset($method['is_settle']) && $method['is_settle'] == 1): ?>
+                                                                        <span class="badge bg-success">Settled</span>
+                                                                    <?php else: ?>
+                                                                        <span class="badge bg-warning">Pending</span>
+                                                                    <?php endif; ?>
+                                                                </td>
+                                                            </tr>
+                                                        <?php endforeach; ?>
+                                                    <?php else: ?>
+                                                        <tr>
+                                                            <td colspan="9" class="text-center text-muted">No payment methods found</td>
+                                                        </tr>
+                                                    <?php endif; ?>
                                                 </tbody>
                                             </table>
-                                        </div>
-                                        <div class="row mt-4">
-                                            <!-- Total Outstanding -->
-                                            <div class="col-md-8"></div>
+                                        <!-- Payment Summary -->
+                                        <?php if (!empty($paymentMethods)): ?>
+                                            <?php
+                                            $totalAmount = 0;
+                                            $cashAmount = 0;
+                                            $chequeAmount = 0;
+                                            $settledCount = 0;
 
-                                            <div class="col-md-4">
+                                            foreach ($paymentMethods as $method) {
+                                                $amount = (float)($method['amount'] ?? 0);
+                                                $totalAmount += $amount;
+
+                                                // Assuming payment_type_id 1 = cash, 2 = cheque (adjust based on your logic)
+                                                if (($method['payment_type_id'] ?? 0) == 1) {
+                                                    $cashAmount += $amount;
+                                                } else {
+                                                    $chequeAmount += $amount;
+                                                }
+
+                                                if (isset($method['is_settle']) && $method['is_settle'] == 1) {
+                                                    $settledCount++;
+                                                }
+                                            }
+                                            ?>
+                                            <div class="row mt-3">
+                                                <div class="col-md-12">
+                                                    <div class="card bg-light">
+                                                        <div class="card-body">
+                                                            <div class="row text-center">
+                                                                <div class="col-md-3">
+                                                                    <h6 class="text-primary">Total Amount</h6>
+                                                                    <h4 class="text-primary"><?php echo number_format($totalAmount, 2); ?></h4>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <h6 class="text-success">Cash Amount</h6>
+                                                                    <h4 class="text-success"><?php echo number_format($cashAmount, 2); ?></h4>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <h6 class="text-warning">Cheque Amount</h6>
+                                                                    <h4 class="text-warning"><?php echo number_format($chequeAmount, 2); ?></h4>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <h6 class="text-info">Settled</h6>
+                                                                    <h4 class="text-info"><?php echo $settledCount . ' / ' . count($paymentMethods); ?></h4>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
                                                 <form id="form-data-invoice" autocomplete="off">
                                                     <div class="  p-2 border rounded bg-light" style="max-width: 600px;">
                                                         <div class="row mb-2">
@@ -395,170 +528,6 @@ $payment_receipt_id = $COMPANY_PROFILE_DETAILS->company_code . '/CPR/00/0' . ($l
                 </div>
             </div>
 
-            <!-- //////////////// Model Detials //////////////////// -->
-            <!-- model open here -->
-            <div class="modal fade " id="branch_master" tabindex="-1" role="dialog"
-                aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="myExtraLargeModalLabel">Manage Bank Branches</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-12">
-
-
-                                    <table id="datatable" class="table table-bordered dt-responsive nowrap"
-                                        style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                        <thead>
-                                            <tr>
-                                                <th>#id</th>
-                                                <th>Bank</th>
-                                                <th>Branch</th>
-                                                <th>Address</th>
-                                                <th>Phone Number</th>
-                                                <th>City</th>
-                                                <th>Status</th>
-
-                                            </tr>
-                                        </thead>
-
-
-                                        <tbody>
-                                            <?php
-                                            $BRANCH = new Branch(null);
-                                            foreach ($BRANCH->getByStatus(1) as $key => $branch) {
-                                                $key++;
-                                                $BANK = new Bank($branch['bank_id']);
-                                            ?>
-                                                <tr class="select-branch" data-id="<?php echo $branch['id']; ?>"
-                                                    data-bankid="<?php echo $branch['bank_id']; ?>"
-                                                    data-code="<?php echo htmlspecialchars($branch['code']); ?>"
-                                                    data-name="<?php echo htmlspecialchars($branch['name']); ?>"
-                                                    data-address="<?php echo htmlspecialchars($branch['address']); ?>"
-                                                    data-phone="<?php echo htmlspecialchars($branch['phone_number']); ?>"
-                                                    data-city="<?php echo htmlspecialchars($branch['city']); ?>"
-                                                    data-active="<?php echo $branch['active_status']; ?>">
-
-                                                    <td><?php echo $key; ?></td>
-                                                    <td><?php echo htmlspecialchars($BANK->code . ' - ' . $BANK->name); ?>
-                                                    </td>
-                                                    <td><?php echo htmlspecialchars($branch['code'] . ' - ' . $branch['name']); ?>
-                                                    </td>
-                                                    <td><?php echo htmlspecialchars($branch['address']); ?></td>
-                                                    <td><?php echo htmlspecialchars($branch['phone_number']); ?></td>
-                                                    <td><?php echo htmlspecialchars($branch['city']); ?></td>
-                                                    <td>
-                                                        <?php if ($branch['active_status'] == 1): ?>
-                                                            <span class="badge bg-soft-success font-size-12">Active</span>
-                                                        <?php else: ?>
-                                                            <span class="badge bg-soft-danger font-size-12">Inactive</span>
-                                                        <?php endif; ?>
-                                                    </td>
-                                                </tr>
-
-
-                                            <?php } ?>
-                                        </tbody>
-                                    </table>
-                                </div> <!-- end col -->
-                            </div> <!-- end row -->
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div>
-            <!-- model close here -->
-
-            <div id="customerModal" class="modal fade bs-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="ModalLabel">Manage Customers</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-12">
-                                    <table id="customerTable" class="table table-bordered dt-responsive nowrap w-100">
-                                        <thead>
-                                            <tr>
-                                                <th>#ID</th>
-                                                <th>Code</th>
-                                                <th>Name</th>
-                                                <th>Mobile Number</th>
-                                                <th>email</th>
-                                                <th>category</th>
-                                                <th>province</th>
-                                                <th>credit_limit</th>
-                                                <th>outstanding</th>
-
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="paymentReceiptModal" class="modal fade bs-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="ModalLabel">Manage Customer Payment Receipt</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-12">
-                                    <table id="paymentReceiptTable" class="table table-bordered dt-responsive nowrap w-100">
-                                        <thead>
-                                            <tr>
-                                                <th>#ID</th>
-                                                <th>Customer Code</th>
-                                                <th>Customer Name</th>
-                                                <th>Receipt No</th>
-                                                <th>Receipt Date</th>
-                                                <th>Amount</th>
-                                                <th>Remark</th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                <?php
-                                $PAYMENT_RECEIPT = new PaymentReceipt(null);
-
-                                foreach ($PAYMENT_RECEIPT->all() as $key => $paymentReceipt) {
-                                    $key++;
-                                    $CUSTOMER_MASTER = new CustomerMaster($paymentReceipt['customer_id']);
-                                    ?>
-                                    <tr class="clickable-row" style="cursor: pointer;" 
-                                        onclick="window.open('payment-receipt-view.php?id=<?php echo $paymentReceipt['id']; ?>', '_blank');">
-                                        <td><?php echo $key; ?></td>
-                                        <td><?php echo htmlspecialchars($CUSTOMER_MASTER->code); ?></td>
-                                        <td><?php echo htmlspecialchars($CUSTOMER_MASTER->name); ?></td>
-                                        <td><?php echo htmlspecialchars($paymentReceipt['receipt_no']); ?></td>
-                                        <td><?php echo htmlspecialchars($paymentReceipt['entry_date']); ?></td>
-                                        <td><?php echo htmlspecialchars($paymentReceipt['amount_paid']); ?></td>
-                                        <td><?php echo htmlspecialchars($paymentReceipt['remark']); ?></td>
-                                    </tr>
-
-                                <?php } ?>
-                            </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <?php include 'footer.php' ?>
 
             <!-- Right bar overlay-->
@@ -566,9 +535,6 @@ $payment_receipt_id = $COMPANY_PROFILE_DETAILS->company_code . '/CPR/00/0' . ($l
 
             <!-- include main js  -->
             <?php include 'main-js.php' ?>
-
-
-            <script src="ajax/js/payment-receipt.js"></script>
 </body>
 
 </html>

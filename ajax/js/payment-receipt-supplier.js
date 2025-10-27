@@ -15,8 +15,6 @@ jQuery(document).ready(function ($) {
     cashBalance: 0,
     totalOutstanding: 0,
   };
-  
-  let paymentReceiptTableInitialized = false;
 
   // Utility functions
   function formatAmount(amount) {
@@ -57,7 +55,7 @@ jQuery(document).ready(function ($) {
     let totalPaid = 0;
     let totalBalance = 0;
     let totalChequeAmount = 0;
-
+    
     // Update cheque usage
     state.chequeInfo.forEach((cheque) => {
       let usedAmount = 0;
@@ -79,12 +77,12 @@ jQuery(document).ready(function ($) {
       state.totalAvailable += cheque.remaining;
       totalChequeAmount += cheque.amount;
     });
-
+  
     // Update cash and totals
     state.cashTotal = parseAmount($("#cash_total").val());
     const totalCashPay = calculateTotalCashPay($excludeRow);
     state.cashBalance = state.cashTotal - totalCashPay;
-
+  
     // Calculate total outstanding, paid amount, and balance amount
     state.totalOutstanding = 0;
     $("#invoiceBody tr")
@@ -95,20 +93,21 @@ jQuery(document).ready(function ($) {
         const cashPay = parseAmount($(this).find(".cash-pay").val());
         const paidAmount = chequePay + cashPay;
         const balance = overdue - paidAmount;
-
+        
         state.totalOutstanding += overdue;
         totalPaid += paidAmount;
         totalBalance += balance;
       });
-
+  
     $("#total_outstanding").val(formatAmount(state.totalOutstanding));
     $("#paid_amount").val(formatAmount(totalPaid));
     $("#balance_amount").val(formatAmount(totalBalance));
     $("#cheque_balance").val(formatAmount(state.totalAvailable));
     $("#cash_balance").val(formatAmount(state.cashBalance));
-    $("#outstanding").val(formatAmount(state.totalOutstanding));
+   $("#outstanding").val(formatAmount(state.totalOutstanding));
+  
 
-    $("#cheque_total").val(formatAmount(totalChequeAmount));
+   $("#cheque_total").val(formatAmount(totalChequeAmount));
     updateChequeDropdowns();
     updateTotals();
     updateChequePayDisabledState();
@@ -199,7 +198,7 @@ jQuery(document).ready(function ($) {
       const $row = $select.closest("tr");
       const $chequeInput = $row.find(".cheque-pay");
       const selectedChequeId = $select.val();
-
+      
       if (selectedChequeId) {
         $chequeInput.prop("disabled", false);
       } else {
@@ -334,20 +333,20 @@ jQuery(document).ready(function ($) {
   $(document).on("change", ".cheque-select", function () {
     const $select = $(this);
     const $row = $select.closest("tr");
-
+    
     // Update hidden input fields with selected cheque details
-    const selectedOption = $select.find("option:selected");
+    const selectedOption = $select.find('option:selected');
     if (selectedOption.val()) {
       const chequeId = selectedOption.val();
-      const cheque = state.chequeInfo.find((c) => c.id === chequeId);
+      const cheque = state.chequeInfo.find(c => c.id === chequeId);
       if (cheque) {
-        $row.find(".cheque-no").val(cheque.chequeNo);
-        $row.find(".cheque-date").val(cheque.chequeDate);
-        $row.find(".bank-branch").val(cheque.bankBranchId);
+        $row.find('.cheque-no').val(cheque.chequeNo);
+        $row.find('.cheque-date').val(cheque.chequeDate);
+        $row.find('.bank-branch').val(cheque.bankBranchId);
       }
     } else {
       // Clear the fields if no cheque is selected
-      $row.find(".cheque-no, .cheque-date, .bank-branch").val("");
+      $row.find('.cheque-no, .cheque-date, .bank-branch').val('');
     }
     const selectedChequeId = $select.val();
     const $chequeInput = $row.find(".cheque-pay");
@@ -400,7 +399,7 @@ jQuery(document).ready(function ($) {
   $(document).on("focus", ".cheque-pay, .cash-pay", function () {
     const $input = $(this);
     let value = $input.val().replace(/[^0-9.]/g, "");
-    $input.val(value === "0" || value === "0.00" ? "" : value);
+    $input.val((value === "0" || value === "0.00") ? "" : value);
     // Set cursor to the beginning of the input
     setTimeout(() => {
       $input[0].setSelectionRange(0, 0);
@@ -588,107 +587,90 @@ jQuery(document).ready(function ($) {
 
   const loadCustomerTable = () => {
     if (!customerTableInitialized) {
-      $("#customerTable").DataTable({
+      $("#supplierTable").DataTable({
         processing: true,
         serverSide: true,
         ajax: {
           url: "ajax/php/customer-master.php",
           type: "POST",
-          data: { filter: true, category: 1 },
+          data: { filter: true, category: 2 },
           dataSrc: (json) => json.data,
-          error: (xhr) =>
-            console.error("Server Error Response:", xhr.responseText),
+          error: (xhr) => console.error("Server Error Response:", xhr.responseText),
         },
         columns: [
           { data: "key", title: "#ID" },
           { data: "code", title: "Code" },
           { data: "name", title: "Name" },
           { data: "mobile_number", title: "Mobile Number" },
-          { data: "email", title: "Email" },
-          { data: "category", title: "Category" },
-          { data: "province", title: "Province" },
           { data: "credit_limit", title: "Credit Limit" },
           { data: "outstanding", title: "Outstanding" },
         ],
         order: [[0, "desc"]],
         pageLength: 100,
         createdRow: (row, data) => {
-          $(row).addClass("cursor-pointer");
-        },
+          $(row).addClass('cursor-pointer');
+        }
       });
 
       customerTableInitialized = true;
     } else {
-      $("#customerTable").DataTable().ajax.reload();
+      $("#supplierTable").DataTable().ajax.reload();
     }
 
-    $("#customerTable tbody")
-      .off("click", "tr")
-      .on("click", "tr", function () {
-        const data = $("#customerTable").DataTable().row(this).data();
-
-        if (data) {
-          $("#customer_id").val(data.id);
-          $("#customer_code").val(data.code);
-          $("#customer_name").val(data.name);
-          $("#customer_address").val(data.address);
-          $("#outstanding").val(formatAmount(data.outstanding));
-          $("#customerModal").modal("hide");
-          loadCustomerCreditInvoices(data.id);
-        }
-      });
+    $("#supplierTable tbody").off("click", "tr").on("click", "tr", function () {
+      const data = $("#supplierTable").DataTable().row(this).data();
+      
+      if (data) {
+        $("#customer_id").val(data.id);
+        $("#customer_code").val(data.code);
+        $("#customer_name").val(data.name);
+        $("#customer_address").val(data.address);
+        $("#outstanding").val(formatAmount(data.outstanding));
+        $("#supplierModal").modal("hide");
+        loadCustomerCreditInvoices(data.id);
+      }
+    });
   };
   // Load customer table when modal is shown
-  $("#customerModal").on("show.bs.modal", function () {
+  $("#supplierModal").on("show.bs.modal", function() {
     loadCustomerTable();
   });
 
   const loadCustomerCreditInvoices = (customerId) => {
     if (!customerId) return;
-
+    
+    
     $.ajax({
-      url: "ajax/php/payment-receipt.php",
+      url: "ajax/php/payment-receipt-supplier.php",
       type: "POST",
       data: { action: "get_credit_invoices", customer_id: customerId },
       success: (response) => {
         $("#invoiceBody").empty();
-
+      
         if (response.success && response.data?.length) {
           let totalOutstanding = 0;
           response.data.forEach((invoice) => {
-            const invoiceValue = parseFloat(invoice.grand_total || 0);
-            const paidAmount = parseFloat(
-              invoice.outstanding_settle_amount || 0
-            );
+            const invoiceValue = parseFloat(invoice.total_arn_value || 0);
+            const paidAmount = parseFloat(invoice.paid_amount || 0);
             const overdue = invoiceValue - paidAmount;
             totalOutstanding += overdue;
 
             $("#invoiceBody").append(`
               <tr>
                 <td>${invoice.invoice_date}</td>
-                <td class="hidden"><input type="hidden" name="invoice_id[]" value="${
-                  invoice.id
-                }">${invoice.id}</td>
-                <td>${invoice.invoice_no}</td>
+                <td class="hidden"><input type="hidden" name="invoice_id[]" value="${invoice.id}">${invoice.id}</td>
+                <td>${invoice.arn_no}</td>
                 <td>${formatAmount(invoiceValue)}</td>
                 <td>${formatAmount(paidAmount)}</td>
-                <td><span class="text-danger fw-bold invoice-overdue">${formatAmount(
-                  overdue
-                )}</span></td>
+                <td><span class="text-danger fw-bold invoice-overdue">${formatAmount(overdue)}</span></td>
                 <td>
                   <input type="text" name="cheque_pay[]" class="form-control form-control-sm cheque-pay" value="0.00">
                   <select name="cheque_select[]" class="form-select form-select-sm mt-1 cheque-select">
                     <option value="">Select Cheque</option>
-                    ${state.chequeInfo
-                      .map(
-                        (cheque) =>
-                          `<option value="${cheque.id}" data-amount="${
-                            cheque.amount
-                          }" ${cheque.used ? "disabled" : ""}>
+                    ${state.chequeInfo.map((cheque) => 
+                      `<option value="${cheque.id}" data-amount="${cheque.amount}" ${cheque.used ? "disabled" : ""}>
                         ${cheque.chequeNo} (${formatAmount(cheque.amount)})
-                      </option>`
-                      )
-                      .join("")}
+                      </option>`).join("")}
                   </select>
                   <input type="hidden" name="cheque_no[]" class="form-control form-control-sm cheque-no" value="">
                   <input type="hidden" name="cheque_date[]" class="form-control form-control-sm cheque-date" value="">
@@ -701,18 +683,14 @@ jQuery(document).ready(function ($) {
               </tr>
             `);
           });
-
-          $("#total_outstanding, #balance_amount").val(
-            formatAmount(totalOutstanding)
-          );
+          
+          $("#total_outstanding, #balance_amount").val(formatAmount(totalOutstanding));
         } else {
-          $("#invoiceBody").html(
-            `<tr><td colspan="11" class="text-center text-muted">No items found</td></tr>`
-          );
+          $("#invoiceBody").html(`<tr><td colspan="11" class="text-center text-muted">No items found</td></tr>`);
           $("#total_outstanding, #balance_amount").val("0.00");
           swal("No Data", "No invoices found for this customer.", "info");
         }
-
+        
         updateState();
         toggleCashPay();
         updateChequePayDisabledState();
@@ -751,6 +729,7 @@ jQuery(document).ready(function ($) {
     toggleCashPay();
     updateState();
   });
+
 
   $("#new").click(function (e) {
     e.preventDefault();
@@ -851,11 +830,12 @@ jQuery(document).ready(function ($) {
     formData.append("paid_amount", totalAmount);
     formData.append("methods", JSON.stringify(paymentMethods));
 
+    
     formData.append("create", true);
     formData.append("action", "create");
 
     $.ajax({
-      url: "ajax/php/payment-receipt.php",
+      url: "ajax/php/payment-receipt-supplier.php",
       type: "POST",
       data: formData,
       async: false,
@@ -893,8 +873,6 @@ jQuery(document).ready(function ($) {
       },
     });
   });
-
- 
 
   // Initialize
   toggleCashPay();

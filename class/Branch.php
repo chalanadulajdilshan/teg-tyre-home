@@ -135,5 +135,28 @@ class Branch
 
         return $array_res;
     }
+
+    // Get branch by ID
+    public function getById($id)
+    {
+        $db = new Database();
+        $query = "SELECT * FROM `branches` WHERE `id` = " . (int)$id;
+        $result = $db->readQuery($query);
+        
+        if ($row = mysqli_fetch_assoc($result)) {
+            $this->id = $row['id'];
+            $this->bank_id = $row['bank_id'];
+            $this->name = $row['name'];
+            $this->code = $row['code'];
+            $this->address = $row['address'];
+            $this->phone_number = $row['phone_number'];
+            $this->city = $row['city'];
+            $this->remark = $row['remark'];
+            $this->active_status = $row['active_status'];
+            $this->created_at = $row['created_at'];
+            return $this;
+        }
+        return null;
+    }
 }
 ?>

@@ -66,9 +66,13 @@ if (isset($data['create'])) {
     $ARN->department = $data['department_id'];
     $ARN->po_no = $data['purchase_order_id'];
     $ARN->po_date = $data['purchase_date'];
+    $ARN->payment_type = $data['payment_type'];
     
     // Set paid amount to 0 for company ARN adjust (no payment)
     $ARN->paid_amount = '0';
+    $CUSTOMER = new CustomerMaster($ARN->supplier_id);
+    $CUSTOMER->outstanding = $ARN->total_arn_value;
+    $CUSTOMER->update();
 
     // 2. Update Purchase Order Status
     $PURCHASE_ORDER = new PurchaseOrder($ARN->po_no);

@@ -406,6 +406,9 @@ if (isset($_POST['action']) && $_POST['action'] == 'cancel') {
 
         $items = $SALES_INVOICE_ITEM->getItemsByInvoiceId($invoiceId);
 
+        $CUSTOMER_MASTER = new CustomerMaster($SALES_INVOICE->customer_id);
+        $CUSTOMER_MASTER->updateCustomerOutstanding($SALES_INVOICE->customer_id, $SALES_INVOICE->grand_total, false);
+
 
         foreach ($items as $item) {
             

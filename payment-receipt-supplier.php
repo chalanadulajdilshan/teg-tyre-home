@@ -7,8 +7,8 @@ include './auth.php';
 $DOCUMENT_TRACKING = new DocumentTracking($doc_id);
 
 // Get the last inserted quotation
-$lastId = $DOCUMENT_TRACKING->payment_receipt_id;
-$payment_receipt_id = $COMPANY_PROFILE_DETAILS->company_code . '/CPR/00/0' . ($lastId + 1);
+$lastId = $DOCUMENT_TRACKING->payment_receipt_supplier_id;
+$payment_receipt_id = $COMPANY_PROFILE_DETAILS->company_code . '/SPR/00/0' . ($lastId + 1);
 
 ?>
 
@@ -17,7 +17,7 @@ $payment_receipt_id = $COMPANY_PROFILE_DETAILS->company_code . '/CPR/00/0' . ($l
 <head>
 
     <meta charset="utf-8" />
-    <title> Manage Payment Receipt | <?php echo $COMPANY_PROFILE_DETAILS->name ?></title>
+    <title> Manage Supplier Payment Receipt | <?php echo $COMPANY_PROFILE_DETAILS->name ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="<?php echo $COMPANY_PROFILE_DETAILS->name ?>" name="author" />
     <!-- include main CSS -->
@@ -65,7 +65,7 @@ $payment_receipt_id = $COMPANY_PROFILE_DETAILS->company_code . '/CPR/00/0' . ($l
                         <div class="col-md-4 text-md-end text-start mt-3 mt-md-0">
                             <ol class="breadcrumb m-0 justify-content-md-end">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
-                                <li class="breadcrumb-item active"> Manage Payment Receipt </li>
+                                <li class="breadcrumb-item active"> Manage Supplier Payment Receipt </li>
                             </ol>
                         </div>
                     </div>
@@ -88,9 +88,9 @@ $payment_receipt_id = $COMPANY_PROFILE_DETAILS->company_code . '/CPR/00/0' . ($l
                                                 </div>
                                             </div>
                                             <div class="flex-grow-1 overflow-hidden">
-                                                <h5 class="font-size-16 mb-1">Manage Payment Receipt </h5>
+                                                <h5 class="font-size-16 mb-1">Manage Supplier Payment Receipt </h5>
                                                 <p class="text-muted text-truncate mb-0">Fill all information below to
-                                                    Manage Payment Receipt </p>
+                                                    Manage Supplier Payment Receipt </p>
                                             </div>
                                             <div class="flex-shrink-0">
                                                 <i class="mdi mdi-chevron-up accor-down-icon font-size-24"></i>
@@ -114,26 +114,26 @@ $payment_receipt_id = $COMPANY_PROFILE_DETAILS->company_code . '/CPR/00/0' . ($l
                                                             class="form-control" readonly>
 
                                                         <button class="btn btn-info" type="button"
-                                                            data-bs-toggle="modal" data-bs-target="#paymentReceiptModal">
+                                                            data-bs-toggle="modal" data-bs-target="#paymentReceiptSupplierModal">
                                                             <i class="uil uil-search me-1"></i>
                                                         </button>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-md-3">
-                                                    <label for="customerCode" class="form-label">Customer Code</label>
+                                                    <label for="customerCode" class="form-label">Supplier Code</label>
                                                     <div class="input-group mb-3">
                                                         <input id="customer_code" name="customer_code" type="text"
-                                                            placeholder="Customer code" class="form-control" readonly>
-                                                        <button class="btn btn-info" type="button" id="customerModalBtn"
-                                                            data-bs-toggle="modal" data-bs-target="#customerModal">
+                                                            placeholder="Supplier code" class="form-control" readonly>
+                                                        <button class="btn btn-info" type="button" id="supplierModalBtn"
+                                                            data-bs-toggle="modal" data-bs-target="#supplierModal">
                                                             <i class="uil uil-search me-1"></i>
                                                         </button>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-md-3">
-                                                    <label for="customerName" class="form-label">Customer Name</label>
+                                                    <label for="customerName" class="form-label">Supplier Name</label>
                                                     <div class="input-group mb-3">
                                                         <input id="customer_name" name="customer_name" type="text"
                                                             class="form-control" placeholder="Enter Customer Name"
@@ -142,11 +142,11 @@ $payment_receipt_id = $COMPANY_PROFILE_DETAILS->company_code . '/CPR/00/0' . ($l
                                                 </div>
 
                                                 <div class="col-md-4">
-                                                    <label for="customerAddress" class="form-label">Customer
+                                                    <label for="customerAddress" class="form-label">Supplier
                                                         Address</label>
                                                     <div class="input-group mb-3">
-                                                        <input id="customer_address" name="customer_address" type="text"
-                                                            class="form-control" placeholder="Enter customer address"
+                                                        <input id="supplier_address" name="supplier_address" type="text"
+                                                            class="form-control" placeholder="Enter supplier address"
                                                             readonly>
                                                     </div>
                                                 </div>
@@ -472,27 +472,24 @@ $payment_receipt_id = $COMPANY_PROFILE_DETAILS->company_code . '/CPR/00/0' . ($l
             </div>
             <!-- model close here -->
 
-            <div id="customerModal" class="modal fade bs-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+            <div id="supplierModal" class="modal fade bs-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="ModalLabel">Manage Customers</h5>
+                            <h5 class="modal-title" id="ModalLabel">Manage Supplier</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <table id="customerTable" class="table table-bordered dt-responsive nowrap w-100">
+                                    <table id="supplierTable" class="table table-bordered dt-responsive nowrap w-100">
                                         <thead>
                                             <tr>
                                                 <th>#ID</th>
                                                 <th>Code</th>
                                                 <th>Name</th>
                                                 <th>Mobile Number</th>
-                                                <th>email</th>
-                                                <th>category</th>
-                                                <th>province</th>
                                                 <th>credit_limit</th>
                                                 <th>outstanding</th>
 
@@ -506,18 +503,18 @@ $payment_receipt_id = $COMPANY_PROFILE_DETAILS->company_code . '/CPR/00/0' . ($l
                 </div>
             </div>
 
-            <div id="paymentReceiptModal" class="modal fade bs-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+            <div id="paymentReceiptSupplierModal" class="modal fade bs-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="ModalLabel">Manage Customer Payment Receipt</h5>
+                            <h5 class="modal-title" id="ModalLabel">Manage Supplier Payment Receipt</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <table id="paymentReceiptTable" class="table table-bordered dt-responsive nowrap w-100">
+                                    <table id="paymentReceiptSupplierTable" class="table table-bordered dt-responsive nowrap w-100">
                                         <thead>
                                             <tr>
                                                 <th>#ID</th>
@@ -532,21 +529,21 @@ $payment_receipt_id = $COMPANY_PROFILE_DETAILS->company_code . '/CPR/00/0' . ($l
                                         </thead>
                                         <tbody>
                                 <?php
-                                $PAYMENT_RECEIPT = new PaymentReceipt(null);
+                                $PAYMENT_RECEIPT_SUPPLIER = new PaymentReceiptSupplier(null);
 
-                                foreach ($PAYMENT_RECEIPT->all() as $key => $paymentReceipt) {
+                                foreach ($PAYMENT_RECEIPT_SUPPLIER->all() as $key => $paymentReceiptSupplier) {
                                     $key++;
-                                    $CUSTOMER_MASTER = new CustomerMaster($paymentReceipt['customer_id']);
+                                    $CUSTOMER_MASTER = new CustomerMaster($paymentReceiptSupplier['customer_id']);
                                     ?>
                                     <tr class="clickable-row" style="cursor: pointer;" 
-                                        onclick="window.open('payment-receipt-view.php?id=<?php echo $paymentReceipt['id']; ?>', '_blank');">
+                                        onclick="window.open('payment-receipt-supplier-view.php?id=<?php echo $paymentReceiptSupplier['id']; ?>', '_blank');">
                                         <td><?php echo $key; ?></td>
                                         <td><?php echo htmlspecialchars($CUSTOMER_MASTER->code); ?></td>
                                         <td><?php echo htmlspecialchars($CUSTOMER_MASTER->name); ?></td>
-                                        <td><?php echo htmlspecialchars($paymentReceipt['receipt_no']); ?></td>
-                                        <td><?php echo htmlspecialchars($paymentReceipt['entry_date']); ?></td>
-                                        <td><?php echo htmlspecialchars($paymentReceipt['amount_paid']); ?></td>
-                                        <td><?php echo htmlspecialchars($paymentReceipt['remark']); ?></td>
+                                        <td><?php echo htmlspecialchars($paymentReceiptSupplier['receipt_no']); ?></td>
+                                        <td><?php echo htmlspecialchars($paymentReceiptSupplier['entry_date']); ?></td>
+                                        <td><?php echo htmlspecialchars($paymentReceiptSupplier['amount_paid']); ?></td>
+                                        <td><?php echo htmlspecialchars($paymentReceiptSupplier['remark']); ?></td>
                                     </tr>
 
                                 <?php } ?>
@@ -568,7 +565,7 @@ $payment_receipt_id = $COMPANY_PROFILE_DETAILS->company_code . '/CPR/00/0' . ($l
             <?php include 'main-js.php' ?>
 
 
-            <script src="ajax/js/payment-receipt.js"></script>
+            <script src="ajax/js/payment-receipt-supplier.js"></script>
 </body>
 
 </html>

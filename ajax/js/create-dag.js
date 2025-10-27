@@ -59,9 +59,10 @@ jQuery(document).ready(function () {
 
 
   function resetDagInputs() {
-    $("#vehicleNo, #barcode, #quantity, #serial_num1, #serial_num2, #serial_num3, #serial_num4, #serial_num5, #serial_num6, #serial_num7, #serial_num8").val("");
     $("#beltDesign").val("").trigger("change");
     $("#sizeDesign").val("").trigger("change");
+    $("#brand_id").val("").trigger("change");
+    $("#serial_num1").val("");
   }
 
   function resetDagForm() {
@@ -69,7 +70,7 @@ jQuery(document).ready(function () {
     $("#form-data")[0].reset();
 
     // Reset select2 dropdowns
-    $("#department_id, #customer_id, #dag_company_id").val("").trigger("change");
+    $("#department_id, #customer_id, #dag_company_id, #brand_id").val("").trigger("change");
 
     // Reset date inputs
     $("#received_date, #delivery_date, #customer_request_date, #company_issued_date, #company_delivery_date").val("");
@@ -94,82 +95,74 @@ jQuery(document).ready(function () {
 
 
   function addDagItem() {
-    const vehicleNo = $("#vehicleNo").val().trim();
-    const beltDesignId = $("#beltDesign").val();
-    const beltDesignText = $("#beltDesign option:selected").text();
-    const sizeDesignId = $("#sizeDesign").val();
-    const sizeDesignText = $("#sizeDesign option:selected").text();
-    const serialNum1 = $("#serial_num1").val().trim();
-    const serialNum2 = $("#serial_num2").val().trim();
-    const serialNum3 = $("#serial_num3").val().trim();
-    const serialNum4 = $("#serial_num4").val().trim();
-    const serialNum5 = $("#serial_num5").val().trim();
-    const serialNum6 = $("#serial_num6").val().trim();
-    const serialNum7 = $("#serial_num7").val().trim();
-    const serialNum8 = $("#serial_num8").val().trim();
-    const qty = parseFloat($("#quantity").val()) || 0;
-    const price = parseFloat($("#casingCost").val()) || 0;
+    try {
+      const beltDesignId = $("#beltDesign").val();
+      const beltDesignText = $("#beltDesign option:selected").text();
+      const sizeDesignId = $("#sizeDesign").val();
+      const sizeDesignText = $("#sizeDesign option:selected").text();
+      
+      // Safe handling of serial number
+      const serialNum1Element = $("#serial_num1");
+      const serialNum1 = serialNum1Element.length && serialNum1Element.val() ? serialNum1Element.val().trim() : "";
 
-    if (!vehicleNo || !beltDesignId) {
-      swal("Error!", "Please fill all required fields correctly.", "error");
-      return;
-    }
-
-    let isDuplicate = false;
-    $(".dag-item-row").each(function () {
-      if ($(this).find(".vehicle_no").val() === vehicleNo) {
-        isDuplicate = true;
-        return false;
+      if (!beltDesignId || !serialNum1) {
+        swal("Error!", "Please fill all required fields correctly.", "error");
+        return;
       }
-    });
 
-    if (isDuplicate) {
-      swal("Duplicate!", "This vehicle number is already added.", "warning");
-      return;
+      // Get company field values with safe checks
+      const companyElement = $("#dag_company_id");
+      const companyId = companyElement.length ? (companyElement.val() || "") : "";
+      const companyText = companyElement.length ? (companyElement.find("option:selected").text() || "") : "";
+      
+      const issuedDateElement = $("#company_issued_date");
+      const issuedDate = issuedDateElement.length ? (issuedDateElement.val() || "") : "";
+      
+      const deliveryDateElement = $("#company_delivery_date");
+      const deliveryDate = deliveryDateElement.length ? (deliveryDateElement.val() || "") : "";
+      
+      const receiptNoElement = $("#receipt_no");
+      const receiptNo = receiptNoElement.length ? (receiptNoElement.val() || "") : "";
+      
+      const brandElement = $("#brand_id");
+      const brandId = brandElement.length ? (brandElement.val() || "") : "";
+      const brandText = brandElement.length ? (brandElement.find("option:selected").text() || "") : "";
+
+      const jobNumberElement = $("#job_number");
+      const jobNumber = jobNumberElement.length ? (jobNumberElement.val() || "") : "";
+      
+      const statusElement = $("#dag_status");
+      const statusValue = statusElement.length ? (statusElement.val() || "") : "";
+      const statusText = statusElement.length ? (statusElement.find("option:selected").text() || "") : "";
+
+      const newRow = $(`
+        <tr class="dag-item-row">
+          <td>${beltDesignText}<input type="hidden" name="belt_design_id[]" class="belt_id" value="${beltDesignId}"></td>
+          <td>${sizeDesignText}<input type="hidden" name="size_design_id[]" class="size_id" value="${sizeDesignId}"></td>
+          <td>${serialNum1}<input type="hidden" name="serial_num1[]" class="serial_num1" value="${serialNum1}"></td>
+          <td>${companyText}<input type="hidden" name="dag_company_id[]" value="${companyId}"></td>
+          <td>${issuedDate}<input type="hidden" name="company_issued_date[]" value="${issuedDate}"></td>
+          <td>${deliveryDate}<input type="hidden" name="company_delivery_date[]" value="${deliveryDate}"></td>
+          <td>${receiptNo}<input type="hidden" name="receipt_no[]" value="${receiptNo}"></td>
+          <td>${brandText}<input type="hidden" name="brand_id[]" class="brand_id" value="${brandId}"></td>
+          <td>${jobNumber}<input type="hidden" name="job_number[]" value="${jobNumber}"></td>
+          <td>${statusText}<input type="hidden" name="status[]" value="${statusValue}"></td>
+          <td>
+            <button type="button" class="btn btn-warning btn-sm edit-item">Edit</button>
+            <button type="button" class="btn btn-danger btn-sm remove-item">Remove</button>
+          </td>
+        </tr>
+      `);
+
+      $("#dagItemsBody").append(newRow);
+      resetDagInputs();
+      $("#noDagItemRow").hide();
+
+      $("#beltDesign").focus();
+    } catch (error) {
+      console.error("Error in addDagItem:", error);
+      swal("Error!", "An error occurred while adding the item. Please check the console for details.", "error");
     }
-
-
-
-    const newRow = $(`
-      <tr class="dag-item-row">
-        <td>${vehicleNo}<input type="hidden" name="vehicle_no[]" class="vehicle_no" value="${vehicleNo}"></td>
-        <td>${beltDesignText}<input type="hidden" name="belt_design_id[]" class="belt_id" value="${beltDesignId}"></td>
-        <td>${sizeDesignText}<input type="hidden" name="size_design_id[]" class="size_id" value="${sizeDesignId}"></td>
-        <td>${serialNum1}<input type="hidden" name="serial_num1[]" class="serial_num1" value="${serialNum1}"></td>
-        <td>${serialNum2}<input type="hidden" name="serial_num2[]" class="serial_num2" value="${serialNum2}"></td>
-        <td>${serialNum3}<input type="hidden" name="serial_num3[]" class="serial_num3" value="${serialNum3}"></td>
-        <td>${serialNum4}<input type="hidden" name="serial_num4[]" class="serial_num4" value="${serialNum4}"></td>
-        <td>${serialNum5}<input type="hidden" name="serial_num5[]" class="serial_num5" value="${serialNum5}"></td>
-        <td>${serialNum6}<input type="hidden" name="serial_num6[]" class="serial_num6" value="${serialNum6}"></td>
-        <td>${serialNum7}<input type="hidden" name="serial_num7[]" class="serial_num7" value="${serialNum7}"></td>
-        <td>${serialNum8}<input type="hidden" name="serial_num8[]" class="serial_num8" value="${serialNum8}"></td>
-        <td>1<input type="hidden" name="qty[]" class="qty" value="1"></td>
-         
-        <td>
-          <button type="button" class="btn btn-warning btn-sm edit-item">Edit</button>
-          <button type="button" class="btn btn-danger btn-sm remove-item">Remove</button>
-        </td>
-      </tr>
-    `);
-
-    $("#dagItemsBody").append(newRow);
-    resetDagInputs();
-    $("#noDagItemRow").hide();
-
-    const dagItems = [];
-    $(".dag-item-row").each(function () {
-      dagItems.push({
-        vehicle_no: $(this).find(".vehicle_no").val(),
-        belt_title: $(this).find(".belt_id option:selected").text() || $(this).find(".belt_id").val(), // if text not present
-        belt_id: $(this).find(".belt_id").val(),
-        barcode: $(this).find(".barcode").val(),
-        qty: parseFloat($(this).find(".qty").val()) || 0,
-        price: parseFloat($(this).find(".casing_cost").val()) || 0,
-      });
-    });
-
-    loadDagItemsToTable(dagItems);
-    $("#vehicleNo").focus();
   }
 
 
@@ -180,7 +173,7 @@ jQuery(document).ready(function () {
   });
 
 
-  $("#vehicleNo, #beltDesign, #sizeDesign, #casingCost, #barcode, #quantity, #serial_num1, #serial_num2, #serial_num3, #serial_num4, #serial_num5, #serial_num6, #serial_num7, #serial_num8").on("keydown", function (e) {
+  $("#beltDesign, #sizeDesign, #serial_num1").on("keydown", function (e) {
     if (e.key === "Enter") {
       e.preventDefault();
       addDagItem();
@@ -231,19 +224,16 @@ jQuery(document).ready(function () {
     let dagItems = [];
     $(".dag-item-row").each(function () {
       dagItems.push({
-        vehicle_no: $(this).find(".vehicle_no").val(),
         belt_id: $(this).find(".belt_id").val(),
         size_id: $(this).find(".size_id").val(),
         serial_num1: $(this).find(".serial_num1").val(),
-        serial_num2: $(this).find(".serial_num2").val(),
-        serial_num3: $(this).find(".serial_num3").val(),
-        serial_num4: $(this).find(".serial_num4").val(),
-        serial_num5: $(this).find(".serial_num5").val(),
-        serial_num6: $(this).find(".serial_num6").val(),
-        serial_num7: $(this).find(".serial_num7").val(),
-        serial_num8: $(this).find(".serial_num8").val(),
-        casing_cost: $(this).find(".casing_cost").val(),
-        total_amount: $(this).find(".total_amount").val()
+        dag_company_id: $(this).find(".belt_id").length ? $("#dag_company_id").val() : "",
+        company_issued_date: $("#company_issued_date").val(),
+        company_delivery_date: $("#company_delivery_date").val(),
+        receipt_no: $("#receipt_no").val(),
+        brand_id: $(this).find(".brand_id").val() || "",
+        job_number: $("#job_number").val(),
+        status: $("#dag_status").val()
       });
     });
 
@@ -372,18 +362,17 @@ jQuery(document).ready(function () {
     let dagItems = [];
     $(".dag-item-row").each(function () {
       dagItems.push({
-        vehicle_no: $(this).find(".vehicle_no").val(),
         belt_id: $(this).find(".belt_id").val(),
         size_id: $(this).find(".size_id").val(),
         serial_num1: $(this).find(".serial_num1").val(),
-        serial_num2: $(this).find(".serial_num2").val(),
-        serial_num3: $(this).find(".serial_num3").val(),
-        serial_num4: $(this).find(".serial_num4").val(),
-        serial_num5: $(this).find(".serial_num5").val(),
-        serial_num6: $(this).find(".serial_num6").val(),
-        serial_num7: $(this).find(".serial_num7").val(),
-        serial_num8: $(this).find(".serial_num8").val(),
-        barcode: $(this).find(".barcode").val()
+        barcode: $(this).find(".barcode").val(),
+        dag_company_id: $("#dag_company_id").val(),
+        company_issued_date: $("#company_issued_date").val(),
+        company_delivery_date: $("#company_delivery_date").val(),
+        receipt_no: $("#receipt_no").val(),
+        brand_id: $(this).find(".brand_id").val() || "",
+        job_number: $("#job_number").val(),
+        status: $("#dag_status").val()
       });
 
     });
@@ -414,22 +403,14 @@ jQuery(document).ready(function () {
   $(document).on("click", ".edit-item", function () {
     const row = $(this).closest("tr");
 
-    $("#vehicleNo").val(row.find(".vehicle_no").val());
     $("#beltDesign").val(row.find(".belt_id").val()).trigger("change");
     $("#sizeDesign").val(row.find(".size_id").val()).trigger("change");
     $("#serial_num1").val(row.find(".serial_num1").val());
-    $("#serial_num2").val(row.find(".serial_num2").val());
-    $("#serial_num3").val(row.find(".serial_num3").val());
-    $("#serial_num4").val(row.find(".serial_num4").val());
-    $("#serial_num5").val(row.find(".serial_num5").val());
-    $("#serial_num6").val(row.find(".serial_num6").val());
-    $("#serial_num7").val(row.find(".serial_num7").val());
-    $("#serial_num8").val(row.find(".serial_num8").val());
-    $("#quantity").val(row.find(".qty").val());
+    $("#brand_id").val(row.find(".brand_id").val()).trigger("change");
 
     row.remove();
 
-    $("#vehicleNo").focus();
+    $("#beltDesign").focus();
   });
 
 
@@ -446,16 +427,12 @@ jQuery(document).ready(function () {
 
     $("#customer_code").val(data.customer_code);
     $("#customer_name").val(data.customer_name);
+    $("#vehicle_no").val(data.vehicle_no);
 
     $("#received_date").val(data.received_date);
     $("#delivery_date").val(data.delivery_date);
     $("#customer_request_date").val(data.customer_request_date);
-    $("#dag_company_id").val(data.dag_company_id).trigger("change");
-    $("#company_issued_date").val(data.company_issued_date);
-    $("#company_delivery_date").val(data.company_delivery_date);
-    $("#receipt_no").val(data.receipt_no);
     $("#remark").val(data.remark);
-    $("#status").val(data.status);
 
     $("#create").hide();
     $("#dagModel").modal("hide");
@@ -484,18 +461,16 @@ jQuery(document).ready(function () {
           items.forEach((item) => {
               const row = `
   <tr class="dag-item-row">
-    <td>${item.vehicle_no}<input type="hidden" name="vehicle_no[]" class="vehicle_no" value="${item.vehicle_no}"></td>
     <td>${item.belt_title}<input type="hidden" name="belt_design_id[]" class="belt_id" value="${item.belt_id}"></td>
     <td>${item.size_name || ''}<input type="hidden" name="size_design_id[]" class="size_id" value="${item.size_id}"></td>
     <td>${item.serial_num1 || ''}<input type="hidden" name="serial_num1[]" class="serial_num1" value="${item.serial_num1}"></td>
-    <td>${item.serial_num2 || ''}<input type="hidden" name="serial_num2[]" class="serial_num2" value="${item.serial_num2}"></td>
-    <td>${item.serial_num3 || ''}<input type="hidden" name="serial_num3[]" class="serial_num3" value="${item.serial_num3}"></td>
-    <td>${item.serial_num4 || ''}<input type="hidden" name="serial_num4[]" class="serial_num4" value="${item.serial_num4}"></td>
-    <td>${item.serial_num5 || ''}<input type="hidden" name="serial_num5[]" class="serial_num5" value="${item.serial_num5}"></td>
-    <td>${item.serial_num6 || ''}<input type="hidden" name="serial_num6[]" class="serial_num6" value="${item.serial_num6}"></td>
-    <td>${item.serial_num7 || ''}<input type="hidden" name="serial_num7[]" class="serial_num7" value="${item.serial_num7}"></td>
-    <td>${item.serial_num8 || ''}<input type="hidden" name="serial_num8[]" class="serial_num8" value="${item.serial_num8}"></td>
-    <td>${item.qty}<input type="hidden" name="qty[]" class="qty" value="${item.qty}"></td>
+    <td>${item.dag_company_name || ''}<input type="hidden" name="dag_company_id[]" value="${item.dag_company_id}"></td>
+    <td>${item.company_issued_date || ''}<input type="hidden" name="company_issued_date[]" value="${item.company_issued_date}"></td>
+    <td>${item.company_delivery_date || ''}<input type="hidden" name="company_delivery_date[]" value="${item.company_delivery_date}"></td>
+    <td>${item.receipt_no || ''}<input type="hidden" name="receipt_no[]" value="${item.receipt_no}"></td>
+    <td>${item.brand_name || ''}<input type="hidden" name="brand_id[]" class="brand_id" value="${item.brand_id}"></td>
+    <td>${item.job_number || ''}<input type="hidden" name="job_number[]" value="${item.job_number}"></td>
+    <td>${item.status || ''}<input type="hidden" name="status[]" value="${item.status}"></td>
     <td>
       <button type="button" class="btn btn-warning btn-sm edit-item">Edit</button>
       <button type="button" class="btn btn-sm btn-danger remove-item">Remove</button>
@@ -510,7 +485,7 @@ jQuery(document).ready(function () {
 
             const invoiceRow = `
               <tr class="dag-item-row clickable-row">
-                <td>${item.vehicle_no}</td>
+                <td>${$("#vehicle_no").val()}</td>
                 <td>${item.belt_title}</td>
                 <td>${item.barcode}</td>
                 <td>${qty}</td>
@@ -599,6 +574,62 @@ jQuery(document).ready(function () {
     setTimeout(() => {
       calculateTotals();
     }, 10);
+  });
+
+  // Delete DAG functionality
+  $(".delete-dag").click(function (event) {
+    event.preventDefault();
+    
+    const dagId = $("#id").val();
+    if (!dagId || dagId === "0") {
+      swal("Error!", "Please select a DAG to delete.", "error");
+      return;
+    }
+
+    // Show confirmation dialog
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this DAG!",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel!",
+      closeOnConfirm: false,
+      closeOnCancel: false
+    }, function(isConfirm) {
+      if (isConfirm) {
+        // User confirmed, proceed with deletion
+        $(".someBlock").preloader();
+        
+        $.ajax({
+          url: "ajax/php/create-dag.php",
+          type: "POST",
+          data: { delete: true, dag_id: dagId },
+          dataType: "JSON",
+          success: function (result) {
+            $(".someBlock").preloader("remove");
+            if (result.status === "success") {
+              swal("Deleted!", "The DAG has been deleted.", "success");
+              // Reset form and redirect or reload
+              resetDagForm();
+              setTimeout(() => {
+                location.reload();
+              }, 2000);
+            } else {
+              swal("Error!", result.message || "Failed to delete DAG.", "error");
+            }
+          },
+          error: function () {
+            $(".someBlock").preloader("remove");
+            swal("Error!", "An error occurred while deleting the DAG.", "error");
+          }
+        });
+      } else {
+        // User cancelled
+        swal("Cancelled", "The DAG is safe :)", "error");
+      }
+    });
   });
 
 

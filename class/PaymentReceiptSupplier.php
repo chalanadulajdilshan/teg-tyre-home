@@ -1,6 +1,6 @@
 <?php
 
-class PaymentReceipt
+class PaymentReceiptSupplier
 {
     public $id;
     public $receipt_no;
@@ -14,7 +14,7 @@ class PaymentReceipt
     {
         if ($id) {
             $query = "SELECT `id`, `receipt_no`, `customer_id`, `entry_date`, `amount_paid`, `remark`, `created_at`
-                      FROM `payment_receipt`
+                      FROM `payment_receipt_supplier`
                       WHERE `id` = " . (int) $id;
 
             $db = new Database();
@@ -34,7 +34,7 @@ class PaymentReceipt
 
     public function create()
     {
-        $query = "INSERT INTO `payment_receipt` (`receipt_no`, `customer_id`, `entry_date`, `amount_paid`, `remark`, `created_at`) 
+        $query = "INSERT INTO `payment_receipt_supplier` (`receipt_no`, `customer_id`, `entry_date`, `amount_paid`, `remark`, `created_at`) 
                   VALUES (
                     '{$this->receipt_no}', 
                     '{$this->customer_id}', 
@@ -50,7 +50,7 @@ class PaymentReceipt
 
     public function update()
     {
-        $query = "UPDATE `payment_receipt` 
+        $query = "UPDATE `payment_receipt_supplier` 
                   SET 
                     `receipt_no` = '{$this->receipt_no}', 
                     `customer_id` = '{$this->customer_id}', 
@@ -65,33 +65,32 @@ class PaymentReceipt
 
     public function delete()
     {
-        $query = "DELETE FROM `payment_receipt` WHERE `id` = '{$this->id}'";
+        $query = "DELETE FROM `payment_receipt_supplier` WHERE `id` = '{$this->id}'";
         $db = new Database();
         return $db->readQuery($query);
     }
 
-
     public function all()
     {
         $query = "SELECT `id`, `receipt_no`, `customer_id`, `entry_date`, `amount_paid`, `remark`, `created_at`
-                  FROM `payment_receipt`
+                  FROM `payment_receipt_supplier`
                   ORDER BY `entry_date` DESC";
 
         $db = new Database();
         $result = $db->readQuery($query);
-        $array_res = array();
+        $array = [];
 
         while ($row = mysqli_fetch_array($result)) {
-            array_push($array_res, $row);
+            array_push($array, $row);
         }
 
-        return $array_res;
+        return $array;
     }
 
     public function getByCustomer($customerId)
     {
         $query = "SELECT `id`, `receipt_no`, `customer_id`, `entry_date`, `amount_paid`, `remark`, `created_at`
-                  FROM `payment_receipt`
+                  FROM `payment_receipt_supplier`
                   WHERE `customer_id` = '" . (int)$customerId . "'
                   ORDER BY `entry_date` DESC";
 

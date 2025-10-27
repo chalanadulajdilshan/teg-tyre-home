@@ -5,8 +5,8 @@ header('Content-Type: application/json');
 
 if ($_POST['action'] === 'get_credit_invoices') {
     $customerId = (int) $_POST['customer_id'];
-    $INVOICE = new SalesInvoice(null);
-    $data = $INVOICE->getCreditInvoicesByCustomerAndStatus(0, $customerId);
+    $ARN = new ARNMaster(null);
+    $data = $ARN->getCreditInvoicesByCustomerAndStatus(2, $customerId);
     header('Content-Type: application/json');
     echo json_encode(['success' => !empty($data), 'data' => $data]);
     exit();
@@ -15,7 +15,7 @@ if ($_POST['action'] === 'get_credit_invoices') {
 // Create a new payment receipt
 if (isset($_POST['create'])) {
 
-    $RECEIPT = new PaymentReceipt(NULL);
+    $RECEIPT = new PaymentReceiptSupplier(NULL);
 
     $RECEIPT->receipt_no   = $_POST['code'];
     $RECEIPT->customer_id  = $_POST['customer_id'];
@@ -32,28 +32,28 @@ if (isset($_POST['create'])) {
 
             if (is_array($methods)) {
                 foreach ($methods as $method) {
-                    $PAYMENT_RECEIPT_METHOD = new PaymentReceiptMethod(null);
+                    $PAYMENT_RECEIPT_METHOD_SUPPLIER = new PaymentReceiptMethodSupplier(null);
 
-                    $PAYMENT_RECEIPT_METHOD->receipt_id = $res;
-                    $PAYMENT_RECEIPT_METHOD->invoice_id = $method['invoice_id'] ?? null;
-                    $PAYMENT_RECEIPT_METHOD->payment_type_id = $method['payment_type_id'] ?? null;
-                    $PAYMENT_RECEIPT_METHOD->amount = $method['amount'] ?? 0;
-                    $PAYMENT_RECEIPT_METHOD->cheq_no = $method['cheq_no'] ?? null;
-                    $PAYMENT_RECEIPT_METHOD->bank_id = $method['bank_id'] ?? null;
-                    $PAYMENT_RECEIPT_METHOD->branch_id = $method['branch_id'] ?? null;
-                    $PAYMENT_RECEIPT_METHOD->cheq_date = $method['cheq_date'] ?? null;
+                    $PAYMENT_RECEIPT_METHOD_SUPPLIER->receipt_id = $res;
+                    $PAYMENT_RECEIPT_METHOD_SUPPLIER->invoice_id = $method['invoice_id'] ?? null;
+                    $PAYMENT_RECEIPT_METHOD_SUPPLIER->payment_type_id = $method['payment_type_id'] ?? null;
+                    $PAYMENT_RECEIPT_METHOD_SUPPLIER->amount = $method['amount'] ?? 0;
+                    $PAYMENT_RECEIPT_METHOD_SUPPLIER->cheq_no = $method['cheq_no'] ?? null;
+                    $PAYMENT_RECEIPT_METHOD_SUPPLIER->bank_id = $method['bank_id'] ?? null;
+                    $PAYMENT_RECEIPT_METHOD_SUPPLIER->branch_id = $method['branch_id'] ?? null;
+                    $PAYMENT_RECEIPT_METHOD_SUPPLIER->cheq_date = $method['cheq_date'] ?? null;
 
-                    $PAYMENT_RECEIPT_METHOD->create();
+                    $PAYMENT_RECEIPT_METHOD_SUPPLIER->create();
 
                     // Update invoice outstanding if invoice_id is provided
-                    if (!empty($PAYMENT_RECEIPT_METHOD->invoice_id)) {
-                        $SALES_INVOICE = new SalesInvoice(null);
-                        $SALES_INVOICE->updateInvoiceOutstanding($PAYMENT_RECEIPT_METHOD->invoice_id, $PAYMENT_RECEIPT_METHOD->amount);
+                    if (!empty($PAYMENT_RECEIPT_METHOD_SUPPLIER->invoice_id)) {
+                        $ARN = new ARNMaster(null);
+                        $ARN->updateInvoiceOutstanding($PAYMENT_RECEIPT_METHOD_SUPPLIER->invoice_id, $PAYMENT_RECEIPT_METHOD_SUPPLIER->amount);
 
                         // Check if invoice is fully settled
-                        $SALES_INVOICE_ = new SalesInvoice($PAYMENT_RECEIPT_METHOD->invoice_id);
-                        if ($SALES_INVOICE_->outstanding_settle_amount >= $SALES_INVOICE_->grand_total) {
-                            $PAYMENT_RECEIPT_METHOD->updateIsSettle($PAYMENT_RECEIPT_METHOD->id);
+                        $ARN_ = new ARNMaster($PAYMENT_RECEIPT_METHOD_SUPPLIER->invoice_id);
+                        if ($ARN_->paid_amount >= $ARN_->total_arn_value) {
+                            $PAYMENT_RECEIPT_METHOD_SUPPLIER->updateIsSettle($PAYMENT_RECEIPT_METHOD_SUPPLIER->id);
                         }
                     }
                 }
@@ -66,36 +66,36 @@ if (isset($_POST['create'])) {
                 $chequePay = isset($_POST['cheque_pay'][$index]) ? floatval(str_replace(',', '', $_POST['cheque_pay'][$index])) : 0.0;
                 $cashPay = isset($_POST['cash_pay'][$index]) ? floatval(str_replace(',', '', $_POST['cash_pay'][$index])) : 0.0;
 
-                $PAYMENT_RECEIPT_METHOD = new PaymentReceiptMethod(null);
-                $SALES_INVOICE = new SalesInvoice(null);
+                $PAYMENT_RECEIPT_METHOD_SUPPLIER = new PaymentReceiptMethodSupplier(null);
+                $ARN = new ARNMaster(null);
 
                 // Only process if at least one payment method has an amount > 0
                 if ($chequePay > 0 || $cashPay > 0) {
                     if ($cashPay > 0) {
-                        $PAYMENT_RECEIPT_METHOD->receipt_id = $res;
-                        $PAYMENT_RECEIPT_METHOD->invoice_id = $invoice_id;
-                        $PAYMENT_RECEIPT_METHOD->payment_type_id = 1; // 1 for 'cash'
-                        $PAYMENT_RECEIPT_METHOD->amount = $cashPay;
+                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->receipt_id = $res;
+                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->invoice_id = $invoice_id;
+                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->payment_type_id = 1; // 1 for 'cash'
+                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->amount = $cashPay;
                     }
                     if ($chequePay > 0) {
-                        $PAYMENT_RECEIPT_METHOD->receipt_id = $res;
-                        $PAYMENT_RECEIPT_METHOD->invoice_id = $invoice_id;
-                        $PAYMENT_RECEIPT_METHOD->payment_type_id = 2; // 2 for 'cheque'
-                        $PAYMENT_RECEIPT_METHOD->amount = $chequePay;
-                        $PAYMENT_RECEIPT_METHOD->cheq_no = $_POST['cheque_no'][$index] ?? '';
-                        $PAYMENT_RECEIPT_METHOD->branch_id = $_POST['bank_branch'][$index] ?? null;
-                        $PAYMENT_RECEIPT_METHOD->cheq_date = $_POST['cheque_date'][$index] ?? null;
+                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->receipt_id = $res;
+                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->invoice_id = $invoice_id;
+                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->payment_type_id = 2; // 2 for 'cheque'
+                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->amount = $chequePay;
+                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->cheq_no = $_POST['cheque_no'][$index] ?? '';
+                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->branch_id = $_POST['bank_branch'][$index] ?? null;
+                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->cheq_date = $_POST['cheque_date'][$index] ?? null;
                     }
-                    $res1 = $PAYMENT_RECEIPT_METHOD->create();
+                    $res1 = $PAYMENT_RECEIPT_METHOD_SUPPLIER->create();
                 }
-                $SALES_INVOICE->updateInvoiceOutstanding($invoice_id, $chequePay + $cashPay);
+                $ARN->updateInvoiceOutstanding($invoice_id, $chequePay + $cashPay);
 
                 // Reload the invoice to get updated outstanding amount
-                $SALES_INVOICE_ = new SalesInvoice($invoice_id);
+                $ARN_ = new ARNMaster($invoice_id);
 
 
-                if ($SALES_INVOICE_->outstanding_settle_amount >= $SALES_INVOICE_->grand_total) {
-                    $PAYMENT_RECEIPT_METHOD->updateIsSettle($res1);
+                if ($ARN_->paid_amount >= $ARN_->total_arn_value) {
+                    $PAYMENT_RECEIPT_METHOD_SUPPLIER->updateIsSettle($res1);
                 }
             }
         }

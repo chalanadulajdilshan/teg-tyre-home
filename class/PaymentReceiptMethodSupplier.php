@@ -1,6 +1,6 @@
 <?php
 
-class PaymentReceiptMethod
+class PaymentReceiptMethodSupplier
 {
     public $id;
     public $receipt_id;
@@ -18,7 +18,7 @@ class PaymentReceiptMethod
         if ($id) {
             $query = "SELECT `id`, `receipt_id`, `invoice_id`, `payment_type_id`, `amount`, 
                              `cheq_no`, `bank_id`, `branch_id`, `cheq_date`
-                      FROM `payment_receipt_method`
+                      FROM `payment_receipt_method_supplier`
                       WHERE `id` = " . (int)$id;
 
             $db = new Database();
@@ -39,26 +39,9 @@ class PaymentReceiptMethod
         }
     }
 
-    public function getByReceiptId($receipt_id) {
-        $query = "SELECT `id`, `receipt_id`, `invoice_id`, `payment_type_id`, `amount`, 
-                        `cheq_no`, `bank_id`, `branch_id`, `cheq_date`, `is_settle`
-                 FROM `payment_receipt_method` 
-                 WHERE `receipt_id` = " . (int)$receipt_id;
-
-        $db = new Database();
-        $result = $db->readQuery($query);
-        $methods = [];
-
-        while ($row = mysqli_fetch_assoc($result)) {
-            $methods[] = $row;
-        }
-
-        return $methods;
-    }
-
     public function create()
     {
-        $query = "INSERT INTO `payment_receipt_method` 
+        $query = "INSERT INTO `payment_receipt_method_supplier` 
                     (`receipt_id`, `invoice_id`, `payment_type_id`, `amount`, `cheq_no`, `bank_id`, `branch_id`, `cheq_date`, `is_settle`) 
                   VALUES (
                     '{$this->receipt_id}',
@@ -78,7 +61,7 @@ class PaymentReceiptMethod
 
     public function update()
     {
-        $query = "UPDATE `payment_receipt_method`
+        $query = "UPDATE `payment_receipt_method_supplier`
                   SET 
                     `receipt_id` = '{$this->receipt_id}',
                     `invoice_id` = '{$this->invoice_id}',
@@ -97,7 +80,7 @@ class PaymentReceiptMethod
 
     public function delete()
     {
-        $query = "DELETE FROM `payment_receipt_method` WHERE `id` = '{$this->id}'";
+        $query = "DELETE FROM `payment_receipt_method_supplier` WHERE `id` = '{$this->id}'";
         $db = new Database();
         return $db->readQuery($query);
     }
@@ -106,7 +89,7 @@ class PaymentReceiptMethod
     {
         $query = "SELECT `id`, `receipt_id`, `invoice_id`, `payment_type_id`, `amount`, 
                          `cheq_no`, `bank_id`, `branch_id`, `cheq_date`, `is_settle`
-                  FROM `payment_receipt_method`
+                  FROM `payment_receipt_method_supplier`
                   ORDER BY `id` DESC";
 
         $db = new Database();
@@ -124,7 +107,7 @@ class PaymentReceiptMethod
     {
         $query = "SELECT `id`, `receipt_id`, `invoice_id`, `payment_type_id`, `amount`, 
                          `cheq_no`, `bank_id`, `branch_id`, `cheq_date`, `is_settle`
-                  FROM `payment_receipt_method`
+                  FROM `payment_receipt_method_supplier`
                   WHERE `receipt_id` = '" . (int)$receiptId . "'
                   ORDER BY `id` ASC";
 
@@ -138,14 +121,16 @@ class PaymentReceiptMethod
 
         return $array;
     }
+    
 
     public function updateIsSettle($id)
     {
-        $query = "UPDATE `payment_receipt_method`
+        $query = "UPDATE `payment_receipt_method_supplier`   
                   SET 
                     `is_settle` = 1
                   WHERE `id` = '{$id}'";
         $db = new Database();
         return $db->readQuery($query);
     }
+    
 }

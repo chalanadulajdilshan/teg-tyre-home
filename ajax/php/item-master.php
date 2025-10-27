@@ -438,7 +438,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'get_stock_tmp_by_item') {
     exit();
 }
 
-// Export stock data for Excel/CSV using ItemMaster class methods
+// Export stock data for Excel/CSV /PDF using ItemMaster class methods
 if (isset($_POST['action']) && $_POST['action'] === 'export_stock') {
     try {
         // Get filter parameters
@@ -469,19 +469,21 @@ if (isset($_POST['action']) && $_POST['action'] === 'export_stock') {
         foreach ($items as $item) {
             $category = new CategoryMaster($item['category']);
             $export_item = [
+                'id' => $item['id'],
                 'code' => $item['code'] ?: '',
                 'name' => $item['name'] ?: '',
                 'category' => isset($category->name) ? $category->name : '',
                 'list_price' => (float)($item['list_price'] ?: 0),
                 'discount' => (float)($item['discount'] ?: 0),
-                'dealer_price' => 0,
+                'invoice_price' => (float)($item['invoice_price'] ?: 0),
                 'quantity' => (float)($item['total_qty'] ?: 0),
-                'stock_status' => 'In Stock'
+                'stock_status' => 'In Stock',
+                'arn_lots' => []
             ];
 
-            // Calculate dealer price
-            if ($export_item['list_price'] && $export_item['discount']) {
-                $export_item['dealer_price'] = (float)$export_item['list_price'] * (1 - (float)$export_item['discount'] / 100);
+            // Calculate dealer price if not using invoice_price
+            if ($export_item['invoice_price'] <= 0 && $export_item['list_price'] && $export_item['discount']) {
+                $export_item['invoice_price'] = (float)$export_item['list_price'] * (1 - (float)$export_item['discount'] / 100);
             }
 
             // Determine stock status
@@ -490,6 +492,36 @@ if (isset($_POST['action']) && $_POST['action'] === 'export_stock') {
                 $export_item['stock_status'] = 'Out of Stock';
             } elseif ($export_item['quantity'] <= $reorder_level) {
                 $export_item['stock_status'] = 'Re-order';
+            }
+
+            // Get ARN lots for this item using StockItemTmp class
+            $stockTmp = new StockItemTmp();
+            $item_id = (int)$item['id'];
+
+            if ($department_id !== 'all' && $department_id !== '' && $department_id !== null) {
+                // Get ARN lots for specific department
+                $lots = $stockTmp->getByItemIdAndDepartment($item_id, (int)$department_id);
+            } else {
+                // Get all ARN lots for the item
+                $lots = $stockTmp->getByItemId($item_id);
+            }
+
+            foreach ($lots as $lot) {
+                // Skip zero or negative quantity lots
+                if ((float)$lot['qty'] <= 0) {
+                    continue;
+                }
+
+                // Get ARN details
+                $arn = new ArnMaster($lot['arn_id']);
+
+                $export_item['arn_lots'][] = [
+                    'arn_no' => $arn->arn_no ?? '',
+                    'cost' => (float)$lot['cost'],
+                    'qty' => (float)$lot['qty'],
+                    'list_price' => (float)$lot['list_price'],
+                    'invoice_price' => (float)$lot['invoice_price']
+                ];
             }
 
             $export_data[] = $export_item;
@@ -501,7 +533,6 @@ if (isset($_POST['action']) && $_POST['action'] === 'export_stock') {
             'data' => $export_data,
             'export_type' => 'stock_export'
         ]);
-
     } catch (Exception $e) {
         http_response_code(400);
         echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);

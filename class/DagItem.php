@@ -4,7 +4,6 @@ class DagItem
 {
     public $id;
     public $dag_id;
-    public $vehicle_no;
     public $belt_id;
     public $size_id;
     public $serial_number;
@@ -12,6 +11,13 @@ class DagItem
     public $casing_cost;
     public $qty;
     public $total_amount;
+    public $dag_company_id;
+    public $company_issued_date;
+    public $company_delivery_date;
+    public $receipt_no;
+    public $brand_id;
+    public $job_number;
+    public $status;
 
     // Constructor to fetch data by ID
     public function __construct($id = null)
@@ -24,7 +30,6 @@ class DagItem
             if ($result) {
                 $this->id = $result['id'];
                 $this->dag_id = $result['dag_id'];
-                $this->vehicle_no = $result['vehicle_no'];
                 $this->belt_id = $result['belt_id'];
                 $this->size_id = $result['size_id'];
                 $this->serial_number = $result['serial_number'];
@@ -32,6 +37,13 @@ class DagItem
                 $this->casing_cost = $result['casing_cost'];
                 $this->qty = $result['qty'];
                 $this->total_amount = $result['total_amount'];
+                $this->dag_company_id = $result['dag_company_id'];
+                $this->company_issued_date = $result['company_issued_date'];
+                $this->company_delivery_date = $result['company_delivery_date'];
+                $this->receipt_no = $result['receipt_no'];
+                $this->brand_id = isset($result['brand_id']) ? $result['brand_id'] : null;
+                $this->job_number = $result['job_number'];
+                $this->status = $result['status'];
             }
         }
     }
@@ -39,10 +51,10 @@ class DagItem
     // Create a new record
     public function create()
     {
-        $query = "INSERT INTO `dag_item` (`dag_id`, `vehicle_no`, `belt_id`, `size_id`, `serial_number`, `is_invoiced`, `casing_cost`, `qty`, `total_amount`)
+        $query = "INSERT INTO `dag_item` (`dag_id`, `belt_id`, `size_id`, `serial_number`, `is_invoiced`, `casing_cost`, `qty`, `total_amount`, `dag_company_id`, `company_issued_date`, `company_delivery_date`, `receipt_no`, `brand_id`, `job_number`, `status`)
                   VALUES (
-                    '{$this->dag_id}', '{$this->vehicle_no}', '{$this->belt_id}', '{$this->size_id}', '{$this->serial_number}', '{$this->is_invoiced}', '{$this->casing_cost}',
-                    '{$this->qty}', '{$this->total_amount}'
+                    '{$this->dag_id}', '{$this->belt_id}', '{$this->size_id}', '{$this->serial_number}', '{$this->is_invoiced}', '{$this->casing_cost}',
+                    '{$this->qty}', '{$this->total_amount}', '{$this->dag_company_id}', '{$this->company_issued_date}', '{$this->company_delivery_date}', '{$this->receipt_no}', '{$this->brand_id}', '{$this->job_number}', '{$this->status}'
                   )";
 
         $db = new Database();
@@ -58,14 +70,20 @@ class DagItem
     {
         $query = "UPDATE `dag_item` SET
                   `dag_id` = '{$this->dag_id}',
-                  `vehicle_no` = '{$this->vehicle_no}',
                   `belt_id` = '{$this->belt_id}',
                   `size_id` = '{$this->size_id}',
                   `serial_number` = '{$this->serial_number}',
                   `is_invoiced` = '{$this->is_invoiced}',
                   `casing_cost` = '{$this->casing_cost}',
                   `qty` = '{$this->qty}',
-                  `total_amount` = '{$this->total_amount}'
+                  `total_amount` = '{$this->total_amount}',
+                  `dag_company_id` = '{$this->dag_company_id}',
+                  `company_issued_date` = '{$this->company_issued_date}',
+                  `company_delivery_date` = '{$this->company_delivery_date}',
+                  `receipt_no` = '{$this->receipt_no}',
+                  `brand_id` = '{$this->brand_id}',
+                  `job_number` = '{$this->job_number}',
+                  `status` = '{$this->status}'
                   WHERE `id` = '{$this->id}'";
 
         $db = new Database();
@@ -120,10 +138,12 @@ class DagItem
 
     public function getByValuesDagId($dag_id)
     {
-        $query = "SELECT di.*, bm.name AS belt_title, sm.name AS size_name
+        $query = "SELECT di.*, bm.name AS belt_title, sm.name AS size_name, dc.name AS dag_company_name, br.name AS brand_name
               FROM `dag_item` di 
               LEFT JOIN `belt_master` bm ON di.belt_id = bm.id 
               LEFT JOIN `size_master` sm ON di.size_id = sm.id 
+              LEFT JOIN `dag_company` dc ON di.dag_company_id = dc.id
+              LEFT JOIN `brands` br ON di.brand_id = br.id
               WHERE di.dag_id = '{$dag_id}' 
               ORDER BY di.id ASC";
 
@@ -176,18 +196,21 @@ class DagItem
         
         if ($columnExists) {
             // Column exists, use it
-            $query = "SELECT di.*, bm.name AS belt_title, sm.name AS size_name
+            $query = "SELECT di.*, bm.name AS belt_title, sm.name AS size_name, dc.name AS dag_company_name, br.name AS brand_name
                   FROM `dag_item` di 
                   LEFT JOIN `belt_master` bm ON di.belt_id = bm.id 
                   LEFT JOIN `size_master` sm ON di.size_id = sm.id 
+                  LEFT JOIN `dag_company` dc ON di.dag_company_id = dc.id
+                  LEFT JOIN `brands` br ON di.brand_id = br.id
                   WHERE di.dag_id = '{$dag_id}' AND (di.is_invoiced = 0 OR di.is_invoiced IS NULL)
                   ORDER BY di.id ASC";
         } else {
             // Column doesn't exist, get all items
-            $query = "SELECT di.*, bm.name AS belt_title, sm.name AS size_name
+            $query = "SELECT di.*, bm.name AS belt_title, sm.name AS size_name, br.name AS brand_name
                   FROM `dag_item` di 
                   LEFT JOIN `belt_master` bm ON di.belt_id = bm.id 
                   LEFT JOIN `size_master` sm ON di.size_id = sm.id 
+                  LEFT JOIN `brands` br ON di.brand_id = br.id
                   WHERE di.dag_id = '{$dag_id}'
                   ORDER BY di.id ASC";
         }

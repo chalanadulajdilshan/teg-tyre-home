@@ -32,6 +32,7 @@ class ArnMaster
     public $created_at;
     public $is_cancelled;
     public $paid_amount;
+    public $payment_type;
 
     public function __construct($id = null)
     {
@@ -104,7 +105,7 @@ class ArnMaster
         ) VALUES (
             '{$this->arn_no}', '{$this->lc_tt_no}', '{$this->pi_no}', '{$this->po_date}', '{$this->supplier_id}',
             '{$this->ci_no}', '{$this->bl_no}', '{$this->container_size}', '{$this->category}', '{$this->brand}',
-            '{$this->department}', '{$this->po_no}', '{$this->country}', '{$this->order_by}', '{$this->purchase_type}',
+            '{$this->department}', '{$this->po_no}', '{$this->country}', '{$this->order_by}', '{$this->payment_type}',
             '{$this->arn_status}', '{$this->remark}', '{$this->invoice_date}', '{$this->entry_date}', '{$this->delivery_date}',
             '{$this->credit_note_amount}', '{$this->sub_arn_value}', '{$this->total_discount}', '{$this->total_arn_value}',
             '{$this->paid_amount}', '{$this->total_received_qty}', '{$this->total_order_qty}', NOW()
@@ -266,5 +267,34 @@ class ArnMaster
         $db->readQuery($query4);
 
         return true;
+    }
+
+    public function updateInvoiceOutstanding($invoice_id, $amount)
+    {
+        $query = "UPDATE `arn_master` SET `paid_amount` = `paid_amount` + $amount WHERE `id` = $invoice_id";
+
+        $db = new Database();
+        $result = $db->readQuery($query);
+        return ($result) ? true : false;
+    }
+
+    public function getCreditInvoicesByCustomerAndStatus($status, $customer_id)
+    {
+
+        $query = "SELECT * FROM `arn_master` 
+                 WHERE `supplier_id` = $customer_id 
+                 AND purchase_type = $status
+                 AND `total_arn_value` > `paid_amount`      
+                 AND `is_cancelled`='0'
+                 ORDER BY `invoice_date` DESC";
+        $db = new Database();
+        $result = $db->readQuery($query);
+        $array_res = array();
+
+        while ($row = mysqli_fetch_array($result)) {
+            $array_res[] = $row;
+        }
+
+        return $array_res;
     }
 }
