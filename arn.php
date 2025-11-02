@@ -254,7 +254,7 @@ $arn_id = $COMPANY_PROFILE_DETAILS->company_code . '/ARN/00/' . ($lastId + 1);
                                                     <select id="arn_status" name="arn_status" class="form-select">
                                                         <option value="">Select Status</option>
                                                         <option value="Pending">Pending</option>
-                                                        <option value="Approved">Approved</option>
+                                                        <option value="Approved" selected>Approved</option>
                                                         <option value="Received">Received</option>
                                                         <option value="Rejected">Rejected</option>
 
@@ -402,8 +402,6 @@ $arn_id = $COMPANY_PROFILE_DETAILS->company_code . '/ARN/00/' . ($lastId + 1);
                                                     </div>
                                                 </div>
 
-
-                                                <div class="col-md-2 hidden">
                                                 <div class="col-6 col-sm-4 col-md-2 col-lg-1">
                                                     <label class="form-label">Rec Qty</label>
                                                     <input type="number" class=" form-control form-control-sm"
@@ -749,6 +747,7 @@ $arn_id = $COMPANY_PROFILE_DETAILS->company_code . '/ARN/00/' . ($lastId + 1);
 
     <!-- Right bar overlay-->
     <div class="rightbar-overlay"></div>
+
 
 
     <?php include 'supplier-payment-model.php' ?>
