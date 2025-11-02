@@ -149,7 +149,7 @@ jQuery(document).ready(function () {
                 statusLabel.text('PENDING PAYMENT').removeClass('text-success text-warning').addClass('text-danger');
                 $('#payment_Label').show();
                 $('#payment').show(); 
-                $('#payment_type').val('Cash');
+                $('#payment_type').val('1');
                
             }
         }
@@ -231,7 +231,7 @@ jQuery(document).ready(function () {
     $('#payment_type').change(function () {
         const paymentType = $(this).val();
         const isCompanyARN = $('#company_arn_adjust').is(':checked');
-        if (paymentType === 'Cash' && !isCompanyARN) {
+        if (paymentType === '1' && !isCompanyARN) {
             $('#payment').show();
             $('#create_arn').hide();
         } else {
@@ -265,8 +265,9 @@ jQuery(document).ready(function () {
         $('#paymentStatusText span').text('').removeClass('text-success text-danger');
         $('#paymentStatusText i').hide();
         
-        // Show payment button
-        $('#payment').show();
+        // Hide both buttons until payment type is selected
+        $('#payment').hide();
+        $('#create_arn').hide();
         
         // Clear item table
         $('#itemTableBody').empty();
@@ -962,7 +963,7 @@ jQuery(document).ready(function () {
 
         
     
-        if (!isCompanyArnAdjust && $('#payment_type').val() === 'Cash') {
+        if (!isCompanyArnAdjust && $('#payment_type').val() === '1') {
             const paymentValidation = validatePaymentInputs();
             if (!paymentValidation.isValid) {
                 return swal({
@@ -1084,7 +1085,7 @@ jQuery(document).ready(function () {
                     if(payload.company_arn_adjust) {
                         // For company ARN adjust, just reload the page without payment processing
                         setTimeout(() => location.reload(), 2000);
-                    } else if(payload.payment_type === 'Cash') {
+                    } else if(payload.payment_type === '1') {
                         if (response.arn_id) {
                             sendPayment(response.arn_id , response.supplier_id) ;
                         }
