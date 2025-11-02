@@ -9,7 +9,7 @@ include 'auth.php';
 <head>
 
     <meta charset="utf-8" />
-    <title>Home | <?php echo $COMPANY_PROFILE_DETAILS->name ?></title>
+    <title>Homes | <?php echo $COMPANY_PROFILE_DETAILS->name ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="<?php echo $COMPANY_PROFILE_DETAILS->name; ?>" name="author" />
     <?php include 'main-css.php'; ?>
