@@ -133,6 +133,17 @@ $CUSTOMER_MASTER = new CustomerMaster($SALES_INVOICE->customer_id);
                 <?php echo number_format($total, 2); ?>
               </td>
             </tr>
+            <tr>
+                                    <td colspan="5" style="padding-top:50px !important;">
+                                        <table style="width:100%;">
+                                            <tr>
+                                                <td style="text-align:center;">_________________________<br><strong>Prepared By</strong></td>
+                                                <td style="text-align:center;">_________________________<br><strong>Approved By</strong></td>
+                                                <td style="text-align:center;">_________________________<br><strong>Received By</strong></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
           </tbody>
         </table>
       </td>
