@@ -502,74 +502,89 @@ jQuery(document).ready(function () {
                         const finalCost = parseFloat(row.final_cost);
                         const grandTotal = parseFloat(row.grand_total);
                         const profit = grandTotal - finalCost;
-
                         totalFinalCost += finalCost;
                         totalGrandTotal += grandTotal;
                         totalProfit += profit;
 
                         let rowClass = '';
-if (
-    row.sales_type === "CREDIT" &&
-    parseFloat(row.outstanding_settle_amount) > 0
-) {
-    rowClass = 'bg-warning text-dark';
-}
+                        if (
+                            row.sales_type === "CREDIT" &&
+                            parseFloat(row.outstanding_settle_amount) > 0
+                        ) {
+                            rowClass = 'bg-warning text-dark';
+                        }
 
-tbody += `<tr class="invoice-row ${rowClass}" data-id="${row.id}">
-    <td>${index}</td>
-    <td style="display: none;">${row.id}</td>
-    <td>${row.invoice_no}</td>
-    <td>${row.invoice_date}</td>
-    <td>${row.company_name}</td>
-    <td>${row.customer_name}</td>
-    <td>${row.department_name}</td>
-    <td style="color: ${row.sales_type === 'CASH' ? 'green' : row.sales_type === 'CREDIT' ? 'blue' : 'black'};">
-        ${row.sales_type}
-    </td>
-    <td>${row.item_name}</td>
-    <td>${finalCost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-    <td>${grandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-    <td><strong style="color: red;">${profit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong></td>
-</tr>`;
-
+                        tbody += `<tr class="invoice-row ${rowClass}" data-id="${row.id}">
+                            <td>${index}</td>
+                            <td style="display: none;">${row.id}</td>
+                            <td>${row.invoice_no}</td>
+                            <td>${row.invoice_date}</td>
+                            <td>${row.company_name}</td>
+                            <td>${row.customer_name}</td>
+                            <td>${row.department_name}</td>
+                            <td style="color: ${row.sales_type === 'CASH' ? 'green' : row.sales_type === 'CREDIT' ? 'blue' : 'black'};">
+                                ${row.sales_type}
+                            </td>
+                            <td>${row.item_name}</td>
+                            <td>${finalCost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                            <td>${grandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                            <td><strong style="color: red;">${profit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong></td>
+                        </tr>`;
                     });
 
-                    // Calculate final profit after expenses
+                    // Calculate final profit after expenses (Total Sales Profit - Total Expenses)
                     const finalProfit = totalProfit - totalExpenses;
 
                     // Add summary rows
                     tbody += `<tr style="font-weight:bold; background-color:#f8f9fa; border-top: 2px solid #dee2e6;">
-            <td colspan="8" class="text-end">Total Sales Profit</td>
-            <td>${totalFinalCost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-            <td>${totalGrandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-            <td style="color: #28a745;">
-                ${totalProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            </td>
-        </tr>`;
+                        <td colspan="8" class="text-end">Total Sales Profit</td>
+                        <td>${totalFinalCost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                        <td>${totalGrandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                        <td style="color: #28a745;">
+                            ${totalProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </td>
+                    </tr>`;
 
-                    // Add expense row
+                    // Add expense row showing in both Profit and Selling columns
                     tbody += `<tr style="font-weight:bold; background-color:#fff3cd; border: 1px solid #ffeaa7;">
-            <td colspan="10" class="text-end">Total Expenses</td>
-            <td style="color: #e74c3c;">
-                (${totalExpenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })})
-            </td>
-        </tr>`;
+                        <td colspan="9" class="text-end">Total Expenses</td>
+                        <td style="color: #e74c3c;">
+                            (${totalExpenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })})
+                        </td>
+                        <td style="color: #e74c3c;">
+                            (${totalExpenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })})
+                        </td>
+                    </tr>`;
 
-                    // Add daily income row
+                    // Add daily income row showing in both Profit and Selling columns
                     tbody += `<tr style="font-weight:bold; background-color:#d4edda; border: 1px solid #c3e6cb;">
-            <td colspan="10" class="text-end">Total Daily Income</td>
-            <td style="color: #155724;">
-                ${totalDailyIncome.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            </td>
-        </tr>`;
+                        <td colspan="9" class="text-end">Total Daily Income</td>
+                        <td style="color: #155724;">
+                            ${totalDailyIncome.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </td>
+                        <td style="color: #155724;">
+                            ${totalDailyIncome.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </td>
+                    </tr>`;
 
-                    // Add final profit row
+                    // Add Total Sales Profit after Expenses row - under Selling column
+                    const salesProfitAfterExpenses = totalGrandTotal - totalExpenses;
+                    tbody += `<tr style="font-weight:bold; background-color:#e9ecef; border: 1px solid #adb5bd;">
+                        <td colspan="9" class="text-end">Total Sales Profit after Expenses</td>
+                        <td style="color: ${salesProfitAfterExpenses >= 0 ? '#28a745' : '#dc3545'}; font-size: 1.1em;">
+                            ${salesProfitAfterExpenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </td>
+                        <td></td>
+                    </tr>`;
+
+                    // Add final profit row - show profit-expense calculation under profit column
                     tbody += `<tr style="font-weight:bold; background-color:#d1ecf1; border: 2px solid #bee5eb;">
-            <td colspan="10" class="text-end">Final Profit (After Expenses)</td>
-            <td style="color: ${finalProfit >= 0 ? '#155724' : '#721c24'}; font-size: 1.1em;">
-                ${finalProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            </td>
-        </tr>`;
+                        <td colspan="10" class="text-end">Final Profit (After Expenses)</td>
+                        <td style="color: ${finalProfit >= 0 ? '#155724' : '#721c24'}; font-size: 1.1em;">
+                            ${finalProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </td>
+                    </tr>`;
+
                 } else {
                     tbody = `<tr><td colspan="11" class="text-center text-muted">No profit data found</td></tr>`;
                 }
@@ -591,6 +606,7 @@ tbody += `<tr class="invoice-row ${rowClass}" data-id="${row.id}">
             }
         });
     }
+
     $('#profitReport tbody').on('click', '.invoice-row', function () {
         let invoiceId = $(this).data('id');
         if (invoiceId) {
