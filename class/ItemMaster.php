@@ -571,18 +571,23 @@ class ItemMaster
     public static function checkReorderLevel()
     {
         $db = new Database();
-        $query = "SELECT `id`, `code`, `name`,   `re_order_level` FROM `item_master`";
+        $query = "SELECT `id`, `code`, `name`, `re_order_level` FROM `item_master` WHERE `is_active` = 1";
         $result = $db->readQuery($query);
 
         $reorderItems = [];
 
         while ($row = mysqli_fetch_assoc($result)) {
+            $totalQuantity = StockMaster::getTotalAvailableQuantity($row['id']);
+            $reorderLevel = (float) $row['re_order_level'];
 
-            $reorderItems[] = [
-                'id' => $row['id'],
-                'code' => $row['code'],
-                'name' => $row['name'],
-            ];
+            // Show reorder alert only if quantity <= reorder level and quantity > 0
+            if ($totalQuantity <= $reorderLevel && $totalQuantity > 0) {
+                $reorderItems[] = [
+                    'id' => $row['id'],
+                    'code' => $row['code'],
+                    'name' => $row['name'],
+                ];
+            }
         }
 
         return $reorderItems;

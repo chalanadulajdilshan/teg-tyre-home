@@ -403,9 +403,7 @@ jQuery(document).ready(function () {
 
     // Show service extra details (Vehicle No & Current KM)
     if (selectedId && selectedId != "0") {
-      $("#serviceExtraDetails").slideDown();
-      $("#serviceKmDetails").slideDown();
-      $("#serviceNextServiceDetails").slideDown();
+      // Fields are hidden permanently
     } else {
       $("#serviceExtraDetails").slideUp();
       $("#serviceKmDetails").slideUp();
