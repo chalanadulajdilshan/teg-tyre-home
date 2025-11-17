@@ -88,9 +88,9 @@ include './auth.php';
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <label class="form-label" for="date">Date <span class="text-danger">*</span></label>
-                                                <div class="input-group mb-3">
-                                                    <input type="date" class="form-control" id="date" name="date"
-                                                        value="<?php echo date('Y-m-d'); ?>" required>
+                                                <div class="input-group" id="datepicker2">
+                                                    <input type="text" class="form-control date-picker" id="date" name="date"> 
+                                                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                                                 </div>
                                             </div>
 
@@ -129,13 +129,17 @@ include './auth.php';
                                     <div class="row mb-4">
                                         <div class="col-md-3">
                                             <label for="filter_from_date" class="form-label">From Date</label>
-                                            <input type="date" class="form-control" id="filter_from_date" 
-                                                   value="<?php echo date('Y-m-d', strtotime('-30 days')); ?>">
+                                            <div class="input-group" id="datepicker2">
+                                                <input type="text" class="form-control date-picker" id="filter_from_date" name="filter_from_date"> 
+                                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                            </div>
                                         </div>
                                         <div class="col-md-3">
                                             <label for="filter_to_date" class="form-label">To Date</label>
-                                            <input type="date" class="form-control" id="filter_to_date" 
-                                                   value="<?php echo date('Y-m-d'); ?>">
+                                            <div class="input-group" id="datepicker2">
+                                                <input type="text" class="form-control date-picker" id="filter_to_date" name="filter_to_date"> 
+                                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                            </div>
                                         </div>
                                         <div class="col-md-2">
                                             <label class="form-label">&nbsp;</label>
@@ -194,6 +198,29 @@ include './auth.php';
 
     <!-- include main js  -->
     <?php include 'main-js.php' ?>
+
+    <!-- App js -->
+    <script src="assets/js/app.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+    <script>
+        $(function() {
+            // Initialize the datepicker
+            $(".date-picker").datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
+
+            // Set today's date as default value for main date field
+            var today = $.datepicker.formatDate('yy-mm-dd', new Date());
+            $("#date").val(today);
+
+            // Set default dates for filter fields
+            var thirtyDaysAgo = new Date();
+            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+            var thirtyDaysAgoFormatted = $.datepicker.formatDate('yy-mm-dd', thirtyDaysAgo);
+            $("#filter_from_date").val(thirtyDaysAgoFormatted);
+            $("#filter_to_date").val(today);
+        });
+    </script>
 
 </body>
 
