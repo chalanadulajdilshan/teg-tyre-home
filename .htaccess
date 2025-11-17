@@ -1,5 +1,5 @@
 RewriteEngine On
-RewriteBase /
+RewriteBase /teg-tyre-home/
 
 # Redirect requests without .php to the actual .php files
 RewriteCond %{REQUEST_FILENAME}.php -f

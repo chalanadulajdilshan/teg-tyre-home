@@ -51,10 +51,18 @@ if (isset($_POST['action']) && $_POST['action'] === 'load_profit_report') {
         $totalExpenses = $expense->getTotalExpensesByDateRange($filters['from_date'], $filters['to_date']);
     }
 
-    // Prepare response with both sales data and expense total
+    // Calculate total daily income for the same date range
+    $totalDailyIncome = 0;
+    if (!empty($filters['from_date']) && !empty($filters['to_date'])) {
+        $dailyIncome = new DailyIncome(NULL);
+        $totalDailyIncome = $dailyIncome->getTotalIncome($filters['from_date'], $filters['to_date']);
+    }
+
+    // Prepare response with sales data, expense total, and daily income total
     $response = [
         'sales_data' => $items,
-        'total_expenses' => $totalExpenses
+        'total_expenses' => $totalExpenses,
+        'total_daily_income' => $totalDailyIncome
     ];
 
     // Output JSON

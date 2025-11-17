@@ -494,6 +494,7 @@ jQuery(document).ready(function () {
                 // Handle the new response structure
                 const data = response.sales_data || response; // Fallback for backward compatibility
                 const totalExpenses = parseFloat(response.total_expenses) || 0;
+                const totalDailyIncome = parseFloat(response.total_daily_income) || 0;
 
                 if (data.length > 0) {
                     $.each(data, function (index, row) {
@@ -551,6 +552,14 @@ tbody += `<tr class="invoice-row ${rowClass}" data-id="${row.id}">
             <td colspan="10" class="text-end">Total Expenses</td>
             <td style="color: #e74c3c;">
                 (${totalExpenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })})
+            </td>
+        </tr>`;
+
+                    // Add daily income row
+                    tbody += `<tr style="font-weight:bold; background-color:#d4edda; border: 1px solid #c3e6cb;">
+            <td colspan="10" class="text-end">Total Daily Income</td>
+            <td style="color: #155724;">
+                ${totalDailyIncome.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </td>
         </tr>`;
 

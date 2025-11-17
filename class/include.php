@@ -66,6 +66,7 @@ include_once(dirname(__FILE__) . '/StockItemTmp.php');
 include_once(dirname(__FILE__) . '/DagCompany.php');
 include_once(dirname(__FILE__) . '/ArnQrGenaretor.php');
 include_once(dirname(__FILE__) . '/Expenses.php');
+include_once(dirname(__FILE__) . '/DailyIncome.php');
 include_once(dirname(__FILE__) . '/NonPermissionPage.php');
 include_once(dirname(__FILE__) . '/InvoicePayments.php');
 include_once(dirname(__FILE__) . '/SpecialPermission.php');
