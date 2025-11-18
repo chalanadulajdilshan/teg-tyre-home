@@ -533,7 +533,7 @@ jQuery(document).ready(function () {
                     });
 
                     // Calculate final profit after expenses (Total Sales Profit - Total Expenses)
-                    const finalProfit = totalProfit - totalExpenses;
+                    const finalProfit = totalProfit - totalExpenses + totalDailyIncome;
 
                     // Add summary rows
                     tbody += `<tr style="font-weight:bold; background-color:#f8f9fa; border-top: 2px solid #dee2e6;">
@@ -568,7 +568,7 @@ jQuery(document).ready(function () {
                     </tr>`;
 
                     // Add Total Sales Profit after Expenses row - under Selling column
-                    const salesProfitAfterExpenses = totalGrandTotal - totalExpenses;
+                    const salesProfitAfterExpenses = totalGrandTotal - totalExpenses + totalDailyIncome;
                     tbody += `<tr style="font-weight:bold; background-color:#e9ecef; border: 1px solid #adb5bd;">
                         <td colspan="9" class="text-end">Total Sales Profit after Expenses</td>
                         <td style="color: ${salesProfitAfterExpenses >= 0 ? '#28a745' : '#dc3545'}; font-size: 1.1em;">
