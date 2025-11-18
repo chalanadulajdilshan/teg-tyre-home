@@ -1100,7 +1100,7 @@ jQuery(document).ready(function () {
 
     // Validate cash sales with credit
     if (
-      $("#customer_code").val() === "CM/01" &&
+      $("#customer_code").val() === "CH001" &&
       $("#payment_type").val() === "2"
     ) {
       $("#customer_code").focus();
@@ -1153,7 +1153,7 @@ jQuery(document).ready(function () {
         chequeDate = dateInput ? dateInput : "1000-01-01"; // Use default date if not provided
       }
 
-      if (!methodId && $("#customer_id").val() == "CM/01") {
+      if (!methodId && $("#customer_id").val() == "CH001") {
         swal({
           title: "Error!",
           text: "Please select a payment method in all rows.",
@@ -1164,7 +1164,7 @@ jQuery(document).ready(function () {
         return false; // break out of each
       }
 
-      if (amount <= 0 && $("#customer_id").val() == "CM/01") {
+      if (amount <= 0 && $("#customer_id").val() == "CH001") {
         swal({
           title: "Error!",
           text: "Please enter a valid amount in all rows.",
