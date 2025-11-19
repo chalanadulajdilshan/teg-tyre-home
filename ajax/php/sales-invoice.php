@@ -36,11 +36,12 @@ if (isset($_POST['create'])) {
         $price = floatval($item['price']); // Use list_price for subtotal calculation to match interface
         $qty = floatval($item['qty']);
 
+        // discount is a fixed value per unit coming from the UI
         if (isset($item['discount'])) {
-            $discount_percentage = (float)$item['discount'];
+            $discount_value = (float)$item['discount'];
         } else {
-            $discount_percentage = 0;
-        } // item-wise discount percentage
+            $discount_value = 0;
+        }
 
 
         //GET ARN ID BY ARN NO
@@ -66,7 +67,8 @@ if (isset($_POST['create'])) {
         }
 
         $itemTotal = $price * $qty;
-        $discount_amount = $itemTotal * $discount_percentage / 100;
+        // total discount for this item = discount per unit * quantity
+        $discount_amount = $discount_value * $qty;
         $totalSubTotal += $itemTotal;
         $totalDiscount += $discount_amount;
     }
@@ -149,7 +151,8 @@ if (isset($_POST['create'])) {
 
         foreach ($items as $item) {
 
-            $item_discount_percentage = isset($item['discount']) ? $item['discount'] : 0;
+            // discount is a fixed value per unit
+            $item_discount_value = isset($item['discount']) ? $item['discount'] : 0;
 
             $ITEM_MASTER = new ItemMaster($item['item_id']);
 
@@ -185,7 +188,8 @@ if (isset($_POST['create'])) {
                 $qty_for_stock = $item['service_qty']; // Use service_qty for stock management
             }
 
-            $item_discount_amount = ($item['price'] * $qty_for_total) * $item_discount_percentage / 100;
+            // total discount for this item row
+            $item_discount_amount = $item_discount_value * $qty_for_total;
 
             // Store item name with ARN ID and department for cancellation tracking
             $SALES_ITEM->item_name = $item['name'] . '|ARN:' . $arn_id . '|DEPT:' . $correctDepartmentId;

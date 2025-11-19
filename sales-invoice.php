@@ -344,9 +344,9 @@ include './auth.php';
                                                         placeholder="Qty" oninput="calculatePayment()">
                                                 </div>
                                                 <div class="col-md-1">
-                                                    <label class="form-label">Dis (%)</label>
+                                                    <label class="form-label">Discount amount</label>
                                                     <input type="number" id="itemDiscount" class="form-control"
-                                                        placeholder="Dis %" oninput="calculatePayment()">
+                                                        placeholder="Discount amount" oninput="calculatePayment()">
                                                 </div>
                                                 <div class="col-md-2">
                                                     <label class="form-label">Selling Price</label>
