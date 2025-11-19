@@ -451,9 +451,8 @@ jQuery(document).ready(function () {
       // Calculate combined price before discount
       const combinedPriceBeforeDiscount = listPrice + serviceSellingPrice;
 
-      // Apply discount to the combined total (discount is in percentage)
-      const discountAmount = (combinedPriceBeforeDiscount * discount) / 100;
-      const finalCombinedPrice = combinedPriceBeforeDiscount - discountAmount;
+      // Apply discount as a fixed value per unit to the combined total
+      const finalCombinedPrice = combinedPriceBeforeDiscount - discount;
 
       // Update the main selling price field with final combined value after discount
       $("#itemSalePrice").val(finalCombinedPrice.toFixed(2));
@@ -716,12 +715,12 @@ jQuery(document).ready(function () {
     let invoice = parseFloat(invoicePrice);
     let list = parseFloat(listPrice);
 
-    if (!isNaN(invoice) && !isNaN(list) && list > 0) {
-      // calculate percentage difference
-      let percentage = ((list - invoice) / list) * 100;
+    if (!isNaN(invoice) && !isNaN(list)) {
+      // calculate fixed discount per unit (list - invoice)
+      let discountValue = list - invoice;
 
-      // show percentage (2 decimals)
-      $("#itemDiscount").val(percentage.toFixed(2));
+      // show discount value (2 decimals)
+      $("#itemDiscount").val(discountValue.toFixed(2));
     } else {
       $("#itemDiscount").val("0.00");
     }
@@ -1562,8 +1561,8 @@ jQuery(document).ready(function () {
       // For service invoices, use the sale_price (which includes combined service + service item price with discount)
       total = sale_price * qty;
     } else {
-      // For regular invoices, use the original calculation
-      total = price * qty - price * qty * (discount / 100);
+      // For regular invoices, use fixed discount value per unit
+      total = (price - discount) * qty;
     }
     $("#noItemRow").remove();
     $("#noQuotationItemRow").remove();
@@ -1632,7 +1631,7 @@ jQuery(document).ready(function () {
       activeArn.data("used", newUsedQty);
 
       remainingQty = arnQty - newUsedQty;
-      activeArn.find(".arn-qty").text(remainingQty.toFixed(2));
+      activeArn.find(".arn-qty").text(parseFloat(arnQty) - newUsedQty);
 
       // Disable ARN if fully used
       if (remainingQty <= 0) {
@@ -1675,7 +1674,8 @@ jQuery(document).ready(function () {
         0;
 
       const itemTotal = price * qty;
-      const itemDiscount = itemTotal * (discount / 100);
+      // discount is stored as fixed value per unit
+      const itemDiscount = discount * qty;
       const itemTax = 0;
 
       subTotal += itemTotal;
@@ -1757,13 +1757,13 @@ jQuery(document).ready(function () {
     let finalDiscount = discount;
 
     if (changedField === "price" || changedField === "discount") {
-      // Recalculate Sale Price
-      finalSalePrice = price - price * (discount / 100);
+      // Recalculate Sale Price using fixed discount value per unit
+      finalSalePrice = price - discount;
       $("#itemSalePrice").val(finalSalePrice.toFixed(2));
     } else if (changedField === "salePrice") {
-      // Recalculate Discount
+      // Recalculate Discount as fixed value per unit
       if (price > 0) {
-        finalDiscount = ((price - salePrice) / price) * 100;
+        finalDiscount = price - salePrice;
         $("#itemDiscount").val(finalDiscount.toFixed(2));
       }
     }
