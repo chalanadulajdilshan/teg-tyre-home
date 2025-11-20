@@ -172,6 +172,13 @@ include 'auth.php';
                                                         placeholder="Enter email address">
                                                 </div>
 
+                                                <!-- Cashbook Opening Balance -->
+                                                <div class="col-md-2">
+                                                    <label for="cashbook_opening_balance" class="form-label">Cashbook Opening Balance</label>
+                                                    <input id="cashbook_opening_balance" name="cashbook_opening_balance" type="number" step="0.01" class="form-control"
+                                                        placeholder="Enter opening balance">
+                                                </div>
+
                                                 <!-- Color Theme -->
                                                 <div class="col-md-2">
                                                     <label class="form-label" for="theme">Color Theme</label>
