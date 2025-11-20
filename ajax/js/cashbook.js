@@ -169,6 +169,19 @@ jQuery(document).ready(function ($) {
             return;
         }
         
+        // Get current balance and ensure withdrawal does not exceed it
+        var currentBalanceWithdrawal = parseFloat($('#current-balance-withdrawal').text().replace(/,/g, '')) || 0;
+        if (amount > currentBalanceWithdrawal) {
+            swal({
+                title: "Error!",
+                text: "Withdrawal amount cannot exceed current balance of " + currentBalanceWithdrawal.toFixed(2),
+                type: 'error',
+                timer: 3000,
+                showConfirmButton: false
+            });
+            return;
+        }
+        
         $('.someBlock').preloader();
         
         $.ajax({
@@ -230,34 +243,28 @@ jQuery(document).ready(function ($) {
         location.reload();
     });
 
-    // Filter by date
+    // Filter by specific date
     $('#btn-filter').on('click', function(e) {
         e.preventDefault();
-        const dateFrom = $('#date_from').val();
-        const dateTo = $('#date_to').val();
+        const date = $('#date').val();
 
-        if (!dateFrom || !dateTo) {
+        if (!date) {
             swal({
                 title: "Error!",
-                text: "Please select both From Date and To Date",
+                text: "Please select a date",
                 icon: "error",
                 button: "OK",
             });
             return;
         }
 
-        // Reload page with date parameters
-        window.location.href = `cashbook.php?date_from=${dateFrom}&date_to=${dateTo}`;
+        // Reload page with single date parameter
+        window.location.href = `cashbook.php?date=${date}`;
     });
 
-    // Reset filter
-    $('#btn-reset-filter').on('click', function(e) {
-        e.preventDefault();
-        window.location.href = 'cashbook.php';
-    });
-    
-    // Update ref number when modal opens
+    // Update ref number and current balance when bank modals are opened
     $('#depositModal, #withdrawalModal').on('show.bs.modal', function () {
+        // Get next reference number
         $.ajax({
             url: 'ajax/php/cashbook.php',
             type: 'POST',
@@ -269,8 +276,8 @@ jQuery(document).ready(function ($) {
                 }
             }
         });
-        
-        // Update current balance display
+
+        // Update current balance display (for both deposit and withdrawal)
         $.ajax({
             url: 'ajax/php/cashbook.php',
             type: 'POST',
@@ -278,7 +285,7 @@ jQuery(document).ready(function ($) {
             dataType: 'JSON',
             success: function (response) {
                 if (response.status === 'success') {
-                    $('#current-balance-deposit').text(response.balance);
+                    $('#current-balance-deposit, #current-balance-withdrawal').text(response.balance);
                 }
             }
         });

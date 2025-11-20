@@ -7,9 +7,10 @@ $CASHBOOK = new Cashbook();
 $BANK = new Bank();
 $BRANCH = new Branch();
 
-// Get date filters from URL, defaulting to today when not provided
-$dateFrom = isset($_GET['date_from']) && !empty($_GET['date_from']) ? $_GET['date_from'] : date('Y-m-d');
-$dateTo = isset($_GET['date_to']) && !empty($_GET['date_to']) ? $_GET['date_to'] : date('Y-m-d');
+// Get specific date from URL (no range), defaulting to today
+$selectedDate = isset($_GET['date']) && !empty($_GET['date']) ? $_GET['date'] : date('Y-m-d');
+$dateFrom = $selectedDate;
+$dateTo = $selectedDate;
 
 // Get the last inserted transaction id
 $lastId = $CASHBOOK->getLastID();
@@ -74,20 +75,18 @@ $ref_no = 'CB/' . str_pad(($lastId + 1), 5, '0', STR_PAD_LEFT);
                                 <div class="card-body">
                                     <div class="row align-items-end">
                                         <div class="col-md-3">
-                                            <label for="date_from" class="form-label">From Date</label>
+                                            <label for="date" class="form-label">Date</label>
                                             <div class="input-group">
                                                 <span class="input-group-text"><i class="ri-calendar-line"></i></span>
-                                                <input type="text" class="form-control date-picker cashbook-date" id="date_from" name="date_from" autocomplete="off" value="<?php echo $dateFrom; ?>">
+                                                <input type="text" class="form-control date-picker cashbook-date" id="date" name="date" autocomplete="off" value="<?php echo $selectedDate; ?>">
                                             </div>
+                                            <?php if ($selectedDate): ?>
+                                                <small class="text-muted d-block mt-1">
+                                                    Selected Date: <strong><?php echo date('d M Y', strtotime($selectedDate)); ?></strong>
+                                                </small>
+                                            <?php endif; ?>
                                         </div>
-                                        <div class="col-md-3">
-                                            <label for="date_to" class="form-label">To Date</label>
-                                            <div class="input-group">
-                                                <span class="input-group-text"><i class="ri-calendar-line"></i></span>
-                                                <input type="text" class="form-control date-picker cashbook-date" id="date_to" name="date_to" autocomplete="off" value="<?php echo $dateTo; ?>">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 d-flex align-items-end flex-wrap gap-2">
+                                        <div class="col-md-9 d-flex align-items-end flex-wrap gap-2">
                                             <button class="btn btn-primary" id="btn-filter">
                                                 <i class="uil uil-filter me-1"></i> Filter
                                             </button>
@@ -120,8 +119,8 @@ $ref_no = 'CB/' . str_pad(($lastId + 1), 5, '0', STR_PAD_LEFT);
                                     ?>
                                 </div>
                                 <small>As of <?php echo date('d M Y, h:i A'); 
-                                if ($dateFrom && $dateTo) {
-                                    echo ' (Filtered: ' . date('d M Y', strtotime($dateFrom)) . ' - ' . date('d M Y', strtotime($dateTo)) . ')';
+                                if ($selectedDate) {
+                                    echo ' (Date: ' . date('d M Y', strtotime($selectedDate)) . ')';
                                 }
                                 ?></small>
                             </div>
@@ -305,6 +304,7 @@ $ref_no = 'CB/' . str_pad(($lastId + 1), 5, '0', STR_PAD_LEFT);
                         <div class="mb-3">
                             <label for="withdrawal-amount" class="form-label">Amount <span class="text-danger">*</span></label>
                             <input type="number" step="0.01" class="form-control" id="withdrawal-amount" name="amount" placeholder="Enter amount" required>
+                            <small class="text-muted">Current balance: <span id="current-balance-withdrawal"><?php echo number_format($balance, 2); ?></span></small>
                         </div>
                         <div class="mb-3">
                             <label for="withdrawal-remark" class="form-label">Remark</label>
