@@ -7,9 +7,9 @@ $CASHBOOK = new Cashbook();
 $BANK = new Bank();
 $BRANCH = new Branch();
 
-// Get date filters from URL
-$dateFrom = isset($_GET['date_from']) ? $_GET['date_from'] : null;
-$dateTo = isset($_GET['date_to']) ? $_GET['date_to'] : null;
+// Get date filters from URL, defaulting to today when not provided
+$dateFrom = isset($_GET['date_from']) && !empty($_GET['date_from']) ? $_GET['date_from'] : date('Y-m-d');
+$dateTo = isset($_GET['date_to']) && !empty($_GET['date_to']) ? $_GET['date_to'] : date('Y-m-d');
 
 // Get the last inserted transaction id
 $lastId = $CASHBOOK->getLastID();
@@ -54,10 +54,6 @@ $ref_no = 'CB/' . str_pad(($lastId + 1), 5, '0', STR_PAD_LEFT);
         .transaction-out {
             color: #dc3545;
         }
-
-        .btn-bank-action {
-            margin: 5px;
-        }
     </style>
 </head>
 
@@ -79,11 +75,17 @@ $ref_no = 'CB/' . str_pad(($lastId + 1), 5, '0', STR_PAD_LEFT);
                                     <div class="row align-items-end">
                                         <div class="col-md-3">
                                             <label for="date_from" class="form-label">From Date</label>
-                                            <input type="date" class="form-control" id="date_from" name="date_from" value="<?php echo $dateFrom; ?>">
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="ri-calendar-line"></i></span>
+                                                <input type="text" class="form-control date-picker cashbook-date" id="date_from" name="date_from" autocomplete="off" value="<?php echo $dateFrom; ?>">
+                                            </div>
                                         </div>
                                         <div class="col-md-3">
                                             <label for="date_to" class="form-label">To Date</label>
-                                            <input type="date" class="form-control" id="date_to" name="date_to" value="<?php echo $dateTo; ?>">
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="ri-calendar-line"></i></span>
+                                                <input type="text" class="form-control date-picker cashbook-date" id="date_to" name="date_to" autocomplete="off" value="<?php echo $dateTo; ?>">
+                                            </div>
                                         </div>
                                         <div class="col-md-6 d-flex align-items-end flex-wrap gap-2">
                                             <button class="btn btn-primary" id="btn-filter">
@@ -96,7 +98,7 @@ $ref_no = 'CB/' . str_pad(($lastId + 1), 5, '0', STR_PAD_LEFT);
                                                 <i class="uil uil-money-insert me-1"></i> Bank Deposit
                                             </a>
                                             <a href="#" class="btn btn-warning btn-bank-action" id="btn-withdrawal" data-bs-toggle="modal" data-bs-target="#withdrawalModal">
-                                                <i class="uil uil-money-withdraw me-1"></i> Bank Withdrawal
+                                                <i class="uil uil-money-withdraw me-1"></i> Withdrawal
                                             </a>
                                         </div>
                                     </div>
@@ -104,16 +106,7 @@ $ref_no = 'CB/' . str_pad(($lastId + 1), 5, '0', STR_PAD_LEFT);
                             </div>
                         </div>
                     </div>
-                    <div class="row mb-4">
-                        <div class="col-md-12 text-md-end text-start">
-
-                        <div class="col-md-4 text-md-end text-start mt-3 mt-md-0">
-                            <ol class="breadcrumb m-0 justify-content-md-end">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Cashbook</li>
-                            </ol>
-                        </div>
-                    </div>
+                    
 
                     <!-- Balance Card -->
                     <div class="row">
