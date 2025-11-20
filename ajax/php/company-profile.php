@@ -91,6 +91,7 @@ if (isset($_POST['create']) || isset($_POST['update'])) {
     $COMPANY->vat_percentage = isset($_POST['vat_percentage']) ? (float)$_POST['vat_percentage'] : 0;
     $COMPANY->company_code = $_POST['company_code'] ?? '';
     $COMPANY->theme = $_POST['theme'] ?? '#3b5de7';
+    $COMPANY->cashbook_opening_balance = isset($_POST['cashbook_opening_balance']) ? (float)$_POST['cashbook_opening_balance'] : 0;
 
     // Save to database
     $result = $isUpdate ? $COMPANY->update() : $COMPANY->create();
@@ -148,7 +149,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 'is_vat' => $company->is_vat,
                 'vat_number' => $company->vat_number,
                 'vat_percentage' => $company->vat_percentage,
-                'theme' => $company->theme ?? 'default'
+                'theme' => $company->theme ?? 'default',
+                'cashbook_opening_balance' => $company->cashbook_opening_balance ?? 0
             ]
         ];
     } else {

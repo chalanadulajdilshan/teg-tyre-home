@@ -344,6 +344,7 @@ jQuery(document).ready(function () {
 
         $('#is_active').prop('checked', $(this).data('active') == 1);
         $('#is_vat').prop('checked', $(this).data('isvat') == 1);
+        $('#cashbook_opening_balance').val($(this).data('cashbook_opening_balance') || 0);
 
         if ($('#is_vat').is(':checked')) {
             $('#vat-number-group').show();

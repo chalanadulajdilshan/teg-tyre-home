@@ -79,6 +79,7 @@ include_once(dirname(__FILE__) . '/SupplierPayment.php');
 include_once(dirname(__FILE__) . '/ServiceIncome.php');
 include_once(dirname(__FILE__) . '/PaymentReceiptSupplier.php');
 include_once(dirname(__FILE__) . '/PaymentReceiptMethodSupplier.php');
+include_once(dirname(__FILE__) . '/Cashbook.php');
 
 session_start();
 function dd($data)

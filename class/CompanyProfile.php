@@ -17,6 +17,7 @@ class CompanyProfile
     public $company_code;
     public $theme;
     public $favicon;
+    public $cashbook_opening_balance;
 
     // Constructor to load data by ID
     public function __construct($id = null)
@@ -42,6 +43,7 @@ class CompanyProfile
                 $this->company_code = $result['company_code'];
                 $this->theme = $result['theme'] ?? 'default';
                 $this->favicon = $result['favicon'] ?? '';
+                $this->cashbook_opening_balance = $result['cashbook_opening_balance'] ?? 0;
             }
         }
     }
@@ -53,13 +55,13 @@ class CompanyProfile
             `name`, `address`, `mobile_number_1`, `mobile_number_2`, 
             `mobile_number_3`, `email`, `image_name`, `is_active`, 
             `is_vat`, `vat_number`, `company_code`, `vat_percentage`, 
-            `theme`, `favicon`
+            `theme`, `favicon`, `cashbook_opening_balance`
         ) VALUES (
             '{$this->name}', '{$this->address}', '{$this->mobile_number_1}', 
             '{$this->mobile_number_2}', '{$this->mobile_number_3}', '{$this->email}', 
             '{$this->image_name}', '{$this->is_active}', '{$this->is_vat}', 
             '{$this->vat_number}', '{$this->company_code}', '{$this->vat_percentage}',
-            '{$this->theme}', '{$this->favicon}'
+            '{$this->theme}', '{$this->favicon}', '{$this->cashbook_opening_balance}'
         )";
         $db = new Database();
         return $db->readQuery($query) ? mysqli_insert_id($db->DB_CON) : false;
@@ -82,7 +84,8 @@ class CompanyProfile
             `company_code` = '{$this->company_code}',
             `vat_percentage` = '{$this->vat_percentage}',
             `theme` = '{$this->theme}',
-            `favicon` = '{$this->favicon}'
+            `favicon` = '{$this->favicon}',
+            `cashbook_opening_balance` = '{$this->cashbook_opening_balance}'
             WHERE `id` = '{$this->id}'";
         $db = new Database();
         return $db->readQuery($query);
