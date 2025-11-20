@@ -41,8 +41,13 @@
             dateFormat: 'yy-mm-dd'
         });
 
-        // Set today's date for .date-picker fields
-        $(".date-picker").val($.datepicker.formatDate('yy-mm-dd', new Date()));
+        // Set today's date for .date-picker fields ONLY when empty.
+        // This avoids overriding values already set from PHP (e.g. cashbook selected date).
+        $(".date-picker").each(function () {
+            if (!$(this).val()) {
+                $(this).val($.datepicker.formatDate('yy-mm-dd', new Date()));
+            }
+        });
 
         // Initialize datatables
         $('#dagTable, #maindagTable, .datatable').DataTable();

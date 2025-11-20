@@ -136,12 +136,20 @@ class Cashbook
     public function getTotalCashIn($dateFrom = null, $dateTo = null)
     {
         $db = new Database();
+
+        // Build base WHERE for sales_invoice with flexible date handling
         $where = "WHERE 1=1";
-        
+
         if ($dateFrom && $dateTo) {
             $dateFrom = mysqli_real_escape_string($db->DB_CON, $dateFrom);
+            $dateTo   = mysqli_real_escape_string($db->DB_CON, $dateTo);
+            $where   .= " AND DATE(si.invoice_date) BETWEEN '$dateFrom' AND '$dateTo'";
+        } elseif ($dateTo) {
             $dateTo = mysqli_real_escape_string($db->DB_CON, $dateTo);
-            $where .= " AND DATE(si.invoice_date) BETWEEN '$dateFrom' AND '$dateTo'";
+            $where .= " AND DATE(si.invoice_date) <= '$dateTo'";
+        } elseif ($dateFrom) {
+            $dateFrom = mysqli_real_escape_string($db->DB_CON, $dateFrom);
+            $where   .= " AND DATE(si.invoice_date) >= '$dateFrom'";
         }
 
         // Cash from sales invoices (payment_type = 1 means cash)
@@ -167,27 +175,27 @@ class Cashbook
         $resultIncome = mysqli_fetch_array($db->readQuery($queryDailyIncome));
         $totalDailyIncome = (float) $resultIncome['total'];
 
-        // Withdrawals (add to cash)
-        $whereWithdrawal = str_replace('si.invoice_date', 'created_at', $where);
-        $queryWithdrawals = "SELECT COALESCE(SUM(amount), 0) as total 
-                            FROM `cashbook_transactions`
-                            $whereWithdrawal AND transaction_type = 'withdrawal'";
-        $resultWithdrawal = mysqli_fetch_array($db->readQuery($queryWithdrawals));
-        $totalWithdrawals = (float) $resultWithdrawal['total'];
-
-        return $totalCashInvoices + $totalPaymentReceipts + $totalDailyIncome + $totalWithdrawals;
+        return $totalCashInvoices + $totalPaymentReceipts + $totalDailyIncome;
     }
 
     // Get total cash OUT from various sources
     public function getTotalCashOut($dateFrom = null, $dateTo = null)
     {
         $db = new Database();
+
+        // Build base WHERE for expenses with flexible date handling
         $where = "WHERE 1=1";
-        
+
         if ($dateFrom && $dateTo) {
             $dateFrom = mysqli_real_escape_string($db->DB_CON, $dateFrom);
+            $dateTo   = mysqli_real_escape_string($db->DB_CON, $dateTo);
+            $where   .= " AND DATE(e.expense_date) BETWEEN '$dateFrom' AND '$dateTo'";
+        } elseif ($dateTo) {
             $dateTo = mysqli_real_escape_string($db->DB_CON, $dateTo);
-            $where .= " AND DATE(e.expense_date) BETWEEN '$dateFrom' AND '$dateTo'";
+            $where .= " AND DATE(e.expense_date) <= '$dateTo'";
+        } elseif ($dateFrom) {
+            $dateFrom = mysqli_real_escape_string($db->DB_CON, $dateFrom);
+            $where   .= " AND DATE(e.expense_date) >= '$dateFrom'";
         }
 
         // Cash from expenses
@@ -220,8 +228,16 @@ class Cashbook
                          $whereDeposit AND transaction_type = 'deposit'";
         $resultDeposit = mysqli_fetch_array($db->readQuery($queryDeposits));
         $totalDeposits = (float) $resultDeposit['total'];
+        
+        // Bank withdrawals (treat as out / reduce cash)
+        $whereWithdrawals = str_replace('e.expense_date', 'created_at', $where);
+        $queryWithdrawals = "SELECT COALESCE(SUM(amount), 0) as total 
+                         FROM `cashbook_transactions`
+                         $whereWithdrawals AND transaction_type = 'withdrawal'";
+        $resultWithdrawals = mysqli_fetch_array($db->readQuery($queryWithdrawals));
+        $totalWithdrawals = (float) $resultWithdrawals['total'];
 
-        return $totalExpenses + $totalSupplierPayments + $totalArn + $totalDeposits;
+        return $totalExpenses + $totalSupplierPayments + $totalArn + $totalDeposits + $totalWithdrawals;
     }
 
     // Get balance in hand
@@ -247,10 +263,39 @@ class Cashbook
         $db = new Database();
         $transactions = [];
 
-        // Add opening balance as first transaction
+        // Base opening balance from company profile
         $openingBalance = $this->getOpeningBalance();
-        $transactions[] = [
-            'date' => '',
+
+        // Find the earliest CASH SALES date as the cashbook start date
+        $queryEarliest = "SELECT MIN(invoice_date) as first_date 
+                          FROM sales_invoice 
+                          WHERE payment_type = 1";
+
+        $resultEarliest = mysqli_fetch_array($db->readQuery($queryEarliest));
+        $firstTransactionDate = $resultEarliest['first_date'] ?? null;
+
+        // If a specific date is provided and it's AFTER the first transaction date,
+        // get the previous day's closing balance as this day's opening
+        if ($dateFrom && $dateTo && $firstTransactionDate) {
+            $prevDate = date('Y-m-d', strtotime($dateFrom . ' -1 day'));
+
+            // Only calculate previous balance if the selected date is AFTER the first transaction day
+            if ($prevDate >= $firstTransactionDate) {
+                // Get previous day's closing balance by calling this method recursively
+                $prevDayTransactions = $this->getAllTransactionsDetailed($prevDate, $prevDate);
+                
+                if (!empty($prevDayTransactions)) {
+                    // Get the last transaction's balance (which is the closing balance)
+                    $lastTransaction = end($prevDayTransactions);
+                    $openingBalance = (float)str_replace(',', '', $lastTransaction['balance']);
+                }
+            }
+            // If selected date IS the first transaction date, opening = company opening (no change)
+        }
+
+        // Store opening balance row separately (will be added at the top after sorting)
+        $openingBalanceRow = [
+            'date' => $dateFrom ? date('Y-m-d', strtotime($dateFrom)) : '',
             'account_type' => 'CASH',
             'transaction' => 'IN',
             'description' => 'Opening Balance',
@@ -258,7 +303,8 @@ class Cashbook
             'debit' => number_format($openingBalance, 2),
             'credit' => '0.00',
             'balance' => number_format($openingBalance, 2),
-            'sort_date' => '0000-00-00 00:00:00'
+            'sort_date' => $dateFrom ? date('Y-m-d 00:00:00', strtotime($dateFrom)) : '0000-00-00 00:00:00',
+            'is_opening' => true
         ];
 
         $runningBalance = $openingBalance;
@@ -412,22 +458,26 @@ class Cashbook
         // Withdrawals
         $whereWithdrawal = str_replace('invoice_date', 'ct.created_at', $where);
         $query = "SELECT ct.created_at as date, ct.ref_no as doc, ct.amount, 
-                  CONCAT('Bank Withdrawal - ', b.name) as description
+                  CONCAT(
+                        'Bank Withdrawal - ',
+                        COALESCE(NULLIF(b.name, ''), 'Cash Drawer'),
+                        CASE WHEN ct.remark IS NOT NULL AND ct.remark <> '' THEN CONCAT(' | ', ct.remark) ELSE '' END
+                  ) as description
                   FROM cashbook_transactions ct
                   LEFT JOIN banks b ON ct.bank_id = b.id
                   $whereWithdrawal AND ct.transaction_type = 'withdrawal'
                   ORDER BY ct.created_at ASC";
         $result = $db->readQuery($query);
         while ($row = mysqli_fetch_array($result)) {
-            $runningBalance += (float)$row['amount'];
+            $runningBalance -= (float)$row['amount'];
             $transactions[] = [
                 'date' => date('Y-m-d H:i:s', strtotime($row['date'])),
                 'account_type' => 'CASH',
-                'transaction' => 'IN',
+                'transaction' => 'OUT',
                 'description' => $row['description'],
                 'doc' => $row['doc'],
-                'debit' => number_format($row['amount'], 2),
-                'credit' => '0.00',
+                'debit' => '0.00',
+                'credit' => number_format($row['amount'], 2),
                 'balance' => number_format($runningBalance, 2),
                 'sort_date' => $row['date']
             ];
@@ -438,8 +488,8 @@ class Cashbook
             return strcmp($a['sort_date'], $b['sort_date']);
         });
 
-        // Recalculate running balance after sorting
-        $runningBalance = 0;
+        // Recalculate running balance after sorting, starting from opening balance
+        $runningBalance = $openingBalance;
         foreach ($transactions as &$transaction) {
             // Get the debit and credit amounts (remove formatting)
             $debit = (float)str_replace(',', '', $transaction['debit']);
@@ -451,6 +501,9 @@ class Cashbook
             // Update the balance in the transaction
             $transaction['balance'] = number_format($runningBalance, 2);
         }
+
+        // Add opening balance row at the very top
+        array_unshift($transactions, $openingBalanceRow);
 
         return $transactions;
     }

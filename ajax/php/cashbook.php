@@ -55,11 +55,21 @@ if (isset($_POST['create_withdrawal'])) {
     $CASHBOOK = new Cashbook();
     
     $withdrawalAmount = (float)$_POST['amount'];
-    
+    $currentBalance   = $CASHBOOK->getBalanceInHand();
+
     if ($withdrawalAmount <= 0) {
         echo json_encode([
             'status' => 'error',
             'message' => 'Withdrawal amount must be greater than zero'
+        ]);
+        exit();
+    }
+    
+    // Prevent withdrawal from exceeding current balance in hand
+    if ($withdrawalAmount > $currentBalance) {
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Withdrawal amount cannot exceed current balance of ' . number_format($currentBalance, 2)
         ]);
         exit();
     }
