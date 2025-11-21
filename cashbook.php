@@ -73,26 +73,25 @@ $ref_no = 'CB/' . str_pad(($lastId + 1), 5, '0', STR_PAD_LEFT);
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <div class="row align-items-end">
-                                        <div class="col-md-3">
-                                            <label for="date" class="form-label">Date</label>
-                                            <div class="input-group">
-                                                <span class="input-group-text"><i class="ri-calendar-line"></i></span>
-                                                <input type="text" class="form-control date-picker cashbook-date" id="date" name="date" autocomplete="off" value="<?php echo $selectedDate; ?>">
+                                    <div class="d-flex flex-wrap align-items-end gap-3">
+                                        <div class="d-flex flex-wrap align-items-end gap-2">
+                                            <div class="me-2">
+                                                <label for="date" class="form-label">Date</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="ri-calendar-line"></i></span>
+                                                    <input type="text" class="form-control date-picker cashbook-date" id="date" name="date" autocomplete="off" value="<?php echo $selectedDate; ?>">
+                                                </div>
                                             </div>
-                                            <?php if ($selectedDate): ?>
-                                                <small class="text-muted d-block mt-1">
-                                                    Selected Date: <strong><?php echo date('d M Y', strtotime($selectedDate)); ?></strong>
-                                                </small>
-                                            <?php endif; ?>
+                                            <div class="d-flex flex-wrap align-items-end gap-2">
+                                                <button class="btn btn-primary" id="btn-filter">
+                                                    <i class="uil uil-filter me-1"></i> Filter
+                                                </button>
+                                                <button class="btn btn-secondary" id="btn-reset-filter">
+                                                    <i class="uil uil-redo me-1"></i> Reset
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div class="col-md-9 d-flex align-items-end flex-wrap gap-2">
-                                            <button class="btn btn-primary" id="btn-filter">
-                                                <i class="uil uil-filter me-1"></i> Filter
-                                            </button>
-                                            <button class="btn btn-secondary" id="btn-reset-filter">
-                                                <i class="uil uil-redo me-1"></i> Reset
-                                            </button>
+                                        <div class="ms-auto d-flex flex-wrap align-items-end gap-2">
                                             <a href="#" class="btn btn-success btn-bank-action" id="btn-deposit" data-bs-toggle="modal" data-bs-target="#depositModal">
                                                 <i class="uil uil-money-insert me-1"></i> Bank Deposit
                                             </a>
@@ -111,7 +110,14 @@ $ref_no = 'CB/' . str_pad(($lastId + 1), 5, '0', STR_PAD_LEFT);
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="balance-card">
-                                <h5 class="mb-0">Balance in Hand</h5>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">Balance in Hand</h5>
+                                    <?php if ($selectedDate): ?>
+                                        <small class="text-light">
+                                            Selected Date: <strong><?php echo date('d M Y', strtotime($selectedDate)); ?></strong>
+                                        </small>
+                                    <?php endif; ?>
+                                </div>
                                 <div class="balance-amount" id="balance-in-hand">
                                     <?php 
                                     $balance = $CASHBOOK->getBalanceInHand($dateFrom, $dateTo);
@@ -292,7 +298,7 @@ $ref_no = 'CB/' . str_pad(($lastId + 1), 5, '0', STR_PAD_LEFT);
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="withdrawalModalLabel">Bank Withdrawal</h5>
+                    <h5 class="modal-title" id="withdrawalModalLabel">Withdrawal</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
