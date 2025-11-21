@@ -207,7 +207,7 @@ include './auth.php';
                                                 <label for="customerName" class="form-label">Customer Name <span class="text-danger">*</span></label>
                                                 <div class="input-group mb-3">
                                                     <input id="customer_name" name="customer_name" type="text"
-                                                        class="form-control" placeholder="Enter Customer Name">
+                                                        class="form-control" placeholder="Enter Customer Name" readonly>
                                                 </div>
                                             </div>
 
@@ -216,7 +216,7 @@ include './auth.php';
                                                     Address</label>
                                                 <div class="input-group mb-3">
                                                     <input id="customer_address" name="customer_address" type="text"
-                                                        class="form-control" placeholder="Enter customer address">
+                                                        class="form-control" placeholder="Enter customer address" readonly>
                                                 </div>
                                             </div>
 

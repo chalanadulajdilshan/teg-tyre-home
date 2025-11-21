@@ -1882,13 +1882,8 @@ jQuery(document).ready(function () {
   $("#customer_name").on("click", function () {
     // Clear customer-related fields
 
-    $("#customer_name").val("");
-    $("#customer_address").val("");
-    $("#customer_mobile").val("");
-    $("#recommended_person").val("");
-
-    // Set focus back to customer name for better UX
-    $(this).val("").focus();
+    // Set focus back to customer code search for better UX
+    $("#customer_code").focus();
   });
 
   $("#quotationBtn").on("click", function () {
