@@ -247,6 +247,7 @@ jQuery(document).ready(function ($) {
     $('#btn-filter').on('click', function(e) {
         e.preventDefault();
         const date = $('#date').val();
+        const dateTo = $('#date_to').val();
 
         if (!date) {
             swal({
@@ -259,9 +260,16 @@ jQuery(document).ready(function ($) {
         }
 
         // Reload page with single date parameter
-        window.location.href = `cashbook.php?date=${date}`;
+        window.location.href = `cashbook.php?date=${date}&date_to=${dateTo}`;
     });
 
+
+    // Reset filter
+    $('#btn-reset-filter').on('click', function(e) {
+        e.preventDefault();
+        window.location.href = 'cashbook.php';
+    });
+    
     // Update ref number and current balance when bank modals are opened
     $('#depositModal, #withdrawalModal').on('show.bs.modal', function () {
         // Get next reference number

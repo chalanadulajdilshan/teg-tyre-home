@@ -17,12 +17,8 @@
                                         <th>Code</th>
                                         <th>Name</th>
                                         <th>Mobile Number</th>
-                                        <th>Email</th>
-                                        <th>Category</th>
-                                        <th>Province</th>
-                                        <th>Credit Discount</th>
-                                        <th>Is Vat</th>
-                                        <th>Status</th>
+                                        <th>Email</th>  
+                                        <th>Credit Discount</th> 
                                     </tr>
                                 </thead>
                         </table>

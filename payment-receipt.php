@@ -490,11 +490,8 @@ $payment_receipt_id = $COMPANY_PROFILE_DETAILS->company_code . '/CPR/00/0' . ($l
                                                 <th>Code</th>
                                                 <th>Name</th>
                                                 <th>Mobile Number</th>
-                                                <th>email</th>
-                                                <th>category</th>
-                                                <th>province</th>
-                                                <th>credit_limit</th>
-                                                <th>outstanding</th>
+                                                <th>Email</th> 
+                                                <th>Outstanding</th>
 
                                             </tr>
                                         </thead>

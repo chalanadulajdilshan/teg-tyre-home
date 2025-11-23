@@ -671,8 +671,7 @@ $arn_id = $COMPANY_PROFILE_DETAILS->company_code . '/ARN/00/' . ($lastId + 1);
                                         <th>ARN No</th>
                                         <th>Supplier </th>
                                         <th>Invoice No</th>
-                                        <th>Invoice Date</th>
-                                        <th>Department</th>
+                                        <th>Invoice Date</th> 
                                         <th>Grand Total</th>
                                         <th>Paid Amount</th>
                                     </tr>
@@ -683,7 +682,6 @@ $arn_id = $COMPANY_PROFILE_DETAILS->company_code . '/ARN/00/' . ($lastId + 1);
                                     $ARN_MASTER = new ArnMaster(null);
                                     foreach ($ARN_MASTER->all() as $key => $arn_master) {
                                         $CUSTOMER_MASTER = new CustomerMaster($arn_master['supplier_id']);
-                                        $DEPARTMENT_MASTER = new DepartmentMaster($arn_master['department']);
                                         $key++;
 
                                         $is_cancelled = isset($arn_master['is_cancelled']) && $arn_master['is_cancelled'] == 1;
@@ -726,8 +724,7 @@ $arn_id = $COMPANY_PROFILE_DETAILS->company_code . '/ARN/00/' . ($lastId + 1);
                                             </td>
                                             <td><?= htmlspecialchars(($CUSTOMER_MASTER->code ?? '') . ' - ' . ($CUSTOMER_MASTER->name ?? '')); ?></td>
                                             <td><?= htmlspecialchars($arn_master['ci_no'] ?? ''); ?></td>
-                                            <td><?= htmlspecialchars($arn_master['invoice_date'] ?? ''); ?></td>
-                                            <td><?= htmlspecialchars($DEPARTMENT_MASTER->name ?? ''); ?></td>
+                                            <td><?= htmlspecialchars($arn_master['invoice_date'] ?? ''); ?></td> 
                                             <td class="text-end"><?= number_format($arn_master['total_arn_value'] ?? 0, 2); ?></td>
                                             <td class="text-end"><?= number_format($arn_master['paid_amount'] ?? 0, 2); ?></td>
                                         </tr>

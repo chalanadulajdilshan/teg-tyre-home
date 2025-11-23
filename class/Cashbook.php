@@ -107,6 +107,36 @@ class Cashbook
         return $array;
     }
 
+    public function getByDate($dateFrom, $dateTo)
+    {
+        $dateFrom = $dateFrom . " 00:00:00";
+        $dateTo   = $dateTo . " 23:59:59";
+
+        
+
+        $query = "
+    SELECT 
+        ct.*,
+        b.name AS bank_name,
+        br.name AS branch_name
+    FROM cashbook_transactions ct
+    LEFT JOIN banks b ON ct.bank_id = b.id
+    LEFT JOIN branches br ON ct.branch_id = br.id
+    WHERE ct.created_at BETWEEN '$dateFrom' AND '$dateTo'
+    ORDER BY ct.created_at DESC
+";
+ 
+        $db = new Database();
+        $result = $db->readQuery($query);
+
+        $array = [];
+        while ($row = mysqli_fetch_array($result)) {
+            array_push($array, $row);
+        }
+
+        return $array;
+    }
+
     public function getLastID()
     {
         $query = "SELECT * FROM `cashbook_transactions` ORDER BY `id` DESC LIMIT 1";
@@ -228,7 +258,7 @@ class Cashbook
                          $whereDeposit AND transaction_type = 'deposit'";
         $resultDeposit = mysqli_fetch_array($db->readQuery($queryDeposits));
         $totalDeposits = (float) $resultDeposit['total'];
-        
+
         // Bank withdrawals (treat as out / reduce cash)
         $whereWithdrawals = str_replace('e.expense_date', 'created_at', $where);
         $queryWithdrawals = "SELECT COALESCE(SUM(amount), 0) as total 
@@ -245,15 +275,15 @@ class Cashbook
     {
         // Get all transactions and return the final balance
         $transactions = $this->getAllTransactionsDetailed($dateFrom, $dateTo);
-        
+
         if (empty($transactions)) {
             return $this->getOpeningBalance();
         }
-        
+
         // Get the last transaction's balance
         $lastTransaction = end($transactions);
         $balance = (float)str_replace(',', '', $lastTransaction['balance']);
-        
+
         return $balance;
     }
 
@@ -283,7 +313,7 @@ class Cashbook
             if ($prevDate >= $firstTransactionDate) {
                 // Get previous day's closing balance by calling this method recursively
                 $prevDayTransactions = $this->getAllTransactionsDetailed($prevDate, $prevDate);
-                
+
                 if (!empty($prevDayTransactions)) {
                     // Get the last transaction's balance (which is the closing balance)
                     $lastTransaction = end($prevDayTransactions);
@@ -309,7 +339,7 @@ class Cashbook
 
         $runningBalance = $openingBalance;
         $where = " WHERE 1=1";
-        
+
         if ($dateFrom && $dateTo) {
             $dateFrom = mysqli_real_escape_string($db->DB_CON, $dateFrom);
             $dateTo = mysqli_real_escape_string($db->DB_CON, $dateTo);
@@ -484,7 +514,7 @@ class Cashbook
         }
 
         // Sort by date
-        usort($transactions, function($a, $b) {
+        usort($transactions, function ($a, $b) {
             return strcmp($a['sort_date'], $b['sort_date']);
         });
 
@@ -494,10 +524,10 @@ class Cashbook
             // Get the debit and credit amounts (remove formatting)
             $debit = (float)str_replace(',', '', $transaction['debit']);
             $credit = (float)str_replace(',', '', $transaction['credit']);
-            
+
             // Update running balance
             $runningBalance += $debit - $credit;
-            
+
             // Update the balance in the transaction
             $transaction['balance'] = number_format($runningBalance, 2);
         }

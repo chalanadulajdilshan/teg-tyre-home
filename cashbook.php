@@ -9,8 +9,9 @@ $BRANCH = new Branch();
 
 // Get specific date from URL (no range), defaulting to today
 $selectedDate = isset($_GET['date']) && !empty($_GET['date']) ? $_GET['date'] : date('Y-m-d');
+$selectedDateTo = isset($_GET['date_to']) && !empty($_GET['date_to']) ? $_GET['date_to'] : date('Y-m-d');
 $dateFrom = $selectedDate;
-$dateTo = $selectedDate;
+$dateTo = $selectedDateTo;
 
 // Get the last inserted transaction id
 $lastId = $CASHBOOK->getLastID();
@@ -76,10 +77,17 @@ $ref_no = 'CB/' . str_pad(($lastId + 1), 5, '0', STR_PAD_LEFT);
                                     <div class="d-flex flex-wrap align-items-end gap-3">
                                         <div class="d-flex flex-wrap align-items-end gap-2">
                                             <div class="me-2">
-                                                <label for="date" class="form-label">Date</label>
+                                                <label for="date" class="form-label">Date From</label>
                                                 <div class="input-group">
-                                                    <span class="input-group-text"><i class="ri-calendar-line"></i></span>
+                                                    <span class="input-group-text"><i class="uil uil-calendar-alt"></i></span>
                                                     <input type="text" class="form-control date-picker cashbook-date" id="date" name="date" autocomplete="off" value="<?php echo $selectedDate; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="me-2">
+                                                <label for="date_to" class="form-label">Date To</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="uil uil-calendar-alt"></i></span>
+                                                    <input type="text" class="form-control date-picker cashbook-date" id="date_to" name="date_to" autocomplete="off" value="<?php echo $selectedDateTo; ?>">
                                                 </div>
                                             </div>
                                             <div class="d-flex flex-wrap align-items-end gap-2">
@@ -104,7 +112,7 @@ $ref_no = 'CB/' . str_pad(($lastId + 1), 5, '0', STR_PAD_LEFT);
                             </div>
                         </div>
                     </div>
-                    
+
 
                     <!-- Balance Card -->
                     <div class="row">
@@ -119,16 +127,16 @@ $ref_no = 'CB/' . str_pad(($lastId + 1), 5, '0', STR_PAD_LEFT);
                                     <?php endif; ?>
                                 </div>
                                 <div class="balance-amount" id="balance-in-hand">
-                                    <?php 
+                                    <?php
                                     $balance = $CASHBOOK->getBalanceInHand($dateFrom, $dateTo);
-                                    echo number_format($balance, 2); 
+                                    echo number_format($balance, 2);
                                     ?>
                                 </div>
-                                <small>As of <?php echo date('d M Y, h:i A'); 
-                                if ($selectedDate) {
-                                    echo ' (Date: ' . date('d M Y', strtotime($selectedDate)) . ')';
-                                }
-                                ?></small>
+                                <small>As of <?php echo date('d M Y, h:i A');
+                                                if ($selectedDate) {
+                                                    echo ' (Date: ' . date('d M Y', strtotime($selectedDate)) . ')';
+                                                }
+                                                ?></small>
                             </div>
                         </div>
                     </div>
@@ -208,18 +216,22 @@ $ref_no = 'CB/' . str_pad(($lastId + 1), 5, '0', STR_PAD_LEFT);
                                             </thead>
                                             <tbody id="bank-transactions-tbody">
                                                 <?php
-                                                $bankTransactions = $CASHBOOK->all();
-                                                foreach ($bankTransactions as $transaction) {
-                                                    $typeClass = $transaction['transaction_type'] == 'deposit' ? 'badge bg-danger' : 'badge bg-success';
-                                                    echo '<tr>';
-                                                    echo '<td>' . date('d M Y, h:i A', strtotime($transaction['created_at'])) . '</td>';
-                                                    echo '<td>' . $transaction['ref_no'] . '</td>';
-                                                    echo '<td><span class="' . $typeClass . '">' . ucfirst($transaction['transaction_type']) . '</span></td>';
-                                                    echo '<td>' . ($transaction['bank_name'] ?? 'N/A') . '</td>';
-                                                    echo '<td>' . ($transaction['branch_name'] ?? 'N/A') . '</td>';
-                                                    echo '<td class="text-end">' . number_format($transaction['amount'], 2) . '</td>';
-                                                    echo '<td>' . ($transaction['remark'] ?? '') . '</td>';
-                                                    echo '</tr>';
+                                                $bankTransactions = $CASHBOOK->getByDate($dateFrom, $dateTo);
+                                                if (empty($bankTransactions)) {
+                                                    echo '<tr><td colspan="7" class="text-center py-4">No data available for the selected date range</td></tr>';
+                                                } else {
+                                                    foreach ($bankTransactions as $transaction) {
+                                                        $typeClass = $transaction['transaction_type'] == 'deposit' ? 'badge bg-danger' : 'badge bg-success';
+                                                        echo '<tr>';
+                                                        echo '<td>' . date('d M Y, h:i A', strtotime($transaction['created_at'])) . '</td>';
+                                                        echo '<td>' . $transaction['ref_no'] . '</td>';
+                                                        echo '<td><span class="' . $typeClass . '">' . ucfirst($transaction['transaction_type']) . '</span></td>';
+                                                        echo '<td>' . ($transaction['bank_name'] ?? 'N/A') . '</td>';
+                                                        echo '<td>' . ($transaction['branch_name'] ?? 'N/A') . '</td>';
+                                                        echo '<td class="text-end">' . number_format($transaction['amount'], 2) . '</td>';
+                                                        echo '<td>' . ($transaction['remark'] ?? '') . '</td>';
+                                                        echo '</tr>';
+                                                    }
                                                 }
                                                 ?>
                                             </tbody>

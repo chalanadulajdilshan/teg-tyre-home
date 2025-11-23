@@ -122,7 +122,7 @@ if (isset($_POST['create-invoice-customer'])) {
     if ($res) {
 
         $CUSTOMER = new CustomerMaster($res);
-        echo json_encode(["status" => "success", "customer_id" => $CUSTOMER->code, "customer_name" => trim(($CUSTOMER->name ?? '') . ' ' . ($CUSTOMER->name_2 ?? '')), "customer_name_2" => $CUSTOMER->name_2, "customer_address" => $CUSTOMER->address, "customer_mobile_number" => $CUSTOMER->mobile_number]);
+        echo json_encode(["status" => "success",  "customer_id" => $CUSTOMER->id, "customer_code" => $CUSTOMER->code, "customer_name" => trim(($CUSTOMER->name ?? '') . ' ' . ($CUSTOMER->name_2 ?? '')), "customer_name_2" => $CUSTOMER->name_2, "customer_address" => $CUSTOMER->address, "customer_mobile_number" => $CUSTOMER->mobile_number]);
         exit();
     } else {
         echo json_encode(["status" => "error"]);
