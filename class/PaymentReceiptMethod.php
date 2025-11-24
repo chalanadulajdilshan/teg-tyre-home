@@ -148,4 +148,52 @@ class PaymentReceiptMethod
         $db = new Database();
         return $db->readQuery($query);
     }
+
+
+  public function getByDateRange($date, $dateTo)
+{
+    if (empty($date) || empty($dateTo)) {
+        return [];
+    }
+
+    $db = new Database();
+    $date = $db->escapeString($date);
+    $dateTo = $db->escapeString($dateTo);
+
+    $query = "SELECT 
+                prm.id,
+                prm.receipt_id,
+                prm.invoice_id,
+                prm.payment_type_id,
+                prm.amount,
+                prm.cheq_no,
+                prm.bank_id,
+                prm.branch_id,
+                prm.cheq_date,
+                prm.is_settle,
+                prm.cheq_date as entry_date,
+                b.name AS bank_name,
+                br.name AS branch_name
+            FROM `payment_receipt_method` prm
+            LEFT JOIN `banks` b ON prm.bank_id = b.id
+            LEFT JOIN `branches` br ON prm.branch_id = br.id
+            WHERE prm.payment_type_id = 2
+              AND prm.cheq_date BETWEEN '{$date}' AND '{$dateTo}'
+            ORDER BY prm.id ASC";
+
+    $result = $db->readQuery($query);
+    $array = [];
+
+    while ($row = mysqli_fetch_array($result)) {
+
+        $BANK = new Bank($row['bank_id']);
+        $BRANCH = new Branch($row['branch_id']);
+        $row['bank_name'] = $BANK->name;
+        $row['branch_name'] = $BRANCH->name;
+        
+        $array[] = $row;
+    }
+
+    return $array;
+}
 }

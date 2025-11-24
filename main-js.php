@@ -50,6 +50,6 @@
         });
 
         // Initialize datatables
-        $('#dagTable,#paymentReceiptTable,#arn_table, #maindagTable, .datatable').DataTable();
+        $('#dagTable,#paymentReceiptTable,#arn_table,#pending-check-table,#maindagTable, .datatable').DataTable();
     });
 </script>
