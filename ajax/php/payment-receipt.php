@@ -39,11 +39,17 @@ if (isset($_POST['create'])) {
                     $PAYMENT_RECEIPT_METHOD->payment_type_id = $method['payment_type_id'] ?? null;
                     $PAYMENT_RECEIPT_METHOD->amount = $method['amount'] ?? 0;
                     $PAYMENT_RECEIPT_METHOD->cheq_no = $method['cheq_no'] ?? null;
-                    $PAYMENT_RECEIPT_METHOD->bank_id = $method['bank_id'] ?? null;
                     $PAYMENT_RECEIPT_METHOD->branch_id = $method['branch_id'] ?? null;
                     $PAYMENT_RECEIPT_METHOD->cheq_date = $method['cheq_date'] ?? null;
+                    $PAYMENT_RECEIPT_METHOD->bank_id = $method['bank_id'] ?? null;
 
-                    $PAYMENT_RECEIPT_METHOD->create();
+                    // Derive bank_id from branch_id when not provided explicitly
+                    if (empty($PAYMENT_RECEIPT_METHOD->bank_id) && !empty($PAYMENT_RECEIPT_METHOD->branch_id)) {
+                        $BRANCH = new Branch($PAYMENT_RECEIPT_METHOD->branch_id);
+                        $PAYMENT_RECEIPT_METHOD->bank_id = $BRANCH->bank_id;
+                    }
+
+                    $methodId = $PAYMENT_RECEIPT_METHOD->create();
 
                     // Update invoice outstanding if invoice_id is provided
                     if (!empty($PAYMENT_RECEIPT_METHOD->invoice_id)) {
@@ -52,8 +58,8 @@ if (isset($_POST['create'])) {
 
                         // Check if invoice is fully settled
                         $SALES_INVOICE_ = new SalesInvoice($PAYMENT_RECEIPT_METHOD->invoice_id);
-                        if ($SALES_INVOICE_->outstanding_settle_amount >= $SALES_INVOICE_->grand_total) {
-                            $PAYMENT_RECEIPT_METHOD->updateIsSettle($PAYMENT_RECEIPT_METHOD->id);
+                        if ($SALES_INVOICE_->outstanding_settle_amount >= $SALES_INVOICE_->grand_total && $methodId) {
+                            $PAYMENT_RECEIPT_METHOD->updateIsSettle($methodId);
                         }
                     }
                 }
@@ -85,6 +91,11 @@ if (isset($_POST['create'])) {
                         $PAYMENT_RECEIPT_METHOD->cheq_no = $_POST['cheque_no'][$index] ?? '';
                         $PAYMENT_RECEIPT_METHOD->branch_id = $_POST['bank_branch'][$index] ?? null;
                         $PAYMENT_RECEIPT_METHOD->cheq_date = $_POST['cheque_date'][$index] ?? null;
+
+                        if (!empty($PAYMENT_RECEIPT_METHOD->branch_id)) {
+                            $BRANCH = new Branch($PAYMENT_RECEIPT_METHOD->branch_id);
+                            $PAYMENT_RECEIPT_METHOD->bank_id = $BRANCH->bank_id;
+                        }
                     }
                     $res1 = $PAYMENT_RECEIPT_METHOD->create();
                 }
