@@ -5,10 +5,6 @@ include './auth.php';
 
 //doc id get by session 
 $DOCUMENT_TRACKING = new DocumentTracking($doc_id);
-
-// Get the last purchase return if 
-$lastId = $DOCUMENT_TRACKING->sales_return_id;
-$sales_return_id = $COMPANY_PROFILE_DETAILS->company_code . '/SR/00/0' . $lastId + 1;
 ?>
 
 <html lang="en">
@@ -16,7 +12,7 @@ $sales_return_id = $COMPANY_PROFILE_DETAILS->company_code . '/SR/00/0' . $lastId
 <head>
 
     <meta charset="utf-8" />
-    <title>Sales Return | <?php echo $COMPANY_PROFILE_DETAILS->name ?></title>
+    <title>Sales Return | Minible - Admin & Dashboard Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="<?php echo $COMPANY_PROFILE_DETAILS->name ?>" name="author" />
     <!-- include main CSS -->
@@ -51,21 +47,15 @@ $sales_return_id = $COMPANY_PROFILE_DETAILS->company_code . '/SR/00/0' . $lastId
                                 </a>
 
                                 <?php if ($PERMISSIONS['add_page']): ?>
-                                    <a href="#" class="btn btn-primary" id="create">
-                                        <i class="uil uil-save me-1"></i> Save
-                                    </a>
+                                <a href="#" class="btn btn-primary" id="create">
+                                    <i class="uil uil-save me-1"></i> Save
+                                </a>
                                 <?php endif; ?>
 
                                 <?php if ($PERMISSIONS['print_page']): ?>
-                                    <a href="#" class="btn btn-primary" id="print">
-                                        <i class="uil uil-save me-1"></i> Print
-                                    </a>
-                                <?php endif; ?>
-
-                                <?php if ($PERMISSIONS['delete_page']): ?>
-                                    <a href="#" class="btn btn-danger delete-category">
-                                        <i class="uil uil-trash-alt me-1"></i> Delete
-                                    </a>
+                                <a href="#" class="btn btn-primary" id="print">
+                                    <i class="uil uil-save me-1"></i> Print
+                                </a>
                                 <?php endif; ?>
 
                             </div>
@@ -73,11 +63,14 @@ $sales_return_id = $COMPANY_PROFILE_DETAILS->company_code . '/SR/00/0' . $lastId
                             <div class="col-md-4 text-md-end text-start mt-3 mt-md-0">
                                 <ol class="breadcrumb m-0 justify-content-md-end">
                                     <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
-                                    <li class="breadcrumb-item active">GRN </li>
+                                    <li class="breadcrumb-item active">Sales Return </li>
                                 </ol>
                             </div>
                         </div>
-                        <!--- Hidden Values --> 
+                        <!--- Hidden Values -->
+                        <input type="hidden" id="item_id">
+                        <input type="hidden" id="availableQty">
+                        <input type="hidden" id="return_id">
 
                         <!-- end page title -->
 
@@ -112,14 +105,14 @@ $sales_return_id = $COMPANY_PROFILE_DETAILS->company_code . '/SR/00/0' . $lastId
                                             <div class="row">
 
                                                 <div class="col-md-2">
-                                                    <label for="GRN_No" class="form-label">Ref No</label>
+                                                    <label for="return_no" class="form-label">Ref No</label>
                                                     <div class="input-group mb-3">
-                                                        <input id="grn_no" name="grn_no" type="text"
-                                                            placeholder="GRN No" class="form-control"
-                                                            value="<?php echo $sales_return_id ?>" readonly>
+                                                        <input id="return_no" name="return_no" type="text"
+                                                            placeholder="Auto-generated on save" class="form-control"
+                                                            value="" readonly>
 
                                                         <button class="btn btn-info" type="button"
-                                                            data-bs-toggle="modal" data-bs-target="#grn_no">
+                                                            data-bs-toggle="modal" data-bs-target="#salesReturnModal">
                                                             <i class="uil uil-search me-1"></i>
                                                         </button>
 
@@ -127,13 +120,33 @@ $sales_return_id = $COMPANY_PROFILE_DETAILS->company_code . '/SR/00/0' . $lastId
                                                 </div>
 
                                                 <div class="col-md-2">
-                                                    <label class="form-label" for="date">Date</label>
-                                                    <input id="date" name="date" type="text" class="form-control"
+                                                    <label class="form-label" for="return_date">Return Date</label>
+                                                    <input id="return_date" name="return_date" type="text" class="form-control date-picker"
                                                         placeholder="Select Sales Return Date">
                                                 </div>
 
+                                                <div class="col-md-2">
+                                                    <label for="InvoiceCode" class="form-label">Invoice No</label>
+                                                    <div class="input-group mb-3">
+                                                        <input id="invoice_no" name="invoice_no" type="text"
+                                                            class="form-control" placeholder="Select Invoice" readonly>
+                                                        <button class="btn btn-info" type="button" data-bs-toggle="modal"
+                                                            data-bs-target="#invoiceModal" >
+                                                            <i class="uil uil-search me-1"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <!-- INVOICE ID HIDDEN -->
+                                                <input type="hidden" id="invoice_id" name="invoice_id" />
+                                                <input type="hidden" id="customer_id" name="customer_id" />
 
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
+                                                    <label class="form-label" for="invoice_date">Invoice Date</label>
+                                                    <input id="invoice_date" name="invoice_date" type="text" class="form-control"
+                                                        placeholder="Invoice Date" readonly>
+                                                </div>
+
+                                                <div class="col-md-2">
                                                     <label for="Department" class="form-label">Department</label>
                                                     <div class="input-group mb-3">
                                                         <select id="department_id" name="department_id"
@@ -143,7 +156,7 @@ $sales_return_id = $COMPANY_PROFILE_DETAILS->company_code . '/SR/00/0' . $lastId
                                                             foreach ($DEPARTMENT_MASTER->getActiveDepartment() as $departments) {
                                                                 if ($US->type != 1) {
                                                                     if ($departments['id'] = $US->department_id) {
-                                                            ?>
+                                                                        ?>
                                                                         <option value="<?php echo $departments['id'] ?>">
                                                                             <?php echo $departments['name'] ?>
                                                                         </option>
@@ -153,15 +166,20 @@ $sales_return_id = $COMPANY_PROFILE_DETAILS->company_code . '/SR/00/0' . $lastId
                                                                     <option value="<?php echo $departments['id'] ?>">
                                                                         <?php echo $departments['name'] ?>
                                                                     </option>
-                                                            <?php
+                                                                    <?php
                                                                 }
                                                             } ?>
                                                         </select>
                                                     </div>
                                                 </div>
 
-
-
+                                                <div class="col-md-2">
+                                                    <label for="payment_type" class="form-label">Payment Type</label>
+                                                    <div class="input-group mb-3">
+                                                        <input id="payment_type" name="payment_type" type="text"
+                                                            class="form-control" readonly>
+                                                    </div>
+                                                </div>
 
 
                                                 <div class="col-md-2">
@@ -169,14 +187,10 @@ $sales_return_id = $COMPANY_PROFILE_DETAILS->company_code . '/SR/00/0' . $lastId
                                                     <div class="input-group mb-3">
                                                         <input id="customer_code" name="customer_code" type="text"
                                                             placeholder="Customer code" class="form-control" readonly>
-                                                        <button class="btn btn-info" type="button"
-                                                            data-bs-toggle="modal" data-bs-target="#customerModal">
-                                                            <i class="uil uil-search me-1"></i>
-                                                        </button>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <label for="customerName" class="form-label">Customer Name</label>
                                                     <div class="input-group mb-3">
                                                         <input id="customer_name" name="customer_name" type="text"
@@ -185,30 +199,37 @@ $sales_return_id = $COMPANY_PROFILE_DETAILS->company_code . '/SR/00/0' . $lastId
                                                     </div>
                                                 </div>
 
-
-
-                                                <div class="col-md-2">
-                                                    <label for="InvoiceNo" class="form-label">Invoice No</label>
+                                                <div class="col-md-4">
+                                                    <label for="customerAddress" class="form-label">Customer
+                                                        Address</label>
                                                     <div class="input-group mb-3">
-                                                        <input id="invoice_no" name="invoice_no" type="text"
-                                                            placeholder="Invoice No" class="form-control" readonly>
-
-                                                        <button class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#invoiceModal">
-                                                            <i class="uil uil-search me-1"></i>
-                                                        </button>
+                                                        <input id="customer_address" name="customer_address" type="text"
+                                                            class="form-control" placeholder="Enter customer address"
+                                                            readonly>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-2">
-                                                    <label class="form-label" for="date">Invoice Date</label>
-                                                    <input id="date" name="date" type="text" class="form-control"
-                                                        placeholder="Invoice Date" readonly>
+                                                <div class="col-md-3">
+                                                    <label for="MarketingExecutive" class="form-label">Marketing
+                                                        Executive</label>
+                                                    <div class="input-group mb-3">
+                                                        <input id="marketing_executive" name="marketing_executive" type="text"
+                                                            class="form-control" readonly>
+                                                    </div>
                                                 </div>
-
-
 
                                                 <hr class="my-4">
 
+                                                <div class="row mb-3">
+                                                    <div class="col-md-12">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="is_damaged" name="is_damaged" value="1">
+                                                            <label class="form-check-label" for="is_damaged">
+                                                                <strong>Damage Items</strong> - Check this if the returned items are damaged and should not be returned to stock
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                                 <h5 class="mb-3">Item Details</h5>
 
@@ -218,25 +239,24 @@ $sales_return_id = $COMPANY_PROFILE_DETAILS->company_code . '/SR/00/0' . $lastId
                                                         <thead class="table-light">
                                                             <tr>
                                                                 <th>Code</th>
-                                                                <th>Description</th>
-                                                                <th>Rate</th>
-                                                                <th>Qty</th>
-                                                                <th>Pre. Req. Qty</th>
-                                                                <th>Req. Qty</th>
-                                                                <th>Discount</th>
+                                                                <th>Name</th>
+                                                                <th>Selling Price</th>
+                                                                <th>Invoice Qty</th>
+                                                                <th>Return Qty</th>
                                                                 <th>Sub Total</th>
+                                                                <th>Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="invoiceItemsBody">
                                                             <tr id="noItemRow">
-                                                                <td colspan="8" class="text-center text-muted">No items
+                                                                <td colspan="7" class="text-center text-muted">No items
                                                                     added</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
 
                                                 </div>
-
+                                              
                                                 <div class="row">
                                                     <div class="col-md-8">
 
@@ -253,31 +273,6 @@ $sales_return_id = $COMPANY_PROFILE_DETAILS->company_code . '/SR/00/0' . $lastId
                                                             <div class="row mb-2">
                                                                 <div class="col-7">
                                                                     <input type="text"
-                                                                        class="form-control text_purchase3"
-                                                                        value="Sub Total" disabled>
-                                                                </div>
-                                                                <div class="col-5">
-                                                                    <input type="text" class="form-control"
-                                                                        id="subTotal" value="0.00" disabled>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="row mb-2">
-                                                                <div class="col-7">
-                                                                    <input type="text"
-                                                                        class="form-control text_purchase3"
-                                                                        value="Discount Total:" disabled>
-                                                                </div>
-                                                                <div class="col-5">
-                                                                    <input type="text" class="form-control"
-                                                                        id="disTotal" value="0.00" disabled>
-                                                                </div>
-                                                            </div>
-
-
-                                                            <div class="row mb-2">
-                                                                <div class="col-7">
-                                                                    <input type="text"
                                                                         class="form-control text_purchase3 fw-bold"
                                                                         value="Grand Total:" disabled>
                                                                 </div>
@@ -288,9 +283,9 @@ $sales_return_id = $COMPANY_PROFILE_DETAILS->company_code . '/SR/00/0' . $lastId
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> 
 
-
+                                                
                                             </div>
 
 
@@ -317,14 +312,13 @@ $sales_return_id = $COMPANY_PROFILE_DETAILS->company_code . '/SR/00/0' . $lastId
         <script src="assets/libs/jquery/jquery.min.js"></script>
 
         <!-- /////////////////////////// -->
-        <script src="ajax/js/sales-invoice.js"></script>
-        <script src="ajax/js/common.js"></script>
-        <script src="ajax/js/customer-master.js"></script>
+
 
 
         <!-- include main js  -->
         <?php include 'main-js.php' ?>
 
-    </body>
+        <script src="ajax/js/sales-return.js"></script>
 
+    </body>
 </html>

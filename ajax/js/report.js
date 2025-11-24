@@ -495,6 +495,7 @@ jQuery(document).ready(function () {
                 const data = response.sales_data || response; // Fallback for backward compatibility
                 const totalExpenses = parseFloat(response.total_expenses) || 0;
                 const totalDailyIncome = parseFloat(response.total_daily_income) || 0;
+                const totalReturns = parseFloat(response.total_returns) || 0;
 
                 if (data.length > 0) {
                     $.each(data, function (index, row) {
@@ -533,7 +534,7 @@ jQuery(document).ready(function () {
                     });
 
                     // Calculate final profit after expenses (Total Sales Profit - Total Expenses)
-                    const finalProfit = totalProfit - totalExpenses + totalDailyIncome;
+                    const finalProfit = totalProfit - totalExpenses - totalReturns + totalDailyIncome;
 
                     // Add summary rows
                     tbody += `<tr style="font-weight:bold; background-color:#f8f9fa; border-top: 2px solid #dee2e6;">
@@ -542,6 +543,13 @@ jQuery(document).ready(function () {
                         <td>${totalGrandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                         <td style="color: #28a745;">
                             ${totalProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </td>
+                    </tr>`;
+                                // Add return row
+                                tbody += `<tr class="return-total-row" style="font-weight:bold; background-color:#f8d7da; border: 1px solid #f5c6cb; cursor: pointer;" onmouseover="this.style.backgroundColor='#f5c6cb'" onmouseout="this.style.backgroundColor='#f8d7da'">
+                        <td colspan="10" class="text-end">Total Return Value</td>
+                        <td style="color: #721c24;">
+                            (${totalReturns.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })})
                         </td>
                     </tr>`;
 
@@ -579,7 +587,7 @@ jQuery(document).ready(function () {
 
                     // Add final profit row - show profit-expense calculation under profit column
                     tbody += `<tr style="font-weight:bold; background-color:#d1ecf1; border: 2px solid #bee5eb;">
-                        <td colspan="10" class="text-end">Final Profit (After Expenses)</td>
+                        <td colspan="10" class="text-end">Final Profit (After Expenses & Returns)</td>
                         <td style="color: ${finalProfit >= 0 ? '#155724' : '#721c24'}; font-size: 1.1em;">
                             ${finalProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </td>
@@ -612,6 +620,16 @@ jQuery(document).ready(function () {
         if (invoiceId) {
             window.location.href = `sales-invoice-view.php?invoice_id=${invoiceId}`;
         }
+    });
+
+    $('#profitReport tbody').on('click', '.return-total-row', function () {
+        let fromDate = $('#from_date').val();
+        let toDate = $('#to_date').val();
+        let url = `return-items-report.php`;
+        if (fromDate && toDate) {
+            url += `?from_date=${encodeURIComponent(fromDate)}&to_date=${encodeURIComponent(toDate)}`;
+        }
+        window.location.href = url;
     });
 
 });

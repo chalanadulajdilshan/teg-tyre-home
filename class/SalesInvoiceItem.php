@@ -127,6 +127,44 @@ class SalesInvoiceItem
         return $array_res;
     }
 
+    // Get invoice items together with returned and available quantities
+    public function getByInvoiceIdWithReturns($invoice_id)
+    {
+        $db = new Database();
+        $invoice_id = (int)$invoice_id;
+
+        $query = "
+            SELECT 
+                sii.*, 
+                COALESCE(rt.returned_quantity, 0) AS returned_quantity,
+                (sii.quantity - COALESCE(rt.returned_quantity, 0)) AS available_quantity,
+                sii.price AS customer_price,
+                sii.list_price AS dealer_price
+            FROM `sales_invoice_items` sii
+            LEFT JOIN (
+                SELECT 
+                    sri.item_id,
+                    sr.invoice_id,
+                    SUM(sri.quantity) AS returned_quantity
+                FROM `sales_return_items` sri
+                INNER JOIN `sales_return` sr ON sri.return_id = sr.id
+                GROUP BY sri.item_id, sr.invoice_id
+            ) rt ON sii.item_code = rt.item_id AND sii.invoice_id = rt.invoice_id
+            WHERE sii.invoice_id = {$invoice_id}
+            ORDER BY sii.id ASC";
+
+        $result = $db->readQuery($query);
+        $items = [];
+
+        if ($result) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $items[] = $row;
+            }
+        }
+
+        return $items;
+    }
+
     public function all()
     {
         $query = "SELECT  * 
