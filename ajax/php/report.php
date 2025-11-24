@@ -51,6 +51,13 @@ if (isset($_POST['action']) && $_POST['action'] === 'load_profit_report') {
         $totalExpenses = $expense->getTotalExpensesByDateRange($filters['from_date'], $filters['to_date']);
     }
 
+    // Calculate total return value for the same date range
+    $totalReturns = 0;
+    if (!empty($filters['from_date']) && !empty($filters['to_date'])) {
+        $salesReturn = new SalesReturn(NULL);
+        $totalReturns = $salesReturn->getTotalReturnsByDateRange($filters['from_date'], $filters['to_date']);
+    }
+
     // Calculate total daily income for the same date range
     $totalDailyIncome = 0;
     if (!empty($filters['from_date']) && !empty($filters['to_date'])) {
@@ -62,7 +69,8 @@ if (isset($_POST['action']) && $_POST['action'] === 'load_profit_report') {
     $response = [
         'sales_data' => $items,
         'total_expenses' => $totalExpenses,
-        'total_daily_income' => $totalDailyIncome
+        'total_daily_income' => $totalDailyIncome,
+        'total_returns' => $totalReturns
     ];
 
     // Output JSON

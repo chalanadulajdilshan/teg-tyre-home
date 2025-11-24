@@ -164,6 +164,14 @@
             balanceAmount.value = (tot - 0).toFixed(2);
             // Add one fresh row
             createPaymentRow();
+
+            // Prefill the first payment row amount with the Final Total
+            const firstAmountInput = paymentRows.querySelector('.paymentAmount');
+            if (firstAmountInput && tot > 0) {
+                firstAmountInput.value = tot.toFixed(2);
+                // Recalculate Total Paid and Balance based on this default amount
+                updateTotals();
+            }
         });
 
         // Handle remove row button clicks (scoped to this modal)

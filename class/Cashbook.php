@@ -251,6 +251,13 @@ class Cashbook
         $resultArn = mysqli_fetch_array($db->readQuery($queryArn));
         $totalArn = (float) $resultArn['total'];
 
+        $whereSalesReturn = str_replace('e.expense_date', 'sr.return_date', $where);
+        $querySalesReturn = "SELECT COALESCE(SUM(sr.total_amount), 0) as total 
+                             FROM `sales_return` sr
+                             $whereSalesReturn";
+        $resultSalesReturn = mysqli_fetch_array($db->readQuery($querySalesReturn));
+        $totalSalesReturn = (float) $resultSalesReturn['total'];
+
         // Bank deposits (remove from cash)
         $whereDeposit = str_replace('e.expense_date', 'created_at', $where);
         $queryDeposits = "SELECT COALESCE(SUM(amount), 0) as total 
@@ -267,7 +274,7 @@ class Cashbook
         $resultWithdrawals = mysqli_fetch_array($db->readQuery($queryWithdrawals));
         $totalWithdrawals = (float) $resultWithdrawals['total'];
 
-        return $totalExpenses + $totalSupplierPayments + $totalArn + $totalDeposits + $totalWithdrawals;
+        return $totalExpenses + $totalSupplierPayments + $totalArn + $totalSalesReturn + $totalDeposits + $totalWithdrawals;
     }
 
     // Get balance in hand
@@ -408,6 +415,30 @@ class Cashbook
                 'doc' => $row['doc'],
                 'debit' => number_format($row['amount'], 2),
                 'credit' => '0.00',
+                'balance' => number_format($runningBalance, 2),
+                'sort_date' => $row['date']
+            ];
+        }
+
+        $whereSalesReturn = str_replace('invoice_date', 'sr.return_date', $where);
+        $query = "SELECT sr.return_date as date, sr.return_no as doc, sr.total_amount as amount,
+                         CONCAT('Sales Return - ', COALESCE(cm.name, '')) as description
+                  FROM sales_return sr
+                  LEFT JOIN sales_invoice si ON sr.invoice_id = si.id
+                  LEFT JOIN customer_master cm ON sr.customer_id = cm.id
+                  $whereSalesReturn
+                  ORDER BY sr.return_date ASC";
+        $result = $db->readQuery($query);
+        while ($row = mysqli_fetch_array($result)) {
+            $runningBalance -= (float)$row['amount'];
+            $transactions[] = [
+                'date' => date('Y-m-d', strtotime($row['date'])),
+                'account_type' => 'CASH',
+                'transaction' => 'OUT',
+                'description' => $row['description'],
+                'doc' => $row['doc'],
+                'debit' => '0.00',
+                'credit' => number_format($row['amount'], 2),
                 'balance' => number_format($runningBalance, 2),
                 'sort_date' => $row['date']
             ];

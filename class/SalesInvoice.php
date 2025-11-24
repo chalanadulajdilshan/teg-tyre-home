@@ -28,6 +28,7 @@ class SalesInvoice
     public $status;
     public $credit_period;
     public $due_date;
+    public $is_return;
 
     // Constructor to initialize the SalesInvoice object with an ID
     public function __construct($id = null)
@@ -64,6 +65,7 @@ class SalesInvoice
                 $this->status = $result['status'];
                 $this->credit_period = $result['credit_period'];
                 $this->due_date = $result['due_date'];
+                $this->is_return = $result['is_return'];
             }
         }
     }
@@ -129,6 +131,10 @@ class SalesInvoice
 
     public function cancel()
     {
+        // Check if invoice has been returned
+        if ($this->is_return == 1) {
+            return ['success' => false, 'reason' => 'returned', 'message' => 'Cannot cancel invoice that has been returned. Please process returns separately.'];
+        }
 
         // Use prepared statement to prevent SQL injection
         $query = "UPDATE `sales_invoice` SET `is_cancel` = 1 WHERE `id` = $this->id";
@@ -136,12 +142,40 @@ class SalesInvoice
         $db = new Database();
         $result = $db->readQuery($query); // Assuming your Database class supports parameters
 
-        if ($result) {
-
-            return true; // Return boolean instead of calling constructor
+         if ($result) {
+            return ['success' => true, 'message' => 'Invoice cancelled successfully'];
         } else {
-            return false;
+            return ['success' => false, 'reason' => 'database_error', 'message' => 'Database error occurred while cancelling invoice'];
         }
+    }
+
+
+    // Update is_return flag based on whether items have been returned
+    public function updateIsReturnFlag()
+    {
+        $query = "SELECT COUNT(*) as return_count FROM `sales_return` WHERE `invoice_id` = {$this->id}";
+        $db = new Database();
+        $result = mysqli_fetch_array($db->readQuery($query));
+        
+        $is_return = ($result['return_count'] > 0) ? 1 : 0;
+        
+        $update_query = "UPDATE `sales_invoice` SET `is_return` = {$is_return} WHERE `id` = {$this->id}";
+        $db->readQuery($update_query);
+        
+        $this->is_return = $is_return;
+        return true;
+    }
+
+    // Check if invoice has been partially paid through payment receipts
+    public function isInvoicePartiallyPaid($invoiceId = null)
+    {
+        $id = $invoiceId ?: $this->id;
+        
+        $query = "SELECT COUNT(*) as payment_count FROM `payment_receipt_method` WHERE `invoice_id` = {$id}";
+        $db = new Database();
+        $result = mysqli_fetch_array($db->readQuery($query));
+        
+        return ($result['payment_count'] > 0);
     }
 
 
@@ -633,5 +667,30 @@ class SalesInvoice
         $db = new Database();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result;
+    }
+
+    // Get invoices that have items available for return (not fully returned)
+    public function getInvoicesWithAvailableItems()
+    {
+        $query = "SELECT DISTINCT si.* FROM `sales_invoice` si
+                  INNER JOIN `sales_invoice_items` sii ON si.id = sii.invoice_id
+                  LEFT JOIN (
+                      SELECT sri.item_id, sr.invoice_no, SUM(sri.quantity) as returned_quantity
+                      FROM `sales_return_items` sri
+                      INNER JOIN `sales_return` sr ON sri.return_id = sr.id
+                      GROUP BY sri.item_id, sr.invoice_no
+                  ) returned_totals ON sii.item_code = returned_totals.item_id AND si.invoice_no = returned_totals.invoice_no
+                  WHERE (sii.quantity - COALESCE(returned_totals.returned_quantity, 0)) > 0
+                  ORDER BY si.invoice_date DESC";
+
+        $db = new Database();
+        $result = $db->readQuery($query);
+        $array_res = array();
+
+        while ($row = mysqli_fetch_array($result)) {
+            array_push($array_res, $row);
+        }
+
+        return $array_res;
     }
 }
