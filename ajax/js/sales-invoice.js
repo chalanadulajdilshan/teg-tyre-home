@@ -93,7 +93,7 @@ jQuery(document).ready(function () {
   function loadItems(page = 1) {
     // Hide any previous table (if needed)
     $("#serviceItemTable").hide();
-  
+
     // Show a loading row in the table body
     $("#itemMaster tbody").html(`
       <tr>
@@ -103,17 +103,17 @@ jQuery(document).ready(function () {
         </td>
       </tr>
     `);
-  
+
     // Clear old pagination
     $("#itemPagination").empty();
-  
+
     // Collect filters
     let brand_id = $("#item_brand_id").val();
     let category_id = $("#item_category_id").val();
     let group_id = $("#item_group_id").val();
     let department_id = $("#item_department_id").val();
     let item_code = $("#item_item_code").val().trim();
-  
+
     // Perform AJAX
     $.ajax({
       url: "ajax/php/report.php",
@@ -129,7 +129,7 @@ jQuery(document).ready(function () {
       },
       success: function (data) {
         fullItemList = data || [];
-  
+
         if (fullItemList.length === 0) {
           $("#itemMaster tbody").html(`
             <tr>
@@ -153,7 +153,6 @@ jQuery(document).ready(function () {
       },
     });
   }
-  
 
   //append to model to data in this funtion
   function renderPaginatedItems(page = 1) {
@@ -630,7 +629,6 @@ jQuery(document).ready(function () {
       itemMasterModal.hide();
     }
   });
-  
 
   $(document).on("click", "#all_itemMaster tbody tr", function () {
     let mainRow = $(this).closest("tr.table-primary"); // ✅ pick the clicked row
@@ -663,9 +661,6 @@ jQuery(document).ready(function () {
   });
 
   $(document).on("click", "#itemMaster tbody tr.table-info", function () {
-
-
-    
     // Get the main item row
     let mainRow = $(this).prevAll("tr.table-primary").first();
     let lastColValue = mainRow.find("td").last().text();
@@ -1049,9 +1044,10 @@ jQuery(document).ready(function () {
         parseFloat($(this).find('input[name="arn_costs[]"]').val()) || price;
       const service_qty =
         parseFloat($(this).find('input[name="service_qty[]"]').val()) || 0;
-      const vehicle_no = $(this).find('input[name="vehicle_no[]"]').val() || '';
-      const current_km = $(this).find('input[name="current_km[]"]').val() || '';
-      const next_service_days = $(this).find('input[name="next_service_days[]"]').val() || '';
+      const vehicle_no = $(this).find('input[name="vehicle_no[]"]').val() || "";
+      const current_km = $(this).find('input[name="current_km[]"]').val() || "";
+      const next_service_days =
+        $(this).find('input[name="next_service_days[]"]').val() || "";
 
       if (code && !isNaN(totalItem) && item_id) {
         items.push({
@@ -1098,17 +1094,16 @@ jQuery(document).ready(function () {
     }
 
     // Validate cash sales with credit
-    if (
-      $("#customer_code").val() === "CH001" &&
-      $("#payment_type").val() === "2"
-    ) {
+    const customerId = $("#customer_id").val();
+    const paymentType = $("input[name='payment_type']:checked").val();
+
+    if (customerId == "1" && paymentType == "2") {
       $("#customer_code").focus();
       return swal({
         title: "Error!",
         text: "Cash sales customer is not allowed to create a credit invoice.",
         type: "error",
-        timer: 3000,
-        showConfirmButton: false,
+        showConfirmButton: true,
       });
     }
 
