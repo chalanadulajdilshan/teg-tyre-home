@@ -117,7 +117,7 @@ jQuery(document).ready(function () {
 
       {
         data: "list_price",
-        title: "Selling",
+        title: "List Price",
         render: function (data, type, row) {
           return parseFloat(data || 0).toLocaleString("en-US", {
             minimumFractionDigits: 2,
@@ -126,18 +126,13 @@ jQuery(document).ready(function () {
         },
       },
       {
-        data: "discount",
-        title: "Invoice Price",
+        data: "invoice_price",
+        title: "Selling Price",
         render: function (data, type, row) {
-          if (row.list_price && data) {
-            const invoicePrice =
-              parseFloat(row.list_price) * (1 - parseFloat(data) / 100);
-            return invoicePrice.toLocaleString("en-US", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            });
-          }
-          return "0.00";
+          return parseFloat(data || 0).toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          });
         },
       },
       {
@@ -332,7 +327,7 @@ jQuery(document).ready(function () {
       '<th class="text-end">Qty</th>' +
       '<th class="text-end">Total</th>' +
       '<th class="text-end">List Price</th>' +
-      '<th class="text-end">Invoice Price</th>' +
+      '<th class="text-end">Selling Price</th>' +
       '<th class="text-end">Total</th>' +
       "</tr></thead><tbody>";
     lots.forEach(function (l) {
@@ -708,8 +703,8 @@ jQuery(document).ready(function () {
           <th>Item Code</th>
           <th>Description</th>
           <th>Category</th>
-          <th class="text-right">Selling</th>
-          <th class="text-right">Invoice</th>
+          <th class="text-right">List Price</th>
+          <th class="text-right">Selling Price</th>
           <th class="text-right">Qty</th>
           <th class="text-center">Status</th>
         </tr>
@@ -761,7 +756,7 @@ jQuery(document).ready(function () {
                   <th class="text-right">Qty</th>
                   <th class="text-right">Total Cost</th>
                   <th class="text-right">List Price</th>
-                  <th class="text-right">Invoice</th>
+                  <th class="text-right">Selling Price</th>
                   <th class="text-right">Total</th>
                 </tr>
               </thead>
@@ -1013,8 +1008,8 @@ jQuery(document).ready(function () {
                   <th>Item Code</th>
                   <th>Description</th>
                   <th>Category</th>
-                  <th class="text-right">Selling</th>
-                  <th class="text-right">Invoice</th>
+                  <th class="text-right">List Price</th>
+                  <th class="text-right">Selling Price</th>
                   <th class="text-right">Qty</th>
                   <th class="text-center">Status</th>
               </tr>
@@ -1075,7 +1070,7 @@ jQuery(document).ready(function () {
                                   <th class="text-right">Qty</th>
                                   <th class="text-right">Total Cost</th>
                                   <th class="text-right">List Price</th>
-                                  <th class="text-right">Invoice</th>
+                                  <th class="text-right">Selling Price</th>
                                   <th class="text-right">Total</th>
                               </tr>
                           </thead>
