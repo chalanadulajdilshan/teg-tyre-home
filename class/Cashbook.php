@@ -185,7 +185,7 @@ class Cashbook
         // Cash from sales invoices (payment_type = 1 means cash)
         $queryCashInvoices = "SELECT COALESCE(SUM(grand_total), 0) as total 
                               FROM `sales_invoice` si
-                              $where AND si.payment_type = 1";
+                              $where AND si.payment_type = 1 AND si.is_cancel = 0";
         $resultCash = mysqli_fetch_array($db->readQuery($queryCashInvoices));
         $totalCashInvoices = (float) $resultCash['total'];
 
@@ -249,7 +249,7 @@ class Cashbook
         $whereArn = str_replace('e.expense_date', 'am.entry_date', $where);
         $queryArn = "SELECT COALESCE(SUM(total_arn_value), 0) as total 
                     FROM `arn_master` am
-                    $whereArn";
+                    $whereArn AND (am.is_cancelled IS NULL OR am.is_cancelled = 0)";
         $resultArn = mysqli_fetch_array($db->readQuery($queryArn));
         $totalArn = (float) $resultArn['total'];
 
@@ -308,7 +308,7 @@ class Cashbook
         // Find the earliest CASH SALES date as the cashbook start date
         $queryEarliest = "SELECT MIN(invoice_date) as first_date 
                           FROM sales_invoice 
-                          WHERE payment_type = 1";
+                          WHERE payment_type = 1 AND is_cancel = 0";
 
         $resultEarliest = mysqli_fetch_array($db->readQuery($queryEarliest));
         $firstTransactionDate = $resultEarliest['first_date'] ?? null;
@@ -358,7 +358,7 @@ class Cashbook
         // Cash sales invoices
         $query = "SELECT invoice_date as date, invoice_no as doc, grand_total as amount, 'Cash Sale' as description
                   FROM sales_invoice 
-                  $where AND payment_type = 1
+                  $where AND payment_type = 1 AND is_cancel = 0
                   ORDER BY invoice_date ASC";
         $result = $db->readQuery($query);
         while ($row = mysqli_fetch_array($result)) {
@@ -463,6 +463,32 @@ class Cashbook
                   LEFT JOIN expenses_type et ON e.expense_type_id = et.id
                   $whereExpense
                   ORDER BY e.expense_date ASC";
+        $result = $db->readQuery($query);
+        while ($row = mysqli_fetch_array($result)) {
+            $runningBalance -= (float)$row['amount'];
+            $transactions[] = [
+                'date' => date('Y-m-d', strtotime($row['date'])),
+                'account_type' => 'CASH',
+                'transaction' => 'OUT',
+                'description' => $row['description'],
+                'doc' => $row['doc'],
+                'debit' => '0.00',
+                'credit' => number_format($row['amount'], 2),
+                'balance' => number_format($runningBalance, 2),
+                'sort_date' => $row['date']
+            ];
+        }
+
+        $whereArnDetail = str_replace('invoice_date', 'am.entry_date', $where);
+        $query = "SELECT 
+                        am.entry_date as date,
+                        am.arn_no as doc,
+                        am.total_arn_value as amount,
+                        CONCAT('ARN Purchase - ', COALESCE(cm.name, '')) as description
+                  FROM arn_master am
+                  LEFT JOIN customer_master cm ON am.supplier_id = cm.id
+                  $whereArnDetail AND (am.is_cancelled IS NULL OR am.is_cancelled = 0)
+                  ORDER BY am.entry_date ASC";
         $result = $db->readQuery($query);
         while ($row = mysqli_fetch_array($result)) {
             $runningBalance -= (float)$row['amount'];
@@ -589,3 +615,4 @@ class Cashbook
         return $transactions;
     }
 }
+
