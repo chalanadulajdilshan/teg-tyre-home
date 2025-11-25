@@ -9,9 +9,8 @@ $BRANCH = new Branch();
 
 // Get specific date from URL (no range), defaulting to today
 $selectedDate = isset($_GET['date']) && !empty($_GET['date']) ? $_GET['date'] : date('Y-m-d');
-$selectedDateTo = isset($_GET['date_to']) && !empty($_GET['date_to']) ? $_GET['date_to'] : date('Y-m-d');
 $dateFrom = $selectedDate;
-$dateTo = $selectedDateTo;
+$dateTo = $selectedDate;
 
 // Get the last inserted transaction id
 $lastId = $CASHBOOK->getLastID();
@@ -77,17 +76,10 @@ $ref_no = 'CB/' . str_pad(($lastId + 1), 5, '0', STR_PAD_LEFT);
                                     <div class="d-flex flex-wrap align-items-end gap-3">
                                         <div class="d-flex flex-wrap align-items-end gap-2">
                                             <div class="me-2">
-                                                <label for="date" class="form-label">Date From</label>
+                                                <label for="date" class="form-label">Date</label>
                                                 <div class="input-group">
                                                     <span class="input-group-text"><i class="uil uil-calendar-alt"></i></span>
                                                     <input type="text" class="form-control date-picker cashbook-date" id="date" name="date" autocomplete="off" value="<?php echo $selectedDate; ?>">
-                                                </div>
-                                            </div>
-                                            <div class="me-2">
-                                                <label for="date_to" class="form-label">Date To</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text"><i class="uil uil-calendar-alt"></i></span>
-                                                    <input type="text" class="form-control date-picker cashbook-date" id="date_to" name="date_to" autocomplete="off" value="<?php echo $selectedDateTo; ?>">
                                                 </div>
                                             </div>
                                             <div class="d-flex flex-wrap align-items-end gap-2">

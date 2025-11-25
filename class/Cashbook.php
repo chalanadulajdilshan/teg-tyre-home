@@ -191,9 +191,10 @@ class Cashbook
 
         // Cash from payment receipts (customer payments)
         $wherePayment = str_replace('si.invoice_date', 'pr.entry_date', $where);
-        $queryPaymentReceipts = "SELECT COALESCE(SUM(amount_paid), 0) as total 
+        $queryPaymentReceipts = "SELECT COALESCE(SUM(prm.amount), 0) as total 
                                  FROM `payment_receipt` pr
-                                 $wherePayment";
+                                 INNER JOIN `payment_receipt_method` prm ON prm.receipt_id = pr.id
+                                 $wherePayment AND prm.payment_type_id = 1";
         $resultPayment = mysqli_fetch_array($db->readQuery($queryPaymentReceipts));
         $totalPaymentReceipts = (float) $resultPayment['total'];
 
@@ -237,9 +238,10 @@ class Cashbook
 
         // Cash for supplier payments
         $whereSupplier = str_replace('e.expense_date', 'prs.entry_date', $where);
-        $querySupplierPayments = "SELECT COALESCE(SUM(amount_paid), 0) as total 
+        $querySupplierPayments = "SELECT COALESCE(SUM(prms.amount), 0) as total 
                                   FROM `payment_receipt_supplier` prs
-                                  $whereSupplier";
+                                  INNER JOIN `payment_receipt_method_supplier` prms ON prms.receipt_id = prs.id
+                                  $whereSupplier AND prms.payment_type_id = 1";
         $resultSupplier = mysqli_fetch_array($db->readQuery($querySupplierPayments));
         $totalSupplierPayments = (float) $resultSupplier['total'];
 
@@ -376,11 +378,20 @@ class Cashbook
 
         // Payment receipts
         $wherePayment = str_replace('invoice_date', 'entry_date', $where);
-        $query = "SELECT pr.entry_date as date, pr.receipt_no as doc, pr.amount_paid as amount, 
-                  CONCAT('Payment from ', cm.name) as description
+        $query = "SELECT 
+                      pr.entry_date as date, 
+                      pr.receipt_no as doc, 
+                      (
+                          SELECT COALESCE(SUM(prm.amount), 0)
+                          FROM payment_receipt_method prm
+                          WHERE prm.receipt_id = pr.id
+                            AND prm.payment_type_id = 1
+                      ) as amount, 
+                      CONCAT('Payment from ', cm.name) as description
                   FROM payment_receipt pr
                   LEFT JOIN customer_master cm ON pr.customer_id = cm.id
                   $wherePayment
+                  HAVING amount > 0
                   ORDER BY pr.entry_date ASC";
         $result = $db->readQuery($query);
         while ($row = mysqli_fetch_array($result)) {
@@ -470,10 +481,19 @@ class Cashbook
 
         // Supplier payments
         $whereSupplier = str_replace('invoice_date', 'entry_date', $where);
-        $query = "SELECT prs.entry_date as date, prs.receipt_no as doc, prs.amount_paid as amount,
-                  CONCAT('Payment to Supplier') as description
+        $query = "SELECT 
+                      prs.entry_date as date, 
+                      prs.receipt_no as doc, 
+                      (
+                          SELECT COALESCE(SUM(prms.amount), 0)
+                          FROM payment_receipt_method_supplier prms
+                          WHERE prms.receipt_id = prs.id
+                            AND prms.payment_type_id = 1
+                      ) as amount,
+                      CONCAT('Payment to Supplier') as description
                   FROM payment_receipt_supplier prs
                   $whereSupplier
+                  HAVING amount > 0
                   ORDER BY prs.entry_date ASC";
         $result = $db->readQuery($query);
         while ($row = mysqli_fetch_array($result)) {

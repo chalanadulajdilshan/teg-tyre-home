@@ -247,7 +247,6 @@ jQuery(document).ready(function ($) {
     $('#btn-filter').on('click', function(e) {
         e.preventDefault();
         const date = $('#date').val();
-        const dateTo = $('#date_to').val();
 
         if (!date) {
             swal({
@@ -260,7 +259,7 @@ jQuery(document).ready(function ($) {
         }
 
         // Reload page with single date parameter
-        window.location.href = `cashbook.php?date=${date}&date_to=${dateTo}`;
+        window.location.href = `cashbook.php?date=${date}`;
     });
 
 
