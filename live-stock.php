@@ -130,8 +130,8 @@ try {
                                                     <th>Item Description</th>
                                                     <th>Department</th>
                                                     <th>Category</th>
-                                                    <th>Selling</th>
-                                                    <th>Invoice Price</th>
+                                                    <th>List Price</th>
+                                                    <th>Selling Price</th>
                                                     <th>Quantity</th>
                                                     <th>Stock Status</th>
                                                 </tr>
