@@ -70,12 +70,20 @@ if (!empty($customerMobile)) {
                 display: none !important;
             }
 
-            /* Make invoice full width */
+            /* A5 landscape page setup */
+            @page {
+                size: A5 landscape;
+                margin: 5mm;
+            }
+
+            /* Fit content within one sheet */
             body,
             html {
-                width: 100%;
+                width: 210mm;
+                height: 148mm;
                 margin: 0;
                 padding: 0;
+                zoom: 0.92;
             }
 
             #invoice-content,
@@ -83,22 +91,20 @@ if (!empty($customerMobile)) {
                 width: 100% !important;
                 max-width: 100% !important;
                 box-shadow: none;
+                margin: 0 !important;
+                page-break-inside: avoid;
+            }
+
+            .card-body {
+                padding: 10px !important;
             }
 
             .container {
                 width: 100% !important;
                 max-width: 100% !important;
                 padding: 0 !important;
+                margin: 0 !important;
             }
-
-            /* Use full page without A5 restriction */
-            @page {
-                size: auto;
-                /* remove specific page size */
-                margin: 10mm;
-                /* optional margin */
-            }
-
 
         }
 
