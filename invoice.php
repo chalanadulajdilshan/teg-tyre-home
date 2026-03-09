@@ -70,42 +70,50 @@ if (!empty($customerMobile)) {
                 display: none !important;
             }
 
-            /* A5 landscape page setup */
+            /* Force A5 landscape, full bleed */
             @page {
                 size: A5 landscape;
-                margin: 5mm;
+                margin: 4mm;
             }
 
-            /* Fit content within one sheet */
-            body,
-            html {
-                width: 210mm;
-                height: 148mm;
-                margin: 0;
-                padding: 0;
-                zoom: 0.92;
+            html,
+            body {
+                width: 100%;
+                max-width: 100%;
+                height: auto;
+                margin: 0 !important;
+                padding: 0 !important;
+                font-size: 10px !important;
             }
 
             #invoice-content,
             .card {
                 width: 100% !important;
-                max-width: 100% !important;
+                max-width: none !important;
                 box-shadow: none;
                 margin: 0 !important;
                 page-break-inside: avoid;
             }
 
+            .card {
+                margin: 0 !important;
+                border: none !important;
+            }
+
             .card-body {
-                padding: 10px !important;
+                padding: 5px !important;
             }
 
             .container {
                 width: 100% !important;
-                max-width: 100% !important;
+                max-width: none !important;
                 padding: 0 !important;
                 margin: 0 !important;
             }
 
+            .table-responsive {
+                overflow: visible !important;
+            }
         }
 
         /* Remove padding and spacing in invoice table */
