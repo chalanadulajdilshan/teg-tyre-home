@@ -5,6 +5,9 @@ $(document).ready(function() {
     // Set today's date for return_date field
     $("#return_date").val($.datepicker.formatDate('yy-mm-dd', new Date()));
 
+    // Load next sales return reference number
+    loadNextReturnNo();
+
     // Invoice search functionality
     $("#invoice_no").on("change", function() {
         const invoiceNo = $(this).val().trim();
@@ -93,6 +96,26 @@ function loadCustomers() {
     });
 }
 
+// Load next sales return number for Ref No field
+function loadNextReturnNo() {
+    $.ajax({
+        url: "ajax/php/sales-return.php",
+        type: "POST",
+        dataType: "json",
+        data: { action: "get_next_return_no" },
+        success: function(response) {
+            if (response.status === 'success' && response.return_no) {
+                $("#return_no").val(response.return_no);
+            } else {
+                console.warn("Failed to get next return number", response);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error getting next return number:", error);
+        }
+    });
+}
+
 // Check if invoice exists and load details
 function checkInvoiceExists(invoiceNo) {
     $.ajax({
@@ -132,7 +155,7 @@ function populateInvoiceData(invoice, customer, department) {
     console.log("Populating invoice data:", invoice);
     $("#invoice_id").val(invoice.id);
     $("#customer_id").val(customer.id);
-    $("#customer_code").val(customer.id); // Assuming customer code is ID
+    $("#customer_code").val(customer.code || customer.id);
     $("#customer_name").val(customer.name);
     $("#customer_address").val(customer.address);
     $("#department_id").val(department.id).trigger('change');
@@ -446,6 +469,9 @@ function resetForm() {
     $("#invoiceItemsBody").html('<tr id="noItemRow"><td colspan="7" class="text-center text-muted">No items added</td></tr>');
     $("#return_id").val(""); // Clear return ID
     calculateTotals();
+
+    // After reset, load a fresh reference number for the next return
+    loadNextReturnNo();
 }
 
 // Search/filter invoices in the table
@@ -598,9 +624,20 @@ function populateReturnData(return_data, items) {
     $("#return_date").val(return_data.return_date);
     $("#invoice_no").val(return_data.invoice_no);
     $("#customer_id").val(return_data.customer.id);
-    $("#customer_code").val(return_data.customer.id);
+    $("#customer_code").val(return_data.customer.code || return_data.customer.id);
     $("#customer_name").val(return_data.customer.name);
     $("#customer_address").val(return_data.customer.address);
+
+    if (return_data.invoice_date) {
+        $("#invoice_date").val(return_data.invoice_date);
+    } else {
+        $("#invoice_date").val("");
+    }
+    if (typeof return_data.payment_type !== "undefined" && return_data.payment_type !== null) {
+        $("#payment_type").val(return_data.payment_type == 1 ? "Cash" : "Credit");
+    } else {
+        $("#payment_type").val("");
+    }
 
     // Set damage checkbox state
     $("#is_damaged").prop("checked", return_data.is_damaged == 1);
@@ -823,3 +860,4 @@ $(document).on("click", ".select-invoice-row", function() {
     $("#invoiceModal").modal('hide');
     checkInvoiceExists(invoiceNo);
 });
+

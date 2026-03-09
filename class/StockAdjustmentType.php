@@ -11,7 +11,7 @@ class StockAdjustmentType
     {
         if ($id) {
             $query = "SELECT * FROM stock_adjustment_type WHERE id = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -27,7 +27,7 @@ class StockAdjustmentType
     public function all()
     {
         $query = "SELECT * FROM stock_adjustment_type WHERE is_active = 1 ORDER BY id ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 

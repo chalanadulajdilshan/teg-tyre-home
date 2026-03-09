@@ -151,6 +151,8 @@ jQuery(document).ready(function () {
     // Reset all fields in the form
     $("#form-data")[0].reset();
 
+    $("#page_icon").val("");
+
     // Optional: Reset selects to default option (if needed)
     $("#id").prop("selectedIndex", 0);
     $("#create").show();
@@ -161,6 +163,7 @@ jQuery(document).ready(function () {
     $("#page_id").val($(this).data("id"));
     $("#page_category").val($(this).data("category"));
     $("#page_name").val($(this).data("name"));
+    $("#page_icon").val($(this).data("pageicon"));
     $("#page_url").val($(this).data("url"));
 
     $("#create").hide();

@@ -22,7 +22,7 @@ class MarketingExecutive
     {
         if ($id) {
             $query = "SELECT * FROM `marketing_executive` WHERE `id` = " . (int)$id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -55,7 +55,7 @@ class MarketingExecutive
                 '$this->target_month', '$this->target', '$this->joined_date', '$this->is_active', '$this->remark', NOW()
             )";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -81,7 +81,7 @@ class MarketingExecutive
             `remark` = '$this->remark'
             WHERE `id` = '$this->id'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -89,7 +89,7 @@ class MarketingExecutive
     public function delete()
     {
         $query = "DELETE FROM `marketing_executive` WHERE `id` = '$this->id'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -97,7 +97,7 @@ class MarketingExecutive
     public function all()
     {
         $query = "SELECT * FROM `marketing_executive` ORDER BY `full_name` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         $array_res = array();
@@ -111,7 +111,7 @@ class MarketingExecutive
     public function getActiveExecutives()
     {
         $query = "SELECT * FROM `marketing_executive` where is_active = 1 ORDER BY `queue` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         $array_res = array();
@@ -126,7 +126,7 @@ class MarketingExecutive
     public function getLastID()
     {
         $query = "SELECT * FROM `marketing_executive` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }

@@ -13,7 +13,7 @@ class BrandWiseDis
     {
         if ($dis_id) {
             $query = "SELECT * FROM `brand_wise_dis` WHERE `id` = " . (int) $dis_id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -38,7 +38,7 @@ class BrandWiseDis
                     '{$this->discount_percent_02}',
                     '{$this->discount_percent_03}'
                   )";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query) ? mysqli_insert_id($db->DB_CON) : false;
     }
 
@@ -53,7 +53,7 @@ class BrandWiseDis
                     `discount_percent_02` = '{$this->discount_percent_02}',
                     `discount_percent_03` = '{$this->discount_percent_03}'
                   WHERE `id` = '{$this->dis_id}'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -61,7 +61,7 @@ class BrandWiseDis
     public function delete()
     {
         $query = "DELETE FROM `brand_wise_dis` WHERE `id` = '{$this->dis_id}'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -69,7 +69,7 @@ class BrandWiseDis
     public function all()
     {
         $query = "SELECT * FROM `brand_wise_dis` ORDER BY id ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 
@@ -88,7 +88,7 @@ class BrandWiseDis
               AND category_id = " . (int)$category_id . " 
               ORDER BY id ASC";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 

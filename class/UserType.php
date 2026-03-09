@@ -19,7 +19,7 @@ class UserType
         if ($id) {
 
             $query = "SELECT  * FROM `user_type` WHERE `id`=" . $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             $this->id = $result['id'];
@@ -36,7 +36,7 @@ class UserType
             '" . $this->name . "', 
             '" . $this->is_active . "')";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -55,7 +55,7 @@ class UserType
             . "WHERE `id` = '" . $this->id . "'";
 
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         if ($result) {
             return TRUE;
@@ -67,7 +67,7 @@ class UserType
     public function getOrderDate()
     {
         $query = "SELECT * FROM `user_type` ORDER BY `date` DESC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
         while ($row = mysqli_fetch_array($result)) {
@@ -81,7 +81,7 @@ class UserType
         $query = "SELECT * FROM `user_type` ";
 
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
         while ($row = mysqli_fetch_array($result)) {
@@ -96,7 +96,7 @@ class UserType
         $query = "SELECT * FROM `user_type` where is_active = 1  ";
 
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
         while ($row = mysqli_fetch_array($result)) {
@@ -108,7 +108,7 @@ class UserType
     public function arrange($key, $img)
     {
         $query = "UPDATE `user_type` SET `queue` = '" . $key . "'  WHERE id = '" . $img . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         return $result;
     }
@@ -116,7 +116,7 @@ class UserType
     public function delete()
     {
         $query = 'DELETE FROM `user_type` WHERE id="' . $this->id . '"';
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -124,7 +124,7 @@ class UserType
     public function getLastID()
     {
         $query = "SELECT * FROM `user_type` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }

@@ -32,7 +32,7 @@ class Province {
 
             $query = "SELECT * FROM `provinces` WHERE `id`=" . $id;
 
-            $db = new Database();
+            $db = Database::getInstance();
 
             $result = mysqli_fetch_array($db->readQuery($query));
 
@@ -51,7 +51,7 @@ class Province {
                 . $this->name . "','" 
                 . $this->queue . "')";
 
-        $db = new Database();
+        $db = Database::getInstance();
 
         $result = $db->readQuery($query);
 
@@ -67,7 +67,7 @@ class Province {
 
         $query = "SELECT * FROM `provinces` ORDER BY queue ASC";
 
-        $db = new Database();
+        $db = Database::getInstance();
 
         $result = $db->readQuery($query);
 
@@ -92,7 +92,7 @@ class Province {
 
         
 
-        $db = new Database();
+        $db = Database::getInstance();
 
         $result = $db->readQuery($query);
 
@@ -112,7 +112,7 @@ class Province {
 
 
 
-        $db = new Database();
+        $db = Database::getInstance();
 
 
 
@@ -123,7 +123,7 @@ class Province {
 
         $query = "UPDATE `provinces` SET `queue` = '" . $key . "'  WHERE id = '" . $img . "'";
 
-        $db = new Database();
+        $db = Database::getInstance();
 
         $result = $db->readQuery($query);
 
@@ -133,7 +133,7 @@ class Province {
     public function getActivitiesByTitle($name) {
 
         $query = "SELECT `id` FROM `provinces` WHERE `name` LIKE '" . $name . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }

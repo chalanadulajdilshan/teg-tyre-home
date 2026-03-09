@@ -16,7 +16,7 @@ class SuplierDiscount
     {
         if ($id) {
             $query = "SELECT * FROM `suplier_discount` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -40,7 +40,7 @@ class SuplierDiscount
             '$this->code', '$this->date', '$this->suplier_id', '$this->name', '$this->brand_id', '$this->discount','$this->is_active'
         )";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -63,7 +63,7 @@ class SuplierDiscount
             WHERE `id` = '$this->id'";
 
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -76,14 +76,14 @@ class SuplierDiscount
     public function delete()
     {
         $query = "DELETE FROM `suplier_discount` WHERE `id` = '$this->id'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function all()
     {
         $query = "SELECT * FROM `suplier_discount` ORDER BY name ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         $array_res = array();
@@ -97,14 +97,14 @@ class SuplierDiscount
     public function getLastID()
     {
         $query = "SELECT * FROM `suplier_discount` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }
 
     public function fetchForDataTable($request)
     {
-        $db = new Database();
+        $db = Database::getInstance();
 
         $start = isset($request['start']) ? (int)$request['start'] : 0;
         $length = isset($request['length']) ? (int)$request['length'] : 100;
@@ -200,7 +200,7 @@ class SuplierDiscount
     public function getIdbyItemCode($code)
     {
         $query = "SELECT `id` FROM `suplier_discount` WHERE `code` = '$code' LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($row = mysqli_fetch_assoc($result)) {

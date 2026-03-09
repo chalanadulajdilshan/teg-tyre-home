@@ -3,12 +3,14 @@
 include 'class/include.php';
 include './auth.php';
 
+// Get the last purchase return id
+$PURCHASE_RETURN = new PurchaseReturn();
+$lastId = $PURCHASE_RETURN->getLastID() ?? 0;
+$purchase_return_id = $COMPANY_PROFILE_DETAILS->company_code . '/PR/00/0' . ($lastId + 1);
+
 //doc id get by session 
 $DOCUMENT_TRACKING = new DocumentTracking($doc_id);
 
-// Get the last purchase return if 
-$lastId = $DOCUMENT_TRACKING->pr_id;
-$purchase_return_id = $COMPANY_PROFILE_DETAILS->company_code . '/PR/00/0' . ($lastId + 1);
 ?>
 
 <html lang="en">
@@ -39,7 +41,7 @@ $purchase_return_id = $COMPANY_PROFILE_DETAILS->company_code . '/PR/00/0' . ($la
                 <div class="container-fluid">
                     <div class="row mb-4">
                         <div class="col-md-8 d-flex align-items-center flex-wrap gap-2">
-                            <a href="#" class="btn btn-success" id="new" onclick="newPurchaseReturn()">
+                            <a href="#" class="btn btn-success" id="new">
                                 <i class="uil uil-plus me-1"></i> New
                             </a>
 
@@ -52,12 +54,6 @@ $purchase_return_id = $COMPANY_PROFILE_DETAILS->company_code . '/PR/00/0' . ($la
                             <?php if ($PERMISSIONS['edit_page']): ?>
                                 <a href="#" class="btn btn-warning" id="update" style="display:none;">
                                     <i class="uil uil-edit me-1"></i> Update
-                                </a>
-                            <?php endif; ?>
-
-                            <?php if ($PERMISSIONS['delete_page']): ?>
-                                <a href="#" class="btn btn-danger delete-category">
-                                    <i class="uil uil-trash-alt me-1"></i> Delete
                                 </a>
                             <?php endif; ?>
 
@@ -111,12 +107,6 @@ $purchase_return_id = $COMPANY_PROFILE_DETAILS->company_code . '/PR/00/0' . ($la
                                                     <input id="reference_no" name="reference_no" type="text"
                                                         placeholder="Reference No" class="form-control"
                                                         value="<?php echo $purchase_return_id ?>" readonly>
-
-                                                    <button class="btn btn-info" type="button" data-bs-toggle="modal"
-                                                        data-bs-target="#customerModal">
-                                                        <i class="uil uil-search me-1"></i>
-                                                    </button>
-
                                                 </div>
                                             </div>
 

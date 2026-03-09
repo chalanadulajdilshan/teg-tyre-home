@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 if (isset($_GET['action']) && $_GET['action'] === 'get_barcodes_by_arn' && !empty($_GET['arn_id'])) {
     try {
         $arnId = (int)$_GET['arn_id'];
-        $db = new Database();
+        $db = Database::getInstance();
         $query = "SELECT bd.*, ai.description as item_description 
                  FROM barcode_details bd
                  JOIN arn_items ai ON bd.item_id = ai.id
@@ -120,7 +120,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_next_sequence' && !empty(
         $arnId = (int)$_GET['arn_id'];
         $itemId = (int)$_GET['item_id'];
         
-        $db = new Database();
+        $db = Database::getInstance();
         $query = "SELECT COUNT(*) as count FROM barcode_details 
                  WHERE arn_id = :arn_id AND item_id = :item_id";
         

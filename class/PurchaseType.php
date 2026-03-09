@@ -9,7 +9,7 @@ class PurchaseType {
     public function __construct($id) {
         if ($id) {
             $query = "SELECT * FROM `purchase_type` WHERE `id` = " . $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             $this->id = $result['id'];
@@ -25,7 +25,7 @@ class PurchaseType {
             . $this->title . "', '"
             . $this->queue . "')";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -37,7 +37,7 @@ class PurchaseType {
 
     public function all() {
         $query = "SELECT * FROM `purchase_type` ORDER BY queue ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         $array_res = array();
@@ -52,7 +52,7 @@ class PurchaseType {
             . "`title` = '" . $this->title . "' "
             . "WHERE `id` = '" . $this->id . "'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -64,19 +64,19 @@ class PurchaseType {
 
     public function delete() {
         $query = "DELETE FROM `purchase_type` WHERE `id` = '" . $this->id . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function arrange($key, $img) {
         $query = "UPDATE `purchase_type` SET `queue` = '" . $key . "' WHERE `id` = '" . $img . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function getActivitiesByTitle($title) {
         $query = "SELECT `id` FROM `purchase_type` WHERE `title` LIKE '" . $title . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }

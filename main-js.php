@@ -28,8 +28,26 @@
 <!-- Select2 (stable version) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
+<!-- MetisMenu -->
+<script src="assets/libs/metismenu/metisMenu.min.js"></script>
+<!-- SimpleBar -->
+<script src="assets/libs/simplebar/simplebar.min.js"></script>
+<!-- Node Waves -->
+<script src="assets/libs/node-waves/waves.min.js"></script>
+
+<!-- App JS -->
+<script src="assets/js/app.js"></script>
+
 <script>
     $(document).ready(function () {
+        // Apply navigation layout dynamically
+        <?php if (isset($COMPANY_PROFILE_DETAILS->navigation_layout)): ?>
+        var navigationLayout = "<?php echo $COMPANY_PROFILE_DETAILS->navigation_layout; ?>";
+        if (document.body.getAttribute('data-layout') !== navigationLayout) {
+            document.body.setAttribute('data-layout', navigationLayout);
+        }
+        <?php endif; ?>
+
         // Initialize Select2
         $('.select2').select2({
             placeholder: 'Select a vehicle',
@@ -41,15 +59,15 @@
             dateFormat: 'yy-mm-dd'
         });
 
-        // Set today's date for .date-picker fields ONLY when empty.
-        // This avoids overriding values already set from PHP (e.g. cashbook selected date).
-        $(".date-picker").each(function () {
-            if (!$(this).val()) {
-                $(this).val($.datepicker.formatDate('yy-mm-dd', new Date()));
-            }
-        });
+        // Set today's date for .date-picker fields
+        $(".date-picker").val($.datepicker.formatDate('yy-mm-dd', new Date()));
 
         // Initialize datatables
-        $('#dagTable,#paymentReceiptTable,#arn_table,#pending-check-table,#maindagTable, .datatable').DataTable();
+        $('.datatable').DataTable();
     });
 </script>
+
+<?php
+// Include real-time system status monitor for auto-redirect when system goes down
+include_once __DIR__ . '/partials/subscription-countdown/system-status-monitor.php';
+?>

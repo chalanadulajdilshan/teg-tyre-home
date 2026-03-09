@@ -80,9 +80,7 @@ $service_id = 'SI/0' . ($lastId + 1);
                                             <h5 class="font-size-16 mb-1">Service Item Master</h5>
                                             <p class="text-muted text-truncate mb-0">Fill all information below to add service items</p>
                                         </div>
-                                        <div class="flex-shrink-0">
-                                            <i class="mdi mdi-chevron-up accor-down-icon font-size-24"></i>
-                                        </div>
+                                       
                                     </div>
                                 </div>
 

@@ -204,7 +204,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'create_stock_transfer') {
  * Transfer ARN entries for a specific item from source to target department
  */
 function transferArnForItem($item_id, $from_dept, $to_dept, $transfer_qty, $date) {
-    $db = new Database();
+    $db = Database::getInstance();
     
     // Get ARN items from source department that have this item
     $query = "
@@ -244,7 +244,7 @@ function transferArnForItem($item_id, $from_dept, $to_dept, $transfer_qty, $date
                 $current_number = (int)$matches[2]; // e.g., 56
                 
                 // Get the highest ARN number with the same base format
-                $db_temp = new Database();
+                $db_temp = Database::getInstance();
                 $max_query = "SELECT MAX(CAST(SUBSTRING_INDEX(arn_no, '/', -1) AS UNSIGNED)) as max_num 
                              FROM arn_master 
                              WHERE arn_no LIKE '" . $db_temp->escapeString($base_format) . "%' 
@@ -361,7 +361,7 @@ function transferArnForItem($item_id, $from_dept, $to_dept, $transfer_qty, $date
  * Update stock_item_tmp records with new ARN IDs for transferred quantities
  */
 function updateStockItemTmpArnIds($item_id, $to_dept, $transfer_qty) {
-    $db = new Database();
+    $db = Database::getInstance();
     
     // Get the latest ARN ID for this item in the target department
     $query = "

@@ -5,7 +5,6 @@ class CustomerMaster
     public $id;
     public $code;
     public $name;
-    public $name_2;
     public $address;
     public $mobile_number;
     public $mobile_number_2;
@@ -14,17 +13,10 @@ class CustomerMaster
     public $contact_person_number;
     public $credit_limit;
     public $outstanding;
-    public $overdue;
-    public $is_vat;
     public $vat_no;
-    public $svat_no;
+    public $old_outstanding;
     public $category;
-    public $district;
-    public $province;
-    public $vat_group;
     public $remark;
-    public $nic_front_img;
-    public $nic_back_img;
     public $is_active;
 
     // Constructor
@@ -32,7 +24,7 @@ class CustomerMaster
     {
         if ($id) {
             $query = "SELECT * FROM `customer_master` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -47,17 +39,13 @@ class CustomerMaster
     public function create()
     {
         $query = "INSERT INTO `customer_master` (
-                    `code`, `name`, `name_2`, `address`, `mobile_number`, `mobile_number_2`, `email`, 
-                    `contact_person`, `contact_person_number`, `credit_limit`, `outstanding`, `overdue`, 
-                    `is_vat`, `vat_no`, `svat_no`, `category`, `district`, `province`, 
-                    `vat_group`, `remark`, `nic_front_img`, `nic_back_img`, `is_active`
+                    `code`, `name`, `address`, `mobile_number`, `mobile_number_2`, `email`, 
+                    `contact_person`, `contact_person_number`, `credit_limit`, `outstanding`, `old_outstanding`, `category`, `remark`, `is_active`, `vat_no`
                 ) VALUES (
-                    '{$this->code}', '{$this->name}', '{$this->name_2}', '{$this->address}', '{$this->mobile_number}', '{$this->mobile_number_2}', '{$this->email}',
-                    '{$this->contact_person}', '{$this->contact_person_number}', '{$this->credit_limit}', '{$this->outstanding}', '{$this->overdue}',
-                    '{$this->is_vat}', '{$this->vat_no}', '{$this->svat_no}', '{$this->category}', '{$this->district}', '{$this->province}',
-                    '{$this->vat_group}', '{$this->remark}', '{$this->nic_front_img}', '{$this->nic_back_img}', '{$this->is_active}'
+                    '{$this->code}', '{$this->name}', '{$this->address}', '{$this->mobile_number}', '{$this->mobile_number_2}', '{$this->email}',
+                    '{$this->contact_person}', '{$this->contact_person_number}', '{$this->credit_limit}', '{$this->outstanding}', '{$this->old_outstanding}', '{$this->category}', '{$this->remark}', '{$this->is_active}', '{$this->vat_no}'
                 )";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
 
@@ -69,20 +57,21 @@ class CustomerMaster
     }
     public function createInvoiceCustomer()
     {
+        $mobile_number_2 = $this->mobile_number_2 ? $this->mobile_number_2 : '0';
+        $email = $this->email ? $this->email : '0';
+        $contact_person = $this->contact_person ? $this->contact_person : '0';
+        $contact_person_number = $this->contact_person_number ? $this->contact_person_number : '0';
+
         $query = "INSERT INTO `customer_master` (
-    `code`, `name`, `name_2`, `address`, `mobile_number`, `mobile_number_2`, `email`, 
-    `contact_person`, `contact_person_number`, `credit_limit`, `outstanding`, `overdue`, 
-    `is_vat`, `vat_no`, `svat_no`, `category`, `district`, `province`, 
-    `vat_group`, `remark`, `nic_front_img`, `nic_back_img`, `is_active`
-) VALUES (
-    '{$this->code}', '{$this->name}', " . ($this->name_2 ? "'{$this->name_2}'" : "NULL") . ", '{$this->address}', '{$this->mobile_number}', " . ($this->mobile_number_2 ? "'{$this->mobile_number_2}'" : "'0'") . ",
-    " . ($this->email ? "'{$this->email}'" : "'0'") . ", " . ($this->contact_person ? "'{$this->contact_person}'" : "'0'") . ", " . ($this->contact_person_number ? "'{$this->contact_person_number}'" : "'0'") . ", '0', '0', '0',
-    '0', '0', '0', '1', '0', '0',
-    '0', '0', '0', '0','1'
-)";
+                    `code`, `name`, `address`, `mobile_number`, `mobile_number_2`, `email`, 
+                    `contact_person`, `contact_person_number`, `credit_limit`, `outstanding`, `old_outstanding`, `category`, `remark`, `is_active`
+                ) VALUES (
+                    '{$this->code}', '{$this->name}', '{$this->address}', '{$this->mobile_number}', '{$mobile_number_2}', '{$email}',
+                    '{$contact_person}', '{$contact_person_number}', '0', '0', '0', '1', '0', '1'
+                )";
 
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -98,7 +87,6 @@ class CustomerMaster
         $query = "UPDATE `customer_master` SET 
                     `code` = '{$this->code}', 
                     `name` = '{$this->name}', 
-                    `name_2` = '{$this->name_2}', 
                     `address` = '{$this->address}', 
                     `mobile_number` = '{$this->mobile_number}', 
                     `mobile_number_2` = '{$this->mobile_number_2}', 
@@ -107,21 +95,14 @@ class CustomerMaster
                     `contact_person_number` = '{$this->contact_person_number}', 
                     `credit_limit` = '{$this->credit_limit}', 
                     `outstanding` = '{$this->outstanding}', 
-                    `overdue` = '{$this->overdue}', 
-                    `is_vat` = '{$this->is_vat}', 
-                    `vat_no` = '{$this->vat_no}', 
-                    `svat_no` = '{$this->svat_no}', 
+                    `old_outstanding` = '{$this->old_outstanding}', 
                     `category` = '{$this->category}', 
-                    `district` = '{$this->district}', 
-                    `province` = '{$this->province}', 
-                    `vat_group` = '{$this->vat_group}', 
                     `remark` = '{$this->remark}', 
-                    `nic_front_img` = '{$this->nic_front_img}', 
-                    `nic_back_img` = '{$this->nic_back_img}', 
-                    `is_active` = '{$this->is_active}' 
+                    `is_active` = '{$this->is_active}', 
+                    `vat_no` = '{$this->vat_no}'
                 WHERE `id` = '{$this->id}'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -135,7 +116,7 @@ class CustomerMaster
     public function delete()
     {
         $query = "DELETE FROM `customer_master` WHERE `id` = '{$this->id}'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -143,7 +124,7 @@ class CustomerMaster
     public function all()
     {
         $query = "SELECT * FROM `customer_master` ORDER BY name ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -157,18 +138,19 @@ class CustomerMaster
     public function getLastID()
     {
         $query = "SELECT * FROM `customer_master` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }
 
     public function fetchForDataTable($request, $category)
     {
-        $db = new Database();
+        $db = Database::getInstance();
 
         $start = isset($request['start']) ? (int) $request['start'] : 0;
         $length = isset($request['length']) ? (int) $request['length'] : 100;
         $search = $request['search']['value'];
+        $oldOutstandingOnly = isset($request['old_outstanding_only']) && $request['old_outstanding_only'] === 'true';
 
         // Total records
         $totalSql = "SELECT * FROM customer_master";
@@ -191,6 +173,10 @@ class CustomerMaster
             }
         }
 
+        // Add old outstanding filter if requested
+        if ($oldOutstandingOnly) {
+            $sql .= " AND old_outstanding > 0 ";
+        }
 
 
         if (!empty($search)) {
@@ -227,21 +213,17 @@ class CustomerMaster
                 "contact_person_number" => $row['contact_person_number'],
                 "credit_limit" => number_format($row['credit_limit'], 2),
                 "outstanding" => number_format($row['outstanding'], 2),
-                "overdue" => number_format($row['overdue'], 2),
-                "vat_no" => $row['vat_no'],
-                "svat_no" => $row['svat_no'],
+                "old_outstanding" => number_format($row['old_outstanding'], 2),
                 "category_id" => $row['category'],
                 "category" => $CATEGORY->name,
-                "province_id" => $row['province'],
-                "province" => $PROVINCE->name,
-                "district_id" => $row['district'],
-                "district" => $DISTRICT->name,
-                "vat_group" => $row['vat_group'],
                 "remark" => $row['remark'],
                 "status" => $row['is_active'],
                 "status_label" => $row['is_active'] == 1
                     ? '<span class="badge bg-soft-success font-size-12">Active</span>'
-                    : '<span class="badge bg-soft-danger font-size-12">Inactive</span>'
+                    : '<span class="badge bg-soft-danger font-size-12">Inactive</span>',
+                "province" => $PROVINCE->name,
+                "district" => $DISTRICT->name,
+                "vat_no" => $row['vat_no']
             ];
 
             $data[] = $nestedData;
@@ -259,7 +241,7 @@ class CustomerMaster
 
     public static function searchCustomers($search)
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $query = "SELECT *
                 FROM customer_master 
                 WHERE (code LIKE '%$search%' OR name LIKE '%$search%') 
@@ -281,7 +263,7 @@ class CustomerMaster
     // Update customer outstanding balance
     public function updateCustomerOutstanding($customerId, $amount, $isCredit = false)
     {
-        $db = new Database();
+        $db = Database::getInstance();
 
         // Determine whether to add or subtract the amount based on credit/debit
         $operator = $isCredit ? '+' : '-';

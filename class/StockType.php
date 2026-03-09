@@ -14,7 +14,7 @@ class StockType
         if ($id) {
             $query = "SELECT `id`, `name`, `description`, `is_active`, `created_at` 
                       FROM `stock_type` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -36,7 +36,7 @@ class StockType
             '" . $this->is_active . "',
             NOW())";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -55,7 +55,7 @@ class StockType
                     `is_active` = '" . $this->is_active . "' 
                   WHERE `id` = '" . $this->id . "'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -69,7 +69,7 @@ class StockType
     public function delete()
     {
         $query = "DELETE FROM `stock_type` WHERE `id` = '" . $this->id . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -77,7 +77,7 @@ class StockType
     public function all()
     {
         $query = "SELECT * FROM `stock_type` ORDER BY `name` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -91,7 +91,7 @@ class StockType
     public function getActiveStockType()
     {
         $query = "SELECT * FROM `stock_type` WHERE `is_active` = 1 ORDER BY `id` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 

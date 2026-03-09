@@ -12,7 +12,7 @@ class BrandCategory
     {
         if ($id) {
             $query = "SELECT `id`, `code`, `name`, `queue` FROM `brand_category` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -33,7 +33,7 @@ class BrandCategory
             '" . (int) $this->queue . "'
         )";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -52,7 +52,7 @@ class BrandCategory
             `queue` = '" . (int) $this->queue . "'
             WHERE `id` = '" . (int) $this->id . "'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -67,7 +67,7 @@ class BrandCategory
     public function delete()
     {
         $query = "DELETE FROM `brand_category` WHERE `id` = '" . (int) $this->id . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -75,7 +75,7 @@ class BrandCategory
     public function all()
     {
         $query = "SELECT * FROM `brand_category` ORDER BY `id` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         $array_res = array();
@@ -90,7 +90,7 @@ class BrandCategory
     public function getByName($name)
     {
         $query = "SELECT * FROM `brand_category` WHERE `name` = '" . $name . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         return mysqli_fetch_array($result);
     }
@@ -98,7 +98,7 @@ class BrandCategory
     public function getLastID()
     {
         $query = "SELECT * FROM `brand_category` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }

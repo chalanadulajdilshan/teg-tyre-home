@@ -77,9 +77,7 @@ include 'auth.php';
                                                 <h5 class="font-size-16 mb-1">Brandwise Discount</h5>
                                                 <p class="text-muted text-truncate mb-0">Fill details for brand-wise discounts</p>
                                             </div>
-                                            <div class="flex-shrink-0">
-                                                <i class="mdi mdi-chevron-up accor-down-icon font-size-24"></i>
-                                            </div>
+                                            
                                         </div>
                                     </div>
 

@@ -83,7 +83,7 @@ jQuery(document).ready(function () {
 
 
     let fullItemList = []; // Global variable
-    let itemsPerPage = 1;
+    let itemsPerPage = 20;
 
     function loadItems(page = 1) {
 
@@ -92,6 +92,17 @@ jQuery(document).ready(function () {
         let group_id = $('#item_group_id').val();
         let department_id = $('#item_department_id').val();
         let item_code = $('#item_item_code').val().trim();
+
+        // Show loading state inside the modal table while data is fetching
+        $('#itemMaster tbody').html(`
+            <tr>
+                <td colspan="8" class="text-center text-secondary py-3">
+                    <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                    Loading items, please wait...
+                </td>
+            </tr>
+        `);
+        $('#itemPagination').empty();
 
         $.ajax({
             url: 'ajax/php/report.php',
@@ -125,49 +136,72 @@ jQuery(document).ready(function () {
         let tbody = '';
 
         let usedQtyMap = {};
-        $('#invoiceItemsBody tr').each(function () {
-            let rowCode = $(this).find('input[name="item_codes[]"]').val();
-            let rowArn = $(this).find('input[name="arn_ids[]"]').val();
-            let rowQty = parseFloat($(this).find('.item-qty').text()) || 0;
-            let key = `${rowCode}_${rowArn}`;
-
-
-            if (!usedQtyMap[key]) usedQtyMap[key] = 0;
-            usedQtyMap[key] += rowQty;
+        // Read from quotationItemsBody to track used quantities
+        $('#quotationItemsBody tr').each(function () {
+            // Skip the "No items" placeholder row
+            if ($(this).attr('id') === 'noItemRow') return;
+            
+            // Extract item code from first column (text content)
+            let rowCode = $(this).find('td:eq(0)').text().trim();
+            
+            // Extract quantity from fourth column (index 3)
+            let rowQty = parseFloat($(this).find('td:eq(3)').text().trim()) || 0;
+            
+            // Track total usage per item code
+            if (!usedQtyMap[rowCode]) usedQtyMap[rowCode] = 0;
+            usedQtyMap[rowCode] += rowQty;
         });
 
         if (slicedItems.length > 0) {
 
             $.each(slicedItems, function (index, item) {
                 let rowIndex = start + index + 1;
+                
+                // Calculate actual available quantity
+                let totalUsedQty = parseFloat(usedQtyMap[item.code]) || 0;
+                let actualAvailableQty = parseFloat(item.total_available_qty) - totalUsedQty;
 
                 // 🔹 Main item row
                 tbody += `<tr class="table-primary">
                     <td>${rowIndex}</td>
                     <td>${item.code} - ${item.name}</td> 
                     <td>${item.note}</td>
-                    <td>${item.total_available_qty}</td>
+                    <td>${actualAvailableQty}</td>
                     <td>${item.group}</td>
                     <td>${item.brand}</td>
                      <td>${item.category}</td>
                 </tr>`;
 
-                $('#available_qty').val(item.total_available_qty);
+                $('#available_qty').val(actualAvailableQty);
 
                 // Render ARN rows
                 let firstActiveAssigned = false;
+                
+                // Get total used quantity for this item code
+                let totalUsedForItem = parseFloat(usedQtyMap[item.code]) || 0;
+                let remainingToDeduct = totalUsedForItem;
+                
                 $.each(item.stock_tmp, function (i, row) {
 
                     const totalQty = parseFloat(row.qty);
                     const arnId = row.arn_no;
-                    const itemKey = `${item.code}_${arnId}`;
-                    const usedQty = parseFloat(usedQtyMap[itemKey]) || 0;
-                    const remainingQty = totalQty - usedQty;
+                    
+                    // Deduct from this ARN in FIFO order
+                    let usedFromThisArn = 0;
+                    if (remainingToDeduct > 0) {
+                        usedFromThisArn = Math.min(remainingToDeduct, totalQty);
+                        remainingToDeduct -= usedFromThisArn;
+                    }
+                    
+                    const remainingQty = totalQty - usedFromThisArn;
+
+                    // Skip ARNs that have no remaining quantity
+                    if (remainingQty <= 0) {
+                        return;
+                    }
 
                     let rowClass = '';
-                    if (remainingQty <= 0) {
-                        rowClass = 'used-arn';
-                    } else if (!firstActiveAssigned) {
+                    if (!firstActiveAssigned) {
                         $('.arn-row').removeClass('selected-arn');
                         rowClass = 'active-arn selected-arn';
                         firstActiveAssigned = true;
@@ -180,7 +214,7 @@ jQuery(document).ready(function () {
                     <tr class="table-info arn-row ${rowClass}" 
                         data-arn-index="${i}" 
                         data-qty="${totalQty}" 
-                        data-used="${usedQty}" 
+                        data-used="${usedFromThisArn}" 
                         data-arn-id="${arnId}">
                         
                         <td colspan="2"><strong>ARN:</strong> ${arnId}</td>
@@ -269,39 +303,42 @@ jQuery(document).ready(function () {
         let qtyMatch = availableQtyText.match(/Available Qty:\s*([\d.,]+)/i);
         let availableQty = qtyMatch ? parseFloat(qtyMatch[1].replace(/,/g, '')) : 0;
 
-
-
         // Extract ARN (in td:eq(0))
         let arnText = tdHtml.eq(0).text();
         let arnMatch = arnText.match(/ARN:\s*(.+)/i);
         let arn = arnMatch ? arnMatch[1].trim() : '';
 
-        //Extract Invoice Price (now from td:eq(5))
-        let invoicePriceText = tdHtml.eq(4).text();
+        // Extract List Price (from td:eq(4))
+        let listPriceText = tdHtml.eq(3).text();
+        let listPriceMatch = listPriceText.match(/List Price:\s*([\d.,]+)/i);
+        let listPrice = listPriceMatch ? parseFloat(listPriceMatch[1].replace(/,/g, '')) : 0;
 
+        // Extract Invoice/Selling Price (from td:eq(5))
+        let invoicePriceText = tdHtml.eq(4).text();
         let invoiceMatch = invoicePriceText.match(/Invoice Price:\s*([\d.,]+)/i);
         let invoicePrice = invoiceMatch ? parseFloat(invoiceMatch[1].replace(/,/g, '')) : 0;
+
+        // Calculate discount as difference between list price and selling price
+        let discountAmount = listPrice - invoicePrice;
 
         // Apply to inputs
         $('#itemCode').val(itemCode);
         $('#itemName').val(itemName);
-        $('#itemPrice').val(invoicePrice); // Use cost instead of list_price
-        $('#availableQty').val(availableQty);
-        $('#arn_no').val(arn); // optiona 
+        $('#itemPrice').val(parseFloat(listPrice).toFixed(2));
+        $('#itemCost').val('0.00'); // Cost from ARN if available
+        $('#itemSalePrice').val(parseFloat(invoicePrice).toFixed(2));
+        $('#itemDiscount').val(discountAmount.toFixed(2));
+        $('#available_qty').val(availableQty);
+        $('#arn_no').val(arn);
 
-        // Clear qty, discount, payment
-        $('#itemQty').val('');
-        $('#itemDiscount').val('');
-        $('#itemPayment').val('');
-        $('#payment_type').prop('disabled', true);
+        // Set qty to 1 by default
+        $('#itemQty').val(1);
 
         calculatePayment();
 
         let itemMasterModal = bootstrap.Modal.getInstance(document.getElementById('item_master'));
         if (itemMasterModal) {
             setTimeout(() => $('#itemQty').focus(), 200);
-
-
             itemMasterModal.hide();
         }
     });
@@ -331,36 +368,39 @@ jQuery(document).ready(function () {
         }
     });
 
-    // Add item to quatation table
+    // Add item to quotation table
     function addItem() {
+        // Get input values
         const code = $('#itemCode').val().trim();
         const name = $('#itemName').val().trim();
-        const price = parseFloat($('#itemPrice').val()) || 0;
+        const listPrice = parseFloat($('#itemPrice').val()) || 0;
+        const cost = parseFloat($('#itemCost').val()) || 0;
         const qty = parseFloat($('#itemQty').val()) || 0;
-        const discount = parseFloat($('#itemDiscount').val()) || 0;
-        const payment = parseFloat($('#itemPayment').val()) || 0;
-        const vat = parseFloat($('#vat').val()) || 0;
-        const vatType = $('#vat_type').val(); // 2 = VAT applicable
-
-        if (!code || !name || price <= 0 || qty <= 0) {
-            let message = "";
-
-            if (!code) message += "- Item code is required\n";
-            if (!name) message += "- Item name is required\n";
-            if (price <= 0) message += "- Price must be greater than 0\n";
-            if (qty <= 0) message += "- Quantity must be greater than 0\n";
-
+        let discount = parseFloat($('#itemDiscount').val()) || 0;
+        const sellingPrice = parseFloat($('#itemSalePrice').val()) || 0;
+        
+        // Only validate if user has interacted with the form
+        const $qtyField = $('#itemQty');
+        const hasInteracted = $qtyField.is(':focus') || $qtyField.val() !== '';
+        
+        if (hasInteracted && (!qty || qty <= 0)) {
             swal({
-                title: "Invalid Item Details!",
-                text: message,
+                title: "Invalid Quantity",
+                text: "Please enter a quantity greater than 0",
                 icon: "warning",
-                timer: 3000,
-                buttons: false
+                buttons: false,
+                timer: 2000
+            }).then(() => {
+                $qtyField.val('').focus();
             });
+            return;
+        } else if (!hasInteracted) {
+            // If no interaction, just focus the field
+            $qtyField.focus();
             return;
         }
 
-
+        // Check for duplicate items
         let isDuplicate = false;
         $('#quotationItemsBody tr').each(function () {
             const existingCode = $(this).find('td:eq(0)').text().trim();
@@ -381,36 +421,26 @@ jQuery(document).ready(function () {
             return;
         }
 
-        let subtotal = price * qty;
-        let discountAmount = subtotal * (discount / 100);
-        let total = subtotal - discountAmount;
-        let vatAmount = 0;
+        // Calculate total (selling price * qty)
+        let total = sellingPrice * qty;
 
-        if (vatType == '2') {
-            vatAmount = total * (vat / 100);
-            total += vatAmount;
+        // Prevent negative totals if selling price dips below 0
+        if (total < 0) {
+            total = 0;
         }
 
         // Remove 'No Data' row if exists
         $('#noItemRow').remove();
 
-        // Build VAT column only if applicable
-        let vatColumn = '';
-        if (vatType == '2') {
-            vatColumn = `<td>${vatAmount.toFixed(2)}</td>`;
-
-
-        }
-
+        // Build row matching table columns: Code, Name, List Price, Qty, Discount, Selling Price, Total, Action
         const row = `
         <tr>
             <td>${code}</td>
             <td>${name}</td>
-            <td>${price.toFixed(2)}</td>
+            <td>${listPrice.toFixed(2)}</td>
             <td>${qty}</td>
-            <td>${discount}%</td>
-            <td>${payment.toFixed(2)}</td>
-            ${vatColumn}
+            <td>${discount.toFixed(2)}</td>
+            <td>${sellingPrice.toFixed(2)}</td>
             <td>${total.toFixed(2)}</td>
             <td><button type="button" class="btn btn-sm btn-danger" onclick="removeRow(this)">Remove</button></td>
         </tr>
@@ -418,8 +448,7 @@ jQuery(document).ready(function () {
         $('#quotationItemsBody').append(row);
 
         // Clear input fields
-        $('#itemCode, #itemName, #itemPrice, #itemQty, #itemDiscount, #itemPayment').val('');
-        $('#vat_amount').val('');
+        $('#itemCode, #itemName, #itemPrice, #itemCost, #itemQty, #itemDiscount, #itemSalePrice').val('');
 
         updateFinalTotal();
     }
@@ -435,36 +464,46 @@ jQuery(document).ready(function () {
         let subTotal = 0;
         let discountTotal = 0;
         let vatTotal = 0;
+        let grandTotal = 0;
 
-        const vatType = $('#vat_type').val();
-        const vatRate = parseFloat($('#vat').val()) || 0;
+        const isVatApplied = $('#is_vat_invoice').is(':checked');
+        const vatPercentage = parseFloat($('#vat_percentage').val()) || 0;
 
+        // Table columns: Code(0), Name(1), List Price(2), Qty(3), Discount(4), Selling Price(5), Total(6), Action(7)
         $('#quotationItemsBody tr').each(function () {
-            const price = parseFloat($(this).find('td:eq(2)').text()) || 0;
+            if ($(this).attr('id') === 'noItemRow') return;
+            
+            const listPrice = parseFloat($(this).find('td:eq(2)').text()) || 0;
             const qty = parseFloat($(this).find('td:eq(3)').text()) || 0;
             const discount = parseFloat($(this).find('td:eq(4)').text()) || 0;
+            const total = parseFloat($(this).find('td:eq(6)').text()) || 0;
 
-            const rowSubtotal = price * qty;
-            const rowDiscount = rowSubtotal * (discount / 100);
-            const rowTotal = rowSubtotal - rowDiscount;
+            const rowSubtotal = listPrice * qty;
+            const rowDiscount = discount * qty;
+
+            // VAT applies on discounted amount
+            if (isVatApplied && vatPercentage > 0) {
+                const taxable = rowSubtotal - rowDiscount;
+                vatTotal += taxable * (vatPercentage / 100);
+            }
 
             subTotal += rowSubtotal;
             discountTotal += rowDiscount;
-
-            if (vatType == '2') {
-                const rowVAT = rowTotal * (vatRate / 100);
-                vatTotal += rowVAT;
-
-            }
+            grandTotal += total;
         });
-
-        const grandTotal = (subTotal - discountTotal + vatTotal);
 
         // Update display fields
         $('#finalTotal').val(subTotal.toFixed(2));        // Sub Total
         $('#disTotal').val(discountTotal.toFixed(2));     // Discount Total
-        $('#vatTotal').val(vatTotal.toFixed(2));          // Total VAT (add input in form if not present)
-        $('#grandTotal').val(grandTotal.toFixed(2));      // Grand Total
+        $('#vatTotal').val(vatTotal.toFixed(2));          // VAT Total
+        $('#grandTotal').val((grandTotal + vatTotal).toFixed(2));      // Grand Total
+
+        // Toggle VAT total visibility to match checkbox state
+        if (isVatApplied) {
+            $('.vat_total').removeClass('hidden');
+        } else {
+            $('.vat_total').addClass('hidden');
+        }
     }
 
 
@@ -473,33 +512,27 @@ jQuery(document).ready(function () {
     $('#addItemBtn').click(addItem);
 
 
-    // Calculate payment
+    // Calculate payment - recalculate selling price based on list price and discount
     function calculatePayment() {
-        const price = parseFloat($('#itemPrice').val()) || 0;
-        const qty = parseFloat($('#itemQty').val()) || 0;
-        const discount = parseFloat($('#itemDiscount').val()) || 0;
-        const vat = parseFloat($('#vat').val()) || 0;
-        const vatType = $('#vat_type').val();
+        const listPrice = parseFloat($('#itemPrice').val()) || 0;
+        let discount = parseFloat($('#itemDiscount').val()) || 0;
 
-        const subtotal = price * qty;
-        const discountedAmount = subtotal * (discount / 100);
-        let total = subtotal - discountedAmount;
-
-        // Reset VAT amount field
-        $('#vat_amount').val('0.00');
-
-        if (vatType == '2') {
-            const vatAmount = total * (vat / 100);
-            total += vatAmount;
-            $('#vat_amount').val(vatAmount.toFixed(2));
+        // Calculate selling price = list price - discount amount (discount can be negative for markups)
+        let sellingPrice = listPrice - discount;
+        if (sellingPrice < 0) {
+            sellingPrice = 0;
         }
-
-        $('#itemPayment').val(total.toFixed(2));
+        $('#itemSalePrice').val(sellingPrice.toFixed(2));
     }
 
 
     // Call payment calculation on input change
-    $('#itemPrice, #itemQty, #itemDiscount').on('input', calculatePayment);
+    $('#itemPrice, #itemQty, #itemDiscount, #itemSalePrice').on('input', calculatePayment);
+
+    // VAT toggle
+    $('#is_vat_invoice').on('change', function () {
+        updateFinalTotal();
+    });
 
     // Global function to remove row
     let deletedItems = [];
@@ -508,28 +541,27 @@ jQuery(document).ready(function () {
     window.removeRow = function (button) {
         const $row = $(button).closest('tr');
 
-        // Get hidden item_id
+        // Get hidden item_id (only present for items already saved in DB)
         const itemId = $row.find('input.item-id').val();
         if (itemId) {
             deletedItems.push(itemId);
+        }
 
-            $row.remove();
+        $row.remove();
 
-            if ($('#quotationItemsBody tr').length === 0) {
-                $('#quotationItemsBody').append(`
+        if ($('#quotationItemsBody tr').length === 0) {
+            $('#quotationItemsBody').append(`
             <tr id="noItemRow">
                 <td colspan="8" class="text-center text-muted">No items added</td>
             </tr>
         `);
-            }
+        }
 
-            updateFinalTotal();
-        };
+        updateFinalTotal();
 
     }
 
-    // Disable price field to prevent manual changes
-    $('#itemPrice').prop('readonly', true);
+    // Price field is now editable
 
     $('#create').click(function (e) {
         e.preventDefault();
@@ -603,12 +635,22 @@ jQuery(document).ready(function () {
                         return;
                     }
 
-                    const itemCode = $(this).find('td:eq(0)').text().trim();
-                    const itemName = $(this).find('td:eq(1)').text().trim();
-                    const itemPrice = parseFloat($(this).find('td:eq(2)').text()) || 0;
-                    const itemQty = parseFloat($(this).find('td:eq(3)').text()) || 0;
-                    const itemDiscount = parseFloat($(this).find('td:eq(4)').text().replace('%', '')) || 0;
-                    const itemTotal = parseFloat($(this).find('td:eq(6)').text()) || 0;
+                    // Table columns: Code(0), Name(1), List Price(2), Qty(3), Discount(4), Selling Price(5), Total(6), Action(7)
+                    const $row = $(this);
+                    const itemCode = $row.find('td:eq(0)').text().trim();
+                    const itemName = $row.find('td:eq(1)').text().trim();
+
+                    const priceCell = $row.find('td:eq(2)');
+                    const qtyCell = $row.find('td:eq(3)');
+                    const discountCell = $row.find('td:eq(4)');
+                    const sellingPriceCell = $row.find('td:eq(5)');
+                    const totalCell = $row.find('td:eq(6)');
+
+                    const itemPrice = parseFloat(priceCell.find('input').val() || priceCell.text()) || 0;
+                    const itemQty = parseFloat(qtyCell.find('input').val() || qtyCell.text()) || 0;
+                    const itemDiscount = parseFloat(discountCell.find('input').val() || discountCell.text()) || 0;
+                    const itemSellingPrice = parseFloat(sellingPriceCell.find('input').val() || sellingPriceCell.text()) || 0;
+                    const itemTotal = parseFloat(totalCell.find('input').val() || totalCell.text()) || 0;
 
                     if (!itemCode || !itemName || itemPrice <= 0 || itemQty <= 0) {
                         hasInvalidItem = true;
@@ -621,6 +663,7 @@ jQuery(document).ready(function () {
                         price: itemPrice,
                         qty: itemQty,
                         discount: itemDiscount,
+                        selling_price: itemSellingPrice,
                         total: itemTotal
                     });
                 });
@@ -667,6 +710,8 @@ jQuery(document).ready(function () {
                     payment_term: $('#payment_type').val(),
                     validity: $('#validity').val(),
                     vat_type: $('#vat_type').val(),
+                    is_vat_invoice: $('#is_vat_invoice').is(':checked') ? 1 : 0,
+                    vat_percentage: $('#vat_percentage').val(),
                     grand_total: finalTotal,
                     items: JSON.stringify(items),
 
@@ -769,12 +814,22 @@ jQuery(document).ready(function () {
 
         $('#quotationItemsBody tr').each(function () {
             if ($(this).attr('id') === 'noItemRow') return;
-            const itemCode = $(this).find('td:eq(0)').text().trim();
-            const itemName = $(this).find('td:eq(1)').text().trim();
-            const itemPrice = parseFloat($(this).find('td:eq(2)').text()) || 0;
-            const itemQty = parseFloat($(this).find('td:eq(3)').text()) || 0;
-            const itemDiscount = parseFloat($(this).find('td:eq(4)').text().replace('%', '')) || 0;
-            const itemTotal = parseFloat($(this).find('td:eq(6)').text()) || 0;
+            // Table columns: Code(0), Name(1), List Price(2), Qty(3), Discount(4), Selling Price(5), Total(6), Action(7)
+            const $row = $(this);
+            const itemCode = $row.find('td:eq(0)').text().trim();
+            const itemName = $row.find('td:eq(1)').text().trim();
+
+            const priceCell = $row.find('td:eq(2)');
+            const qtyCell = $row.find('td:eq(3)');
+            const discountCell = $row.find('td:eq(4)');
+            const sellingPriceCell = $row.find('td:eq(5)');
+            const totalCell = $row.find('td:eq(6)');
+
+            const itemPrice = parseFloat(priceCell.find('input').val() || priceCell.text()) || 0;
+            const itemQty = parseFloat(qtyCell.find('input').val() || qtyCell.text()) || 0;
+            const itemDiscount = parseFloat(discountCell.find('input').val() || discountCell.text()) || 0;
+            const itemSellingPrice = parseFloat(sellingPriceCell.find('input').val() || sellingPriceCell.text()) || 0;
+            const itemTotal = parseFloat(totalCell.find('input').val() || totalCell.text()) || 0;
 
             if (!itemCode || !itemName || itemPrice <= 0 || itemQty <= 0) {
                 hasInvalidItem = true;
@@ -787,6 +842,7 @@ jQuery(document).ready(function () {
                 price: itemPrice,
                 qty: itemQty,
                 discount: itemDiscount,
+                selling_price: itemSellingPrice,
                 total: itemTotal
             });
         });
@@ -813,7 +869,7 @@ jQuery(document).ready(function () {
             return;
         }
 
-        let finalTotal = parseFloat($('#finalTotal').text()) || 0;
+        let finalTotal = parseFloat($('#finalTotal').val()) || 0;
 
         const quotationData = {
             action: 'update_quotation',
@@ -830,6 +886,8 @@ jQuery(document).ready(function () {
             payment_type: $('#payment_type').val(),
             remarks: $('#remark').val(),
             vat_type: $('#vat_type').val(),
+            is_vat_invoice: $('#is_vat_invoice').is(':checked') ? 1 : 0,
+            vat_percentage: $('#vat_percentage').val(),
             sub_total: finalTotal,
             discount: 0,
             grand_total: finalTotal,
@@ -940,8 +998,19 @@ jQuery(document).ready(function () {
                     $('#vat_type').val(quotation.vat_type || 1);
                     $('#remark').val(quotation.remarks);
 
+                    // Set VAT information
+                    if (quotation.is_vat_invoice == 1) {
+                        $('#is_vat_invoice').prop('checked', true);
+                        $('.vat_total').removeClass('hidden');
+                    } else {
+                        $('#is_vat_invoice').prop('checked', false);
+                        $('.vat_total').addClass('hidden');
+                    }
+                    $('#vat_percentage').val(quotation.vat_percentage || 0);
+
                     $('#finalTotal').val(quotation.sub_total);
                     $('#disTotal').val(quotation.discount);
+                    $('#vatTotal').val(quotation.vat_total || 0);
                     $('#grandTotal').val(quotation.grand_total);
                     $('#credit_period').val(quotation.credit_period);
                     $('#validity').val(quotation.validity);
@@ -966,7 +1035,7 @@ jQuery(document).ready(function () {
                                 <td>${item.item_name}</td>
                                 <td><input type="number" class="form-control form-control-sm price"   value="${price}"  ></td>
                                 <td>${qty}</td>
-                                <td>${discount}%</td>
+                                <td>${discount.toFixed(2)}</td>
                                 <td>${subtotal.toFixed(2)}</td>
                                 <td><input type="text" class="form-control form-control-sm totalPrice"  value="${total.toFixed(2)}" readonly>
                                 <td><button type="button" class="btn btn-sm btn-danger" onclick="removeRow(this)">Remove</button></td>

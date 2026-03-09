@@ -8,7 +8,7 @@ if (!isset($_GET['return_id'])) {
 }
 
 $return_id = $_GET['return_id'];
-$db = new Database();
+$db = Database::getInstance();
 
 $query = "SELECT pri.*, 
                  im.name AS item_name, 

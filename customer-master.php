@@ -132,159 +132,106 @@ $customer_id = 'CM/' . $_SESSION['id'] . '/0' . ($lastId + 1);
 
                                                 <!-- Full Name -->
                                                 <div class="col-md-3">
-                                                    <label for="fullName" class="form-label">First Name <span
+                                                    <label for="fullName" class="form-label">Full Name <span
                                                             class="text-danger">*</span></label>
-                                                    <input id="name" name="name" onkeyup="toUpperCaseInput(this)" type="text" class="form-control"
-                                                        placeholder="Enter first name">
+                                                    <input id="name" name="name" onkeyup="toUpperCaseInput(this)"
+                                                        type="text" class="form-control" placeholder="Enter full name">
                                                 </div>
 
+
                                                 <!-- Name 2 -->
-                                                <div class="col-md-3">
-                                                    <label for="name2" class="form-label">Last Name</label>
-                                                    <input id="name_2" name="name_2" onkeyup="toUpperCaseInput(this)" type="text" class="form-control"
-                                                        placeholder="Enter last name">
+                                                <div class="col-md-3 hidden">
+                                                    <label for="name2" class="form-label">Customer Number</label>
+                                                    <input id="name_2" name="name_2" onkeyup="toUpperCaseInput(this)"
+                                                        type="text" class="form-control"
+                                                        placeholder="Enter customer number">
                                                 </div>
 
                                                 <!-- Address -->
-                                                <div class="col-md-4">
-                                                    <label for="address" class="form-label">Address <span
+                                                <div class="col-md-4 hidden">
+                                                    <label for="address" class="form-label">Customer Number <span
                                                             class="text-danger">*</span></label>
-                                                    <input id="address" onkeyup="toUpperCaseInput(this)" name="address" type="text" class="form-control"
-                                                        placeholder="Enter address">
+                                                    <input id="address" onkeyup="toUpperCaseInput(this)" name="address"
+                                                        type="text" class="form-control" placeholder="Enter address">
                                                 </div>
 
                                                 <!-- Mobile 1 -->
                                                 <div class="col-md-3">
-                                                    <label for="mobile1" class="form-label">Mobile Number 01 <span
-                                                            class="text-danger">*</span></label>
+                                                    <label for="mobile1" class="form-label">Mobile Number </label>
                                                     <input id="mobile_number" name="mobile_number" type="tel"
                                                         class="form-control" placeholder="Enter primary mobile number"
-                                                        pattern="[0-9]{10}" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                                        pattern="[0-9]{10}" maxlength="10"
+                                                        oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                                                 </div>
 
                                                 <!-- Mobile 2 -->
-                                                <div class="col-md-3">
+                                                <div class="col-md-3 hidden">
                                                     <label for="mobile_number_2" class="form-label">Mobile Number
                                                         02</label>
                                                     <input id="mobile_number_2" name="mobile_number_2" type="tel"
-                                                        class="form-control"
-                                                        placeholder="Enter secondary mobile number" pattern="[0-9]{10}" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                                        class="form-control" placeholder="Enter secondary mobile number"
+                                                        pattern="[0-9]{10}" maxlength="10"
+                                                        oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                                                 </div>
 
                                                 <!-- Email -->
-                                                <div class="col-md-3">
+                                                <div class="col-md-3 hidden">
                                                     <label for="email" class="form-label">Email</label>
                                                     <input id="email" name="email" type="email" class="form-control"
                                                         placeholder="Enter email">
                                                 </div>
 
                                                 <!-- Contact Person -->
-                                                <div class="col-md-3">
+                                                <div class="col-md-3 hidden">
                                                     <label for="contactPerson" class="form-label">Contact Person</label>
                                                     <input id="contact_person" name="contact_person" type="text"
                                                         class="form-control" placeholder="Enter contact person name">
                                                 </div>
 
                                                 <!-- Contact Person No -->
-                                                <div class="col-md-3 mt-3">
+                                                <div class="col-md-3 hidden">
                                                     <label for="contact_person_number" class="form-label">Contact Person
                                                         No</label>
                                                     <input id="contact_person_number" name="contact_person_number"
                                                         type="tel" class="form-control"
-                                                        placeholder="Enter contact person number" pattern="[0-9]{10}" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                                        placeholder="Enter contact person number" pattern="[0-9]{10}"
+                                                        maxlength="10"
+                                                        oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                                                 </div>
-                                                <div class="col-md-1 mt-5 d-flex justify-content-center align-items-center">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="is_active"
-                                                            name="is_active">
-                                                        <label class="form-check-label" for="is_active">
-                                                            Active
-                                                        </label>
-                                                    </div>
-                                                </div>
-
-                                                <hr class="mt-3">
-                                                <!-- Credit Info -->
-                                                <div class="col-md-4 mt-3">
-                                                    <label for="credit_limit" class="form-label">Credit Limit</label>
-                                                    <input id="credit_limit" name="credit_limit" type="number"
-                                                        class="form-control" placeholder="Enter credit limit">
-                                                </div>
-                                                <div class="col-md-4 mt-3">
-                                                    <label for="outstanding" class="form-label">Outstanding Balance</label>
-                                                    <input id="outstanding" name="outstanding" type="number"
+                                                <div class="col-md-3 ">
+                                                    <label for="outstanding" class="form-label">Outstanding
+                                                        Balance</label>
+                                                    <input id="outstanding" name="outstanding" type="text"
                                                         class="form-control" placeholder="Enter outstanding balance">
                                                 </div>
-                                                <div class="col-md-4 mt-3" style="display: none;">
-                                                    <label for="overdue" class="form-label">Overdue</label>
-                                                    <input id="overdue" name="overdue" type="number" class="form-control"
-                                                        class="text-danger">*</span></label>
-                                                    <input id="overdue" name="overdue" type="number" class="form-control"
-                                                        placeholder="Enter overdue amount">
+                                                <div class="col-md-2 ">
+                                                    <label for="old_outstanding" class="form-label">Old Outstanding
+                                                        Balance</label>
+                                                    <input id="old_outstanding" name="old_outstanding" type="text"
+                                                        class="form-control"
+                                                        placeholder="Enter old outstanding balance">
                                                 </div>
 
                                                 <!-- VAT Details -->
-                                                <div class="col-md-4 mt-3">
+                                                <div class="col-md-3 ">
                                                     <label for="vat_no" class="form-label">VAT No</label>
                                                     <input id="vat_no" name="vat_no" type="text" class="form-control"
                                                         placeholder="Enter VAT number">
                                                 </div>
-                                                <div class="col-md-4 mt-3">
+                                                <div class="col-md-4 hidden">
                                                     <label for="svat_no" class="form-label">SVAT No</label>
                                                     <input id="svat_no" name="svat_no" type="text" class="form-control"
                                                         placeholder="Enter SVAT number">
                                                 </div>
-
-                                                <!-- Hidden Customer Category with default value 'customer' -->
-                                                <div class="col-md-4 mt-3" style="display: none;">
-                                                    <label for="category" class="form-label">Customer Category <span
-                                                            class="text-danger">*</span></label>
-                                                    <input id="category" name="category" type="text" class="form-control"
-                                                        placeholder="Enter SVAT number" value="1">
-                                                </div>
-
-                                                <div class="col-md-4 mt-3" style="display: none;">
-                                                    <label for="province" class="form-label">Province <span
-                                                            class="text-danger">*</span></label>
-                                                    <select id="province" name="province" class="form-select select2">
-                                                        <option value="" selected> -- Select province -- </option>
-                                                        <?php
-                                                        $PROVINCE = new Province(null);
-                                                        foreach ($PROVINCE->all() as $province) {
-                                                        ?>
-                                                            <option value="<?php echo $province['id'] ?>">
-                                                                <?php echo $province['name'] ?>
-                                                            </option>
-                                                        <?php } ?>
-                                                    </select>
-                                                </div>
-
-                                                <!-- Region Info -->
-                                                <div class="col-md-4 mt-3" style="display: none;">
-                                                    <label for="district" class="form-label">District <span
-                                                            class="text-danger">*</span></label>
-                                                    <select id="district" name="district" class="form-select select2 ">
-                                                        <option value="" selected>-- Select province first -- </option>
-                                                        <?php
-                                                        $DISTRICT = new District(null);
-                                                        foreach ($DISTRICT->all() as $district) {
-                                                        ?>
-                                                            <option value="<?php echo $district['id'] ?>">
-                                                                <?php echo $district['name'] ?>
-                                                            </option>
-                                                        <?php } ?>
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-md-4 mt-3" style="display: none;">
-                                                    <label for="vat_group" class="form-label">Customer VAT Group <span
-                                                            class="text-danger">*</span></label>
-                                                    <select id="vat_group" name="vat_group" class="form-select">
-                                                        <option value="" selected> -- Select VAT group -- </option>
-                                                        <option value="Private VAT">Private VAT</option>
-                                                        <option value="GOV VAT">GOV VAT</option>
-                                                        <option value="GOV NON VAT">GOV NON VAT</option>
-                                                    </select>
+                                                <div
+                                                    class="col-md-1 mt-3 d-flex justify-content-center align-items-center">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="is_active"
+                                                            name="is_active" checked>
+                                                        <label class="form-check-label" for="is_active">
+                                                            Active
+                                                        </label>
+                                                    </div>
                                                 </div>
 
                                                 <!-- Remark Note -->
@@ -294,6 +241,7 @@ $customer_id = 'CM/' . $_SESSION['id'] . '/0' . ($lastId + 1);
                                                         placeholder="Enter any remarks or notes about the customer..."></textarea>
                                                 </div>
                                                 <input type="hidden" id="customer_id" name="customer_id" />
+                                                <input type="hidden" id="category" name="category" value="1" />
                                             </div>
                                         </form>
                                     </div>
@@ -325,8 +273,8 @@ $customer_id = 'CM/' . $_SESSION['id'] . '/0' . ($lastId + 1);
 
     <!-- Page Preloader Script -->
     <script>
-        $(window).on('load', function() {
-            $('#page-preloader').fadeOut('slow', function() {
+        $(window).on('load', function () {
+            $('#page-preloader').fadeOut('slow', function () {
                 $(this).remove();
             });
         });

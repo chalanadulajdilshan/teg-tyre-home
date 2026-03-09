@@ -14,7 +14,7 @@ class ServiceItem
     {
         if ($id) {
             $query = "SELECT * FROM `service_item` WHERE `id` = " . (int)$id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -31,7 +31,7 @@ class ServiceItem
     {
         $query = "INSERT INTO `service_item` (`item_code`, `item_name`, `cost`, `selling_price`, `qty`) 
                   VALUES ('" . $this->item_code . "', '" . $this->item_name . "', '" . $this->cost . "', '" . $this->selling_price . "', '" . $this->qty . "')";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -51,7 +51,7 @@ class ServiceItem
                     `selling_price` = '" . $this->selling_price . "',
                     `qty` = '" . $this->qty . "'
                   WHERE `id` = '" . $this->id . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -65,7 +65,7 @@ class ServiceItem
     public function delete()
     {
         $query = "DELETE FROM `service_item` WHERE `id` = '" . $this->id . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -73,7 +73,7 @@ class ServiceItem
     public function all()
     {
         $query = "SELECT * FROM `service_item` ORDER BY `item_name` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -90,7 +90,7 @@ class ServiceItem
 
         $query = "SELECT * FROM `service_item` WHERE `id` = '" . $item_code . "'";
         
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -104,7 +104,7 @@ class ServiceItem
     public function getLastID()
     {
         $query = "SELECT * FROM `service_item` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }

@@ -12,7 +12,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'get_stock_by_date') {
     }
 
     try {
-        $db = new Database();
+        $db = Database::getInstance();
 
         // Get all items that have transactions up to the date
         $itemsQuery = "

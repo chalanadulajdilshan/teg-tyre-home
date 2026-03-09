@@ -12,7 +12,7 @@ class CreditPeriod
     {
         if ($id) {
             $query = "SELECT * FROM `credit_period` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -32,7 +32,7 @@ class CreditPeriod
             '$this->code', '$this->days','$this->is_active'
         )";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -51,7 +51,7 @@ class CreditPeriod
             WHERE `id` = '$this->id'";
 
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -64,14 +64,14 @@ class CreditPeriod
     public function delete()
     {
         $query = "DELETE FROM `credit_period` WHERE `id` = '$this->id'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function all()
     {
         $query = "SELECT * FROM `credit_period` ORDER BY id ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         $array_res = array();
@@ -85,14 +85,14 @@ class CreditPeriod
     public function getLastID()
     {
         $query = "SELECT * FROM `credit_period` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }
 
     public function fetchForDataTable($request)
     {
-        $db = new Database();
+        $db = Database::getInstance();
 
         $start = isset($request['start']) ? (int) $request['start'] : 0;
         $length = isset($request['length']) ? (int) $request['length'] : 100;
@@ -112,7 +112,7 @@ class CreditPeriod
     public function getCreditPeriodByStatus($status)
     {
         $query = "SELECT * FROM `credit_period` WHERE `is_active` = $status ORDER BY `id` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 

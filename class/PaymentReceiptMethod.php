@@ -21,7 +21,7 @@ class PaymentReceiptMethod
                       FROM `payment_receipt_method`
                       WHERE `id` = " . (int)$id;
 
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -45,7 +45,7 @@ class PaymentReceiptMethod
                  FROM `payment_receipt_method` 
                  WHERE `receipt_id` = " . (int)$receipt_id;
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $methods = [];
 
@@ -72,7 +72,7 @@ class PaymentReceiptMethod
                     '{$this->is_settle}'
                   )";
 
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query) ? mysqli_insert_id($db->DB_CON) : false;
     }
 
@@ -91,14 +91,14 @@ class PaymentReceiptMethod
                     `is_settle` = '{$this->is_settle}'
                   WHERE `id` = '{$this->id}'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function delete()
     {
         $query = "DELETE FROM `payment_receipt_method` WHERE `id` = '{$this->id}'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -109,7 +109,7 @@ class PaymentReceiptMethod
                   FROM `payment_receipt_method`
                   ORDER BY `id` DESC";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 
@@ -128,7 +128,7 @@ class PaymentReceiptMethod
                   WHERE `receipt_id` = '" . (int)$receiptId . "'
                   ORDER BY `id` ASC";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 
@@ -145,18 +145,16 @@ class PaymentReceiptMethod
                   SET 
                     `is_settle` = 1
                   WHERE `id` = '{$id}'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
-
-
-  public function getByDateRange($date, $dateTo)
+      public function getByDateRange($date, $dateTo)
 {
     if (empty($date) || empty($dateTo)) {
         return [];
     }
 
-    $db = new Database();
+    $db = Database::getInstance();
     $date = $db->escapeString($date);
     $dateTo = $db->escapeString($dateTo);
 

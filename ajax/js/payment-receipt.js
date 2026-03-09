@@ -866,6 +866,7 @@ jQuery(document).ready(function ($) {
       cache: false,
       contentType: false,
       processData: false,
+      dataType: "json",
       success: function (result) {
         $(".someBlock").preloader("remove");
         if (result.status === "success") {

@@ -174,8 +174,8 @@ include 'auth.php';
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
     <!-- Custom JS for Supplier Outstanding Report -->
-    <script src="ajax/js/supplier-outstanding-report.js"></script>
     <script src="ajax/js/common.js"></script>
+    <script src="ajax/js/supplier-outstanding-report.js"></script>
 
     <script>
         $(document).ready(function () {

@@ -72,7 +72,7 @@ if (isset($_POST['update'])) {
         if (isset($_POST['methods']) && is_array($_POST['methods'])) {
 
             // Delete existing methods first (to avoid duplicates)
-            $db = new Database();
+            $db = Database::getInstance();
             $db->readQuery("DELETE FROM `payment_receipt_method` WHERE `receipt_id` = " . (int)$_POST['id']);
 
             // Insert updated methods
@@ -102,7 +102,7 @@ if (isset($_POST['delete']) && isset($_POST['id'])) {
     $receiptId = (int)$_POST['id'];
 
     // Delete receipt methods first
-    $db = new Database();
+    $db = Database::getInstance();
     $db->readQuery("DELETE FROM `payment_receipt_method` WHERE `receipt_id` = " . $receiptId);
 
     // Delete receipt itself

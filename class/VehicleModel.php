@@ -12,7 +12,7 @@ class VehicleModel
     {
         if ($id) {
             $query = "SELECT * FROM `vehicle_model` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -32,7 +32,7 @@ class VehicleModel
             '$this->code', '$this->brand_id', '$this->name'
         )";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -51,7 +51,7 @@ class VehicleModel
             WHERE `id` = '$this->id'";
  
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -64,14 +64,14 @@ class VehicleModel
     public function delete()
     {
         $query = "DELETE FROM `vehicle_model` WHERE `id` = '$this->id'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function all()
     {
         $query = "SELECT * FROM `vehicle_model` ORDER BY name ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         $array_res = array();
@@ -85,14 +85,14 @@ class VehicleModel
     public function getLastID()
     {
         $query = "SELECT * FROM `vehicle_model` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }
 
     public function fetchForDataTable($request)
     {
-        $db = new Database();
+        $db = Database::getInstance();
     
         $start = isset($request['start']) ? (int)$request['start'] : 0;
         $length = isset($request['length']) ? (int)$request['length'] : 100;
@@ -150,7 +150,7 @@ class VehicleModel
     public function getIdbyItemCode($code)
     {
         $query = "SELECT `id` FROM `vehicle_model` WHERE `code` = '$code' LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
     
         if ($row = mysqli_fetch_assoc($result)) {

@@ -8,6 +8,7 @@ class PurchaseOrder
     public $supplier_id;
     public $address;
     public $brand;
+    public $category;
     public $invoice_no;
     public $country;
     public $department;
@@ -24,7 +25,7 @@ class PurchaseOrder
     {
         if ($id) {
             $query = "SELECT * FROM `purchase_orders` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -34,6 +35,7 @@ class PurchaseOrder
                 $this->supplier_id = $result['supplier_id'];
                 $this->address = $result['address'];
                 $this->brand = $result['brand'];
+                $this->category = $result['category'];
                 $this->invoice_no = $result['invoice_no'];
                 $this->country = $result['country'];
                 $this->department = $result['department'];
@@ -51,14 +53,14 @@ class PurchaseOrder
     public function create()
     {
         $query = "INSERT INTO `purchase_orders` (
-            `po_number`, `order_date`, `supplier_id`, `address`, `brand`, `invoice_no`, `country`, `department`, `purchase_date`, `status`, `remarks`, `grand_total`, `created_by`, `created_at`
+            `po_number`, `order_date`, `supplier_id`, `address`, `brand`, `category`, `invoice_no`, `country`, `department`, `purchase_date`, `status`, `remarks`, `grand_total`, `created_by`, `created_at`
         ) VALUES (
-            '{$this->po_number}', '{$this->order_date}', '{$this->supplier_id}', '{$this->address}', '{$this->brand}',
+            '{$this->po_number}', '{$this->order_date}', '{$this->supplier_id}', '{$this->address}', '{$this->brand}', '{$this->category}',
             '{$this->invoice_no}', '{$this->country}', '{$this->department}', '{$this->purchase_date}', 0, '{$this->remarks}', '{$this->grand_total}', '{$this->created_by}', '{$this->created_at}'
         )";
 
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -77,6 +79,7 @@ class PurchaseOrder
             `supplier_id` = '{$this->supplier_id}', 
             `address` = '{$this->address}', 
             `brand` = '{$this->brand}', 
+            `category` = '{$this->category}',
             `invoice_no` = '{$this->invoice_no}',
             `country` = '{$this->country}',
             `department` = '{$this->department}',
@@ -88,7 +91,7 @@ class PurchaseOrder
             `created_at` = '{$this->created_at}'    
             WHERE `id` = '{$this->id}'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -104,7 +107,7 @@ class PurchaseOrder
         PurchaseOrderItem::deleteByPurchaseOrderId($this->id);
 
         $query = "DELETE FROM `purchase_orders` WHERE `id` = '{$this->id}'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -112,7 +115,7 @@ class PurchaseOrder
     public function all()
     {
         $query = "SELECT * FROM `purchase_orders` ORDER BY `id` DESC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -126,7 +129,7 @@ class PurchaseOrder
     public function getAllByStatus($status)
     {
         $query = "SELECT * FROM `purchase_orders` where `status` = $status ORDER BY `id` DESC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -141,7 +144,7 @@ class PurchaseOrder
         $query = "SELECT * FROM `purchase_orders` where `po_number` = '$po_no'";
 
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
 
         return ($result) ? true : false;
@@ -150,7 +153,7 @@ class PurchaseOrder
     public function getLastID()
     {
         $query = "SELECT * FROM `purchase_orders` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }

@@ -11,7 +11,7 @@ class LabourType
     {
         if ($id) {
             $query = "SELECT `id`, `name`, `is_active` FROM `labour_types` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -29,7 +29,7 @@ class LabourType
             '" . $this->name . "',
             '" . (int) $this->is_active . "')";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -47,7 +47,7 @@ class LabourType
                     `is_active` = '" . (int) $this->is_active . "'
                   WHERE `id` = '" . (int) $this->id . "'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -61,7 +61,7 @@ class LabourType
     public function delete()
     {
         $query = "DELETE FROM `labour_types` WHERE `id` = '" . (int) $this->id . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -69,7 +69,7 @@ class LabourType
     public function all()
     {
         $query = "SELECT * FROM `labour_types` ORDER BY `name` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = [];
 
@@ -84,7 +84,7 @@ class LabourType
     public function getActiveLabourType()
     {
         $query = "SELECT * FROM `labour_types` where `is_active` = 1  ORDER BY `name` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = [];
 

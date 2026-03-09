@@ -26,32 +26,36 @@ if (isset($_POST['action']) && $_POST['action'] == 'create_quotation') {
     $customerId = $_POST['customer_id'];
     $companyId = $_POST['company_id'];
     $departmentId = $_POST['department_id'];
-    $executiveId = $_POST['marketing_executive_id'];
-    $salesType = $_POST['sales_type'];
     $paymentType = $_POST['payment_type'];
     $creditPeriod = $_POST['credit_period'];
     $paymentTerm = $_POST['payment_term'];
     $validity = $_POST['validity'];
     $remarks = isset($_POST['remarks']) ? $_POST['remarks'] : null;
-    $vat_type = $_POST['vat_type'];
+    $isVatInvoice = isset($_POST['is_vat_invoice']) ? 1 : 0;
+    $vatPercentage = isset($_POST['vat_percentage']) ? floatval($_POST['vat_percentage']) : 0;
 
 
     $totalSubTotal = 0;
     $totalDiscount = 0;
+    $vatTotal = 0;
 
     foreach ($items as $item) {
-        $price = floatval($item['price']);
+        $listPrice = floatval($item['price']);
         $qty = floatval($item['qty']);
         $discount = isset($item['discount']) ? floatval($item['discount']) : 0;
+        $sellingPrice = isset($item['selling_price']) ? floatval($item['selling_price']) : ($listPrice - $discount);
 
-        $itemTotal = $price * $qty;
+        $itemTotal = $listPrice * $qty;
         $totalSubTotal += $itemTotal;
-        $discountAmount = ($itemTotal * $discount) / 100;
-        $totalDiscount += $discountAmount;
+        $totalDiscount += ($discount * $qty);
+
+        if ($isVatInvoice && $vatPercentage > 0) {
+            $taxable = $itemTotal - ($discount * $qty);
+            $vatTotal += $taxable * ($vatPercentage / 100);
+        }
     }
 
-
-    $grandTotal = ($totalSubTotal - $totalDiscount);
+    $grandTotal = ($totalSubTotal - $totalDiscount) + $vatTotal;
 
     // Create quotation
     $QUOTATION_ = new Quotation(NULL);
@@ -61,16 +65,17 @@ if (isset($_POST['action']) && $_POST['action'] == 'create_quotation') {
     $QUOTATION_->date = $date;
     $QUOTATION_->customer_id = $customerId;
     $QUOTATION_->department_id = $departmentId;
-    $QUOTATION_->marketing_executive_id = $executiveId;
     $QUOTATION_->payment_type = $paymentType;
     $QUOTATION_->remarks = $remarks;
     $QUOTATION_->credit_period = $creditPeriod;
     $QUOTATION_->payment_term = $paymentTerm;
     $QUOTATION_->validity = $validity;
+    $QUOTATION_->is_vat_invoice = $isVatInvoice;
+    $QUOTATION_->vat_percentage = $vatPercentage;
+    $QUOTATION_->vat_total = $vatTotal;
     $QUOTATION_->sub_total = $totalSubTotal;
     $QUOTATION_->discount = $totalDiscount;
     $QUOTATION_->grand_total = $grandTotal;
-    $QUOTATION_->vat_type = $_POST['vat_type'];
     $QUOTATION_->created_at = date("Y-m-d H:i:s");
 
     $quotationResult = $QUOTATION_->create();
@@ -85,18 +90,22 @@ if (isset($_POST['action']) && $_POST['action'] == 'create_quotation') {
             $ITEM_MASTER = new ItemMaster(NULL);
             $item_id = $ITEM_MASTER->getIdbyItemCode($item['code']);
 
+            $listPrice = floatval($item['price']);
+            $qty = floatval($item['qty']);
+            $discount = isset($item['discount']) ? floatval($item['discount']) : 0;
+            $sellingPrice = isset($item['selling_price']) ? floatval($item['selling_price']) : ($listPrice - $discount);
+            $cost = isset($item['cost']) ? floatval($item['cost']) : 0;
+
             $QUOTATION_ITEM = new QuotationItem(NULL);
             $QUOTATION_ITEM->quotation_id = $newQuotationId;
             $QUOTATION_ITEM->item_code = $item_id;
             $QUOTATION_ITEM->item_name = $item['name'];
-            $QUOTATION_ITEM->price = $item['price'];
-            $QUOTATION_ITEM->qty = $item['qty'];
-            $QUOTATION_ITEM->discount = isset($item['discount']) ? $item['discount'] : 0;
-
-            // Calculate item subtotal with discount
-            $itemTotal = $item['price'] * $item['qty'];
-            $discountAmount = ($itemTotal * $QUOTATION_ITEM->discount) / 100;
-            $QUOTATION_ITEM->sub_total = $itemTotal - $discountAmount;
+            $QUOTATION_ITEM->price = $listPrice;
+            $QUOTATION_ITEM->cost = $cost;
+            $QUOTATION_ITEM->qty = $qty;
+            $QUOTATION_ITEM->discount = $discount;
+            $QUOTATION_ITEM->selling_price = $sellingPrice;
+            $QUOTATION_ITEM->sub_total = $sellingPrice * $qty;
 
             $QUOTATION_ITEM->create();
 
@@ -119,6 +128,9 @@ if (isset($_POST['action']) && $_POST['action'] == 'create_quotation') {
             "quotation_id" => $newQuotationId,
             "sub_total" => $totalSubTotal,
             "discount" => $totalDiscount,
+            "vat_total" => $vatTotal,
+            "vat_percentage" => $vatPercentage,
+            "is_vat_invoice" => $isVatInvoice,
             "grand_total" => $grandTotal
         ]);
 
@@ -141,24 +153,31 @@ if (isset($_POST['action']) && $_POST['action'] == 'update_quotation') {
 
     $totalSubTotal = 0;
     $totalDiscount = 0;
+    $vatTotal = 0;
+    $isVatInvoice = isset($_POST['is_vat_invoice']) ? 1 : 0;
+    $vatPercentage = isset($_POST['vat_percentage']) ? floatval($_POST['vat_percentage']) : 0;
 
     foreach ($items as $item) {
-        $price = floatval($item['price']);
+        $listPrice = floatval($item['price']);
         $qty = floatval($item['qty']);
         $discount = isset($item['discount']) ? floatval($item['discount']) : 0;
+        $sellingPrice = isset($item['selling_price']) ? floatval($item['selling_price']) : ($listPrice - $discount);
 
-        $itemTotal = $price * $qty;
+        $itemTotal = $listPrice * $qty;
         $totalSubTotal += $itemTotal;
-        $discountAmount = ($itemTotal * $discount) / 100;
-        $totalDiscount += $discountAmount;
+        $totalDiscount += ($discount * $qty);
+        if ($isVatInvoice && $vatPercentage > 0) {
+            $taxable = $itemTotal - ($discount * $qty);
+            $vatTotal += $taxable * ($vatPercentage / 100);
+        }
     }
 
-    $grandTotal = $totalSubTotal - $totalDiscount;
+    $grandTotal = $totalSubTotal - $totalDiscount + $vatTotal;
 
     $QUOTATION_ = new Quotation($quotationId);
 
     if (!$QUOTATION_->id) {
-        $db = new Database();
+        $db = Database::getInstance();
         $query = "SELECT id FROM quotation WHERE quotation_no = '{$quotationId}'";
         $result = $db->readQuery($query);
 
@@ -179,19 +198,20 @@ if (isset($_POST['action']) && $_POST['action'] == 'update_quotation') {
     $QUOTATION_->date = $_POST['date'];
     $QUOTATION_->customer_id = $_POST['customer_id'];
     $QUOTATION_->department_id = $_POST['department_id'];
-    $QUOTATION_->marketing_executive_id = $_POST['marketing_executive_id'];
-    $QUOTATION_->vat_type = $_POST['vat_type'];
     $QUOTATION_->payment_type = $_POST['payment_type'];
     $QUOTATION_->remarks = $_POST['remarks'] ?? $QUOTATION_->remarks;
     $QUOTATION_->credit_period = $_POST['credit_period'] ?? $QUOTATION_->credit_period;
     $QUOTATION_->payment_term = $_POST['payment_term'] ?? $QUOTATION_->payment_term;
     $QUOTATION_->validity = $_POST['validity'] ?? $QUOTATION_->validity;
+    $QUOTATION_->is_vat_invoice = $isVatInvoice;
+    $QUOTATION_->vat_percentage = $vatPercentage;
+    $QUOTATION_->vat_total = $vatTotal;
     $QUOTATION_->sub_total = $totalSubTotal;
     $QUOTATION_->discount = $totalDiscount;
     $QUOTATION_->grand_total = $grandTotal;
 
     if ($QUOTATION_->update()) {
-        $db = new Database();
+        $db = Database::getInstance();
 
         foreach ($deletedItems as $itemCode) {
 
@@ -209,9 +229,12 @@ if (isset($_POST['action']) && $_POST['action'] == 'update_quotation') {
                 continue;
             }
 
-            $itemTotal = $item['price'] * $item['qty'];
-            $discountAmount = ($itemTotal * $item['discount']) / 100;
-            $subTotal = $itemTotal - $discountAmount;
+            $listPrice = floatval($item['price']);
+            $qty = floatval($item['qty']);
+            $discount = isset($item['discount']) ? floatval($item['discount']) : 0;
+            $sellingPrice = isset($item['selling_price']) ? floatval($item['selling_price']) : ($listPrice - $discount);
+            $cost = isset($item['cost']) ? floatval($item['cost']) : 0;
+            $subTotal = $sellingPrice * $qty;
 
             $QUOTATION_ITEM = new QuotationItem(NULL);
             $existingItemId = $QUOTATION_ITEM->checkQuotationItemExist($QUOTATION_->id, $item_id);
@@ -221,9 +244,11 @@ if (isset($_POST['action']) && $_POST['action'] == 'update_quotation') {
                 $updateQuery = "
                     UPDATE quotation_item SET 
                         item_name = '{$item['name']}',
-                        price = '{$item['price']}',
-                        qty = '{$item['qty']}',
-                        discount = '{$item['discount']}',
+                        price = '{$listPrice}',
+                        cost = '{$cost}',
+                        qty = '{$qty}',
+                        discount = '{$discount}',
+                        selling_price = '{$sellingPrice}',
                         sub_total = '{$subTotal}'
                     WHERE id = '{$existingItemId}'
                 ";
@@ -234,9 +259,11 @@ if (isset($_POST['action']) && $_POST['action'] == 'update_quotation') {
                 $QUOTATION_ITEM->quotation_id = $QUOTATION_->id;
                 $QUOTATION_ITEM->item_code = $item_id;
                 $QUOTATION_ITEM->item_name = $item['name'];
-                $QUOTATION_ITEM->price = $item['price'];
-                $QUOTATION_ITEM->qty = $item['qty'];
-                $QUOTATION_ITEM->discount = $item['discount'];
+                $QUOTATION_ITEM->price = $listPrice;
+                $QUOTATION_ITEM->cost = $cost;
+                $QUOTATION_ITEM->qty = $qty;
+                $QUOTATION_ITEM->discount = $discount;
+                $QUOTATION_ITEM->selling_price = $sellingPrice;
                 $QUOTATION_ITEM->sub_total = $subTotal;
                 $QUOTATION_ITEM->create();
             }

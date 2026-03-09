@@ -1,30 +1,34 @@
 <?php
 class Database
 {
+    private static $instance = null;
+
     private $host;
     private $name;
     private $user;
     private $password;
+
     public $DB_CON;
-    public function __construct()
+
+    private function __construct()
     {
         // Detect environment
         if ($this->isLocalServer()) {
             // Local DB settings
             $this->host = 'localhost';
-            $this->name = 'tegtyre';
+            $this->name = 'dstyre';
             $this->user = 'root';
             $this->password = '';
         } else {
             // Online DB settings
             $this->host = 'localhost';
-            $this->name = 'chalcepi_dstyre';
-            $this->user = 'chalcepi_dstyre';
-            $this->password = '7e$A!ccu7~gx';
+            $this->name = 'chalcepi_teg-tyre-home';
+            $this->user = 'chalcepi_teg-tyre-home';
+            $this->password = 'J[I=+eR]Juu8';
             $this->DB_CON ='';
         }
 
-        // Connect
+        // Create ONE connection only
         $this->DB_CON = mysqli_connect($this->host, $this->user, $this->password, $this->name);
 
         if (!$this->DB_CON) {
@@ -32,24 +36,44 @@ class Database
         }
     }
 
-    private function isLocalServer()
+    // ✔ Singleton: Only 1 DB connection in full system
+    public static function getInstance()
     {
-        // Method 1: Check hostname
-        if (in_array($_SERVER['SERVER_NAME'], ['localhost', '127.0.0.1'])) {
-            return true;
+        if (self::$instance === null) {
+            self::$instance = new Database();
         }
-
-        return false;
+        return self::$instance;
     }
 
+    // Detect local or live server
+    private function isLocalServer()
+    {
+        return in_array($_SERVER['SERVER_NAME'], ['localhost', '127.0.0.1']);
+    }
+
+    // Run query
     public function readQuery($query)
     {
-        $result = mysqli_query($this->DB_CON, $query) or die(mysqli_error($this->DB_CON));
+        $result = mysqli_query($this->DB_CON, $query);
+
+        if (!$result) {
+            die("SQL Error: " . mysqli_error($this->DB_CON) . "<br>Query: " . $query);
+        }
+
         return $result;
     }
 
+    // Escape text
     public function escapeString($string)
     {
-        return $this->DB_CON->real_escape_string($string);
+        return mysqli_real_escape_string($this->DB_CON, $string);
+    }
+
+    // ✔ Auto close connection when script ends
+    public function __destruct()
+    {
+        if ($this->DB_CON) {
+            mysqli_close($this->DB_CON);
+        }
     }
 }

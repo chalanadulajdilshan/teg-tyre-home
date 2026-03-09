@@ -117,7 +117,7 @@
                                     <tr>
                                         <th>#id</th>
                                         <th>Item</th>
-                                        <th>All Qty</th>
+                                        <th>Brand</th>
                                         <th>List Price</th>
                                         <th>Sale Price</th>
                                     </tr>

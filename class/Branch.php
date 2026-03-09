@@ -21,7 +21,7 @@ class Branch
         if ($id) {
             $query = "SELECT *
                       FROM `branches` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -47,7 +47,7 @@ class Branch
         $query = "INSERT INTO `branches` (`bank_id`, `name`, `code`, `address`, `phone_number`, `city`, active_status,remark,`created_at`) 
                   VALUES ('" . $this->bank_id . "', '" . $this->name . "', '" . $this->code . "', '" .
             $this->address . "', '" . $this->phone_number . "', '" . $this->city . "', '" . $this->active_status . "', '" . $this->remark . "', NOW())";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -72,7 +72,7 @@ class Branch
 
 
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -86,7 +86,7 @@ class Branch
     public function delete()
     {
         $query = "DELETE FROM `branches` WHERE `id` = '" . $this->id . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -94,7 +94,7 @@ class Branch
     public function all()
     {
         $query = "SELECT *   FROM `branches` ORDER BY `name` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -108,7 +108,7 @@ class Branch
         public function getByStatus($status)
     {
         $query = "SELECT *   FROM `branches` WHERE `active_status` = $status ORDER BY `name` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -125,7 +125,7 @@ class Branch
     {
         $query = "SELECT `id`, `bank_id`, `name`, `code`, `address`, `phone_number`, `city`, `created_at` 
                   FROM `branches` WHERE `bank_id` = '" . (int) $bank_id . "' ORDER BY `name` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -139,7 +139,7 @@ class Branch
     // Get branch by ID
     public function getById($id)
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $query = "SELECT * FROM `branches` WHERE `id` = " . (int)$id;
         $result = $db->readQuery($query);
         

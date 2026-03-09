@@ -11,7 +11,7 @@ class DailyIncome
     {
         if ($id) {
             $query = "SELECT * FROM `daily_income` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -27,8 +27,8 @@ class DailyIncome
     {
         // Escape values to prevent SQL injection
         $amount = (float) $this->amount;
-        $date = mysqli_real_escape_string((new Database())->DB_CON, $this->date);
-        $remark = mysqli_real_escape_string((new Database())->DB_CON, $this->remark);
+        $date = mysqli_real_escape_string((Database::getInstance())->DB_CON, $this->date);
+        $remark = mysqli_real_escape_string((Database::getInstance())->DB_CON, $this->remark);
 
         $query = "INSERT INTO `daily_income` (
             `amount`, `date`, `remark`
@@ -36,7 +36,7 @@ class DailyIncome
             '$amount', '$date', '$remark'
         )";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -50,8 +50,8 @@ class DailyIncome
     public function update()
     {
         $amount = (float) $this->amount;
-        $date = mysqli_real_escape_string((new Database())->DB_CON, $this->date);
-        $remark = mysqli_real_escape_string((new Database())->DB_CON, $this->remark);
+        $date = mysqli_real_escape_string((Database::getInstance())->DB_CON, $this->date);
+        $remark = mysqli_real_escape_string((Database::getInstance())->DB_CON, $this->remark);
         $id = (int) $this->id;
 
         $query = "UPDATE `daily_income` SET 
@@ -60,7 +60,7 @@ class DailyIncome
             `remark` = '$remark'
             WHERE `id` = '$id'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -74,7 +74,7 @@ class DailyIncome
     {
         $id = (int) $this->id;
         $query = "DELETE FROM `daily_income` WHERE `id` = '$id'";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -87,7 +87,7 @@ class DailyIncome
     public function all()
     {
         $query = "SELECT * FROM `daily_income` ORDER BY `id` DESC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         $array_res = array();
@@ -101,7 +101,7 @@ class DailyIncome
     public function getLastID()
     {
         $query = "SELECT * FROM `daily_income` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
 
         if ($result && isset($result['id'])) {
@@ -116,16 +116,16 @@ class DailyIncome
         $where = "WHERE 1=1";
 
         if ($dateFrom) {
-            $dateFrom = mysqli_real_escape_string((new Database())->DB_CON, $dateFrom);
+            $dateFrom = mysqli_real_escape_string((Database::getInstance())->DB_CON, $dateFrom);
             $where .= " AND date >= '$dateFrom'";
         }
         if ($dateTo) {
-            $dateTo = mysqli_real_escape_string((new Database())->DB_CON, $dateTo);
+            $dateTo = mysqli_real_escape_string((Database::getInstance())->DB_CON, $dateTo);
             $where .= " AND date <= '$dateTo'";
         }
 
         $query = "SELECT SUM(amount) as total_amount FROM `daily_income` $where";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
 
         return $result['total_amount'] ? $result['total_amount'] : 0;
@@ -133,11 +133,11 @@ class DailyIncome
 
     public function getIncomeByDateRange($dateFrom, $dateTo)
     {
-        $dateFrom = mysqli_real_escape_string((new Database())->DB_CON, $dateFrom);
-        $dateTo = mysqli_real_escape_string((new Database())->DB_CON, $dateTo);
+        $dateFrom = mysqli_real_escape_string((Database::getInstance())->DB_CON, $dateFrom);
+        $dateTo = mysqli_real_escape_string((Database::getInstance())->DB_CON, $dateTo);
 
         $query = "SELECT * FROM `daily_income` WHERE date BETWEEN '$dateFrom' AND '$dateTo' ORDER BY date DESC, id DESC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 

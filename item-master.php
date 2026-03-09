@@ -57,6 +57,15 @@ $item_id = 'TI/0' . ($lastId + 1);
                                 </a>
                             <?php endif; ?>
 
+                            <?php if ($PERMISSIONS['add_page']): ?>
+                                <a href="#" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#item_import_modal">
+                                    <i class="uil uil-upload me-1"></i> Import
+                                </a>
+                                <a href="ajax/php/item-master.php?action=download_item_import_template" class="btn btn-outline-secondary" target="_blank">
+                                    <i class="uil uil-file-download me-1"></i> Template
+                                </a>
+                            <?php endif; ?>
+
                             <?php if ($PERMISSIONS['delete_page']): ?>
                                 <a href="#" class="btn btn-danger delete-item">
                                     <i class="uil uil-trash-alt me-1"></i> Delete
@@ -93,9 +102,7 @@ $item_id = 'TI/0' . ($lastId + 1);
                                             <p class="text-muted text-truncate mb-0">Fill all information below to add
                                                 Item</p>
                                         </div>
-                                        <div class="flex-shrink-0">
-                                            <i class="mdi mdi-chevron-up accor-down-icon font-size-24"></i>
-                                        </div>
+
                                     </div>
 
                                 </div>
@@ -165,7 +172,7 @@ $item_id = 'TI/0' . ($lastId + 1);
                                             </div>
 
                                             <!-- Group -->
-                                            <div class="col-md-2">
+                                            <div class="col-md-3">
                                                 <div class="mb-3">
                                                     <label class="form-label" for="group">Item Group <span
                                                             class="text-danger">*</span></label>
@@ -197,8 +204,25 @@ $item_id = 'TI/0' . ($lastId + 1);
                                                     </select>
                                                 </div>
                                             </div>
+                                            <!-- Stock Type -->
+                                            <div class="col-md-3">
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="stock_type">Stock Type <span
+                                                            class="text-danger">*</span></label>
+                                                    <select id="stock_type" name="stock_type" class="form-select">
+
+                                                        <?php
+                                                        $STOCK_TYPE = new StockType(NULL);
+                                                        foreach ($STOCK_TYPE->getActiveStockType() as $stock_type) {
+                                                            echo "<option value='{$stock_type['id']}'>{$stock_type['name']}</option>";
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+
                                             <!-- List Price -->
-                                            <div class="col-md-2">
+                                            <div class="col-md-3">
                                                 <div class="mb-3">
                                                     <label class="form-label" for="list_price"> List Price <span
                                                             class="text-danger">*</span></label>
@@ -207,7 +231,7 @@ $item_id = 'TI/0' . ($lastId + 1);
                                                 </div>
                                             </div>
                                             <!-- DIS Column -->
-                                            <div class="col-md-2">
+                                            <div class="col-md-3">
                                                 <div class="mb-3">
                                                     <label class="form-label" for="discount">DIS % <span
                                                             class="text-danger">*</span></label>
@@ -216,7 +240,7 @@ $item_id = 'TI/0' . ($lastId + 1);
                                                 </div>
                                             </div>
                                             <!-- Invoice Price -->
-                                            <div class="col-md-2">
+                                            <div class="col-md-3">
                                                 <div class="mb-3">
                                                     <label class="form-label">Selling Price <span
                                                             class="text-danger">*</span></label>
@@ -251,22 +275,6 @@ $item_id = 'TI/0' . ($lastId + 1);
                                                 </div>
                                             </div>
 
-                                            <!-- Stock Type -->
-                                            <div class="col-md-3">
-                                                <div class="mb-3">
-                                                    <label class="form-label" for="stock_type">Stock Type <span
-                                                            class="text-danger">*</span></label>
-                                                    <select id="stock_type" name="stock_type" class="form-select">
-
-                                                        <?php
-                                                        $STOCK_TYPE = new StockType(NULL);
-                                                        foreach ($STOCK_TYPE->getActiveStockType() as $stock_type) {
-                                                            echo "<option value='{$stock_type['id']}'>{$stock_type['name']}</option>";
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
 
 
                                             <div class="col-md-1 d-flex justify-content-center align-items-center">
@@ -296,6 +304,36 @@ $item_id = 'TI/0' . ($lastId + 1);
                     </div>
                 </div> <!-- container-fluid -->
             </div>
+
+            <div class="modal fade" id="item_import_modal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Import Items</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="item-import-form" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="item_import_file" class="form-label">Excel/CSV File</label>
+                                    <input class="form-control" type="file" id="item_import_file" name="excel_file" accept=".xlsx,.csv" />
+                                </div>
+                                <div class="alert alert-info mb-0">
+                                    <div class="mb-2"><strong>Required columns:</strong> name, brand, group, category, stock_type, list_price</div>
+                                    <div class="mb-0"><strong>Brand/Group/Category/Stock Type:</strong> you can use ID or exact name.</div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="item_import_submit">
+                                <i class="uil uil-upload me-1"></i> Import Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <?php include 'footer.php' ?>
 
         </div>

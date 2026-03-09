@@ -13,7 +13,7 @@ class CategoryMaster
     {
         if ($id) {
             $query = "SELECT * FROM `category_master` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -34,7 +34,7 @@ class CategoryMaster
                     '{$this->name}', 
                     '{$this->is_active}'
                   )";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query) ? mysqli_insert_id($db->DB_CON) : false;
     }
 
@@ -45,21 +45,21 @@ class CategoryMaster
                     `name` = '{$this->name}', 
                     `is_active` = '{$this->is_active}'
                   WHERE `id` = '{$this->id}'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function delete()
     {
         $query = "DELETE FROM `category_master` WHERE `id` = '{$this->id}'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function all()
     {
         $query = "SELECT * FROM `category_master` ORDER BY `queue` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 
@@ -73,7 +73,7 @@ class CategoryMaster
     public function getLastID()
     {
         $query = "SELECT * FROM `category_master` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }
@@ -81,7 +81,7 @@ class CategoryMaster
      public function getActiveCategory()
      {
          $query = "SELECT * FROM `category_master` WHERE `is_active` = 1 ORDER BY `queue` ASC";
-         $db = new Database();
+         $db = Database::getInstance();
          $result = $db->readQuery($query);
          $array = [];
  

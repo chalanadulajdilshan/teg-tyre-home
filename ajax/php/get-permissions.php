@@ -21,7 +21,8 @@ function getPermissionsForUser($userId) // Changed function name
               FROM `pages` p 
               LEFT JOIN `page_categories` pc ON p.page_category = pc.id 
               ORDER BY pc.queue ASC, p.queue ASC, p.id ASC";
-    $db = new Database();
+    $db = Database::getInstance();
+
     $result = $db->readQuery($query);
     
     while ($page = mysqli_fetch_assoc($result)) {
@@ -61,7 +62,8 @@ function getPermissionsForPageAndUser($pageId, $userId) // Changed function name
         'other'  => false,
     ];
 
-    $db = new Database();
+    $db = Database::getInstance();
+
     $query = "SELECT * FROM `user_permission` 
               WHERE `user_id` = $userId AND `page_id` = $pageId 
               LIMIT 1";

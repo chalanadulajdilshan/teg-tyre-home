@@ -15,7 +15,7 @@ class StockTransaction
     {
         if ($id) {
             $query = "SELECT id, item_id, type, date, qty_in, qty_out, remark, created_at FROM stock_transaction WHERE id = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -45,7 +45,7 @@ class StockTransaction
                 NOW()
             )";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -66,7 +66,7 @@ class StockTransaction
             remark = '{$this->remark}' 
             WHERE id = '{$this->id}'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -79,14 +79,14 @@ class StockTransaction
     public function delete()
     {
         $query = "DELETE FROM stock_transaction WHERE id = '{$this->id}'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function all()
     {
         $query = "SELECT id, item_id, type, date, qty_in, qty_out, remark, created_at FROM stock_transaction ORDER BY id DESC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -99,7 +99,7 @@ class StockTransaction
 
     public function getAvailableQuantityByDepartment($department_id, $item_id, $days = 0, $date_from = null, $date_to = null)
     {
-        $db = new Database();
+        $db = Database::getInstance();
 
         $conditions = "
         sm.department_id = '{$department_id}' 
@@ -135,7 +135,7 @@ class StockTransaction
 
     public function getTransactionRecords($department_id, $item_id, $date_from, $date_to)
     {
-        $db = new Database();
+        $db = Database::getInstance();
 
         $date_from_escaped = $date_from;
         $date_to_escaped = $date_to;

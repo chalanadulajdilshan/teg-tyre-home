@@ -36,12 +36,18 @@ if (isset($_POST['update'])) {
 
     $USER->name          = $_POST['name'];
     $USER->code          = $_POST['code'];
+    $USER->type          = $_POST['type'];
     $USER->email         = $_POST['email'];
     $USER->phone         = $_POST['phone'];
     $USER->username      = $_POST['username'];
     $USER->company_id    = $_POST['company_id'];
     $USER->department_id = $_POST['department_id'];
-    $USER->active_status = isset($_POST['active']) ? 1 : 0;
+
+    $USER->isActive = isset($_POST['active']) ? 1 : 0;
+
+    if (isset($_POST['password']) && strlen(trim($_POST['password'])) > 0) {
+        $USER->setPassword(trim($_POST['password']));
+    }
 
     $result = $USER->update();
 

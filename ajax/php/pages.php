@@ -10,8 +10,9 @@ if (isset($_POST['create'])) {
 
     // Set the page details
     $PAGES->page_category = $_POST['page_category'];
-    $PAGES->sub_page_category = $_POST['sub_page_category'];
+    $PAGES->sub_page_category = isset($_POST['sub_page_category']) ? $_POST['sub_page_category'] : '';
     $PAGES->page_name = $_POST['page_name'];
+    $PAGES->page_icon = isset($_POST['page_icon']) ? $_POST['page_icon'] : '';
     $PAGES->page_url = $_POST['page_url'];
 
     // Attempt to create the page
@@ -39,8 +40,9 @@ if (isset($_POST['update'])) {
 
     // Update Page details
     $PAGES->page_category = $_POST['page_category'];
-    $PAGES->sub_page_category = $_POST['sub_page_category'];
+    $PAGES->sub_page_category = isset($_POST['sub_page_category']) ? $_POST['sub_page_category'] : '';
     $PAGES->page_name = $_POST['page_name'];
+    $PAGES->page_icon = isset($_POST['page_icon']) ? $_POST['page_icon'] : '';
     $PAGES->page_url = $_POST['page_url'];
 
     // Attempt to update the page

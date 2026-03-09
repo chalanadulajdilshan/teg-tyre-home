@@ -14,7 +14,7 @@ class PurchaseOrderItem
     {
         if ($id) {
             $query = "SELECT * FROM `purchase_order_items` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -36,7 +36,7 @@ class PurchaseOrderItem
                   ('" . $this->purchase_order_id . "', '" . $this->item_id . "', '" . $this->quantity . "', '" .
             $this->unit_price . "', '" . $this->total_price . "')";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -55,14 +55,14 @@ class PurchaseOrderItem
                   `unit_price` = '" . $this->unit_price . "',
                   `total_price` = '" . $this->total_price . "'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function delete()
     {
         $query = "DELETE FROM `purchase_order_items` WHERE `id` = '" . $this->id . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -71,7 +71,7 @@ class PurchaseOrderItem
     public static function deleteByPurchaseOrderId($purchaseOrderId)
     {
         $query = "DELETE FROM `purchase_order_items` WHERE `purchase_order_id` = '" . intval($purchaseOrderId) . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -79,7 +79,7 @@ class PurchaseOrderItem
     public function all()
     {
         $query = "SELECT * FROM `purchase_order_items` ORDER BY `id` DESC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -93,7 +93,7 @@ class PurchaseOrderItem
 
     public function checkPurchaseOrderIdExist($purchase_order_id, $item_id)
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $query = "SELECT id FROM `purchase_order_items` WHERE `purchase_order_id` = '{$purchase_order_id}' AND `item_id` = '{$item_id}'";
         $result = mysqli_fetch_array($db->readQuery($query));
 
@@ -108,7 +108,7 @@ class PurchaseOrderItem
             $query .= " AND `status` = '" . $status . "'";
         }
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 

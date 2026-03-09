@@ -107,6 +107,7 @@ if (!empty($activeCompany[0])) {
                     </div>
                 </div>
             </div>
+
             <div class="row align-items-center justify-content-center">
                 <div class="col-md-8 col-lg-6 col-xl-5">
                     <div class="card">
@@ -115,7 +116,9 @@ if (!empty($activeCompany[0])) {
                             <div class="text-center mt-2">
                                 <h5 class="text-primary">Welcome Back !</h5>
                                 <p class="text-muted">Sign in to continue again.</p>
+                                <a href="live-stock-public.php" class="btn btn-outline-primary btn-sm mt-2">View Live Stock (Public)</a>
                             </div>
+
                             <div class="p-2 mt-4">
                                 <form action="#" method="post" id="login">
 

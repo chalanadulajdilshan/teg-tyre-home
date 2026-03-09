@@ -46,22 +46,6 @@ $DEPARTMENT_MASTER = new DepartmentMaster($US->department_id)
                                 </a>
                             <?php endif; ?>
 
-                            <?php if ($PERMISSIONS['print_page']): ?>
-                                <a href="#" class="btn btn-primary" id="print">
-                                    <i class="uil uil-print  me-1"></i> Print
-                                </a>
-                            <?php endif; ?>
-
-                            <a href="#" class="btn btn-warning" id="search">
-                                <i class="uil uil-search me-1"></i> Search
-                            </a>
-
-                            <?php if ($PERMISSIONS['delete_page']): ?>
-                                <a href="#" class="btn btn-danger delete-category">
-                                    <i class="uil uil-trash-alt me-1"></i> Delete
-                                </a>
-                            <?php endif; ?>
-
                         </div>
 
                         <div class="col-md-4 text-md-end text-start mt-3 mt-md-0">

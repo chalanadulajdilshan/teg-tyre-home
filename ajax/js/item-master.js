@@ -537,5 +537,87 @@ jQuery(document).ready(function () {
         );
     });
 
+    // Import Items (Excel/CSV)
+    $(document).on('click', '#item_import_submit', function (e) {
+        e.preventDefault();
+
+        var fileInput = document.getElementById('item_import_file');
+        if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+            swal({
+                title: "Error!",
+                text: "Please select an Excel/CSV file to import.",
+                type: 'error',
+                timer: 2000,
+                showConfirmButton: false
+            });
+            return false;
+        }
+
+        var formData = new FormData();
+        formData.append('action', 'import_excel');
+        formData.append('excel_file', fileInput.files[0]);
+
+        $('.someBlock').preloader();
+
+        $.ajax({
+            url: 'ajax/php/item-master.php',
+            type: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function (resp) {
+                $('.someBlock').preloader('remove');
+
+                if (!resp || resp.status !== 'success') {
+                    swal({
+                        title: "Error!",
+                        text: (resp && resp.message) ? resp.message : "Import failed.",
+                        type: 'error',
+                        timer: 3000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+
+                var msg = 'Inserted: ' + (resp.inserted || 0) + '\n' +
+                    'Updated: ' + (resp.updated || 0) + '\n' +
+                    'Skipped: ' + (resp.skipped || 0);
+
+                if (resp.errors && Array.isArray(resp.errors) && resp.errors.length > 0) {
+                    var preview = resp.errors.slice(0, 8).map(function (er) {
+                        return 'Row ' + er.row + ': ' + er.message;
+                    }).join('\n');
+                    msg += '\n\nErrors (first ' + Math.min(resp.errors.length, 8) + '):\n' + preview;
+                    if (resp.errors.length > 8) {
+                        msg += '\n... and ' + (resp.errors.length - 8) + ' more';
+                    }
+                }
+
+                swal({
+                    title: "Import Completed",
+                    text: msg,
+                    type: 'success',
+                    showConfirmButton: true
+                }, function () {
+                    window.location.reload();
+                });
+            },
+            error: function (xhr) {
+                $('.someBlock').preloader('remove');
+                swal({
+                    title: "Error!",
+                    text: (xhr && (xhr.responseText || xhr.statusText)) ? (xhr.responseText || xhr.statusText) : 'Import failed.',
+                    type: 'error',
+                    timer: 4000,
+                    showConfirmButton: false
+                });
+            }
+        });
+
+        return false;
+    });
+
 
 });

@@ -7,15 +7,17 @@ class QuotationItem
     public $item_code;
     public $item_name;
     public $price;
+    public $cost;
     public $qty;
     public $discount;
+    public $selling_price;
     public $sub_total;
 
     public function __construct($id = null)
     {
         if ($id) {
             $query = "SELECT * FROM `quotation_item` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -24,8 +26,10 @@ class QuotationItem
                 $this->item_code = $result['item_code'];
                 $this->item_name = $result['item_name'];
                 $this->price = $result['price'];
+                $this->cost = $result['cost'];
                 $this->qty = $result['qty'];
                 $this->discount = $result['discount'];
+                $this->selling_price = $result['selling_price'];
                 $this->sub_total = $result['sub_total'];
             }
         }
@@ -34,12 +38,12 @@ class QuotationItem
     public function create()
     {
         $query = "INSERT INTO `quotation_item` 
-                  (`quotation_id`, `item_code`, `item_name`, `price`, `qty`, `discount`, `sub_total`) 
+                  (`quotation_id`, `item_code`, `item_name`, `price`, `cost`, `qty`, `discount`, `selling_price`, `sub_total`) 
                   VALUES 
                   ('" . $this->quotation_id . "', '" . $this->item_code . "', '" . $this->item_name . "', '" .
-            $this->price . "', '" . $this->qty . "', '" . $this->discount . "', '" . $this->sub_total . "')";
+            $this->price . "', '" . $this->cost . "', '" . $this->qty . "', '" . $this->discount . "', '" . $this->selling_price . "', '" . $this->sub_total . "')";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -56,26 +60,28 @@ class QuotationItem
                   `item_code` = '" . $this->item_code . "',
                   `item_name` = '" . $this->item_name . "',
                   `price` = '" . $this->price . "',
+                  `cost` = '" . $this->cost . "',
                   `qty` = '" . $this->qty . "',
                   `discount` = '" . $this->discount . "',
+                  `selling_price` = '" . $this->selling_price . "',
                   `sub_total` = '" . $this->sub_total . "'
                   WHERE `id` = '" . $this->id . "'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function delete()
     {
         $query = "DELETE FROM `quotation_item` WHERE `id` = '" . $this->id . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function all()
     {
         $query = "SELECT * FROM `quotation_item` ORDER BY `id` DESC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -89,7 +95,7 @@ class QuotationItem
 
     public function checkQuotationItemExist($quotation_id, $item_code)
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $query = "SELECT id FROM `quotation_item` WHERE `quotation_id` = '{$quotation_id}' AND `item_code` = '{$item_code}'";
         $result = mysqli_fetch_array($db->readQuery($query));
 
@@ -99,7 +105,7 @@ class QuotationItem
     public function getByQuotationId($quotation_id)
     {
         $query = "SELECT * FROM `quotation_item` WHERE `quotation_id` = '" . (int) $quotation_id . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 

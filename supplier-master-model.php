@@ -18,11 +18,9 @@
                                     <th>#ID</th>
                                     <th>Code</th>
                                     <th>Name</th>
-                                    <th>Mobile Number</th>
+                                    <th>Mobile</th>
                                     <th>Email</th>
-                                    <th>Category</th>
-                                    <th>Province</th>
-                                    <th>Credit Discount</th>
+                                    <th>Credit Limit</th>
                                     <th>Is Vat</th>
                                     <th>Status</th>
                                 </tr>

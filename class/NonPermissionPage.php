@@ -11,7 +11,7 @@ class NonPermissionPage
     {
         if ($id) {
             $query = "SELECT * FROM `non_permission_pages` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -30,7 +30,7 @@ class NonPermissionPage
             " . (int)$this->is_active . "
         )";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -48,7 +48,7 @@ class NonPermissionPage
             `is_active` = " . (int)$this->is_active . "
             WHERE `id` = " . (int)$this->id;
 
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query) ? true : false;
     }
 
@@ -56,7 +56,7 @@ class NonPermissionPage
     public function all()
     {
         $query = "SELECT * FROM `non_permission_pages` ORDER BY `id` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 

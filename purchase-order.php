@@ -66,10 +66,11 @@ $po_id = $COMPANY_PROFILE_DETAILS->company_code . '/PO/00/0' . ($lastId + 1);
                             <?php endif; ?>
 
                             <?php if (in_array(4, $PERMISSIONS)): ?>
-                                <a href="#" class="btn btn-danger delete-purchase-order">
+                                <a href="#" class="btn btn-danger delete-purchase-order" style="display:none;">
                                     <i class="uil uil-trash-alt me-1"></i> Delete
                                 </a>
                             <?php endif; ?>
+
 
                         </div>
 
@@ -167,7 +168,7 @@ $po_id = $COMPANY_PROFILE_DETAILS->company_code . '/PO/00/0' . ($lastId + 1);
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <label for="brand" class="form-label">Brand</label>
                                                 <div class="input-group mb-3">
                                                     <select id="brand" name="brand" class="form-select">
@@ -176,6 +177,21 @@ $po_id = $COMPANY_PROFILE_DETAILS->company_code . '/PO/00/0' . ($lastId + 1);
                                                         $BRAND = new Brand(NULL);
                                                         foreach ($BRAND->activeBrands() as $brand) {
                                                             echo "<option value='{$brand['id']}'>{$brand['name']}</option>";
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <label for="category" class="form-label">Category</label>
+                                                <div class="input-group mb-3">
+                                                    <select id="category" name="category" class="form-select">
+                                                        <option value="">-- All Category --</option>
+                                                        <?php
+                                                        $CATEGORY = new CategoryMaster(NULL);
+                                                        foreach ($CATEGORY->getActiveCategory() as $category) {
+                                                            echo "<option value='{$category['id']}'>{$category['name']}</option>";
                                                         }
                                                         ?>
                                                     </select>
@@ -206,7 +222,7 @@ $po_id = $COMPANY_PROFILE_DETAILS->company_code . '/PO/00/0' . ($lastId + 1);
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-2">
+                                            <div class="col-md-3">
                                                 <label for="Department" class="form-label">Department</label>
                                                 <div class="input-group mb-3">
                                                     <select id="department_id" name="department_id" class="form-select">
@@ -408,6 +424,7 @@ $po_id = $COMPANY_PROFILE_DETAILS->company_code . '/PO/00/0' . ($lastId + 1);
                                             data-supplier_name="<?= htmlspecialchars($CUSTOMER_MASTER->name); ?>"
                                             data-supplier_address="<?= htmlspecialchars($CUSTOMER_MASTER->address); ?>"
                                             data-brand="<?= htmlspecialchars($purchase_order['brand']); ?>"
+                                            data-category="<?= htmlspecialchars($purchase_order['category']); ?>"
                                             data-invoice_no="<?= htmlspecialchars($purchase_order['invoice_no']); ?>"
                                             data-country="<?= htmlspecialchars($purchase_order['country']); ?>"
                                             data-department="<?= htmlspecialchars($purchase_order['department']); ?>"

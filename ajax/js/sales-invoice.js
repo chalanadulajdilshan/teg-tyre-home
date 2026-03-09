@@ -3,18 +3,12 @@ jQuery(document).ready(function () {
   loadCustomer();
   getInvoiceData();
 
+  let focusAfterModal = false;
+
   $("#view_price_report").on("click", function (e) {
     e.preventDefault();
     loadItems();
   });
-
-  //LOARD ITEM MASTER
-  // $("#item_brand_id, #item_category_id, #item_group_id,#item_department_id").on(
-  //   "change",
-  //   function () {
-  //     loadItems();
-  //   }
-  // );
 
   //LOARD ITEM MASTER
   $("#item_item_code").on("keyup", function () {
@@ -27,6 +21,11 @@ jQuery(document).ready(function () {
   });
 
   $("#all_item_master").on("shown.bs.modal", function () {
+    // Reset filters so all active brand items load by default
+    $("#item_brand_id").val("0");
+    $("#item_category_id").val("0");
+    $("#item_group_id").val("0");
+    $("#item_item_code").val("");
     loadAllItems();
   });
 
@@ -241,10 +240,10 @@ jQuery(document).ready(function () {
                         <td colspan="1" style="width: 15%;"><strong>ARN:</strong> ${arnId}
                         
                         <div style="font-size: 12px; color: red">Cost: ${Number(
-                          row.final_cost
-                        ).toLocaleString("en-US", {
-                          minimumFractionDigits: 2,
-                        })}</div>
+            row.final_cost
+          ).toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+          })}</div>
                         </td>
                       
                         
@@ -261,19 +260,19 @@ jQuery(document).ready(function () {
                         <td style="width: 15%;">
                             <div><strong>List Price:</strong></div>
                             <div class='text-danger'><b>${Number(
-                              item.list_price
-                            ).toLocaleString("en-US", {
-                              minimumFractionDigits: 2,
-                            })}</b></div>
+            item.list_price
+          ).toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+          })}</b></div>
                         </td>
                     
                         <td style="width: 15%;">
                             <div><strong>Sales Price:</strong></div>
                             <div class='text-danger'><b>${Number(
-                              item.invoice_price
-                            ).toLocaleString("en-US", {
-                              minimumFractionDigits: 2,
-                            })}</b></div>
+            item.invoice_price
+          ).toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+          })}</b></div>
                         </td>
                     
                         <td colspan="2">${row.created_at}</td>
@@ -288,46 +287,121 @@ jQuery(document).ready(function () {
     renderPaginationControls(page);
   }
 
+  let isPreInvoiceMode = false;
+
+  function loadAllItems(page = 1) {
+    $("#all_itemMaster tbody").html(`
+      <tr>
+        <td colspan="6" class="text-center text-secondary py-3">
+          <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+          Loading items, please wait...
+        </td>
+      </tr>
+    `);
+    $("#allitemPagination").empty();
+
+    let brand_id = $("#item_brand_id").val();
+    let category_id = $("#item_category_id").val();
+    let group_id = $("#item_group_id").val();
+    let item_code = $("#item_item_code").val().trim();
+
+    $.ajax({
+      url: "ajax/php/report.php",
+      type: "POST",
+      dataType: "json",
+      data: {
+        action: "load_all_active_items",
+        brand_id,
+        category_id,
+        group_id,
+        item_code,
+      },
+      success: function (data) {
+        fullItemList = data || [];
+
+        if (fullItemList.length === 0) {
+          $("#all_itemMaster tbody").html(`
+            <tr>
+              <td colspan="6" class="text-center text-muted py-3">No items found</td>
+            </tr>
+          `);
+          $("#allitemPagination").empty();
+        } else {
+          renderPaginatedAllItems(page);
+        }
+      },
+      error: function () {
+        $("#all_itemMaster tbody").html(`
+          <tr>
+            <td colspan="6" class="text-center text-danger py-3">
+              <i class="bi bi-exclamation-triangle me-2"></i> Error loading data
+            </td>
+          </tr>
+        `);
+        $("#allitemPagination").empty();
+      },
+    });
+  }
+
   function renderPaginatedAllItems(page = 1) {
     let start = (page - 1) * itemsPerPage;
     let end = start + itemsPerPage;
     let slicedItems = fullItemList.slice(start, end);
     let tbody = "";
 
-    let usedQtyMap = {};
-    $("#invoiceItemsBody tr").each(function () {
-      let rowCode = $(this).find('input[name="item_codes[]"]').val();
-      let rowArn = $(this).find('input[name="arn_ids[]"]').val();
-      let rowQty = parseFloat($(this).find(".item-qty").text()) || 0;
-      let key = `${rowCode}_${rowArn}`;
-
-      if (!usedQtyMap[key]) usedQtyMap[key] = 0;
-      usedQtyMap[key] += rowQty;
-    });
-
     if (slicedItems.length > 0) {
       $.each(slicedItems, function (index, item) {
         let rowIndex = start + index + 1;
 
-        // Main item row
-        tbody += `<tr class="table-primary">
+        // Main item row with brand name
+        tbody += `<tr class="table-primary" style="cursor:pointer;">
                     <td>${rowIndex}</td>
                     <td>${item.code} - ${item.name}</td> 
-                    <td>${item.total_available_qty}</td>
+                    <td>${item.brand_name || ''}</td>
                     <td>${item.list_price}</td>
                     <td>${item.invoice_price}</td>
-                    <td hidden >${item.id}</td>
+                    <td hidden>${item.id}</td>
                 </tr>`;
-
-        $("#available_qty").val(item.total_available_qty);
       });
     } else {
-      tbody = `<tr><td colspan="8" class="text-center text-muted">No items found</td></tr>`;
+      tbody = `<tr><td colspan="6" class="text-center text-muted">No items found</td></tr>`;
     }
 
     $("#all_itemMaster tbody").html(tbody);
-    renderPaginationControls(page);
+    renderAllItemsPaginationControls(page);
   }
+
+  function renderAllItemsPaginationControls(currentPage) {
+    let totalPages = Math.ceil(fullItemList.length / itemsPerPage);
+    let pagination = "";
+
+    if (totalPages <= 1) {
+      $("#allitemPagination").html("");
+      return;
+    }
+
+    pagination += `<li class="page-item ${currentPage === 1 ? "disabled" : ""}">
+                     <a class="page-link" href="#" data-allpage="${currentPage - 1}">Prev</a>
+                   </li>`;
+
+    for (let i = 1; i <= totalPages; i++) {
+      pagination += `<li class="page-item ${i === currentPage ? "active" : ""}">
+                         <a class="page-link" href="#" data-allpage="${i}">${i}</a>
+                       </li>`;
+    }
+
+    pagination += `<li class="page-item ${currentPage === totalPages ? "disabled" : ""}">
+                     <a class="page-link" href="#" data-allpage="${currentPage + 1}">Next</a>
+                   </li>`;
+
+    $("#allitemPagination").html(pagination);
+  }
+
+  $(document).on("click", "#allitemPagination .page-link", function (e) {
+    e.preventDefault();
+    const page = parseInt($(this).data("allpage")) || 1;
+    renderPaginatedAllItems(page);
+  });
 
   function addServiceItem() {
     $(
@@ -344,9 +418,20 @@ jQuery(document).ready(function () {
   $(document).on("change", "#service_items", function () {
     const selectedId = $(this).val();
     if (selectedId != 0) {
-      // Update the item code and name fields
-      $("#itemCode").val("SI/" + selectedId.padStart(4, "0"));
-      $("#item_id").val(selectedId);
+      // Check if a service (SV/) is already selected - if so, keep service details in main fields
+      const currentItemCode = $("#itemCode").val().trim();
+      const isServiceAlreadySelected = currentItemCode.startsWith("SV/");
+
+      // Only update main fields if NO service is selected (invoicing service item alone)
+      if (!isServiceAlreadySelected) {
+        // Update the item code and id fields
+        $("#itemCode").val("SI/" + selectedId.padStart(4, "0"));
+        $("#item_id").val(selectedId);
+
+        // Also update the main Name field above the list price with the selected service item name
+        const selectedText = $(this).find("option:selected").text().trim();
+        $("#itemName").val(selectedText);
+      }
 
       $.ajax({
         url: "ajax/php/service-item.php",
@@ -372,6 +457,12 @@ jQuery(document).ready(function () {
               .val(data.service_selling_price)
               .trigger("change"); // Added selling price
 
+            // Only set main price fields if NO service is selected (invoicing service item alone)
+            if (!isServiceAlreadySelected) {
+              $("#itemPrice").val(data.service_selling_price);
+              $("#itemSalePrice").val(data.service_selling_price);
+            }
+
             // Combine list price + service selling price for final selling price
             combineServicePrices();
           } else {
@@ -385,7 +476,19 @@ jQuery(document).ready(function () {
       });
 
       // Focus on quantity field for better UX
-      $("#itemQty").focus();
+      $("#serviceQty").focus();
+    } else {
+      $("#itemCode").val("");
+      $("#itemName").val("");
+      $("#item_id").val("");
+      $("#itemPrice").val("");
+      $("#itemSalePrice").val("");
+      $("#serviceSellingPrice").val("");
+      $("#item_cost_arn").val("");
+      $("#available_qty").val("");
+      unitServiceCost = 0;
+      unitServiceSellingPrice = 0;
+      combineServicePrices();
     }
   });
 
@@ -394,16 +497,49 @@ jQuery(document).ready(function () {
     const selectedId = $(this).val();
     const selectedText = $(this).find("option:selected").text().trim();
 
-    // Update service name field
-    $("#itemName").val(selectedText);
-    $("#item_id").val(selectedId);
-    $("#itemCode").val("SV/" + selectedId.toString().padStart(4, "0"));
-    $("#available_qty").val(9999); // Unlimited for pure services
-
-    // Show service extra details (Vehicle No & Current KM)
     if (selectedId && selectedId != "0") {
-      // Fields are hidden permanently
+      // Update service name field
+      $("#itemName").val(selectedText);
+      $("#item_id").val(selectedId);
+      $("#itemCode").val("SV/" + selectedId.toString().padStart(4, "0"));
+      $("#available_qty").val(9999); // Unlimited for pure services
+
+      $("#serviceExtraDetails").slideDown();
+      $("#serviceKmDetails").slideDown();
+      $("#serviceNextServiceDetails").slideDown();
+
+      // Fetch service price by selected service id
+      $.ajax({
+        url: "ajax/php/service.php",
+        method: "POST",
+        data: { action: "get_service_price", service_id: selectedId },
+        dataType: "json",
+        success: function (data) {
+          if (data.status === "success") {
+            $("#itemPrice").val(data.service_price);
+            $("#itemSalePrice").val(data.service_price);
+
+            // Trigger combination if service selling price is already set
+            combineServicePrices();
+          } else {
+            console.warn("No price found for this service");
+          }
+        },
+        error: function () {
+          console.error("Failed to load service price.");
+        },
+      });
+
+      // Focus on quantity field for better UX
+      $("#serviceQty").focus();
     } else {
+      $("#itemName").val("");
+      $("#item_id").val("");
+      $("#itemCode").val("");
+      $("#available_qty").val("");
+      $("#itemPrice").val("");
+      $("#itemSalePrice").val("");
+
       $("#serviceExtraDetails").slideUp();
       $("#serviceKmDetails").slideUp();
       $("#serviceNextServiceDetails").slideUp();
@@ -411,31 +547,6 @@ jQuery(document).ready(function () {
       $("#currentKm").val("");
       $("#nextServiceDays").val("");
     }
-
-    // Fetch service price by selected service id
-    $.ajax({
-      url: "ajax/php/service.php",
-      method: "POST",
-      data: { action: "get_service_price", service_id: selectedId },
-      dataType: "json",
-      success: function (data) {
-        if (data.status === "success") {
-          $("#itemPrice").val(data.service_price);
-          $("#itemSalePrice").val(data.service_price);
-
-          // Trigger combination if service selling price is already set
-          combineServicePrices();
-        } else {
-          console.warn("No price found for this service");
-        }
-      },
-      error: function () {
-        console.error("Failed to load service price.");
-      },
-    });
-
-    // Focus on quantity field for better UX
-    $("#serviceQty").focus();
   });
 
   // Function to combine list price + service selling price (only for service items)
@@ -448,10 +559,20 @@ jQuery(document).ready(function () {
       const discount = parseFloat($("#itemDiscount").val()) || 0;
 
       // Calculate combined price before discount
-      const combinedPriceBeforeDiscount = listPrice + serviceSellingPrice;
+      // Calculate combined price before discount
+      let combinedPriceBeforeDiscount;
+      if ($("#itemCode").val().trim().startsWith("SI/")) {
+        combinedPriceBeforeDiscount = serviceSellingPrice;
+      } else {
+        combinedPriceBeforeDiscount = listPrice + serviceSellingPrice;
+      }
 
-      // Apply discount as a fixed value per unit to the combined total
-      const finalCombinedPrice = combinedPriceBeforeDiscount - discount;
+      // Apply discount to the combined total (discount is a fixed value)
+      let discountAmount = discount;
+      if (discountAmount > combinedPriceBeforeDiscount) {
+        discountAmount = combinedPriceBeforeDiscount;
+      }
+      const finalCombinedPrice = combinedPriceBeforeDiscount - discountAmount;
 
       // Update the main selling price field with final combined value after discount
       $("#itemSalePrice").val(finalCombinedPrice.toFixed(2));
@@ -558,9 +679,8 @@ jQuery(document).ready(function () {
     }
 
     pagination += `<li class="page-item ${currentPage === 1 ? "disabled" : ""}">
-                     <a class="page-link" href="#" data-page="${
-                       currentPage - 1
-                     }">Prev</a>
+                     <a class="page-link" href="#" data-page="${currentPage - 1
+      }">Prev</a>
                    </li>`;
 
     for (let i = 1; i <= totalPages; i++) {
@@ -569,12 +689,10 @@ jQuery(document).ready(function () {
                        </li>`;
     }
 
-    pagination += `<li class="page-item ${
-      currentPage === totalPages ? "disabled" : ""
-    }">
-                     <a class="page-link" href="#" data-page="${
-                       currentPage + 1
-                     }">Next</a>
+    pagination += `<li class="page-item ${currentPage === totalPages ? "disabled" : ""
+      }">
+                     <a class="page-link" href="#" data-page="${currentPage + 1
+      }">Next</a>
                    </li>`;
 
     $("#itemPagination").html(pagination);
@@ -588,8 +706,9 @@ jQuery(document).ready(function () {
 
   let itemAvailableMap = {};
 
-  //click the and append values
+  //click the and append values (normal item_master modal - reset pre-invoice mode)
   $(document).on("click", "#itemMaster tbody tr.table-light", function () {
+    isPreInvoiceMode = false;
     let mainRow = $(this).prevAll("tr.table-primary").first();
     let infoRow = $(this).prev("tr.table-info");
 
@@ -620,6 +739,7 @@ jQuery(document).ready(function () {
 
     calculatePayment();
 
+    focusAfterModal = true;
     setTimeout(() => $("#itemQty").focus(), 200);
 
     let itemMasterModal = bootstrap.Modal.getInstance(
@@ -636,11 +756,13 @@ jQuery(document).ready(function () {
     let itemCode = mainRow.find("td").eq(1).text().trim().split(" - ")[0] || "";
     let itemName = mainRow.find("td").eq(1).text().trim().split(" - ")[1] || "";
     let availableQty = mainRow.find("td").eq(2).text().trim();
-    let itemPrice = mainRow.find("td").eq(3).text().trim(); // invoice_price is at index 4
-    let itemSalePrice = mainRow.find("td").eq(4).text().trim(); // invoice_price is at index 4
-    let item_id = mainRow.find("td").eq(5).text().trim(); // id is at index 5 and hidden
+    let itemPrice = mainRow.find("td").eq(3).text().trim();
+    let itemSalePrice = mainRow.find("td").eq(4).text().trim();
+    let item_id = mainRow.find("td").eq(5).text().trim();
 
-    $("#available_qty").val(availableQty);
+    // Set pre-invoice mode since items from this modal have no stock
+    isPreInvoiceMode = true;
+    $("#available_qty").val(999999);
 
     $("#itemCode").val(itemCode);
     $("#itemName").val(itemName);
@@ -650,6 +772,7 @@ jQuery(document).ready(function () {
 
     calculatePayment();
 
+    focusAfterModal = true;
     setTimeout(() => $("#itemQty").focus(), 200);
 
     let itemMasterModal = bootstrap.Modal.getInstance(
@@ -711,10 +834,10 @@ jQuery(document).ready(function () {
     let list = parseFloat(listPrice);
 
     if (!isNaN(invoice) && !isNaN(list)) {
-      // calculate fixed discount per unit (list - invoice)
+      // calculate discount value (list price - invoice price)
       let discountValue = list - invoice;
 
-      // show discount value (2 decimals)
+      // show discount as value (2 decimals)
       $("#itemDiscount").val(discountValue.toFixed(2));
     } else {
       $("#itemDiscount").val("0.00");
@@ -728,6 +851,8 @@ jQuery(document).ready(function () {
     $("#payment_type").prop("disabled", true);
 
     calculatePayment();
+
+    focusAfterModal = true;
     setTimeout(() => $("#itemQty").focus(), 200);
 
     let itemMasterModal = bootstrap.Modal.getInstance(
@@ -849,16 +974,90 @@ jQuery(document).ready(function () {
       dataType: "json",
       success: function (checkRes) {
         if (checkRes.exists) {
-          $("#invoice_no").focus();
-          swal({
-            title: "Duplicate!",
-            text:
-              "Invoice No <strong>" + invoiceNo + "</strong> already exists.",
-            type: "error",
-            html: true,
-            timer: 2500,
-            showConfirmButton: false,
-          });
+          // Show confirmation dialog for duplicate invoice
+          swal(
+            {
+              title: "Duplicate Invoice Number!",
+              text:
+                "Invoice No <strong>" +
+                invoiceNo +
+                "</strong> already exists. This may be due to document tracking not being updated. Would you like to increment the document tracking ID and generate a new invoice number?",
+              type: "warning",
+              html: true,
+              showCancelButton: true,
+              confirmButtonText: "Yes, Update & Continue",
+              cancelButtonText: "No, Cancel",
+              closeOnConfirm: false,
+              closeOnCancel: true,
+            },
+            function (isConfirm) {
+              if (isConfirm) {
+                // User confirmed, resolve the duplicate
+                const paymentType = $(
+                  'input[name="payment_type"]:checked'
+                ).val();
+
+                $.ajax({
+                  url: "ajax/php/sales-invoice.php",
+                  method: "POST",
+                  data: {
+                    action: "resolve_duplicate_invoice",
+                    payment_type: paymentType,
+                  },
+                  dataType: "json",
+                  success: function (resolveRes) {
+                    if (resolveRes.status === "success") {
+                      // Update the invoice number field with the new ID
+                      $("#invoice_no").val(resolveRes.invoice_id);
+
+                      swal({
+                        title: "Success!",
+                        text:
+                          "Document tracking updated. New invoice number: <strong>" +
+                          resolveRes.invoice_id +
+                          "</strong>",
+                        type: "success",
+                        html: true,
+                        timer: 2000,
+                        showConfirmButton: false,
+                      });
+
+                      // Open payment modal with new invoice number
+                      setTimeout(function () {
+                        $("#modal_invoice_id").val(invoiceId);
+                        $("#modalFinalTotal").val(total.toFixed(2));
+                        $("#amountPaid").val("");
+                        $("#paymentType").val("1");
+                        $("#balanceAmount")
+                          .val("0.00")
+                          .removeClass("text-danger");
+                        $("#paymentModal").modal("show");
+                      }, 2000);
+                    } else {
+                      swal({
+                        title: "Error!",
+                        text:
+                          resolveRes.message ||
+                          "Unable to resolve duplicate invoice.",
+                        type: "error",
+                        timer: 3000,
+                        showConfirmButton: false,
+                      });
+                    }
+                  },
+                  error: function () {
+                    swal({
+                      title: "Error!",
+                      text: "Unable to update document tracking.",
+                      type: "error",
+                      timer: 3000,
+                      showConfirmButton: false,
+                    });
+                  },
+                });
+              }
+            }
+          );
           return;
         }
 
@@ -911,46 +1110,110 @@ jQuery(document).ready(function () {
     }
 
     const invoiceNo = $("#invoice_no").val().trim();
-    const dag_id = $("#dag_id").val();
 
-    if (dag_id != 0) {
-      processDAGInvoiceCreation();
-    } else {
-      $.ajax({
-        url: "ajax/php/sales-invoice.php",
-        method: "POST",
-        data: {
-          action: "check_invoice_id",
-          invoice_no: invoiceNo,
-        },
-        dataType: "json",
-        success: function (checkRes) {
-          if (checkRes.exists) {
-            swal({
-              title: "Duplicate!",
+    $.ajax({
+      url: "ajax/php/sales-invoice.php",
+      method: "POST",
+      data: {
+        action: "check_invoice_id",
+        invoice_no: invoiceNo,
+      },
+      dataType: "json",
+      success: function (checkRes) {
+        if (checkRes.exists) {
+          // Show confirmation dialog for duplicate invoice
+          swal(
+            {
+              title: "Duplicate Invoice Number!",
               text:
-                "Invoice No <strong>" + invoiceNo + "</strong> already exists.",
-              type: "error",
+                "Invoice No <strong>" +
+                invoiceNo +
+                "</strong> already exists. This may be due to document tracking not being updated. Would you like to increment the document tracking ID and generate a new invoice number?",
+              type: "warning",
               html: true,
-              timer: 2500,
-              showConfirmButton: false,
-            });
-            return;
-          }
+              showCancelButton: true,
+              confirmButtonText: "Yes, Update & Continue",
+              cancelButtonText: "No, Cancel",
+              closeOnConfirm: false,
+              closeOnCancel: true,
+            },
+            function (isConfirm) {
+              if (isConfirm) {
+                // User confirmed, resolve the duplicate
+                const paymentType = $(
+                  'input[name="payment_type"]:checked'
+                ).val();
 
-          processInvoiceCreation();
-        },
-        error: function () {
-          swal({
-            title: "Error!",
-            text: "Unable to verify Invoice No. right now.",
-            type: "error",
-            timer: 3000,
-            showConfirmButton: false,
-          });
-        },
-      });
-    }
+                $.ajax({
+                  url: "ajax/php/sales-invoice.php",
+                  method: "POST",
+                  data: {
+                    action: "resolve_duplicate_invoice",
+                    payment_type: paymentType,
+                  },
+                  dataType: "json",
+                  success: function (resolveRes) {
+                    if (resolveRes.status === "success") {
+                      // Update the invoice number field with the new ID
+                      $("#invoice_no").val(resolveRes.invoice_id);
+
+                      swal({
+                        title: "Success!",
+                        text:
+                          "Document tracking updated. New invoice number: <strong>" +
+                          resolveRes.invoice_id +
+                          "</strong>. Proceeding with invoice creation...",
+                        type: "success",
+                        html: true,
+                        timer: 2000,
+                        showConfirmButton: false,
+                      });
+
+                      // Proceed with invoice creation after a short delay
+                      setTimeout(function () {
+                        processInvoiceCreation();
+                      }, 2000);
+                    } else {
+                      swal({
+                        title: "Error!",
+                        text:
+                          resolveRes.message ||
+                          "Unable to resolve duplicate invoice.",
+                        type: "error",
+                        timer: 3000,
+                        showConfirmButton: false,
+                      });
+                    }
+                  },
+                  error: function () {
+                    swal({
+                      title: "Error!",
+                      text: "Unable to update document tracking.",
+                      type: "error",
+                      timer: 3000,
+                      showConfirmButton: false,
+                    });
+                  },
+                });
+              }
+            }
+          );
+          return;
+        }
+
+        processInvoiceCreation();
+      },
+      error: function () {
+        swal({
+          title: "Error!",
+          text: "Unable to verify Invoice No. right now.",
+          type: "error",
+          timer: 3000,
+          showConfirmButton: false,
+        });
+      },
+    });
+
   });
 
   $("#save").click(function (event) {
@@ -979,53 +1242,116 @@ jQuery(document).ready(function () {
       });
     }
 
-    const dag_id = $("#dag_id").val();
 
-    if (dag_id != 0) {
-      processDAGInvoiceCreation();
-    } else {
-      $.ajax({
-        url: "ajax/php/sales-invoice.php",
-        method: "POST",
-        data: {
-          action: "check_invoice_id",
-          invoice_no: invoiceNo,
-        },
-        dataType: "json",
-        success: function (checkRes) {
-          if (checkRes.exists) {
-            $("#invoice_no").focus();
-            swal({
-              title: "Duplicate!",
+    $.ajax({
+      url: "ajax/php/sales-invoice.php",
+      method: "POST",
+      data: {
+        action: "check_invoice_id",
+        invoice_no: invoiceNo,
+      },
+      dataType: "json",
+      success: function (checkRes) {
+        if (checkRes.exists) {
+          // Show confirmation dialog for duplicate invoice
+          swal(
+            {
+              title: "Duplicate Invoice Number!",
               text:
-                "Invoice No <strong>" + invoiceNo + "</strong> already exists.",
-              type: "error",
+                "Invoice No <strong>" +
+                invoiceNo +
+                "</strong> already exists. This may be due to document tracking not being updated. Would you like to increment the document tracking ID and generate a new invoice number?",
+              type: "warning",
               html: true,
-              timer: 2500,
-              showConfirmButton: false,
-            });
-            return;
-          }
+              showCancelButton: true,
+              confirmButtonText: "Yes, Update & Continue",
+              cancelButtonText: "No, Cancel",
+              closeOnConfirm: false,
+              closeOnCancel: true,
+            },
+            function (isConfirm) {
+              if (isConfirm) {
+                // User confirmed, resolve the duplicate
+                const paymentType = $(
+                  'input[name="payment_type"]:checked'
+                ).val();
 
-          processInvoiceCreation();
-        },
-        error: function () {
-          swal({
-            title: "Error!",
-            text: "Unable to verify Invoice No. right now.",
-            type: "error",
-            timer: 3000,
-            showConfirmButton: false,
-          });
-        },
-      });
-    }
+                $.ajax({
+                  url: "ajax/php/sales-invoice.php",
+                  method: "POST",
+                  data: {
+                    action: "resolve_duplicate_invoice",
+                    payment_type: paymentType,
+                  },
+                  dataType: "json",
+                  success: function (resolveRes) {
+                    if (resolveRes.status === "success") {
+                      // Update the invoice number field with the new ID
+                      $("#invoice_no").val(resolveRes.invoice_id);
+
+                      swal({
+                        title: "Success!",
+                        text:
+                          "Document tracking updated. New invoice number: <strong>" +
+                          resolveRes.invoice_id +
+                          "</strong>. Proceeding with invoice creation...",
+                        type: "success",
+                        html: true,
+                        timer: 2000,
+                        showConfirmButton: false,
+                      });
+
+                      // Proceed with invoice creation after a short delay
+                      setTimeout(function () {
+                        processInvoiceCreation();
+                      }, 2000);
+                    } else {
+                      swal({
+                        title: "Error!",
+                        text:
+                          resolveRes.message ||
+                          "Unable to resolve duplicate invoice.",
+                        type: "error",
+                        timer: 3000,
+                        showConfirmButton: false,
+                      });
+                    }
+                  },
+                  error: function () {
+                    swal({
+                      title: "Error!",
+                      text: "Unable to update document tracking.",
+                      type: "error",
+                      timer: 3000,
+                      showConfirmButton: false,
+                    });
+                  },
+                });
+              }
+            }
+          );
+          return;
+        }
+
+        processInvoiceCreation();
+      },
+      error: function () {
+        swal({
+          title: "Error!",
+          text: "Unable to verify Invoice No. right now.",
+          type: "error",
+          timer: 3000,
+          showConfirmButton: false,
+        });
+      },
+    });
+
   });
 
   //ITEM INVOICE PROCESS
   function processInvoiceCreation() {
     const items = [];
-    const dagItems = [];
+
 
     //  item invoice to send this php file
     $("#invoiceItemsBody tr").each(function () {
@@ -1048,6 +1374,9 @@ jQuery(document).ready(function () {
       const current_km = $(this).find('input[name="current_km[]"]').val() || "";
       const next_service_days =
         $(this).find('input[name="next_service_days[]"]').val() || "";
+      const serial_no = $(this).find('input[name="serial_no[]"]').val() || "";
+      const is_pre_invoice =
+        $(this).find('input[name="is_pre_invoice[]"]').val() || "0";
 
       if (code && !isNaN(totalItem) && item_id) {
         items.push({
@@ -1065,12 +1394,14 @@ jQuery(document).ready(function () {
           vehicle_no,
           current_km,
           next_service_days,
+          serial_no,
+          is_pre_invoice,
         });
       }
     });
 
     // Validate items
-    if (items.length === 0 && dagItems.length === 0) {
+    if (items.length === 0) {
       return swal({
         title: "Error!",
         text: "Please add at least one item.",
@@ -1147,7 +1478,7 @@ jQuery(document).ready(function () {
         chequeDate = dateInput ? dateInput : "1000-01-01"; // Use default date if not provided
       }
 
-      if (!methodId && $("#customer_id").val() == "CH001") {
+      if (!methodId && $("#customer_id").val() == "CM/01") {
         swal({
           title: "Error!",
           text: "Please select a payment method in all rows.",
@@ -1158,7 +1489,7 @@ jQuery(document).ready(function () {
         return false; // break out of each
       }
 
-      if (amount <= 0 && $("#customer_id").val() == "CH001") {
+      if (amount <= 0 && $("#customer_id").val() == "CM/01") {
         swal({
           title: "Error!",
           text: "Please enter a valid amount in all rows.",
@@ -1219,8 +1550,10 @@ jQuery(document).ready(function () {
     formData.append("customer_mobile", $("#customer_mobile").val());
     formData.append("customer_address", $("#customer_address").val());
     formData.append("recommended_person", $("#recommended_person").val());
+    formData.append("vehicle_no", $("#vehicle_no").val() || "");
     formData.append("invoice_no", $("#invoice_no").val());
     formData.append("invoice_date", $("#invoice_date").val());
+    formData.append("quotation_id", $("#quotation_id").val() || "");
     formData.append("items", JSON.stringify(items));
     formData.append(
       "sales_type",
@@ -1235,6 +1568,22 @@ jQuery(document).ready(function () {
     formData.append("credit_period", $("#credit_period").val() || null);
     formData.append("remark", $("#remark").val() || null);
 
+    // VAT related fields
+    formData.append(
+      "is_vat_invoice",
+      $("#is_vat_invoice").is(":checked") ? "1" : "0"
+    );
+    formData.append("vat_no", $("#vat_no").val() || "");
+    formData.append("vat_percentage", $("#vat_percentage").val() || "0");
+
+    // VAT related fields
+    formData.append(
+      "is_vat_invoice",
+      $("#is_vat_invoice").is(":checked") ? "1" : "0"
+    );
+    formData.append("vat_no", $("#vat_no").val() || "");
+    formData.append("vat_percentage", $("#vat_percentage").val() || "0");
+
     $(".someBlock").preloader();
 
     $.ajax({
@@ -1245,22 +1594,49 @@ jQuery(document).ready(function () {
       processData: false,
       dataType: "json",
       success: function (res) {
-        const invoiceId = res.invoice_id;
-        // Save DAG items
-        $.ajax({
-          url: "ajax/php/sales-invoice-dag.php",
-          type: "POST",
-          data: {
-            invoice_id: invoiceId,
-            items: JSON.stringify(dagItems),
-          },
-          success: function () {
-            console.log("DAG invoice saved");
-          },
-          error: function () {
-            console.error("DAG invoice save failed");
-          },
-        });
+        $(".someBlock").preloader("remove");
+
+        if (res && res.status === "error") {
+          if (
+            res.code === "INSUFFICIENT_STOCK" &&
+            Array.isArray(res.items) &&
+            res.items.length > 0
+          ) {
+            let details = res.items
+              .map(function (item) {
+                return (
+                  (item.item_code || "") +
+                  (item.item_name ? " - " + item.item_name : "") +
+                  " : Requested " +
+                  (item.requested_qty || 0) +
+                  ", Available " +
+                  (item.available_qty || 0)
+                );
+              })
+              .join("\n");
+
+            swal({
+              title: "Insufficient Stock!",
+              text:
+                "Invoice cannot be created because stock is not enough for the following items:\n\n" +
+                details,
+              type: "error",
+              showConfirmButton: true,
+            });
+          } else {
+            swal({
+              title: "Error!",
+              text: res.message || "Failed to save invoice.",
+              type: "error",
+              timer: 3000,
+              showConfirmButton: false,
+            });
+          }
+
+          return;
+        }
+
+
 
         swal({
           title: "Success!",
@@ -1270,11 +1646,17 @@ jQuery(document).ready(function () {
           showConfirmButton: false,
         });
 
+        // Prefer the id returned by backend; fall back to current field value
+        const savedInvoiceId = res.invoice_id || $("#invoice_no").val();
+
         $("#paymentModal").modal("hide");
-        window.open("invoice.php?invoice_no=" + invoiceId, "_blank");
+        if (savedInvoiceId) {
+          window.open("invoice.php?invoice_no=" + savedInvoiceId, "_blank");
+        }
         setTimeout(() => location.reload(), 3000);
       },
       error: function (xhr) {
+        $(".someBlock").preloader("remove");
         console.error(xhr.responseText);
         swal({
           title: "Error",
@@ -1287,159 +1669,7 @@ jQuery(document).ready(function () {
     });
   }
 
-  //PROCESS DAG INVOICE CREATION
-  function processDAGInvoiceCreation() {
-    const finalTotal = parseFloat($("#finalTotal").val()) || 0;
-    const paymentType = $('input[name="payment_type"]:checked').val();
 
-    // For cash payments, check if paid amount is sufficient
-    if (paymentType === "1") {
-      const paid = parseFloat($("#amountPaid").val()) || 0;
-      if (paid < finalTotal) {
-        swal({
-          title: "Error!",
-          text: "Paid amount cannot be less than Final Total",
-          type: "error",
-          timer: 3000,
-          showConfirmButton: false,
-        });
-        return;
-      }
-    }
-
-    const dagItems = [];
-
-    $("#dagItemsBodyInvoice tr.dag-item-row").each(function () {
-      const vehicleNo = $(this).find("td:eq(0)").text().trim();
-      const beltDesign = $(this).find("td:eq(1)").text().trim();
-      const size = $(this).find("td:eq(2)").text().trim();
-      const serialNo = $(this).find("td:eq(3)").text().trim();
-      const price = parseFloat($(this).find(".dag-price").val()) || 0;
-      const cost = parseFloat($(this).find(".dag-cost").val()) || 0;
-      const dagItemId = $(this).find(".dag-price").data("dag-item-id");
-
-      // Validate that cost doesn't exceed price
-      if (cost > price) {
-        swal({
-          title: "Validation Error!",
-          text: `Cost (${cost.toFixed(2)}) cannot exceed price (${price.toFixed(
-            2
-          )}) for item: ${vehicleNo} - ${serialNo}`,
-          type: "error",
-          timer: 4000,
-          showConfirmButton: true,
-        });
-        return false; // Stop processing
-      }
-
-      if (vehicleNo && price > 0) {
-        dagItems.push({
-          dag_item_id: dagItemId,
-          vehicle_no: vehicleNo,
-          belt_design: beltDesign,
-          size: size,
-          serial_no: serialNo,
-          price: price,
-          cost: cost,
-          qty: 1, // Always 1 for DAG items
-          total: price,
-          is_dag: true,
-        });
-      }
-    });
-
-    if (dagItems.length === 0) {
-      swal({
-        title: "Error!",
-        text: "Please add at least one DAG item with a price.",
-        type: "error",
-        timer: 3000,
-        showConfirmButton: false,
-      });
-      return;
-    }
-
-    const invoiceId = $("#invoice_no").val();
-    if (!invoiceId) {
-      swal("Error!", "Invoice ID is missing.", "error");
-      return;
-    }
-
-    // Validate required fields
-    const customerId = $("#customer_id").val();
-    const customerName = $("#customer_name").val();
-    const dagId = $("#dag_id").val();
-
-    if (!customerId || !customerName) {
-      swal({
-        title: "Error!",
-        text: "Please select a customer before creating invoice.",
-        type: "error",
-        timer: 3000,
-        showConfirmButton: false,
-      });
-      return;
-    }
-
-    if (!dagId) {
-      swal({
-        title: "Error!",
-        text: "Please select a DAG before creating invoice.",
-        type: "error",
-        timer: 3000,
-        showConfirmButton: false,
-      });
-      return;
-    }
-
-    $(".someBlock").preloader();
-
-    // Prepare FormData with all values
-    const formData = new FormData($("#form-data")[0]);
-    formData.append("create", true);
-    formData.append("paid", paymentType === "1" ? $("#amountPaid").val() : "0");
-    formData.append("payment_type", paymentType);
-    formData.append("customer_id", customerId);
-    formData.append("customer_name", customerName);
-    formData.append("customer_mobile", $("#customer_mobile").val() || "");
-    formData.append("customer_address", $("#customer_address").val() || "");
-    formData.append("department_id", $("#department_id").val() || "1");
-    formData.append("invoice_no", invoiceId);
-    formData.append("recommended_person", $("#recommended_person").val() || "");
-    formData.append("items", JSON.stringify(dagItems));
-    formData.append("dag_id", dagId);
-
-    $.ajax({
-      url: "ajax/php/sales-invoice-dag.php",
-      type: "POST",
-      data: formData,
-      processData: false,
-      contentType: false,
-      dataType: "json",
-      success: function (res) {
-        $(".someBlock").preloader("remove");
-        swal({
-          title: "Success!",
-          text: "DAG Invoice saved successfully!",
-          type: "success",
-          timer: 2000,
-          showConfirmButton: false,
-        });
-
-        if ($("#paymentModal").hasClass("show")) {
-          $("#paymentModal").modal("hide");
-        }
-
-        // Open regular invoice page for DAG invoices too
-        window.open("invoice.php?invoice_no=" + invoiceId, "_blank");
-        setTimeout(() => location.reload(), 2000);
-      },
-      error: function () {
-        $(".someBlock").preloader("remove");
-        swal("Error!", "Failed to save DAG invoice.", "error");
-      },
-    });
-  }
 
   //ADD ITEM TO INVOICE TABLE
   function addItem() {
@@ -1447,19 +1677,50 @@ jQuery(document).ready(function () {
     const code = $("#itemCode").val().trim();
     const name = $("#itemName").val().trim();
     const price = parseFloat($("#itemPrice").val()) || 0;
-    const qty = parseFloat($("#itemQty").val()) || 0;
     const discount = parseFloat($("#itemDiscount").val()) || 0;
     const sale_price = parseFloat($("#itemSalePrice").val()) || 0;
 
     let availableQty = parseFloat($("#available_qty").val()) || 0;
     let serviceQty = parseFloat($("#serviceQty").val()) || 0;
 
+    const isServiceItemCode = code.startsWith("SI");
+    const isPureServiceCode = code.startsWith("SV");
+
+    // For service items, use the quantity from the serviceQty field.
+    // For all other items, use the main itemQty field.
+    let qty = 0;
+    if (isServiceItemCode) {
+      qty = serviceQty || 0;
+    } else {
+      qty = parseFloat($("#itemQty").val()) || 0;
+    }
+
     // Get vehicle no and current km for services
     const vehicleNo = $("#vehicleNo").val().trim() || "";
     const currentKm = $("#currentKm").val().trim() || "";
     const nextServiceDays = $("#nextServiceDays").val().trim() || "";
+    const serialNo = $("#itemSerialNo").val().trim() || "";
 
-    if (!code || !name || price <= 0 || qty <= 0) {
+    // For service items, use serviceSellingPrice as the price if main itemPrice is empty
+    let effectivePrice = price;
+    if (isServiceItemCode && price <= 0) {
+      effectivePrice = parseFloat($("#serviceSellingPrice").val()) || 0;
+    }
+
+    // Validation: skip price/qty check for service items if they have valid serviceQty and serviceSellingPrice
+    if (isServiceItemCode) {
+      // For service items, only check code, name, qty (from serviceQty), and effectivePrice
+      if (!code || !name || qty <= 0 || effectivePrice <= 0) {
+        swal({
+          title: "Error!",
+          text: "Please enter valid service item details including quantity.",
+          type: "error",
+          timer: 3000,
+          showConfirmButton: false,
+        });
+        return;
+      }
+    } else if (!code || !name || price <= 0 || qty <= 0) {
       swal({
         title: "Error!",
         text: "Please enter valid item details including quantity and price.",
@@ -1468,189 +1729,486 @@ jQuery(document).ready(function () {
         showConfirmButton: false,
       });
       return;
-    } else if (
-      !code.startsWith("SI") &&
-      !code.startsWith("SV") &&
-      qty > availableQty
-    ) {
+    }
+
+    // Validate that selling price is not lower than cost
+    const itemCost = parseFloat($("#item_cost_arn").val()) || 0;
+    if (itemCost > 0 && sale_price < itemCost) {
       swal({
-        title: "Error!",
-        text: "Transfer quantity cannot exceed available quantity!",
+        title: "Validation Error!",
+        text: `Selling price (${sale_price.toFixed(2)}) cannot be lower than cost (${itemCost.toFixed(2)}).`,
         type: "error",
-        timer: 2500,
-        showConfirmButton: false,
-      });
-      return;
-    } else if (code.startsWith("SI") && serviceQty > availableQty) {
-      swal({
-        title: "Error!",
-        text: "Transfer quantity cannot exceed available quantity!",
-        type: "error",
-        timer: 2500,
-        showConfirmButton: false,
+        timer: 4000,
+        showConfirmButton: true,
       });
       return;
     }
 
-    // Find the active ARN row
-    const activeArn = $(".arn-row.active-arn").first();
+    // For pre-invoice items, skip stock validation entirely
+    if (!isServiceItemCode && !isPureServiceCode && !isPreInvoiceMode) {
+      // Calculate total available across ALL ARNs for this item from fullItemList
+      let totalAvailableAcrossArns = 0;
 
-    let arnId, arnQty, usedQty, remainingQty;
-    if (activeArn.length) {
-      arnId = activeArn.data("arn-id");
-      arnQty = parseFloat(activeArn.data("qty"));
-      usedQty = parseFloat(activeArn.data("used")) || 0;
-      remainingQty = arnQty - usedQty;
-    } else {
-      arnId = code;
-      arnQty = 0;
-      usedQty = 0;
-      remainingQty = 0;
-    }
-
-    if (
-      !code.startsWith("SI") &&
-      !code.startsWith("SV") &&
-      qty > remainingQty
-    ) {
-      swal(
-        "Error!",
-        `Only ${remainingQty} qty available for the current ARN.`,
-        "error"
-      );
-      return;
-    }
-
-    // If item already exists in invoice, remove and restore ARN qty
-    let alreadyExists = false;
-    $("#invoiceItemsBody tr").each(function () {
-      const existingCode = $(this).find('input[name="item_codes[]"]').val();
-      const existingArn = $(this).find('input[name="arn_ids[]"]').val();
-      if (existingCode === code && existingArn === arnId) {
-        const existingQty = parseFloat($(this).find(".item-qty").text()) || 0;
-
-        // Restore used quantity
-        const currentUsed = parseFloat(activeArn.data("used")) || 0;
-        const newUsed = currentUsed - existingQty;
-
-        activeArn.data("used", newUsed);
-        activeArn.find(".arn-qty").text((arnQty - newUsed).toFixed(2));
-
-        alreadyExists = true;
-        return false;
+      // Find the current item in fullItemList
+      let currentItem = null;
+      for (let i = 0; i < fullItemList.length; i++) {
+        if (fullItemList[i].code === code) {
+          currentItem = fullItemList[i];
+          break;
+        }
       }
-    });
 
-    if (alreadyExists) {
-      swal(
-        "Warning!",
-        "This item from the current ARN is already added.",
-        "warning"
-      );
+      if (currentItem) {
+        // Build usedQtyMap from existing invoice items
+        let usedQtyMap = {};
+        $("#invoiceItemsBody tr").each(function () {
+          let rowCode = $(this).find('input[name="item_codes[]"]').val();
+          let rowArn = $(this).find('input[name="arn_ids[]"]').val();
+          let rowQty = parseFloat($(this).find(".item-qty").text()) || 0;
+          let key = `${rowCode}_${rowArn}`;
+
+          if (!usedQtyMap[key]) usedQtyMap[key] = 0;
+          usedQtyMap[key] += rowQty;
+        });
+
+        // Calculate total available from all ARN lots
+        $.each(currentItem.stock_tmp, function (i, row) {
+          const totalQty = parseFloat(row.qty);
+          const arnId = row.arn_no;
+          const itemKey = `${currentItem.code}_${arnId}`;
+          const usedQty = parseFloat(usedQtyMap[itemKey]) || 0;
+          const remainingQty = totalQty - usedQty;
+
+          if (remainingQty > 0) {
+            totalAvailableAcrossArns += remainingQty;
+          }
+        });
+      }
+
+      if (qty > totalAvailableAcrossArns) {
+        swal({
+          title: "Error!",
+          text: `Transfer quantity (${qty}) cannot exceed total available quantity (${totalAvailableAcrossArns}) across all ARNs!`,
+          type: "error",
+          timer: 3000,
+          showConfirmButton: false,
+        });
+        return;
+      }
+    } else if (isServiceItemCode && qty > availableQty) {
+      swal({
+        title: "Error!",
+        text: "Transfer quantity cannot exceed available quantity!",
+        type: "error",
+        timer: 2500,
+        showConfirmButton: false,
+      });
       return;
     }
 
-    // Calculate total based on whether it's a service invoice or regular invoice
-    let total;
-    if ($("#serviceItemTable").is(":visible")) {
-      // For service invoices, use the sale_price (which includes combined service + service item price with discount)
-      total = sale_price * qty;
-    } else {
-      // For regular invoices, use fixed discount value per unit
-      total = (price - discount) * qty;
+    // Ensure only one service item line can be invoiced at a time
+    if (isServiceItemCode) {
+      let hasServiceItem = false;
+
+      $("#invoiceItemsBody tr").each(function () {
+        const existingCodeInput = $(this)
+          .find('input[name="item_codes[]"]')
+          .val();
+        const existingCodeText = $(this).find("td:eq(0)").text().trim();
+        const existingCode = existingCodeInput || existingCodeText;
+
+        if (existingCode && existingCode.startsWith("SI/")) {
+          hasServiceItem = true;
+          return false; // break
+        }
+      });
+
+      if (hasServiceItem) {
+        swal({
+          title: "Service Item Limit",
+          text: "Only one service item can be invoiced at a time. Please remove the existing service item before adding another.",
+          type: "warning",
+          timer: 2500,
+          showConfirmButton: false,
+        });
+        return;
+      }
     }
+
+    // Collect all available ARNs with remaining quantity for splitting
+    let arnAllocations = [];
+    let remainingToAllocate = qty;
+
+    if (isPreInvoiceMode && !isServiceItemCode && !isPureServiceCode) {
+      // Pre-invoice mode: no ARN allocation needed
+      arnAllocations.push({
+        arnRow: null,
+        arnId: "PRE-INV",
+        arnQtyTotal: 0,
+        arnUsed: 0,
+        allocateQty: qty,
+        cost: 0,
+      });
+      remainingToAllocate = 0;
+    } else if (!isServiceItemCode && !isPureServiceCode) {
+      // Collect ARN rows in order (active first, then disabled ones)
+      let arnRows = [];
+      $(".arn-row.active-arn, .arn-row.selected-arn").each(function () {
+        arnRows.push($(this));
+      });
+      $(".arn-row.disabled-arn").each(function () {
+        arnRows.push($(this));
+      });
+
+      // Allocate quantity across ARNs
+      for (let i = 0; i < arnRows.length && remainingToAllocate > 0; i++) {
+        const arnRow = arnRows[i];
+        const arnId = arnRow.data("arn-id");
+        const arnQtyTotal = parseFloat(arnRow.data("qty")) || 0;
+        const arnUsed = parseFloat(arnRow.data("used")) || 0;
+        const arnRemaining = arnQtyTotal - arnUsed;
+
+        if (arnRemaining <= 0) continue;
+
+        // Check if this item+ARN combo already exists in invoice
+        let alreadyInInvoice = false;
+        $("#invoiceItemsBody tr").each(function () {
+          const existingCode = $(this).find('input[name="item_codes[]"]').val();
+          const existingArn = $(this).find('input[name="arn_ids[]"]').val();
+          if (existingCode === code && existingArn == arnId) {
+            alreadyInInvoice = true;
+            return false;
+          }
+        });
+
+        if (alreadyInInvoice) continue;
+
+        // Get cost from ARN row
+        const costText = arnRow.find("td").eq(0).find("div").text();
+        const costMatch = costText.match(/Cost:\s*([\d.,]+)/i);
+        const arnCost = costMatch
+          ? parseFloat(costMatch[1].replace(/,/g, ""))
+          : 0;
+
+        const allocateQty = Math.min(remainingToAllocate, arnRemaining);
+
+        arnAllocations.push({
+          arnRow: arnRow,
+          arnId: arnId,
+          arnQtyTotal: arnQtyTotal,
+          arnUsed: arnUsed,
+          allocateQty: allocateQty,
+          cost: arnCost,
+        });
+
+        remainingToAllocate -= allocateQty;
+      }
+
+      if (remainingToAllocate > 0) {
+        swal({
+          title: "Error!",
+          text: `Unable to allocate full quantity. Short by ${remainingToAllocate} units.`,
+          type: "error",
+          timer: 3000,
+          showConfirmButton: false,
+        });
+        return;
+      }
+    } else {
+      // For service items, use single ARN allocation
+      const activeArn = $(".arn-row.active-arn").first();
+      let arnId, arnQty, usedQty, remainingQty;
+
+      if (activeArn.length) {
+        arnId = activeArn.data("arn-id");
+        arnQty = parseFloat(activeArn.data("qty"));
+        usedQty = parseFloat(activeArn.data("used")) || 0;
+        remainingQty = arnQty - usedQty;
+      } else {
+        arnId = code;
+        arnQty = 0;
+        usedQty = 0;
+        remainingQty = 0;
+      }
+
+      arnAllocations.push({
+        arnRow: activeArn,
+        arnId: arnId,
+        arnQtyTotal: arnQty,
+        arnUsed: usedQty,
+        allocateQty: qty,
+        cost: parseFloat($("#item_cost_arn").val()) || 0,
+      });
+    }
+
     $("#noItemRow").remove();
     $("#noQuotationItemRow").remove();
     $("#noInvoiceItemRow").remove();
 
-    // Calculate display values based on invoice type
-    let displayPrice, displayName;
-    if ($("#serviceItemTable").is(":visible")) {
-      // For service invoices, show combined service + service item details
-      const serviceSellingPrice =
-        parseFloat($("#serviceSellingPrice").val()) || 0;
-      const combinedPriceBeforeDiscount = price + serviceSellingPrice;
-      displayPrice = combinedPriceBeforeDiscount;
-      displayName = name + " (Service + Item)";
-    } else {
-      // For regular invoices, show original values
-      displayPrice = price;
-      displayName = name;
-    }
-
     // Get the cost value from the form
     const cost = parseFloat($("#item_cost_arn").val()) || 0;
+    const serviceSellingPrice =
+      parseFloat($("#serviceSellingPrice").val()) || 0;
 
-    const row = `
+    // Check if we have both a service and a service item selected
+    const selectedServiceId = $("#service").val();
+    const selectedServiceItemId = $("#service_items").val();
+    const hasService =
+      selectedServiceId && selectedServiceId != "0" && isPureServiceCode;
+    const hasServiceItem =
+      selectedServiceItemId &&
+      selectedServiceItemId != "0" &&
+      $("#serviceItemTable").is(":visible");
+
+    // If both service (SV/) and service item (SI/) are selected, create TWO separate rows
+    if (hasService && hasServiceItem) {
+      // Get arnId from allocations (for services, there's only one allocation)
+      const serviceArnId =
+        arnAllocations.length > 0 ? arnAllocations[0].arnId : code;
+
+      // Extract VAT if applied
+      const isVatApplied = $("#is_vat_invoice").is(":checked");
+      const vatPercentage = parseFloat($("#vat_percentage").val()) || 0;
+
+      // --- ROW 1: Service (SV/) ---
+      const serviceNetTotal = (price - discount) * qty;
+      let serviceVatAmount = 0;
+      if (isVatApplied && vatPercentage > 0) {
+        serviceVatAmount = serviceNetTotal * (vatPercentage / (100 + vatPercentage));
+      }
+
+      const serviceRow = `
             <tr>
                 <td>${code}
                     <input type="hidden" name="item_id[]" value="${item_id}">
                     <input type="hidden" name="item_codes[]" value="${code}">
-                    <input type="hidden" name="arn_ids[]" value="${arnId}">
-                    <input type="hidden" name="arn_costs[]" value="${cost}">
-                    <input type="hidden" name="service_qty[]" value="${serviceQty}">
+                    <input type="hidden" name="arn_ids[]" value="${serviceArnId}">
+                    <input type="hidden" name="arn_costs[]" value="0">
+                    <input type="hidden" name="service_qty[]" value="0">
                     <input type="hidden" name="vehicle_no[]" value="${vehicleNo}">
                     <input type="hidden" name="current_km[]" value="${currentKm}">
                     <input type="hidden" name="next_service_days[]" value="${nextServiceDays}">
+                    <input type="hidden" name="serial_no[]" value="${serialNo}">
                 </td>
-                <td>${displayName}</td>
-                <td class="item-price">${displayPrice.toFixed(2)}</td>
+                <td>${name}</td>
+                <td class="item-price">${price.toFixed(2)}</td>
                 <td class="item-qty">${qty}</td>
                 <td class="item-discount">${discount}</td>
-                <td class="item-sell-price">${sale_price.toFixed(2)}</td>
-                <td>${total.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}</td>
+                <td class="item-sell-price">${(price - discount).toFixed(
+        2
+      )}</td>
+                <td class="item-serial-no">${serialNo}</td>
+                <td class="item-vat-amount vat-column" style="display: ${isVatApplied ? "" : "none"}">${serviceVatAmount.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}</td>
+                <td>${serviceNetTotal.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}</td>
                 <td>
-                    <button type="button" class="btn btn-sm btn-danger btn-remove-item" data-code="${code}" data-qty="${qty}" data-arn-id="${arnId}">Remove</button>
+                    <button type="button" class="btn btn-sm btn-danger btn-remove-item" data-code="${code}" data-qty="${qty}" data-arn-id="${serviceArnId}">Remove</button>
                 </td>
             </tr>
         `;
+      $("#invoiceItemsBody").append(serviceRow);
 
-    $("#invoiceItemsBody").append(row);
+      // --- ROW 2: Service Item (SI/) ---
+      const serviceItemCode =
+        "SI/" + selectedServiceItemId.toString().padStart(4, "0");
+      const serviceItemName = $("#service_items option:selected").text().trim();
+      const serviceItemNetTotal = serviceSellingPrice * serviceQty;
+      let serviceItemVatAmount = 0;
+      if (isVatApplied && vatPercentage > 0) {
+        serviceItemVatAmount = serviceItemNetTotal * (vatPercentage / (100 + vatPercentage));
+      }
+
+      const serviceItemRow = `
+            <tr>
+                <td>${serviceItemCode}
+                    <input type="hidden" name="item_id[]" value="${selectedServiceItemId}">
+                    <input type="hidden" name="item_codes[]" value="${serviceItemCode}">
+                    <input type="hidden" name="arn_ids[]" value="${serviceItemCode}">
+                    <input type="hidden" name="arn_costs[]" value="${cost}">
+                    <input type="hidden" name="service_qty[]" value="${serviceQty}">
+                    <input type="hidden" name="vehicle_no[]" value="">
+                    <input type="hidden" name="current_km[]" value="">
+                    <input type="hidden" name="next_service_days[]" value="">
+                    <input type="hidden" name="serial_no[]" value="">
+                </td>
+                <td>${serviceItemName}</td>
+                <td class="item-price">${serviceSellingPrice.toFixed(2)}</td>
+                <td class="item-qty">${serviceQty}</td>
+                <td class="item-discount">0</td>
+                <td class="item-sell-price">${serviceSellingPrice.toFixed(
+        2
+      )}</td>
+                <td class="item-serial-no"></td>
+                <td class="item-vat-amount vat-column" style="display: ${isVatApplied ? "" : "none"}">${serviceItemVatAmount.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}</td>
+                <td>${serviceItemNetTotal.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}</td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-danger btn-remove-item" data-code="${serviceItemCode}" data-qty="${serviceQty}" data-arn-id="${serviceItemCode}">Remove</button>
+                </td>
+            </tr>
+        `;
+      $("#invoiceItemsBody").append(serviceItemRow);
+    } else {
+      // Capture current pre-invoice state for this item
+      const itemIsPreInvoice = isPreInvoiceMode;
+
+      // Create rows for each ARN allocation (supports multi-ARN splitting)
+      arnAllocations.forEach(function (allocation) {
+        const allocQty = allocation.allocateQty;
+        const allocArnId = allocation.arnId;
+        const allocCost = allocation.cost || cost;
+
+        let total, displayPrice, displayName;
+
+        if (isServiceItemCode) {
+          // Service item only (SI/) - use serviceSellingPrice and serviceQty
+          displayPrice = effectivePrice;
+          displayName = name;
+          total = effectivePrice * allocQty;
+        } else {
+          // Regular item or service only (SV/)
+          displayPrice = price;
+          displayName = name;
+          let netUnitPrice = price - discount;
+          if (netUnitPrice < 0) netUnitPrice = 0;
+          total = netUnitPrice * allocQty;
+        }
+
+        // Extract VAT if applied
+        const isVatApplied = $("#is_vat_invoice").is(":checked");
+        const vatPercentage = parseFloat($("#vat_percentage").val()) || 0;
+        let itemVatAmount = 0;
+        if (isVatApplied && vatPercentage > 0) {
+          itemVatAmount = total * (vatPercentage / (100 + vatPercentage));
+        }
+
+        const preInvBadge = itemIsPreInvoice
+          ? ' <span class="badge bg-warning text-dark">Pre-Invoice</span>'
+          : "";
+
+        const row = `
+              <tr>
+                  <td>${code}${preInvBadge}
+                      <input type="hidden" name="item_id[]" value="${item_id}">
+                      <input type="hidden" name="item_codes[]" value="${code}">
+                      <input type="hidden" name="arn_ids[]" value="${allocArnId}">
+                      <input type="hidden" name="arn_costs[]" value="${allocCost}">
+                      <input type="hidden" name="service_qty[]" value="${serviceQty}">
+                      <input type="hidden" name="vehicle_no[]" value="${vehicleNo}">
+                      <input type="hidden" name="current_km[]" value="${currentKm}">
+                      <input type="hidden" name="next_service_days[]" value="${nextServiceDays}">
+                      <input type="hidden" name="serial_no[]" value="${serialNo}">
+                      <input type="hidden" name="is_pre_invoice[]" value="${itemIsPreInvoice ? 1 : 0}">
+                  </td>
+                  <td>${displayName}${arnAllocations.length > 1
+            ? ' <small class="text-muted">(ARN: ' + allocArnId + ")</small>"
+            : ""
+          }</td>
+                  <td class="item-price">${displayPrice.toFixed(2)}</td>
+                  <td class="item-qty">${allocQty}</td>
+                  <td class="item-discount">${discount}</td>
+                  <td class="item-sell-price">${(
+            displayPrice - discount
+          ).toFixed(2)}</td>
+                  <td class="item-serial-no">${serialNo}</td>
+                  <td class="item-vat-amount vat-column" style="display: ${isVatApplied ? "" : "none"}">${itemVatAmount.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}</td>
+                  <td>${total.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}</td>
+                  <td>
+                      <button type="button" class="btn btn-sm btn-danger btn-remove-item" data-code="${code}" data-qty="${allocQty}" data-arn-id="${allocArnId}">Remove</button>
+                  </td>
+              </tr>
+          `;
+        $("#invoiceItemsBody").append(row);
+      });
+    }
 
     // Clear input fields
     updateFinalTotal();
     $(
-      "#itemCode, #itemName, #itemPrice,#item_cost_arn, #itemQty, #itemDiscount, #item_id, #itemSalePrice"
+      "#itemCode, #itemName, #itemPrice,#item_cost_arn, #itemQty, #itemDiscount, #item_id, #itemSalePrice, #itemSerialNo"
     ).val("");
     $("#vehicleNo, #currentKm, #nextServiceDays").val("");
+    // Reset service dropdowns and related fields
+    $("#service").val("0");
+    $("#service_items").val("0");
+    $("#serviceQty, #serviceSellingPrice, #available_qty").val("");
     $("#serviceItemTable").hide();
     $("#serviceExtraDetails").hide();
     $("#serviceKmDetails").hide();
     $("#serviceNextServiceDetails").hide();
+    // Reset pre-invoice mode
+    isPreInvoiceMode = false;
 
-    const newUsedQty = usedQty + qty;
-    if (activeArn.length) {
-      activeArn.data("used", newUsedQty);
+    // Update used quantities for all allocated ARNs
+    arnAllocations.forEach(function (allocation) {
+      const arnRow = allocation.arnRow;
+      if (arnRow && arnRow.length) {
+        const newUsedQty = allocation.arnUsed + allocation.allocateQty;
+        arnRow.data("used", newUsedQty);
 
-      remainingQty = arnQty - newUsedQty;
-      activeArn.find(".arn-qty").text(parseFloat(arnQty) - newUsedQty);
+        const remainingQty = allocation.arnQtyTotal - newUsedQty;
+        arnRow.find(".arn-qty").text(remainingQty.toFixed(2));
 
-      // Disable ARN if fully used
-      if (remainingQty <= 0) {
-        activeArn.removeClass("active-arn").addClass("used-arn");
-        activeArn.find(".arn-qty").text("0");
-
-        // Activate the next available ARN
-        const nextArn = activeArn.nextAll(".arn-row.disabled-arn").first();
-        if (nextArn.length) {
-          nextArn.removeClass("disabled-arn").addClass("active-arn");
+        // Disable ARN if fully used
+        if (remainingQty <= 0) {
+          arnRow
+            .removeClass("active-arn selected-arn")
+            .addClass("used-arn disabled-arn");
+          arnRow.find(".arn-qty").text("0");
         }
       }
-    }
+    });
 
+    // Update all ARN row states
     $(".arn-row").each(function () {
-      const qty = parseFloat($(this).data("qty")) || 0;
-      const used = parseFloat($(this).data("used")) || 0;
-      const remaining = qty - used;
+      const arnQtyVal = parseFloat($(this).data("qty")) || 0;
+      const usedVal = parseFloat($(this).data("used")) || 0;
+      const remaining = arnQtyVal - usedVal;
 
       if (remaining <= 0) {
         $(this).removeClass("active-arn selected-arn").addClass("disabled-arn");
         $(this).find(".arn-qty").text("0");
       }
     });
+
+    // Activate the first available ARN if none is active
+    if ($(".arn-row.active-arn").length === 0) {
+      const firstAvailable = $(".arn-row")
+        .filter(function () {
+          const arnQtyVal = parseFloat($(this).data("qty")) || 0;
+          const usedVal = parseFloat($(this).data("used")) || 0;
+          return arnQtyVal - usedVal > 0;
+        })
+        .first();
+
+      if (firstAvailable.length) {
+        firstAvailable
+          .removeClass("disabled-arn")
+          .addClass("active-arn selected-arn");
+        $("#available_qty").val(
+          (
+            parseFloat(firstAvailable.data("qty")) -
+            parseFloat(firstAvailable.data("used"))
+          ).toFixed(2)
+        );
+      }
+    }
   }
 
   //UPDATE FINAL TOTAL
@@ -1658,6 +2216,10 @@ jQuery(document).ready(function () {
     let subTotal = 0;
     let discountTotal = 0;
     let taxTotal = 0;
+
+    // Check if VAT is applied
+    const isVatApplied = $("#is_vat_invoice").is(":checked");
+    const vatPercentage = parseFloat($("#vat_percentage").val()) || 0;
 
     $("#invoiceItemsBody tr").each(function () {
       const qty =
@@ -1669,16 +2231,44 @@ jQuery(document).ready(function () {
         0;
 
       const itemTotal = price * qty;
-      // discount is stored as fixed value per unit
+      // Treat discount as a fixed value per unit
       const itemDiscount = discount * qty;
-      const itemTax = 0;
+      let itemTax = 0;
+
+      console.log("Item - Qty:", qty, "Price:", price, "Discount:", discount);
+
+      // Calculate VAT only if VAT is applied (Extract from inclusive price)
+      if (isVatApplied && vatPercentage > 0) {
+        const discountedItemTotal = itemTotal - itemDiscount;
+        itemTax = discountedItemTotal * (vatPercentage / (100 + vatPercentage));
+        console.log(
+          "Item Tax (Extracted):",
+          itemTax,
+          "for discounted total:",
+          discountedItemTotal
+        );
+      }
 
       subTotal += itemTotal;
       discountTotal += itemDiscount;
       taxTotal += itemTax;
+      console.log(
+        "Item - Qty:",
+        qty,
+        "Price:",
+        price,
+        "Discount:",
+        discount,
+        "Item Total:",
+        itemTotal,
+        "Item Discount:",
+        itemDiscount,
+        "Item Tax:",
+        itemTax
+      );
     });
 
-    const grandTotal = subTotal - discountTotal + taxTotal;
+    const grandTotal = subTotal - discountTotal; // Tax is already included in subTotal and discountTotal
     $("#subTotal").val(
       subTotal.toLocaleString("en-US", {
         minimumFractionDigits: 2,
@@ -1692,10 +2282,12 @@ jQuery(document).ready(function () {
       })
     );
     $("#tax").val(
-      taxTotal.toLocaleString("en-US", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      })
+      taxTotal > 0
+        ? taxTotal.toLocaleString("en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
+        : "0.00"
     );
     $("#finalTotal").val(
       grandTotal.toLocaleString("en-US", {
@@ -1754,9 +2346,12 @@ jQuery(document).ready(function () {
     if (changedField === "price" || changedField === "discount") {
       // Recalculate Sale Price using fixed discount value per unit
       finalSalePrice = price - discount;
+      if (finalSalePrice < 0) {
+        finalSalePrice = 0;
+      }
       $("#itemSalePrice").val(finalSalePrice.toFixed(2));
     } else if (changedField === "salePrice") {
-      // Recalculate Discount as fixed value per unit
+      // Recalculate Discount as fixed value per unit (can be negative if selling price > list price)
       if (price > 0) {
         finalDiscount = price - salePrice;
         $("#itemDiscount").val(finalDiscount.toFixed(2));
@@ -1766,6 +2361,15 @@ jQuery(document).ready(function () {
     // Always recalc payment
     const total = (parseFloat($("#itemSalePrice").val()) || 0) * qty;
     $("#itemPayment").val(total.toFixed(2));
+
+    // Toggle Add Serial No Button
+    if (qty > 1) {
+      $("#addSerialNoBtn").show();
+      $("#itemSerialNo").prop("readonly", true);
+    } else {
+      $("#addSerialNoBtn").hide();
+      $("#itemSerialNo").prop("readonly", false);
+    }
   }
 
   // 🔗 Event bindings
@@ -1780,6 +2384,11 @@ jQuery(document).ready(function () {
   });
   $("#itemSalePrice").on("input", function () {
     calculatePayment("salePrice");
+  });
+
+  // VAT checkbox change event
+  $("#is_vat_invoice").on("change", function () {
+    updateFinalTotal();
   });
 
   $("#paidAmount").on("input", function () {
@@ -1801,6 +2410,52 @@ jQuery(document).ready(function () {
 
     return arnIds;
   }
+
+  // --- MULTIPLE SERIAL NUMBER LOGIC ---
+
+  // Open Modal and Generate Inputs
+  $("#addSerialNoBtn").click(function () {
+    const qty = parseFloat($("#itemQty").val()) || 0;
+    if (qty <= 1) return;
+
+    $("#serialNoQtyDisplay").text(qty);
+    const container = $("#serialNoInputsContainer");
+    container.empty();
+
+    // Get existing serial numbers
+    const currentSerialNos = $("#itemSerialNo").val().split(",");
+
+    for (let i = 0; i < qty; i++) {
+      const val = currentSerialNos[i] ? currentSerialNos[i].trim() : "";
+      const inputHtml = `
+            <div class="form-group mb-2">
+                <label>Serial No ${i + 1}</label>
+                <input type="text" class="form-control serial-no-input" value="${val}" placeholder="Enter Serial No ${i + 1
+        }">
+            </div>
+        `;
+      container.append(inputHtml);
+    }
+
+    $("#serialNoModal").modal("show");
+  });
+
+  // Save Serial Numbers from Modal
+  $("#saveSerialNosBtn").click(function () {
+    const serialNos = [];
+    $(".serial-no-input").each(function () {
+      const val = $(this).val().trim();
+      if (val) {
+        serialNos.push(val);
+      }
+    });
+
+    // Join with comma
+    $("#itemSerialNo").val(serialNos.join(","));
+    $("#serialNoModal").modal("hide");
+  });
+
+  // --- END MULTIPLE SERIAL NUMBER LOGIC ---
 
   // CANCEL INVOICE FUNCTION
   $(document).on("click", ".cancel-invoice", function () {
@@ -1877,8 +2532,13 @@ jQuery(document).ready(function () {
   $("#customer_name").on("click", function () {
     // Clear customer-related fields
 
-    // Set focus back to customer code search for better UX
-    $("#customer_code").focus();
+    $("#customer_name").val("");
+    $("#customer_address").val("");
+    $("#customer_mobile").val("");
+    $("#recommended_person").val("");
+
+    // Set focus back to customer name for better UX
+    $(this).val("").focus();
   });
 
   $("#quotationBtn").on("click", function () {
@@ -1912,6 +2572,14 @@ jQuery(document).ready(function () {
           $("#customer_address").val(customer.address || "");
           $("#customer_mobile").val(customer.mobile_number || "");
 
+          // Set VAT information from quotation
+          if (quotation.is_vat_invoice == 1) {
+            $("#is_vat_invoice").prop("checked", true);
+          } else {
+            $("#is_vat_invoice").prop("checked", false);
+          }
+          $("#vat_percentage").val(quotation.vat_percentage || 0);
+
           $("#invoiceItemsBody").empty();
 
           // Add items to the table
@@ -1924,19 +2592,25 @@ jQuery(document).ready(function () {
 
               const row = `
                             <tr>
-                                <td>${
-                                  item.item_code
-                                }                                
-                                <input type="hidden" class="item-id" value="${
-                                  item.item_id
-                                }"></td>
+                                <td>${item.item_code}                                
+                                <input type="hidden" name="item_id[]" value="${item.item_id}">
+                                <input type="hidden" name="item_codes[]" value="${item.item_code}">
+                                <input type="hidden" name="arn_ids[]" value="${item.item_code}">
+                                <input type="hidden" name="arn_costs[]" value="${item.arn_cost || 0}">
+                                <input type="hidden" name="service_qty[]" value="0">
+                                <input type="hidden" name="vehicle_no[]" value="">
+                                <input type="hidden" name="current_km[]" value="">
+                                <input type="hidden" name="next_service_days[]" value="">
+                                <input type="hidden" name="serial_no[]" value="">
+                                </td>
                                 <td>${item.item_name}</td>
-                                <td><input type="number" class="item-price form-control form-control-sm price"   value="${price}"  ></td>
+                                <td><input type="number" class="item-price form-control form-control-sm price" value="${price.toFixed(2)}" readonly></td>
                                 <td><input type="number" class="item-qty form-control form-control-sm qty" value="${qty}"></td>
                                 <td><input type="number" class="item-discount form-control form-control-sm discount" value="${discount}"></td>
-                                <td><input type="text" class="item-total form-control form-control-sm totalPrice"  value="${total.toFixed(
-                                  2
-                                )}" readonly>
+                                <td class="item-sell-price">${(price - discount).toFixed(2)}</td>
+                                <td class="item-serial-no"></td>
+                                <td class="item-vat-amount vat-column" style="display: ${$("#is_vat_invoice").is(":checked") ? "" : "none"}">0.00</td>
+                                <td><input type="text" class="item-total form-control form-control-sm totalPrice" value="${total.toFixed(2)}" readonly></td>
                                 <td><button type="button" class="btn btn-sm btn-danger btn-remove-item" onclick="removeRow(this)">Remove</button></td>
                             </tr>
                             `;
@@ -1951,6 +2625,9 @@ jQuery(document).ready(function () {
                             </tr>
                         `);
           }
+
+          // Update totals after all items and VAT fields are loaded
+          updateFinalTotal();
         } else {
           alert("No quotation data found");
         }
@@ -1960,7 +2637,6 @@ jQuery(document).ready(function () {
         alert("Failed to load quotation data. Please try again.");
       },
     });
-    updateFinalTotal();
   }
 
   // Row click → populate form
@@ -1988,8 +2664,92 @@ jQuery(document).ready(function () {
     }
   });
 
+  // ---------------------- DAG MODAL AJAX LOADING ---------------------- //
+
+  // Load DAGs via AJAX into the modal
+  function loadDagTable() {
+    const searchTerm = $("#dagSearchInput").val().trim();
+
+    $.ajax({
+      url: "ajax/php/create-dag.php",
+      type: "POST",
+      data: { load_dags: true, search: searchTerm },
+      dataType: "json",
+      success: function (response) {
+        // Safely destroy existing DataTable if it exists
+        if ($.fn.DataTable.isDataTable('#dagTable')) {
+          try {
+            $('#dagTable').DataTable().destroy();
+          } catch (e) {
+            console.warn("Error destroying DataTable instance: ", e);
+          }
+        }
+
+        if (response.status === "success") {
+          $("#dagTableBody").html(response.html);
+        } else {
+          $("#dagTableBody").html('<tr><td colspan="8" class="text-center text-muted">No DAGs found</td></tr>');
+        }
+
+        // Re-initialize DataTable
+        $('#dagTable').DataTable({
+          "destroy": true,
+          "ordering": false,
+          "pageLength": 10,
+          "bLengthChange": true,
+          "bInfo": true,
+          "bFilter": true
+        });
+      },
+      error: function () {
+        $("#dagTableBody").html('<tr><td colspan="8" class="text-center text-danger">Error loading DAGs</td></tr>');
+      }
+    });
+  }
+
+  // Load DAGs when modal is shown
+  $('#dagModel').on('shown.bs.modal', function () {
+    loadDagTable();
+  });
+
+  // Search button click
+  $(document).on("click", "#searchDagBtn", function () {
+    loadDagTable();
+  });
+
+  // Enter key in search input
+  $(document).on("keypress", "#dagSearchInput", function (e) {
+    if (e.which === 13) {
+      loadDagTable();
+    }
+  });
+
+  // Expand/collapse DAG item details on plus icon click
+  $(document).on("click", ".details-control", function (e) {
+    e.stopPropagation(); // Prevent triggering the select-dag click
+
+    const parentRow = $(this).closest("tr.dag-parent-row");
+    const childRow = parentRow.next("tr.dag-child-row");
+    const icon = $(this).find("span.mdi");
+
+    if (childRow.is(":visible")) {
+      childRow.hide();
+      icon.removeClass("mdi-minus-circle-outline").addClass("mdi-plus-circle-outline");
+    } else {
+      childRow.show();
+      icon.removeClass("mdi-plus-circle-outline").addClass("mdi-minus-circle-outline");
+    }
+  });
+
+  // ---------------------- END DAG MODAL AJAX LOADING ---------------------- //
+
   // DAG Selection Handler
-  $(document).on("click", ".select-dag", function () {
+  $(document).on("click", ".select-dag", function (e) {
+    // Don't trigger if clicking on the expand button
+    if ($(e.target).closest(".details-control").length > 0) {
+      return;
+    }
+
     const data = $(this).data();
 
     // Set DAG information
@@ -2000,6 +2760,8 @@ jQuery(document).ready(function () {
     $("#customer_code").val(data.customer_code);
     $("#customer_name").val(data.customer_name);
     $("#customer_id").val(data.customer_id);
+    $("#customer_address").val(data.customer_address);
+    $("#customer_mobile").val(data.customer_mobile);
     $("#department_id").val(data.department_id);
 
     // Close modal
@@ -2032,26 +2794,37 @@ jQuery(document).ready(function () {
           const items = response.data;
 
           items.forEach(function (item) {
+            const price = parseFloat(item.total_amount) || 0;
+            const cost = parseFloat(item.casing_cost) || 0;
+
+            // Extract VAT if applied
+            const isVatApplied = $("#is_vat_invoice").is(":checked");
+            const vatPercentage = parseFloat($("#vat_percentage").val()) || 0;
+            let itemVatAmount = 0;
+            if (isVatApplied && vatPercentage > 0) {
+              itemVatAmount = price * (vatPercentage / (100 + vatPercentage));
+            }
+
             const row = `
               <tr class="dag-item-row">
-                <td>${item.vehicle_no}</td>
+                <td>${item.my_number || "N/A"}</td>
                 <td>${item.belt_title || ""}</td>
                 <td>${item.size_name || ""}</td>
                 <td>${item.serial_number || ""}</td>
                 <td>
                   <input type="number" class="form-control form-control-sm dag-cost" 
-                         value="${
-                           item.total_amount || "0.00"
-                         }" step="0.01" min="0" 
+                         value="${cost.toFixed(2)}" step="0.01" min="0" 
                          data-dag-item-id="${item.id}">
                 </td>
                 <td>
                   <input type="number" class="form-control form-control-sm dag-price" 
-                         value="${
-                           item.casing_cost || "0.00"
-                         }" step="0.01" min="0" 
+                         value="${price.toFixed(2)}" step="0.01" min="0" 
                          data-dag-item-id="${item.id}">
                 </td>
+                <td class="dag-vat-amount vat-column" style="display: ${isVatApplied ? "" : "none"}">${itemVatAmount.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}</td>
                 <td>
                   <button type="button" class="btn btn-sm btn-danger remove-dag-item" 
                           data-dag-item-id="${item.id}">
@@ -2141,13 +2914,232 @@ jQuery(document).ready(function () {
   function calculateDagTotals() {
     let subTotal = 0;
 
-    $("#dagItemsBodyInvoice .dag-price").each(function () {
-      const price = parseFloat($(this).val()) || 0;
+    // Extract VAT if applied
+    const isVatApplied = $("#is_vat_invoice").is(":checked");
+    const vatPercentage = parseFloat($("#vat_percentage").val()) || 0;
+
+    $("#dagItemsBodyInvoice .dag-item-row").each(function () {
+      const price = parseFloat($(this).find(".dag-price").val()) || 0;
       subTotal += price;
+
+      // Update item VAT display
+      let itemVatAmount = 0;
+      if (isVatApplied && vatPercentage > 0) {
+        itemVatAmount = price * (vatPercentage / (100 + vatPercentage));
+      }
+      $(this)
+        .find(".dag-vat-amount")
+        .text(
+          itemVatAmount.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })
+        );
     });
 
     // Update totals
     $("#subTotal").val(subTotal.toFixed(2));
     $("#finalTotal").val(subTotal.toFixed(2));
   }
+
+  // ---------------------- QUOTATION SELECTION SECTION ---------------------- //
+
+  // Handle quotation row selection from modal
+  $(document).on("click", "#quotationTableBody tr", function () {
+    const quotationId = $(this).data("id");
+    const quotationNo = $(this).attr("data-quotation_no");
+
+    if (!quotationId) {
+      return;
+    }
+
+    // Set quotation reference number and ID
+    $("#quotation_ref_no").val(quotationNo);
+    $("#quotation_id").val(quotationId);
+
+    // Fetch quotation details and items
+    $.ajax({
+      url: "ajax/php/quotation.php",
+      method: "POST",
+      data: {
+        action: "get_quotation",
+        id: quotationId,
+      },
+      dataType: "json",
+      success: function (response) {
+        if (response.status === "success") {
+          const data = response.data;
+          const quotation = data.quotation;
+          const items = data.items;
+          const customer = data.customer;
+
+          // Fill customer details
+          if (customer) {
+            $("#customer_id").val(quotation.customer_id);
+            $("#customer_code").val(customer.customer_code);
+            $("#customer_name").val(customer.customer_name);
+            $("#customer_address").val(customer.address);
+            $("#customer_mobile").val(customer.mobile_number);
+          }
+
+          // Fill company and department
+          if (quotation.company_id) {
+            $("#company_id").val(quotation.company_id);
+          }
+          if (quotation.department_id) {
+            $("#department_id").val(quotation.department_id);
+          }
+
+          // Clear existing items first
+          $("#invoiceItemsBody").empty();
+
+          // Add quotation items to invoice table
+          if (items && items.length > 0) {
+            items.forEach(function (item) {
+              const code = item.item_code || "";
+              const name = item.item_name || "";
+              const price = parseFloat(item.price) || 0;
+              const qty = parseFloat(item.qty) || 0;
+              const discount = parseFloat(item.discount) || 0;
+              const sellingPrice = parseFloat(item.selling_price) || 0;
+              const cost = parseFloat(item.cost) || 0;
+              const itemId = item.item_id || "";
+              const serialNo = item.serial_no || "";
+              const total = sellingPrice * qty;
+
+              // Extract VAT if applied
+              const isVatApplied = $("#is_vat_invoice").is(":checked");
+              const vatPercentage = parseFloat($("#vat_percentage").val()) || 0;
+              let itemVatAmount = 0;
+              if (isVatApplied && vatPercentage > 0) {
+                itemVatAmount = total * (vatPercentage / (100 + vatPercentage));
+              }
+
+              const row = `
+                <tr>
+                  <td>${code}
+                    <input type="hidden" name="item_id[]" value="${itemId}">
+                    <input type="hidden" name="item_codes[]" value="${code}">
+                    <input type="hidden" name="arn_ids[]" value="${code}">
+                    <input type="hidden" name="arn_costs[]" value="${cost}">
+                    <input type="hidden" name="service_qty[]" value="0">
+                    <input type="hidden" name="vehicle_no[]" value="">
+                    <input type="hidden" name="current_km[]" value="">
+                    <input type="hidden" name="next_service_days[]" value="">
+                    <input type="hidden" name="serial_no[]" value="${serialNo}">
+                  </td>
+                  <td>${name}</td>
+                  <td class="item-price">${price.toFixed(2)}</td>
+                  <td class="item-qty">${qty}</td>
+                  <td class="item-discount">${discount.toFixed(2)}</td>
+                  <td class="item-sell-price">${sellingPrice.toFixed(2)}</td>
+                  <td class="item-serial-no">${serialNo}</td>
+                  <td class="item-vat-amount">${itemVatAmount.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}</td>
+                  <td>${total.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}</td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-danger btn-remove-item" data-code="${code}" data-qty="${qty}" data-arn-id="${code}">Remove</button>
+                  </td>
+                </tr>
+              `;
+
+              $("#invoiceItemsBody").append(row);
+            });
+
+            // Update totals
+            updateFinalTotal();
+
+            swal({
+              title: "Success!",
+              text: "Quotation items loaded successfully.",
+              type: "success",
+              timer: 2000,
+              showConfirmButton: false,
+            });
+          } else {
+            // Show "no items" row if no items
+            $("#invoiceItemsBody").html(`
+              <tr id="noInvoiceItemRow">
+                <td colspan="8" class="text-center text-muted">No items added</td>
+              </tr>
+            `);
+          }
+
+          // Close the modal
+          const quotationModal = bootstrap.Modal.getInstance(
+            document.getElementById("quotationModel")
+          );
+          if (quotationModal) {
+            quotationModal.hide();
+          }
+        } else {
+          swal({
+            title: "Error!",
+            text: response.message || "Failed to load quotation details.",
+            type: "error",
+            timer: 3000,
+            showConfirmButton: false,
+          });
+        }
+      },
+      error: function () {
+        swal({
+          title: "Error!",
+          text: "Failed to fetch quotation details.",
+          type: "error",
+          timer: 3000,
+          showConfirmButton: false,
+        });
+      },
+    });
+  });
+
+  // ---------------------- END QUOTATION SELECTION SECTION ---------------------- //
+
+  // Handle VAT checkbox toggle for dynamic column visibility and value updates
+  $("#is_vat_invoice").on("change", function () {
+    const isVatApplied = $(this).is(":checked");
+    const vatPercentage = parseFloat($("#vat_percentage").val()) || 0;
+
+    // Toggle visibility of VAT columns
+    if (isVatApplied) {
+      $(".vat-column").show();
+    } else {
+      $(".vat-column").hide();
+    }
+
+    // Update VAT amounts for regular items
+    $("#invoiceItemsBody tr").each(function () {
+      // Find the item VAT amount cell and update it
+      const totalText = $(this).find("td:last").prev().text().replace(/,/g, "");
+      const total = parseFloat(totalText) || 0;
+      let itemVatAmount = 0;
+
+      if (isVatApplied && vatPercentage > 0) {
+        itemVatAmount = total * (vatPercentage / (100 + vatPercentage));
+      }
+
+      $(this)
+        .find(".item-vat-amount")
+        .text(
+          itemVatAmount.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })
+        );
+    });
+
+    // Update final total (which will handle the VAT row being hidden/shown if logic exists)
+    updateFinalTotal();
+
+    // If DAG table is visible, update DAG items too
+    if ($("#dagTableHide").is(":visible")) {
+      calculateDagTotals();
+    }
+  });
 });

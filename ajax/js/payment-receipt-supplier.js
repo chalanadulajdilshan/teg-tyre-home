@@ -329,6 +329,13 @@ jQuery(document).ready(function ($) {
     }
   }
 
+  // Add click handler for invoice row selection
+  $(document).on("click", "#invoiceBody tr", function() {
+    // Remove selected class from all rows and add to clicked row
+    $("#invoiceBody tr").removeClass("selected");
+    $(this).addClass("selected");
+  });
+
   // Event handlers
   $(document).on("change", ".cheque-select", function () {
     const $select = $(this);
@@ -791,34 +798,46 @@ jQuery(document).ready(function ($) {
     $(".someBlock").preloader();
 
     // Get cash and cheque amounts
-    const cashAmount = parseAmount($("#cash_total").val());
-    const chequeAmount = parseAmount($("#cheque_total").val());
-    const totalAmount = cashAmount + chequeAmount;
+    let totalAmount = 0;
 
     // Create payment methods array
     const paymentMethods = [];
 
-    // Add cash payment method if cash amount > 0
-    if (cashAmount > 0) {
-      paymentMethods.push({
-        payment_type_id: 1, // Assuming 1 = cash
-        amount: cashAmount,
-        invoice_id: null, // You may want to set this based on your logic
-      });
-    }
+    // Get all invoice IDs from the table rows with non-zero payment amounts
+    $("#invoiceBody tr")
+      .not("#noItemRow")
+      .each(function () {
+        const $row = $(this);
+        const invoiceId = $row.find("input[name='invoice_id[]']").val();
+        const chequePay = parseAmount($row.find(".cheque-pay").val());
+        const cashPay = parseAmount($row.find(".cash-pay").val());
+        const chequeNo = $row.find(".cheque-no").val() || null;
+        const chequeDate = $row.find(".cheque-date").val() || null;
+        const branchId = $row.find(".bank-branch").val() || null;
 
-    // Add cheque payment method if cheque amount > 0
-    if (chequeAmount > 0) {
-      paymentMethods.push({
-        payment_type_id: 2, // Assuming 2 = cheque
-        amount: chequeAmount,
-        invoice_id: null, // You may want to set this based on your logic
-        cheq_no: $("#cheque_no").val() || null,
-        bank_id: $("#bank_id").val() || null,
-        branch_id: $("#branch_id").val() || null,
-        cheq_date: $("#cheque_date").val() || null,
+        // Add cash payment method if cash amount > 0
+        if (cashPay > 0) {
+          paymentMethods.push({
+            payment_type_id: 1, // 1 = cash
+            amount: cashPay,
+            invoice_id: invoiceId || null,
+          });
+          totalAmount += cashPay;
+        }
+
+        // Add cheque payment method if cheque amount > 0
+        if (chequePay > 0) {
+          paymentMethods.push({
+            payment_type_id: 2, // 2 = cheque
+            amount: chequePay,
+            invoice_id: invoiceId || null,
+            cheq_no: chequeNo,
+            branch_id: branchId,
+            cheq_date: chequeDate,
+          });
+          totalAmount += chequePay;
+        }
       });
-    }
 
     const formData = new FormData($("#form-data")[0]);
 
@@ -833,6 +852,13 @@ jQuery(document).ready(function ($) {
     
     formData.append("create", true);
     formData.append("action", "create");
+
+    // Log form data for debugging
+    const formDataObj = {};
+    for (let [key, value] of formData.entries()) {
+      formDataObj[key] = value;
+    }
+    console.log('Form Data:', formDataObj);
 
     $.ajax({
       url: "ajax/php/payment-receipt-supplier.php",

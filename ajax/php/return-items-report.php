@@ -14,7 +14,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'get_return_items_report') {
         exit();
     }
 
-    $db = new Database();
+    $db = Database::getInstance();
 
     // Build query to get return items with all related data
     $query = "SELECT

@@ -17,7 +17,7 @@ class PaymentReceipt
                       FROM `payment_receipt`
                       WHERE `id` = " . (int) $id;
 
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -44,7 +44,7 @@ class PaymentReceipt
                     NOW()
                   )";
 
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query) ? mysqli_insert_id($db->DB_CON) : false;
     }
 
@@ -59,14 +59,14 @@ class PaymentReceipt
                     `remark` = '{$this->remark}'
                   WHERE `id` = '{$this->id}'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function delete()
     {
         $query = "DELETE FROM `payment_receipt` WHERE `id` = '{$this->id}'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -77,7 +77,7 @@ class PaymentReceipt
                   FROM `payment_receipt`
                   ORDER BY `entry_date` DESC";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -95,7 +95,7 @@ class PaymentReceipt
                   WHERE `customer_id` = '" . (int)$customerId . "'
                   ORDER BY `entry_date` DESC";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 

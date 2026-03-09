@@ -15,7 +15,7 @@ class GroupMaster
     {
         if ($id) {
             $query = "SELECT * FROM `group_master` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -41,7 +41,7 @@ class GroupMaster
                     '{$this->queue}', 
                     NOW()
                   )";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query) ? mysqli_insert_id($db->DB_CON) : false;
     }
 
@@ -57,7 +57,7 @@ class GroupMaster
                     `updated_at` = NOW()
                   WHERE `id` = '{$this->id}'";
         
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -65,7 +65,7 @@ class GroupMaster
     public function delete()
     {
         $query = "DELETE FROM `group_master` WHERE `id` = '{$this->id}'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -73,7 +73,7 @@ class GroupMaster
     public function all()
     {
         $query = "SELECT * FROM `group_master` ORDER BY `queue` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 
@@ -88,7 +88,7 @@ class GroupMaster
     public function getActiveGroups()
     {
         $query = "SELECT * FROM `group_master` WHERE `is_active` = 1 ORDER BY `queue` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 
@@ -102,7 +102,7 @@ class GroupMaster
     public function getLastID()
     {
         $query = "SELECT * FROM `group_master` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }

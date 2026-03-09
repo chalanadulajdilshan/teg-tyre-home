@@ -45,9 +45,9 @@ if (isset($_POST['create'])) {
         $QUOTATION_ITEM->update();
     }
 
-    //update QUOTATION print status
+    //update QUOTATION invoiced status
     $QUOTATION_ = new Quotation($_POST['quotation_id']);
-    $QUOTATION_->is_print = 1;
+    $QUOTATION_->is_invoiced = 1;
     $QUOTATION_->update();
 
     $net_total = $total_sub_total;

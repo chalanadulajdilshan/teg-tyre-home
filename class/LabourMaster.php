@@ -12,7 +12,7 @@ class LabourMaster {
     {
         if ($id) {
             $query = "SELECT `id`, `code`, `name`, `type`, `is_active` FROM `labour_master` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -35,7 +35,7 @@ class LabourMaster {
             '" . $this->is_active . "'
         )";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -55,7 +55,7 @@ class LabourMaster {
             `is_active` = '" . $this->is_active . "' 
             WHERE `id` = '" . $this->id . "'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -69,7 +69,7 @@ class LabourMaster {
     public function delete()
     {
         $query = "DELETE FROM `labour_master` WHERE `id` = '" . $this->id . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -78,7 +78,7 @@ class LabourMaster {
     {
         $query = "SELECT * FROM `labour_master` ORDER BY id DESC";
        
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -92,7 +92,7 @@ class LabourMaster {
     public function getLastID()
     {
         $query = "SELECT * FROM `labour_master` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }

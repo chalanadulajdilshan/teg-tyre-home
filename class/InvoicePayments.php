@@ -16,7 +16,7 @@ class InvoicePayment
     {
         if ($id) {
             $query = "SELECT * FROM `invoice_payments` WHERE `id` = " . (int)$id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -48,7 +48,7 @@ class InvoicePayment
                   )";
 
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -68,7 +68,7 @@ class InvoicePayment
                   `cheque_date` = '" . $this->cheque_date . "',
                   `bank_name` = '" . $this->bank_name . "'
                   WHERE `id` = '" . $this->id . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -76,7 +76,7 @@ class InvoicePayment
     public function delete()
     {
         $query = "DELETE FROM `invoice_payments` WHERE `id` = '" . $this->id . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -84,7 +84,7 @@ class InvoicePayment
     public function all()
     {
         $query = "SELECT * FROM `invoice_payments` ORDER BY `created_at` DESC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
         while ($row = mysqli_fetch_array($result)) {
@@ -99,7 +99,7 @@ class InvoicePayment
         $query = "SELECT * FROM `invoice_payments` 
                   WHERE `invoice_id` = '" . (int)$invoice_id . "' 
                   ORDER BY `created_at` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
         while ($row = mysqli_fetch_array($result)) {
@@ -114,7 +114,7 @@ class InvoicePayment
         $query = "SELECT * FROM `invoice_payments` 
                   WHERE `method_id` = '" . (int)$method_id . "' 
                   ORDER BY `created_at` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
         while ($row = mysqli_fetch_array($result)) {
@@ -126,7 +126,7 @@ class InvoicePayment
     // Get total paid amount for an invoice
     public function getTotalPaidAmount($invoiceNo)
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $query = "SELECT COALESCE(SUM(amount), 0) as total_paid 
                  FROM invoice_payments ip
                  INNER JOIN sales_invoice si ON ip.invoice_id = si.id

@@ -24,7 +24,7 @@ try {
             throw new Exception('Both from date and to date are required when filtering by date');
         }
 
-        $db = new Database();
+        $db = Database::getInstance();
 
         // ✅ Build base query
         $query = "
@@ -42,6 +42,7 @@ try {
             LEFT JOIN customer_master c ON arn.supplier_id = c.id
             WHERE 
                 arn.is_cancelled = 0 
+                AND arn.supplier_id <> 0
         ";
 
         // Supplier filter - check both POST and GET for supplier_id

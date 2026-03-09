@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 
 // Function to check and add queue column to a table
 function checkAndAddQueueColumn($table, $afterColumn) {
-    $db = new Database();
+    $db = Database::getInstance();
     
     // Check if queue column exists
     $result = $db->readQuery("SHOW COLUMNS FROM `$table` LIKE 'queue'");

@@ -190,7 +190,7 @@ $DOCUMENT_TRACKING = new DocumentTracking($doc_id);
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <label for="customerName" class="form-label">Customer Name</label>
                                                     <div class="input-group mb-3">
                                                         <input id="customer_name" name="customer_name" type="text"

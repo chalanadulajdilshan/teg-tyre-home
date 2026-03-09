@@ -1,6 +1,6 @@
 jQuery(document).ready(function () {
 
-    $('#brand').on('change', function () {
+    $('#brand, #category').on('change', function () {
         table.ajax.reload();
     });
 
@@ -15,7 +15,8 @@ jQuery(document).ready(function () {
                 d.filter = true;
                 d.status = 1;
                 d.stock_only = 0;
-                d.brand = $('#brand').val();
+                d.brand_id = $('#brand').val();
+                d.category_id = $('#category').val();
             },
             dataSrc: function (json) {
 
@@ -72,6 +73,7 @@ jQuery(document).ready(function () {
         $('#category').prop('selectedIndex', 0); // Optional, if using dropdowns
         $("#create").show();
         $("#update").hide();
+        $('.delete-purchase-order').hide();
     });
 
 
@@ -329,6 +331,7 @@ jQuery(document).ready(function () {
                     po_id: poId,
                     supplier_id: supplier_id,
                     brand: $('#brand').val(),
+                    category: $('#category').val(),
                     invoice_no: $('#invoice_no').val(),
                     country: $('#country').val(),
                     purchase_date: $('#purchase_date').val(),
@@ -345,7 +348,12 @@ jQuery(document).ready(function () {
                     method: 'POST',
                     data: poData,
                     dataType: 'json',
+                    beforeSend: function () {
+                        $('body').preloader({ text: 'Saving purchase order...' });
+                    },
                     success: function (response) {
+                        $('body').preloader('remove');
+
                         if (response.status === 'success') {
                             swal({
                                 title: "Success!",
@@ -368,6 +376,8 @@ jQuery(document).ready(function () {
                         }
                     },
                     error: function () {
+                        $('body').preloader('remove');
+
                         swal({
                             title: "Error!",
                             text: "AJAX request failed. Please try again.",
@@ -492,6 +502,7 @@ jQuery(document).ready(function () {
             order_date: orderDate,
             supplier_id: supplierId,
             brand: $('#brand').val(),
+            category: $('#category').val(),
             invoice_no: $('#invoice_no').val(),
             country: $('#country').val(),
             department_id: $('#department_id').val(),
@@ -560,6 +571,7 @@ jQuery(document).ready(function () {
         const supplierName = $(this).data('supplier_name');
         const supplierAddress = $(this).data('supplier_address');
         const brand = $(this).data('brand');
+        const category = $(this).data('category');
         const invoice_no = $(this).data('invoice_no');
         const country = $(this).data('country');
         const department = $(this).data('department');
@@ -577,6 +589,7 @@ jQuery(document).ready(function () {
         $('#supplier_name').val(supplierName);
         $('#supplier_address').val(supplierAddress);
         $('#brand').val(brand);
+        $('#category').val(category);
         $('#invoice_no').val(invoice_no);
         $('#country').val(country);
         $('#department_id').val(department);
@@ -780,8 +793,6 @@ $(document).ready(function () {
             { data: "name", title: "Name" },
             { data: "mobile_number", title: "Mobile" },
             { data: "email", title: "Email" },
-            { data: "category", title: "Category" },
-            { data: "province", title: "Province" },
             { data: "credit_limit", title: "Credit Limit" },
             { data: "vat_no", title: "Is Vat" },
             { data: "status_label", title: "Status" }

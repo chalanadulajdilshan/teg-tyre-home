@@ -43,6 +43,7 @@ if ($id > 0) {
         $paymentMethods = $PAYMENT_METHODS->getByReceiptId($id);
     }
 }
+ 
 
 // If no receipt found with the given ID, redirect to the list
 if ($id > 0 && empty($receipt)) {
@@ -90,22 +91,15 @@ if ($id > 0 && empty($receipt)) {
                 <div class="container-fluid">
                     <div class="row mb-4">
                         <div class="col-md-8 d-flex align-items-center flex-wrap gap-2">
-                            <a href="#" class="btn btn-success" id="new">
-                                <i class="uil uil-plus me-1"></i> New
-                            </a>
-
-                            <?php if ($PERMISSIONS['add_page']): ?>
-                                <a href="#" class="btn btn-primary" id="create">
-                                    <i class="uil uil-save me-1"></i> Save
-                                </a>
-                            <?php endif; ?>
-
+                            <button type="button" class="btn btn-success" id="printBtn">
+                                <i class="uil uil-print me-1"></i> Print Receipt
+                            </button>
                         </div>
 
                         <div class="col-md-4 text-md-end text-start mt-3 mt-md-0">
                             <ol class="breadcrumb m-0 justify-content-md-end">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
-                                <li class="breadcrumb-item active"> Manage Payment Receipt </li>
+                                <li class="breadcrumb-item active"> View Payment Receipt </li>
                             </ol>
                         </div>
                     </div>
@@ -128,9 +122,9 @@ if ($id > 0 && empty($receipt)) {
                                                 </div>
                                             </div>
                                             <div class="flex-grow-1 overflow-hidden">
-                                                <h5 class="font-size-16 mb-1">Manage Payment Receipt </h5>
+                                                <h5 class="font-size-16 mb-1">View Payment Receipt </h5>
                                                 <p class="text-muted text-truncate mb-0">Fill all information below to
-                                                    Manage Payment Receipt </p>
+                                                    View Payment Receipt </p>
                                             </div>
                                             <div class="flex-shrink-0">
                                                 <i class="mdi mdi-chevron-up accor-down-icon font-size-24"></i>
@@ -205,11 +199,11 @@ if ($id > 0 && empty($receipt)) {
                                                 </div>
                                                 
                                                 <div class="col-md-3">
-                                                    <label for="amount_paid" class="form-label text-primary fw-bold">Total Amount</label>
+                                                    <label for="amount_paid" class="form-label text-primary fw-bold">Total Amount Paid</label>
                                                     <div class="input-group">
                                                         <input type="number" class="form-control border-primary text-primary" 
                                                             id="amount_paid" name="amount_paid" 
-                                                            value="<?php echo $receipt ? htmlspecialchars($receipt['amount_paid']) : '0.00'; ?>"
+                                                            value="<?php echo $receipt['amount_paid']; ?>"
                                                             readonly>
                                                     </div>
                                                 </div>
@@ -225,86 +219,59 @@ if ($id > 0 && empty($receipt)) {
                                             <div class="row">
                                                 <div class="row align-items-center mb-3">
                                                     <div class="col-md-6">
-                                                        <h5 class="mb-0">Add Cheque Details</h5>
+                                                        <h5 class="mb-0">  Cheque Details</h5>
                                                     </div>
                                                     <div class="col-md-6 text-end">
                                                         <div class="d-inline-flex align-items-center">
                                                             <label for="cheque_total"
                                                                 class="form-label me-2 mb-0 text-danger"
                                                                 style="white-space: nowrap;">Cheque Total:</label>
+                                                                <?php 
+                                                                $cheque_total = 0;
+                                                                foreach($paymentMethods as $method){
+                                                                    if($method['payment_type_id'] == 2){
+                                                                        $cheque_total += $method['amount'];
+                                                                    }
+                                                                }
+                                                                ?>
                                                             <input id="cheque_total" name="cheque_total" type="text"
                                                                 placeholder="Cheque Total Amount" class="form-control"
+                                                                value="<?php echo number_format($cheque_total, 2); ?>"
                                                                 readonly>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <hr>
-                                                <div class="row align-items-end">
-                                                    <div class="col-md-2">
-                                                        <label for="cheque_no" class="form-label">Cheque
-                                                            No</label>
-                                                        <div class="input-group">
-                                                            <input id="cheque_no" type="text" class="form-control"
-                                                                placeholder="No">
-
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-2">
-                                                        <label for="cheque_date" class="form-label">Cheque
-                                                            Date</label>
-                                                        <div class="input-group" id="datepicker2">
-                                                            <input type="text" class="form-control date-picker"
-                                                                id="cheque_date" name="cheque_date"
-                                                                placeholder="Cheque Date">
-
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-4">
-                                                        <label for="bank_branch" class="form-label">Bank &
-                                                            Branch</label>
-                                                        <div class="input-group">
-                                                            <input type="hidden" id="bank_branch">
-                                                            <input id="bank_branch_name" type="text"
-                                                                class="form-control" placeholder="Bank & Branch"
-                                                                readonly>
-                                                            <button class="btn btn-info" type="button"
-                                                                data-bs-toggle="modal" data-bs-target="#branch_master">
-                                                                <i class="uil uil-search me-1"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Amount</label>
-                                                        <input type="number" id="amount" class="form-control"
-                                                            placeholder="Amount">
-                                                    </div>
-
-                                                    <div class="col-md-1">
-                                                        <button type="button" class="btn btn-success  "
-                                                            id="add_cheque">Add</button>
-                                                    </div>
-                                                </div>
+                                               
 
                                                 <!-- Table -->
-                                                <div class="table-responsive mt-4">
+                                                <div class="table-responsive ">
                                                     <table class="table table-bordered" id="chequeBody">
                                                         <thead class="table-light">
                                                             <tr>
                                                                 <th>Cheque No</th>
                                                                 <th>Cheque Date</th>
                                                                 <th>Bank & Branch</th>
-                                                                <th>Amount</th>
-                                                                <th>Action</th>
+                                                                <th>Amount</th> 
                                                             </tr>
                                                         </thead>
                                                         <tbody id="chequeBody">
-                                                            <tr id="noItemRow">
-                                                                <td colspan="5" class="text-center text-muted">No
-                                                                    items added</td>
-                                                            </tr>
+                                                             <?php 
+                                                             foreach($paymentMethods as $method){
+                                                                if($method['payment_type_id'] == 2){
+                                                                    $BRANCH = new branch($method['branch_id']); 
+                                                                    $BANK = new bank($BRANCH->bank_id);
+                                                                    ?>
+                                                                    <tr>
+                                                                        <td><?php echo $method['cheq_no']; ?></td>
+                                                                        <td><?php echo $method['cheq_date']; ?></td>
+                                                                        <td><?php echo $BRANCH->name . ' - ' . $BANK->name; ?></td>
+                                                                        <td><?php echo number_format($method['amount'], 2); ?></td> 
+                                                                    </tr>
+                                                                    <?php
+                                                                }
+                                                             }
+                                                             ?>
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -324,39 +291,49 @@ if ($id > 0 && empty($receipt)) {
                                     <form id="form-data-invoice" autocomplete="off">
 
                                         <div class="row align-items-center mb-3">
-                                            <div class="col-md-2">
+                                            <div class="col-md-3">
                                                 <h5 class="mb-0">Invoice Summary Details</h5>
                                             </div>
                                             <div class="col-md-3 text-end">
+                                               
+                                            </div>
+                                            <div class="col-md-3 text-end">
                                                 <div class="d-inline-flex align-items-center">
                                                     <label for="cheque_total" class="form-label me-2 mb-0 text-danger"
-                                                        style="white-space: nowrap;">Total Outstanding Amount:</label>
-                                                    <input id="outstanding" name="outstanding" type="text"
-                                                        placeholder="  Outstanding Amount " class="form-control"
-                                                        readonly>
+                                                        style="white-space: nowrap;">Cash Amount :</label>
+                                                        <?php 
+                                                        $cash_amount = 0;
+                                                        foreach($paymentMethods as $method){
+                                                            if($method['payment_type_id'] == 1){
+                                                                $cash_amount += $method['amount'];
+                                                            }
+                                                        }
+                                                        ?>
+                                                    <input id="cash_amount" name="cash_amount" type="text"
+                                                        placeholder="Cash Amount " readonly    value="<?php echo number_format($cash_amount, 2); ?>" class="form-control" re    adonly>
                                                 </div>
                                             </div>
                                             <div class="col-md-3 text-end">
                                                 <div class="d-inline-flex align-items-center">
                                                     <label for="cheque_total" class="form-label me-2 mb-0 text-danger"
-                                                        style="white-space: nowrap;">Cheque Available Balance :</label>
-                                                    <input id="cheque_balance" name="cheque_balance" type="text"
-                                                        placeholder="Cheque Balance " class="form-control" readonly>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3 text-end">
-                                                <div class="d-inline-flex align-items-center">
-                                                    <label for="cheque_total" class="form-label me-2 mb-0 text-danger"
-                                                        style="white-space: nowrap;">Cash Available Balance:</label>
-                                                    <input id="cash_balance" name="cash_balance" type="text"
-                                                        placeholder="Cash Balance " class="form-control" readonly>
+                                                        style="white-space: nowrap;">Check Amount:</label>
+                                                        <?php 
+                                                        $cheque_amount = 0;
+                                                        foreach($paymentMethods as $method){
+                                                            if($method['payment_type_id'] == 2){
+                                                                $cheque_amount += $method['amount'];
+                                                            }
+                                                        }
+                                                        ?>
+                                                    <input id="cheque_amount" name="cheque_amount" type="text"
+                                                        placeholder="Cheque Amount " value="<?php echo number_format($cheque_amount, 2); ?>" class="form-control" readonly>
                                                 </div>
                                             </div>
 
                                         </div>
                                         <!-- Payment Methods Summary Table -->
                                         <div class="table-responsive mt-4">
-                                            <h6 class="mb-3">Payment Methods Summary</h6>
+                                             
                                             <table class="table table-bordered">
                                                 <thead class="table-light">
                                                     <tr>
@@ -368,12 +345,18 @@ if ($id > 0 && empty($receipt)) {
                                                         <th>Cheque Date</th>
                                                         <th>Bank</th>
                                                         <th>Branch</th>
-                                                        <th>Status</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <?php if (!empty($paymentMethods)): ?>
-                                                        <?php foreach ($paymentMethods as $index => $method): ?>
+                                                        <?php foreach ($paymentMethods as $index => $method):
+                                                            $SALES_INVOICE = new salesInvoice($method['invoice_id']);
+                                                           
+                                                            $BRANCH = new branch($method['branch_id']);
+                                                             $BANK = new bank($BRANCH->bank_id);
+                                                            ?>
+
+                                                        
                                                             <tr>
                                                                 <td><?php echo $index + 1; ?></td>
                                                                 <td>
@@ -391,7 +374,7 @@ if ($id > 0 && empty($receipt)) {
                                                                     }
                                                                     ?>
                                                                 </td>
-                                                                <td><?php echo htmlspecialchars($method['invoice_id'] ?? 'N/A'); ?></td>
+                                                                <td><?php echo htmlspecialchars($SALES_INVOICE->invoice_no?? 'N/A'); ?></td>
                                                                 <td><?php echo number_format($method['amount'] ?? 0, 2); ?></td>
                                                                 <td>
                                                                     <?php
@@ -406,21 +389,15 @@ if ($id > 0 && empty($receipt)) {
                                                                 </td>
                                                                 <td>
                                                                     <?php
-                                                                    echo ($paymentTypeId == 1) ? 'N/A' : htmlspecialchars($method['bank_id'] ?? 'N/A');
+                                                                    echo ($paymentTypeId == 1) ? 'N/A' : htmlspecialchars($BANK->name ?? 'N/A');
                                                                     ?>
                                                                 </td>
                                                                 <td>
                                                                     <?php
-                                                                    echo ($paymentTypeId == 1) ? 'N/A' : htmlspecialchars($method['branch_id'] ?? 'N/A');
+                                                                    echo ($paymentTypeId == 1) ? 'N/A' : htmlspecialchars($BRANCH->name ?? 'N/A');
                                                                     ?>
                                                                 </td>
-                                                                <td>
-                                                                    <?php if (isset($method['is_settle']) && $method['is_settle'] == 1): ?>
-                                                                        <span class="badge bg-success">Settled</span>
-                                                                    <?php else: ?>
-                                                                        <span class="badge bg-warning">Pending</span>
-                                                                    <?php endif; ?>
-                                                                </td>
+                                                                
                                                             </tr>
                                                         <?php endforeach; ?>
                                                     <?php else: ?>
@@ -431,100 +408,185 @@ if ($id > 0 && empty($receipt)) {
                                                 </tbody>
                                             </table>
                                         <!-- Payment Summary -->
-                                        <?php if (!empty($paymentMethods)): ?>
-                                            <?php
-                                            $totalAmount = 0;
-                                            $cashAmount = 0;
-                                            $chequeAmount = 0;
-                                            $settledCount = 0;
-
-                                            foreach ($paymentMethods as $method) {
-                                                $amount = (float)($method['amount'] ?? 0);
-                                                $totalAmount += $amount;
-
-                                                // Assuming payment_type_id 1 = cash, 2 = cheque (adjust based on your logic)
-                                                if (($method['payment_type_id'] ?? 0) == 1) {
-                                                    $cashAmount += $amount;
-                                                } else {
-                                                    $chequeAmount += $amount;
-                                                }
-
-                                                if (isset($method['is_settle']) && $method['is_settle'] == 1) {
-                                                    $settledCount++;
-                                                }
-                                            }
-                                            ?>
-                                            <div class="row mt-3">
-                                                <div class="col-md-12">
-                                                    <div class="card bg-light">
-                                                        <div class="card-body">
-                                                            <div class="row text-center">
-                                                                <div class="col-md-3">
-                                                                    <h6 class="text-primary">Total Amount</h6>
-                                                                    <h4 class="text-primary"><?php echo number_format($totalAmount, 2); ?></h4>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <h6 class="text-success">Cash Amount</h6>
-                                                                    <h4 class="text-success"><?php echo number_format($cashAmount, 2); ?></h4>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <h6 class="text-warning">Cheque Amount</h6>
-                                                                    <h4 class="text-warning"><?php echo number_format($chequeAmount, 2); ?></h4>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <h6 class="text-info">Settled</h6>
-                                                                    <h4 class="text-info"><?php echo $settledCount . ' / ' . count($paymentMethods); ?></h4>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        <?php endif; ?>
-                                                <form id="form-data-invoice" autocomplete="off">
-                                                    <div class="  p-2 border rounded bg-light" style="max-width: 600px;">
-                                                        <div class="row mb-2">
-                                                            <div class="col-7">
-                                                                <input type="text" class="form-control  " value="Total Outstanding"
-                                                                    disabled>
-                                                            </div>
-                                                            <div class="col-5">
-                                                                <input type="text" class="form-control" id="total_outstanding"
-                                                                    value="0.00" disabled>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="row mb-2">
-                                                            <div class="col-7">
-                                                                <input type="text" class="form-control  "
-                                                                    value="Paid Amount:" disabled>
-                                                            </div>
-                                                            <div class="col-5">
-                                                                <input type="text" class="form-control" id="paid_amount"
-                                                                    value="0.00" disabled>
-                                                            </div>
-                                                        </div>
-
-
-                                                        <div class="row mb-2">
-                                                            <div class="col-7">
-                                                                <input type="text" class="form-control   fw-bold"
-                                                                    value="Balance Amount:" disabled>
-                                                            </div>
-                                                            <div class="col-5">
-                                                                <input type="text" class="form-control  fw-bold"
-                                                                    id="balance_amount" value="0.00" disabled>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                                                          
                                             </div>
 
                                         </div>
-                                    </form>
+                                    </div>
+                                    <div class="card-footer bg-light py-3">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Customer:</strong> <?php echo $customer ? htmlspecialchars($customer['name']) : '-'; ?>
+                                            </div>
+                                            <div class="col-md-6 text-end">
+                                                <strong>Status:</strong> 
+                                                <span class="badge bg-success fs-6 py-2 px-3">Payment Completed</span>
+                                            </div>
+                                        </div>
+                                        <?php if ($receipt && !empty($receipt['remark'])): ?>
+                                        <div class="row mt-2">
+                                            <div class="col-12">
+                                                <strong>Remark:</strong> <?php echo htmlspecialchars($receipt['remark']); ?>
+                                            </div>
+                                        </div>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </section>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Print Layout (Hidden) -->
+            <div id="printLayout" style="display: none;">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card mb-5 shadow-sm" style="border-radius: 8px; overflow: hidden; border: 1px solid #000;">
+                                <div class="card-header bg-light d-flex justify-content-between align-items-center py-3">
+                                    <div>
+                                        <strong>Payment Receipt #<?php echo $receipt ? htmlspecialchars($receipt['receipt_no']) : ''; ?></strong>
+                                        <span class="ms-3">Date: <?php echo $receipt ? date('M d, Y', strtotime($receipt['entry_date'])) : ''; ?></span>
+                                    </div>
+                                    <div>
+                                        <span class="badge bg-success fs-6">Paid</span>
+                                    </div>
+                                </div>
+                                <div class="card-body p-4">
+                                    <div class="row g-3 summary-box mb-4">
+                                        <div class="col-md-3">
+                                            <div class="summary-label">Receipt No</div>
+                                            <div class="fw-bold"><?php echo $receipt ? htmlspecialchars($receipt['receipt_no']) : '-'; ?></div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="summary-label">Customer Code</div>
+                                            <div class="fw-bold"><?php echo $customer ? htmlspecialchars($customer['code']) : '-'; ?></div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="summary-label">Customer Name</div>
+                                            <div class="fw-bold"><?php echo $customer ? htmlspecialchars($customer['name']) : '-'; ?></div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="summary-label">Payment Date</div>
+                                            <div class="fw-bold"><?php echo $receipt ? date('M d, Y', strtotime($receipt['entry_date'])) : '-'; ?></div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover mb-0" style="margin-bottom: 0 !important;">
+                                                <thead class="table-light">
+                                                    <style>
+                                                        .card { margin-bottom: 2rem !important; }
+                                                        .table { margin-bottom: 0 !important; }
+                                                        .card-body { padding: 1.5rem; }
+                                                        .card-header { padding: 0.75rem 1.5rem; }
+                                                        .card-footer { padding: 0.75rem 1.5rem; }
+                                                        /* Payment method styling */
+                                                        .payment-cash {
+                                                            background-color: #d4edda;
+                                                            color: #155724;
+                                                            padding: 2px 6px;
+                                                            border-radius: 4px;
+                                                            font-weight: 500;
+                                                            display: inline-block;
+                                                        }
+                                                        .payment-cheque {
+                                                            background-color: #fff3cd;
+                                                            color: #856404;
+                                                            padding: 2px 6px;
+                                                            border-radius: 4px;
+                                                            font-weight: 500;
+                                                            display: inline-block;
+                                                        }
+                                                        .payment-other {
+                                                            background-color: #e2e3e5;
+                                                            color: #383d41;
+                                                            padding: 2px 6px;
+                                                            border-radius: 4px;
+                                                            font-weight: 500;
+                                                            display: inline-block;
+                                                        }
+                                                        @media print {
+                                                            body * { visibility: hidden; }
+                                                            #printLayout, #printLayout * { visibility: visible; }
+                                                            #printLayout { position: absolute; left: 0; top: 0; width: 100%; }
+                                                            .no-print { display: none !important; }
+                                                            
+                                                            /* A5 landscape page size */
+                                                            @page {
+                                                                size: A5 landscape;
+                                                                margin: 0.5in;
+                                                            }
+                                                            
+                                                            /* Adjust card width for A5 landscape */
+                                                            .card {
+                                                                max-width: none !important;
+                                                                margin: 0 !important;
+                                                            }
+                                                        }
+                                                    </style>
+                                                    <tr>
+                                                        <th>Payment Type</th>
+                                                        <th>Cheque No</th>
+                                                        <th>Cheque Date</th>
+                                                        <th>Bank & Branch</th>
+                                                        <th class="text-end">Amount</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php if (!empty($paymentMethods)): ?>
+                                                        <?php foreach ($paymentMethods as $index => $method):
+                                                            $BRANCH = new branch($method['branch_id']);
+                                                            $BANK = new bank($BRANCH->bank_id ?? null);
+                                                            
+                                                            $paymentTypeId = $method['payment_type_id'] ?? 0;
+                                                            $paymentTypeText = ($paymentTypeId == 1) ? 'Cash' : (($paymentTypeId == 2) ? 'Cheque' : 'Other');
+                                                            $paymentMethodClass = ($paymentTypeId == 1) ? 'payment-cash' : (($paymentTypeId == 2) ? 'payment-cheque' : 'payment-other');
+                                                            ?>
+                                                            <tr>
+                                                                <td><span class="<?php echo $paymentMethodClass; ?>"><?php echo $paymentTypeText; ?></span></td>
+                                                                <td><?php echo ($paymentTypeId == 1) ? 'N/A' : htmlspecialchars($method['cheq_no'] ?? 'N/A'); ?></td>
+                                                                <td><?php echo ($paymentTypeId == 1) ? 'N/A' : htmlspecialchars($method['cheq_date'] ?? 'N/A'); ?></td>
+                                                                <td><?php echo ($paymentTypeId == 1) ? 'N/A' : htmlspecialchars(($BRANCH->name ?? 'N/A') . ' - ' . ($BANK->name ?? 'N/A')); ?></td>
+                                                                <td class="text-end">LKR <?php echo number_format($method['amount'] ?? 0, 2); ?></td>
+                                                            </tr>
+                                                        <?php endforeach; ?>
+                                                    <?php else: ?>
+                                                        <tr>
+                                                            <td colspan="5" class="text-center">No payment methods found</td>
+                                                        </tr>
+                                                    <?php endif; ?>
+                                                    <tr class="table-active fw-bold">
+                                                        <td colspan="4" class="text-end">Total Amount Paid:</td>
+                                                        <td class="text-end">LKR <?php echo number_format($receipt['amount_paid'] ?? 0, 2); ?></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer bg-light py-3">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong>Customer:</strong> <?php echo $customer ? htmlspecialchars($customer['name']) : '-'; ?>
+                                            </div>
+                                            <div class="col-md-6 text-end">
+                                                <strong>Status:</strong> 
+                                                <span class="badge bg-success fs-6 py-2 px-3">Payment Completed</span>
+                                            </div>
+                                        </div>
+                                        <?php if ($receipt && !empty($receipt['remark'])): ?>
+                                        <div class="row mt-2">
+                                            <div class="col-12">
+                                                <strong>Remark:</strong> <?php echo htmlspecialchars($receipt['remark']); ?>
+                                            </div>
+                                        </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -535,6 +597,27 @@ if ($id > 0 && empty($receipt)) {
 
             <!-- include main js  -->
             <?php include 'main-js.php' ?>
-</body>
 
-</html>
+            <script>
+                $(document).ready(function() {
+                    $('#printBtn').on('click', function() {
+                        // Show print layout and hide everything else
+                        $('body').addClass('printing');
+                        $('#printLayout').show();
+                        $('#layout-wrapper').hide();
+                        
+                        // Print
+                        window.print();
+                        
+                        // Restore after printing
+                        setTimeout(function() {
+                            $('#printLayout').hide();
+                            $('#layout-wrapper').show();
+                            $('body').removeClass('printing');
+                        }, 1000);
+                    });
+                });
+            </script>
+        </body>
+
+        </html>

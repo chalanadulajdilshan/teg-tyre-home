@@ -21,7 +21,7 @@ class PaymentReceiptMethodSupplier
                       FROM `payment_receipt_method_supplier`
                       WHERE `id` = " . (int)$id;
 
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -55,7 +55,7 @@ class PaymentReceiptMethodSupplier
                     '{$this->is_settle}'
                   )";
 
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query) ? mysqli_insert_id($db->DB_CON) : false;
     }
 
@@ -74,14 +74,14 @@ class PaymentReceiptMethodSupplier
                     `is_settle` = '{$this->is_settle}'
                   WHERE `id` = '{$this->id}'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function delete()
     {
         $query = "DELETE FROM `payment_receipt_method_supplier` WHERE `id` = '{$this->id}'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -92,7 +92,7 @@ class PaymentReceiptMethodSupplier
                   FROM `payment_receipt_method_supplier`
                   ORDER BY `id` DESC";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 
@@ -111,7 +111,7 @@ class PaymentReceiptMethodSupplier
                   WHERE `receipt_id` = '" . (int)$receiptId . "'
                   ORDER BY `id` ASC";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 
@@ -129,7 +129,7 @@ class PaymentReceiptMethodSupplier
                   SET 
                     `is_settle` = 1
                   WHERE `id` = '{$id}'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
     

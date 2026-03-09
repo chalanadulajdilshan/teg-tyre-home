@@ -22,7 +22,7 @@ class EmployeeMaster
     {
         if ($id) {
             $query = "SELECT * FROM `employee_master` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -52,7 +52,7 @@ class EmployeeMaster
             '$this->code', '$this->name', '$this->full_name', '$this->gender', '$this->birthday', '$this->nic_no', '$this->mobile_1', '$this->mobile_2', '$this->email', '$this->epf_available', '$this->epf_no', '$this->finger_print_no', '$this->department_id'
         )";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -81,7 +81,7 @@ class EmployeeMaster
             WHERE `id` = '$this->id'";
  
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -94,14 +94,14 @@ class EmployeeMaster
     public function delete()
     {
         $query = "DELETE FROM `employee_master` WHERE `id` = '$this->id'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function all()
     {
         $query = "SELECT * FROM `employee_master` ORDER BY name ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         $array_res = array();
@@ -115,7 +115,7 @@ class EmployeeMaster
     public function getLastID()
     {
         $query = "SELECT * FROM `employee_master` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }
@@ -152,7 +152,7 @@ class EmployeeMaster
     public function getIdbyItemCode($code)
     {
         $query = "SELECT `id` FROM `employee_master` WHERE `code` = '$code' LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
     
         if ($row = mysqli_fetch_assoc($result)) {

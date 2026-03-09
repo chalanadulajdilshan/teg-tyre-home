@@ -150,6 +150,7 @@ include 'auth.php';
                                                 <th class="text-end">Invoice Amount</th>
                                                 <th class="text-end">Paid Amount</th>
                                                 <th class="text-end outstanding-column">Payable Outstanding</th>
+                                                <th class="text-end">Old Outstanding</th>
                                             </tr>
                                         </thead>
                                         <tbody id="reportTableBody">
@@ -158,9 +159,10 @@ include 'auth.php';
                                         <tfoot>
                                             <tr>
                                                 <th colspan="4" class="text-end">Total:</th>
-                                                <td id="totalInvoice" class="text-danger text-end">0.00</td>
-                                                <td id="totalPaid" class="text-danger text-end">0.00</td>
+                                                <td id="totalInvoice" class="text-end">0.00</td>
+                                                <td id="totalPaid" class="text-end">0.00</td>
                                                 <td id="totalOutstanding" class="text-danger text-end outstanding-column">0.00</td>
+                                                <td id="totalOldOutstanding" class="text-danger text-end">0.00</td>
                                             </tr>
                                         </tfoot>
                                     </table>

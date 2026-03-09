@@ -10,7 +10,7 @@ if ($action === 'get_settlement_data') {
     $toDate = $_POST['to_date'] ?? '';
     $status = $_POST['status'] ?? 'all'; // all | settled | unsettled
 
-    $db = new Database();
+    $db = Database::getInstance();
     $conn = $db->DB_CON;
 
     $conditions = [];

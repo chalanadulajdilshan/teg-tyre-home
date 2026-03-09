@@ -103,9 +103,10 @@ jQuery(document).ready(function () {
         { data: "code", title: "Code" },
         { data: "name", title: "Name" },
         { data: "mobile_number", title: "Mobile Number" },
-        { data: "email", title: "Email" },  
+        { data: "email", title: "Email" },
+        { data: "vat_no", title: "VAT" },
         { data: "outstanding", title: "Outstanding" },
-        ],
+      ],
       order: [[0, "desc"]],
       pageLength: 100,
     });
@@ -119,6 +120,7 @@ jQuery(document).ready(function () {
         $("#customer_name").val(data.name);
         $("#customer_address").val(data.address);
         $("#customer_mobile").val(data.mobile_number);
+        $("#customer_vat_no").val(data.vat_no);
         $("#customerModal").modal("hide");
         $("#outstandingInvoiceAmount").val(data.outstanding);
 
@@ -191,13 +193,11 @@ jQuery(document).ready(function () {
         },
       },
       columns: [
-        { data: "key", title: "#ID" },
+        { data: "id", title: "#ID" },
         { data: "code", title: "Code" },
         { data: "name", title: "Name" },
         { data: "mobile_number", title: "Mobile" },
         { data: "email", title: "Email" },
-        { data: "category", title: "Category" },
-        { data: "province", title: "Province" },
         { data: "credit_limit", title: "Credit Limit" },
         { data: "vat_no", title: "Is Vat" },
         { data: "status_label", title: "Status" },
@@ -210,10 +210,27 @@ jQuery(document).ready(function () {
       var data = $("#supplierTable").DataTable().row(this).data();
 
       if (data) {
-        $("#supplier_id").val(data.id);
-        $("#supplier_code").val(data.code);
-        $("#supplier_name").val(data.name);
-        $("#supplier_address").val(data.address);
+        // Populate supplier master form fields
+        $("#customer_id").val(data.id || "");
+        $("#code").val(data.code || "");
+        $("#name").val(data.name || "");
+        $("#address").val(data.address || "");
+        $("#mobile_number").val(data.mobile_number || "");
+        $("#mobile_number_2").val(data.mobile_number_2 || "");
+        $("#email").val(data.email || "");
+        $("#contact_person").val(data.contact_person || "");
+        $("#contact_person_number").val(data.contact_person_number || "");
+        // Strip commas from formatted numbers for number inputs
+        $("#credit_limit").val(data.credit_limit ? data.credit_limit.replace(/,/g, "") : "");
+        $("#outstanding").val(data.outstanding ? data.outstanding.replace(/,/g, "") : "");
+        $("#remark").val(data.remark || "");
+
+        // Checkbox (is_active)
+        $("#is_active").prop("checked", data.status == 1);
+
+        // Show update button, hide create button
+        $("#create").hide();
+        $("#update").show();
       }
 
       $("#supplierModal").modal("hide");
@@ -254,8 +271,6 @@ jQuery(document).ready(function () {
         { data: "display_name", title: "Name" },
         { data: "mobile_number", title: "Mobile" },
         { data: "email", title: "Email" },
-        { data: "category", title: "Category" },
-        { data: "province", title: "Province" },
         { data: "credit_limit", title: "Credit Limit" },
         { data: "vat_no", title: "Is Vat" },
         { data: "status_label", title: "Status" },
@@ -287,6 +302,7 @@ jQuery(document).ready(function () {
 
           $("#credit_limit").val(data.credit_limit || "");
           $("#outstanding").val(data.outstanding || "");
+          $("#old_outstanding").val(data.old_outstanding || "");
           $("#overdue").val(data.overdue || "");
           $("#vat_no").val(data.vat_no || "");
           $("#svat_no").val(data.svat_no || "");
@@ -343,13 +359,11 @@ jQuery(document).ready(function () {
         },
       },
       columns: [
-        { data: "key", title: "#ID" },
+        { data: "id", title: "#ID" },
         { data: "code", title: "Code" },
-        { data: "display_name", title: "Name" },
+        { data: "name", title: "Name" },
         { data: "mobile_number", title: "Mobile" },
         { data: "email", title: "Email" },
-        { data: "category", title: "Category" },
-        { data: "province", title: "Province" },
         { data: "credit_limit", title: "Credit Limit" },
         { data: "vat_no", title: "Is Vat" },
         { data: "status_label", title: "Status" },
@@ -400,6 +414,7 @@ jQuery(document).ready(function () {
 
           $("#credit_limit").val(data.credit_limit || "");
           $("#outstanding").val(data.outstanding || "");
+          $("#old_outstanding").val(data.old_outstanding || "");
           $("#overdue").val(data.overdue || "");
           $("#vat_no").val(data.vat_no || "");
           $("#svat_no").val(data.svat_no || "");
@@ -474,15 +489,13 @@ jQuery(document).ready(function () {
       invoices.forEach((inv) => {
         const isCancelled = inv.is_cancel == 1;
         rows += `
-                <tr data-id="${inv.id}" ${
-          isCancelled ? 'style="background-color: #fff5f5;"' : ""
-        }>
+                <tr data-id="${inv.id}" ${isCancelled ? 'style="background-color: #fff5f5;"' : ""
+          }>
                     <td>${inv.id}</td>
-                    <td>${inv.invoice_no} ${
-          isCancelled
+                    <td>${inv.invoice_no} ${isCancelled
             ? '<span class="badge bg-danger ms-2">Cancelled</span>'
             : ""
-        }</td>
+          }</td>
                     <td>${inv.invoice_date}</td>
                     <td>${inv.department_name}</td>
                     <td>${inv.customer_name}</td>
@@ -549,41 +562,51 @@ jQuery(document).ready(function () {
         tbody.empty();
 
         if (response && response.length > 0) {
+          const isVatApplied = $("#is_vat_invoice").is(":checked");
+          const vatPercentage = parseFloat($("#vat_percentage").val()) || 0;
+
           response.forEach((item) => {
             const discountValue = parseFloat(item.discount) || 0;
+            const totalValue = parseFloat(item.total) || 0;
+            let itemVatAmount = 0;
+
+            if (isVatApplied && vatPercentage > 0) {
+              itemVatAmount = totalValue * (vatPercentage / (100 + vatPercentage));
+            }
+
             let row = `
                             <tr>
-                                <td>${item.item_code_name}</td>
+                                <td>${item.item_code || ""}</td>
                                 <td>${item.item_name}</td>
-                                <td>${parseFloat(item.list_price || item.price).toLocaleString(
-                                  undefined,
-                                  {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                  }
-                                )}</td>
+                                <td>${parseFloat(
+              item.list_price || item.price || 0
+            ).toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}</td>
                                 <td>${item.quantity}</td>
                                 <td>${discountValue}</td>
                                 <td>${parseFloat(item.price).toLocaleString(
-                                  undefined,
-                                  {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                  }
-                                )}</td>   
-                                <td>${parseFloat(item.total).toLocaleString(
-                                  undefined,
-                                  {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                  }
-                                )}</td>
+              undefined,
+              {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              }
+            )}</td>  
+                                <td>${item.serial_no || ""}</td> 
+                                <td class="item-vat-amount vat-column" style="display: ${isVatApplied ? "" : "none"
+              }">${itemVatAmount.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}</td>
+                                <td>${totalValue.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}</td>
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-danger btn-remove-item" data-code="${
-                                      item.item_code
-                                    }" data-qty="${
-              item.quantity
-            }" data-arn-id="${item.id}">Remove</button>
+                                    <button type="button" class="btn btn-sm btn-danger btn-remove-item" data-code="${item.item_code
+              }" data-qty="${item.quantity
+              }" data-arn-id="${item.id}">Remove</button>
                                 </td>
                             </tr>
                         `;
@@ -591,7 +614,7 @@ jQuery(document).ready(function () {
           });
         } else {
           tbody.html(`<tr id="noItemRow">
-                                    <td colspan="8" class="text-center text-muted">No items found</td>
+                                    <td colspan="10" class="text-center text-muted">No items found</td>
                                 </tr>`);
         }
       },
@@ -614,8 +637,6 @@ jQuery(document).ready(function () {
       },
       dataType: "json",
       success: function (response) {
-       
-
         // Close the modal first
         $("#invoiceModal").modal("hide");
 
@@ -626,8 +647,8 @@ jQuery(document).ready(function () {
         $('input[name="payment_type"]').prop("checked", false);
         $(
           'input[name="payment_type"][value="' +
-            (response.payment_type || "1") +
-            '"]'
+          (response.payment_type || "1") +
+          '"]'
         ).prop("checked", true);
 
         if (response.is_cancel == 1) {
@@ -640,6 +661,7 @@ jQuery(document).ready(function () {
         $("#invoice_id").val(response.id || "");
         $("#invoice_no").val(response.invoice_no || "");
         $("#invoice_date").val(response.invoice_date || "");
+        $("#vehicle_no").val(response.vehicle_no || "");
         $("#company_id")
           .val(response.company_id || "")
           .trigger("change");
@@ -649,31 +671,64 @@ jQuery(document).ready(function () {
         $("#customer_name").val(response.customer_name || "");
         $("#customer_address").val(response.customer_address || "");
         $("#customer_mobile").val(response.customer_mobile || "");
+        $("#customer_vat_no").val(response.customer_vat_no);
 
         // Set other fields
         $("#vat_type")
           .val(response.vat_type || "")
           .trigger("change");
-        $("#subTotal").val(parseFloat(response.sub_total || 0).toFixed(2));
-        $("#disTotal").val(parseFloat(response.discount || 0).toFixed(2));
-        $("#tax").val(parseFloat(response.tax || 0).toFixed(2));
-        $("#finalTotal").val(parseFloat(response.grand_total || 0).toFixed(2));
+        // Use saved totals (do not recalc existing invoices)
+        const savedSubTotal = parseFloat(response.sub_total || 0).toFixed(2);
+        const savedDiscount = parseFloat(response.discount || 0).toFixed(2);
+        const savedTax = parseFloat(response.tax || 0).toFixed(2);
+        const savedGrandTotal = parseFloat(response.grand_total || 0).toFixed(
+          2
+        );
+        $("#subTotal").val(savedSubTotal);
+        $("#disTotal").val(savedDiscount);
+        $("#tax").val(savedTax);
+        $("#finalTotal").val(savedGrandTotal);
+        // expose saved totals globally so other scripts don't recalc to 0 before items load
+        window.savedInvoiceTotals = {
+          subTotal: savedSubTotal,
+          discount: savedDiscount,
+          tax: savedTax,
+          grandTotal: savedGrandTotal,
+          paymentType: response.payment_type,
+          outstanding: response.outstanding_settle_amount || 0,
+        };
+        $("#is_vat_invoice").prop("checked", response.tax > 0);
         $("#remark").val(response.remark || "");
+
+        // Toggle visibility of VAT columns based on loaded checkbox state
+        if (response.tax > 0) {
+          $(".vat-column").show();
+        } else {
+          $(".vat-column").hide();
+        }
 
         // Handle payment section visibility and data for credit invoices
         if (response.payment_type == 2) {
           // Credit payment - show payment section with data
           $("#paymentSection").show();
-          $("#paidAmount").val(parseFloat(response.outstanding_settle_amount || 0).toFixed(2));
-          const balanceAmount = parseFloat(response.grand_total || 0) - parseFloat(response.outstanding_settle_amount || 0);
+          $("#paidAmount").val(
+            parseFloat(response.outstanding_settle_amount || 0).toFixed(2)
+          );
+          const balanceAmount =
+            parseFloat(response.grand_total || 0) -
+            parseFloat(response.outstanding_settle_amount || 0);
           $("#balanceAmount").val(balanceAmount.toFixed(2));
-          
+
           // Set credit period if available
-          $("#credit_period").val(response.credit_period || "").trigger("change");
+          $("#credit_period")
+            .val(response.credit_period || "")
+            .trigger("change");
         } else {
           // Cash payment - hide payment section and clear credit period
           $("#paymentSection").hide();
           $("#credit_period").val("").trigger("change");
+          // For cash, balance mirrors saved grand total
+          $("#balanceAmount").val(savedGrandTotal);
         }
 
         // Show print button since invoice is loaded

@@ -17,7 +17,7 @@ class Brand
     {
         if ($id) {
             $query = "SELECT * FROM `brands` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -45,7 +45,7 @@ class Brand
                     '{$this->remark}', 
                     NOW()
                   )";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query) ? mysqli_insert_id($db->DB_CON) : false;
     }
 
@@ -63,21 +63,21 @@ class Brand
 
 
 
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function delete()
     {
         $query = "DELETE FROM `brands` WHERE `id` = '{$this->id}'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function all()
     {
         $query = "SELECT * FROM `brands` ORDER BY name ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 
@@ -91,7 +91,7 @@ class Brand
     public function activeBrands()
     {
         $query = "SELECT * FROM `brands` WHERE is_active = 1 ORDER BY name ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 

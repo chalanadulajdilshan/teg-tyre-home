@@ -147,8 +147,15 @@ include 'auth.php';
                                                 </div>
                                             </div>
 
+                                            <div class="col-md-2">
+                                                <label for="PageIcon" class="form-label">Page Icon</label>
+                                                <div class="input-group mb-3">
+                                                    <input id="page_icon" name="page_icon" type="text"
+                                                        placeholder="e.g. uil uil-home" class="form-control">
+                                                </div>
+                                            </div>
 
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <label for="PageUrl" class="form-label">Page Url</label>
                                                 <div class="input-group mb-3">
                                                     <input id="page_url" name="page_url" type="text"
@@ -188,7 +195,7 @@ include 'auth.php';
                     <div class="row">
                         <div class="col-12">
 
-                            <table id="datatable2" class="table table-bordered dt-responsive nowrap"
+                            <table id="datatable2" class="table table-bordered nowrap"
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
@@ -209,6 +216,7 @@ include 'auth.php';
                                         <tr class="select-pages" data-id="<?php echo $page['id']; ?>"
                                             data-category="<?php echo htmlspecialchars($page['page_category']); ?>"
                                             data-name="<?php echo htmlspecialchars($page['page_name']); ?>"
+                                            data-pageicon="<?php echo htmlspecialchars(isset($page['page_icon']) ? $page['page_icon'] : ''); ?>"
                                             data-url="<?php echo htmlspecialchars($page['page_url']); ?>">
 
                                             <td><?php echo $key; ?></td>
@@ -299,7 +307,7 @@ include 'auth.php';
     <script>
         $(document).ready(function() {
             $('#datatable2').DataTable({
-                responsive: true
+                responsive: false
             });
         });
     </script>

@@ -13,7 +13,7 @@ class Expense
     {
         if ($id) {
             $query = "SELECT * FROM `expenses` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -31,11 +31,11 @@ class Expense
     public function create()
     {
         // Escape values to prevent SQL injection
-        $code = mysqli_real_escape_string((new Database())->DB_CON, $this->code);
+        $code = mysqli_real_escape_string((Database::getInstance())->DB_CON, $this->code);
         $expense_type_id = (int) $this->expense_type_id;
-        $expense_date = mysqli_real_escape_string((new Database())->DB_CON, $this->expense_date);
+        $expense_date = mysqli_real_escape_string((Database::getInstance())->DB_CON, $this->expense_date);
         $amount = (float) $this->amount;
-        $remark = mysqli_real_escape_string((new Database())->DB_CON, $this->remark);
+        $remark = mysqli_real_escape_string((Database::getInstance())->DB_CON, $this->remark);
 
         $query = "INSERT INTO `expenses` (
             `code`, `expense_type_id`, `expense_date`, `amount`, `remark`
@@ -43,7 +43,7 @@ class Expense
             '$code', '$expense_type_id', '$expense_date', '$amount', '$remark'
         )";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -61,11 +61,11 @@ class Expense
     public function update()
     {
         // Escape values to prevent SQL injection
-        $code = mysqli_real_escape_string((new Database())->DB_CON, $this->code);
+        $code = mysqli_real_escape_string((Database::getInstance())->DB_CON, $this->code);
         $expense_type_id = (int) $this->expense_type_id;
-        $expense_date = mysqli_real_escape_string((new Database())->DB_CON, $this->expense_date);
+        $expense_date = mysqli_real_escape_string((Database::getInstance())->DB_CON, $this->expense_date);
         $amount = (float) $this->amount;
-        $remark = mysqli_real_escape_string((new Database())->DB_CON, $this->remark);
+        $remark = mysqli_real_escape_string((Database::getInstance())->DB_CON, $this->remark);
         $id = (int) $this->id;
 
         $query = "UPDATE `expenses` SET 
@@ -76,7 +76,7 @@ class Expense
             `remark` = '$remark'
             WHERE `id` = '$id'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -93,7 +93,7 @@ class Expense
     {
         $id = (int) $this->id;
         $query = "DELETE FROM `expenses` WHERE `id` = '$id'";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -110,7 +110,7 @@ class Expense
     {
         // Fixed ORDER BY clause - removed 'name' which doesn't exist in expenses table
         $query = "SELECT * FROM `expenses` ORDER BY `id` DESC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         $array_res = array();
@@ -124,7 +124,7 @@ class Expense
     public function getLastID()
     {
         $query = "SELECT * FROM `expenses` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
 
         // Handle case when no records exist
@@ -142,16 +142,16 @@ class Expense
         $where = "WHERE 1=1"; // Better WHERE clause construction
 
         if ($dateFrom) {
-            $dateFrom = mysqli_real_escape_string((new Database())->DB_CON, $dateFrom);
+            $dateFrom = mysqli_real_escape_string((Database::getInstance())->DB_CON, $dateFrom);
             $where .= " AND expense_date >= '$dateFrom'";
         }
         if ($dateTo) {
-            $dateTo = mysqli_real_escape_string((new Database())->DB_CON, $dateTo);
+            $dateTo = mysqli_real_escape_string((Database::getInstance())->DB_CON, $dateTo);
             $where .= " AND expense_date <= '$dateTo'";
         }
 
         $query = "SELECT SUM(amount) as total_amount FROM `expenses` $where";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
 
         $totalAmount = $result['total_amount'] ? $result['total_amount'] : 0;
@@ -166,7 +166,7 @@ class Expense
 
         $expense_type_id = (int) $expense_type_id;
         $query = "SELECT * FROM `expenses` WHERE `expense_type_id` = '$expense_type_id' ORDER BY expense_date DESC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 
@@ -182,15 +182,15 @@ class Expense
     {
         error_log('Getting expenses by date range: ' . $dateFrom . ' - ' . $dateTo);
 
-        $dateFrom = mysqli_real_escape_string((new Database())->DB_CON, $dateFrom);
-        $dateTo = mysqli_real_escape_string((new Database())->DB_CON, $dateTo);
+        $dateFrom = mysqli_real_escape_string((Database::getInstance())->DB_CON, $dateFrom);
+        $dateTo = mysqli_real_escape_string((Database::getInstance())->DB_CON, $dateTo);
 
         $query = "SELECT e.*, et.name as expense_type_name 
                  FROM `expenses` e 
                  LEFT JOIN `expenses_type` et ON e.expense_type_id = et.id 
                  WHERE e.expense_date BETWEEN '$dateFrom' AND '$dateTo' 
                  ORDER BY e.expense_date DESC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 
@@ -206,14 +206,14 @@ class Expense
     {
         error_log('Getting total expenses from ' . $dateFrom . ' to ' . $dateTo);
 
-        $dateFrom = mysqli_real_escape_string((new Database())->DB_CON, $dateFrom);
-        $dateTo = mysqli_real_escape_string((new Database())->DB_CON, $dateTo);
+        $dateFrom = mysqli_real_escape_string((Database::getInstance())->DB_CON, $dateFrom);
+        $dateTo = mysqli_real_escape_string((Database::getInstance())->DB_CON, $dateTo);
 
         $query = "SELECT COALESCE(SUM(amount), 0) as total_expenses 
                  FROM `expenses` 
                  WHERE expense_date BETWEEN '$dateFrom' AND '$dateTo'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
 
         $totalExpenses = isset($result['total_expenses']) ? (float)$result['total_expenses'] : 0;
@@ -224,7 +224,7 @@ class Expense
 
     public function getMonthlyExpensesByYear($year)
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $query = "SELECT 
                 MONTH(expense_date) as month,
                 SUM(amount) as total_amount

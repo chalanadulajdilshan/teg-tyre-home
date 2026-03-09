@@ -1,147 +1,132 @@
-async function loadChartData(year = new Date().getFullYear()) {
+async function postJSON(action, extra = {}) {
+    const params = new URLSearchParams({ action, ...extra });
+    const res = await fetch('ajax/php/report.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString()
+    });
+    return res.json();
+}
+
+async function loadCards() {
     try {
-        const response = await fetch('ajax/php/report.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `action=get_monthly_profit&year=${year}`
-        });
-        const json = await response.json();
+        const json = await postJSON('get_dashboard_cards');
         if (json.status === 'success') {
-            return json.data;
+            const { monthly_sales, total_stock, monthly_profit, monthly_expenses } = json.data;
+            setCountUp('metric-monthly-sales', monthly_sales, 'Rs. ');
+            setCountUp('metric-total-stock', total_stock);
+            setCountUp('metric-monthly-profit', monthly_profit, 'Rs. ');
+            setCountUp('metric-monthly-expenses', monthly_expenses, 'Rs. ');
         }
     } catch (e) {
-        console.error(e);
+        console.error('Failed to load cards', e);
     }
-    return [
-        { month: 'Jan', value: 0 },
-        { month: 'Feb', value: 0 },
-        { month: 'Mar', value: 0 },
-        { month: 'Apr', value: 0 },
-        { month: 'May', value: 0 },
-        { month: 'Jun', value: 0 },
-        { month: 'Jul', value: 0 },
-        { month: 'Aug', value: 0 },
-        { month: 'Sep', value: 0 },
-        { month: 'Oct', value: 0 },
-        { month: 'Nov', value: 0 },
-        { month: 'Dec', value: 0 }
-    ]; // fallback
 }
 
-async function initChart() {
-    const salesData = await loadChartData();
-    const barContainer = document.getElementById('bar-container');
-    const chartGrid = document.getElementById('chart-grid');
+async function renderSalesChart() {
+    try {
+        const json = await postJSON('get_monthly_sales');
+        if (json.status !== 'success') return;
+        const months = json.data.map(d => d.month);
+        const values = json.data.map(d => d.value);
 
-    const values = salesData.map(d => d.value);
-    const maxValue = Math.max(...values, 0); // Handle possible negative values
-    const chartHeight = 420; // Available height for bars
+        const options = {
+            chart: { type: 'line', height: 320, toolbar: { show: false } },
+            stroke: { width: 3, curve: 'smooth' },
+            colors: ['#5b73e8'],
+            dataLabels: { enabled: false },
+            series: [{ name: 'Sales', data: values }],
+            xaxis: { categories: months },
+            yaxis: { labels: { formatter: val => `Rs. ${Math.round(val).toLocaleString()}` } },
+            tooltip: { y: { formatter: val => `Rs. ${Math.round(val).toLocaleString()}` } },
+            grid: { borderColor: '#f1f3f5' }
+        };
 
-    // Create grid lines
-    for (let i = 0; i <= 5; i++) {
-        const gridLine = document.createElement('div');
-        gridLine.className = 'grid-line';
-        gridLine.style.bottom = `${(i / 5) * chartHeight}px`;
-
-        const gridLabel = document.createElement('div');
-        gridLabel.className = 'grid-label';
-        gridLabel.style.bottom = `${(i / 5) * chartHeight - 10}px`;
-        gridLabel.textContent = `Rs. ${((maxValue / 5) * i / 1000).toFixed(0)}K`;
-
-        chartGrid.appendChild(gridLine);
-        chartGrid.appendChild(gridLabel);
-    }
-
-    // Create bars
-    salesData.forEach((data, index) => {
-        const barWrapper = document.createElement('div');
-        barWrapper.className = 'bar-wrapper';
-
-        const bar = document.createElement('div');
-        bar.className = 'bar';
-        const barHeight = (data.value / maxValue) * chartHeight;
-        bar.style.setProperty('--height', `${barHeight}px`);
-        bar.style.setProperty('--index', index);
-
-        // Add pulse effect to highest bar
-        if (data.value === maxValue) {
-            bar.classList.add('pulse');
+        const el = document.querySelector('#sales-summary-chart');
+        if (el) {
+            const chart = new ApexCharts(el, options);
+            chart.render();
         }
-
-        const barValue = document.createElement('div');
-        barValue.className = 'bar-value';
-        barValue.textContent = `Rs. ${data.value.toLocaleString()}`;
-
-        const barLabel = document.createElement('div');
-        barLabel.className = 'bar-label';
-        barLabel.textContent = data.month;
-
-        bar.appendChild(barValue);
-        barWrapper.appendChild(bar);
-        barWrapper.appendChild(barLabel);
-        barContainer.appendChild(barWrapper);
-
-        // Add click animation
-        barWrapper.addEventListener('click', () => {
-            bar.style.animation = 'none';
-            setTimeout(() => {
-                bar.style.animation = 'barGrow 0.6s ease-out';
-            }, 10);
-        });
-    });
-
-    // Calculate and display statistics
-    updateStatistics(salesData);
-}
-
-function updateStatistics(salesData) {
-    const totalProfit = salesData.reduce((sum, data) => sum + data.value, 0);
-    const avgProfit = totalProfit / salesData.length;
-    const bestMonth = salesData.reduce((max, data) =>
-        data.value > max.value ? data : max, salesData[0]);
-
-    // Animate counting up
-    animateValue('total-sales', 0, totalProfit, 2000, (val) => `Rs. ${val.toLocaleString()}`);
-    animateValue('avg-sales', 0, avgProfit, 2000, (val) => `Rs. ${Math.round(val).toLocaleString()}`);
-
-    setTimeout(() => {
-        document.getElementById('best-month').textContent = bestMonth.month;
-    }, 1000);
-}
-
-function animateValue(elementId, start, end, duration, formatter) {
-    const element = document.getElementById(elementId);
-    const startTime = Date.now();
-
-    function update() {
-        const elapsed = Date.now() - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const current = start + (end - start) * easeOutCubic(progress);
-
-        element.textContent = formatter ? formatter(current) : Math.round(current);
-
-        if (progress < 1) {
-            requestAnimationFrame(update);
-        }
+    } catch (e) {
+        console.error('Failed to render sales chart', e);
     }
-
-    update();
 }
 
-function easeOutCubic(t) {
-    return 1 - Math.pow(1 - t, 3);
+async function renderProfitChart() {
+    try {
+        const cards = await postJSON('get_dashboard_cards');
+        if (cards.status !== 'success') return;
+        const {
+            monthly_profit = 0,
+            monthly_expenses = 0,
+            monthly_sales = 0,
+            monthly_returns = 0,
+            monthly_daily_income = 0,
+            monthly_sales_gross = 0
+        } = cards.data;
+
+        // Visualize net view similar to profit report: profit, returns, expenses, income (gross)
+        const values = [
+            Math.max(monthly_profit, 0),
+            Math.max(monthly_returns, 0),
+            Math.max(monthly_expenses, 0)
+        ];
+        const labels = ['Profit (final)', 'Returns', 'Expenses'];
+        const colors = ['#00c292', '#f46a6a', '#ffb822'];
+
+        const options = {
+            chart: { type: 'pie', height: 320 },
+            labels,
+            series: values,
+            colors,
+            legend: { show: false },
+            dataLabels: { formatter: (val, opts) => `${opts.w.config.series[opts.seriesIndex].toLocaleString()}` }
+        };
+
+        const el = document.querySelector('#profit-summary-chart');
+        if (el) {
+            const chart = new ApexCharts(el, options);
+            chart.render();
+
+            const legend = document.getElementById('profit-legend');
+            if (legend) {
+                legend.innerHTML = labels.map((label, i) => `
+                    <span class="d-flex align-items-center text-muted small">
+                        <span class="legend-dot" style="background:${colors[i]}"></span>${label}: ${values[i].toLocaleString()}
+                    </span>
+                `).join('');
+                legend.innerHTML += `
+                    <span class="d-flex align-items-center text-muted small">
+                        <span class="legend-dot" style="background:#5b73e8"></span>Income (gross): ${Math.max(monthly_sales_gross, 0).toLocaleString()}
+                    </span>
+                    <span class="d-flex align-items-center text-muted small">
+                        <span class="legend-dot" style="background:#9c27b0"></span>Daily Income: ${Math.max(monthly_daily_income, 0).toLocaleString()}
+                    </span>`;
+            }
+        }
+    } catch (e) {
+        console.error('Failed to render profit chart', e);
+    }
 }
 
-// Initialize the chart when the page loads
-document.addEventListener('DOMContentLoaded', initChart);
+function setCountUp(id, value, prefix = '') {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const duration = 1000;
+    const start = 0;
+    const startTime = performance.now();
 
-// Add responsive behavior
-let resizeTimeout;
-window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-        document.getElementById('bar-container').innerHTML = '';
-        document.getElementById('chart-grid').innerHTML = '';
-        initChart();
-    }, 300);
+    function tick(now) {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const current = start + (value - start) * progress;
+        el.textContent = `${prefix}${Math.round(current).toLocaleString()}`;
+        if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadCards();
+    renderSalesChart();
+    renderProfitChart();
 });

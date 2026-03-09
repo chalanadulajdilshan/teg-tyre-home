@@ -29,7 +29,7 @@
 </footer>
 
 <!-- common used model files are included here -->
- 
+
 
 <?php include 'customer-master-model.php' ?>
 <?php include 'supplier-master-model.php' ?>
@@ -41,7 +41,7 @@
 
 
 <?php include 'invoice-model.php' ?>
-<?php include 'dag-mode.php' ?>
+
 <?php include 'customer_model.php' ?>
 <?php include 'all_item-master-model.php' ?>
 <?php include 'special-permission-model.php' ?>

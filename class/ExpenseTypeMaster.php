@@ -12,7 +12,7 @@ class Expenses
     {
         if ($id) {
             $query = "SELECT * FROM `expenses_type` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -31,7 +31,7 @@ class Expenses
             '" . $this->code . "',
             '" . $this->name . "',
             '" . $this->is_active . "')";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -49,7 +49,7 @@ class Expenses
             `name` = '" . $this->name . "',
             `is_active` = '" . $this->is_active . "'
             WHERE `id` = " . (int) $this->id;
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -63,7 +63,7 @@ class Expenses
     public function delete()
     {
         $query = "DELETE FROM `expenses_type` WHERE `id` = " . (int) $this->id;
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -71,7 +71,7 @@ class Expenses
     public function all()
     {
         $query = "SELECT * FROM `expenses_type` ORDER BY `code` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -85,7 +85,7 @@ class Expenses
     public function getLastID()
     {
         $query = "SELECT * FROM `expenses_type` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }

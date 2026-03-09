@@ -33,12 +33,13 @@ class ArnMaster
     public $is_cancelled;
     public $paid_amount;
     public $payment_type;
+    public $calls_due_date;
 
     public function __construct($id = null)
     {
         if ($id) {
             $query = "SELECT * FROM `arn_master` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
             if ($result) {
                 foreach ($result as $key => $value) {
@@ -55,7 +56,7 @@ class ArnMaster
             return false;
         }
 
-        $db = new Database();
+        $db = Database::getInstance();
         $arn_no = $db->escapeString($arn_no);
 
         $query = "SELECT `id` FROM `arn_master` WHERE `arn_no` = '{$arn_no}' LIMIT 1";
@@ -75,7 +76,7 @@ class ArnMaster
             return false;
         }
 
-        $db = new Database();
+        $db = Database::getInstance();
         $bl_no = $db->escapeString($bl_no);
 
         $query = "SELECT `id` FROM `arn_master` WHERE `bl_no` = '{$bl_no}'";
@@ -101,17 +102,17 @@ class ArnMaster
             `container_size`, `category`, `brand`, `department`, `po_no`, `country`, `order_by`,
             `purchase_type`, `arn_status`, `remark`, `invoice_date`, `entry_date`, `delivery_date`,
             `credit_note_amount`, `sub_arn_value`, `total_discount`, `total_arn_value`, `paid_amount`,
-            `total_received_qty`, `total_order_qty`, `created_at`
+            `total_received_qty`, `total_order_qty`, `calls_due_date`, `created_at`
         ) VALUES (
             '{$this->arn_no}', '{$this->lc_tt_no}', '{$this->pi_no}', '{$this->po_date}', '{$this->supplier_id}',
             '{$this->ci_no}', '{$this->bl_no}', '{$this->container_size}', '{$this->category}', '{$this->brand}',
             '{$this->department}', '{$this->po_no}', '{$this->country}', '{$this->order_by}', '{$this->payment_type}',
             '{$this->arn_status}', '{$this->remark}', '{$this->invoice_date}', '{$this->entry_date}', '{$this->delivery_date}',
             '{$this->credit_note_amount}', '{$this->sub_arn_value}', '{$this->total_discount}', '{$this->total_arn_value}',
-            '{$this->paid_amount}', '{$this->total_received_qty}', '{$this->total_order_qty}', NOW()
+            '{$this->paid_amount}', '{$this->total_received_qty}', '{$this->total_order_qty}', '{$this->calls_due_date}', NOW()
         )";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         return $result ? mysqli_insert_id($db->DB_CON) : false;
@@ -151,10 +152,11 @@ class ArnMaster
             `total_arn_value` = '{$this->total_arn_value}',
             `paid_amount` = '{$this->paid_amount}',
             `total_received_qty` = '{$this->total_received_qty}',
-            `total_order_qty` = '{$this->total_order_qty}'
+            `total_order_qty` = '{$this->total_order_qty}',
+            `calls_due_date` = '{$this->calls_due_date}'
         WHERE `id` = '{$this->id}'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         return $result ? $this->__construct($this->id) : false;
     }
@@ -162,14 +164,14 @@ class ArnMaster
     public function delete()
     {
         $query = "DELETE FROM `arn_master` WHERE `id` = '{$this->id}'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function all()
     {
         $query = "SELECT * FROM `arn_master` ORDER BY `id` DESC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = [];
 
@@ -191,7 +193,7 @@ class ArnMaster
     ";
 
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = [];
 
@@ -211,14 +213,14 @@ class ArnMaster
     public function getLastID()
     {
         $query = "SELECT * FROM `arn_master` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result ? $result['id'] : null;
     }
 
     public function cancelArn($arn_id)
     {
-        $db = new Database();
+        $db = Database::getInstance();
 
         // Fetch ARN details to get department
         $arn = new ArnMaster($arn_id);
@@ -250,7 +252,7 @@ class ArnMaster
 
     public function reactivateArn($arn_id)
     {
-        $db = new Database();
+        $db = Database::getInstance();
 
         $query1 = "UPDATE arn_master SET is_cancelled = 0 WHERE id = '{$arn_id}'";
         $db->readQuery($query1);
@@ -273,7 +275,7 @@ class ArnMaster
     {
         $query = "UPDATE `arn_master` SET `paid_amount` = `paid_amount` + $amount WHERE `id` = $invoice_id";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         return ($result) ? true : false;
     }
@@ -286,8 +288,8 @@ class ArnMaster
                  AND purchase_type = $status
                  AND `total_arn_value` > `paid_amount`      
                  AND `is_cancelled`='0'
-                 ORDER BY `invoice_date` DESC";
-        $db = new Database();
+                 ORDER BY `invoice_date` ASC";
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 

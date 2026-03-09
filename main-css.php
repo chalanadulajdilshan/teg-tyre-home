@@ -32,6 +32,45 @@ $themeColor = !empty($COMPANY_PROFILE->theme) ? $COMPANY_PROFILE->theme : '#3b5d
         border-color: var(--bs-primary);
         box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
     }
+
+    .gp-tile-btn {
+        padding: 1.15rem 1.25rem;
+        font-size: 1.05rem;
+        min-height: 84px;
+        border-radius: 0.9rem;
+        border-width: 1px;
+        background-color: #ffffff;
+        box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06);
+        transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+        text-align: left;
+    }
+
+    .gp-tile-btn.justify-content-center {
+        justify-content: flex-start !important;
+    }
+
+    .gp-tile-btn.text-center {
+        text-align: left !important;
+    }
+
+    .gp-tile-btn:hover,
+    .gp-tile-btn:focus {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(var(--bs-primary-rgb), 0.12), 0 2px 6px rgba(16, 24, 40, 0.08);
+        border-color: rgba(var(--bs-primary-rgb), 0.55);
+        background-color: rgba(var(--bs-primary-rgb), 0.06);
+    }
+
+    .gp-tile-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 6px 14px rgba(var(--bs-primary-rgb), 0.12);
+    }
+
+    .gp-tile-icon {
+        font-size: 1.6rem;
+        line-height: 1;
+        opacity: 0.95;
+    }
 </style>
 
 <?php
@@ -64,6 +103,7 @@ function adjustBrightness($hex, $steps)
 <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
 <!-- App Css-->
 <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+<link href="assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/resources/default.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 
 <link href="assets/libs/sweetalert/sweetalert.css" rel="stylesheet" type="text/css" />

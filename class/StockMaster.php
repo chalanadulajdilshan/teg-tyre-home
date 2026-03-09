@@ -16,7 +16,7 @@ class StockMaster
         if ($id) {
             $query = "SELECT `id`, `item_id`, `department_id`, `quantity`, `created_at`, `is_active`, `remark` 
                       FROM `stock_master` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -42,7 +42,7 @@ class StockMaster
             '" . $this->is_active . "',
             '" . $this->remark . "')";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -63,7 +63,7 @@ class StockMaster
                     `remark` = '" . $this->remark . "'
                   WHERE `id` = '" . $this->id . "'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -75,7 +75,7 @@ class StockMaster
 
     public static function updateQtyByItemAndDepartment($department_id, $item_id, $new_quantity)
     {
-        $db = new Database();
+        $db = Database::getInstance();
 
         $query = "UPDATE `stock_master` 
               SET `quantity` = '" . (float) $new_quantity . "', `is_active` = 1
@@ -89,7 +89,7 @@ class StockMaster
     public function delete()
     {
         $query = "DELETE FROM `stock_master` WHERE `id` = '" . $this->id . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -98,7 +98,7 @@ class StockMaster
     {
         $query = "SELECT `id`, `item_id`, `department_id`, `quantity`, `created_at`, `is_active`, `remark` 
                   FROM `stock_master` ORDER BY `created_at` DESC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = [];
 
@@ -114,7 +114,7 @@ class StockMaster
     {
         $query = "SELECT `id`, `item_id`, `department_id`, `quantity`, `created_at`, `is_active`, `remark` 
                   FROM `stock_master` WHERE `is_active` = 1 ORDER BY `created_at` DESC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 
@@ -135,7 +135,7 @@ class StockMaster
                   AND `item_id` = " . (int) $item_id;
 
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result ? (int) $result['quantity'] : 0;
     }
@@ -153,7 +153,7 @@ class StockMaster
               GROUP BY sm.department_id
               ORDER BY d.name ASC";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         $departments = [];
@@ -176,7 +176,7 @@ class StockMaster
         $FROM_DEPARTMENT = new DepartmentMaster($from_department_id);
         $TO_DEPARTMENT = new DepartmentMaster($to_department_id);
 
-        $db = new Database();
+        $db = Database::getInstance();
 
         // 1. Check available quantity in from_department across all rows
         $sumQuery = "SELECT IFNULL(SUM(quantity),0) AS total_qty FROM `stock_master`
@@ -272,7 +272,7 @@ class StockMaster
     public function adjustQuantity($item_id, $department_id, $adjust_qty, $adjust_type, $remark = '')
     {
 
-        $db = new Database();
+        $db = Database::getInstance();
         $DEPARTMENT = new DepartmentMaster($department_id);
 
         // Get existing stock record
@@ -332,7 +332,7 @@ class StockMaster
               FROM stock_master
               WHERE item_id = " . (int) $item_id . "  ";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $row = mysqli_fetch_assoc($result);
 
@@ -346,7 +346,7 @@ class StockMaster
               WHERE item_id = " . (int) $item_id . " 
               AND department_id = " . (int) $department_id . " ";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $row = mysqli_fetch_assoc($result);
 
@@ -366,7 +366,7 @@ class StockMaster
                 AND sm.is_active = 1
               ORDER BY d.name ASC";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         $departments = [];

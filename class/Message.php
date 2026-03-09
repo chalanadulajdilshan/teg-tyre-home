@@ -18,7 +18,7 @@ class Message
 
             $query = "SELECT `id`,`status`,`description` FROM `message` WHERE `id`=" . $id;
 
-            $db = new Database();
+            $db = Database::getInstance();
 
             $result = mysqli_fetch_array($db->readQuery($query));
 
@@ -35,7 +35,7 @@ class Message
         if (empty($ids))
             return;
 
-        $db = new Database();
+        $db = Database::getInstance();
         $idList = implode(',', array_map('intval', $ids));
         $query = "SELECT `status`, `description` FROM `message` WHERE `id` IN ($idList)";
         $result = $db->readQuery($query);

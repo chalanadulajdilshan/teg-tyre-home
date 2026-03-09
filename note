@@ -1,0 +1,6 @@
+-- ALTER TABLE `dag` ADD `my_number` VARCHAR(100) NULL AFTER `vehicle_no`;
+
+-- ALTER TABLE `dag` ADD `customer_issue_date` DATE NULL AFTER `my_number`;
+
+-- ALTER TABLE `dag_item`
+-- ADD `uc` VARCHAR(255) NULL AFTER `status`;

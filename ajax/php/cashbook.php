@@ -116,7 +116,7 @@ if (isset($_POST['get_branches'])) {
     $bankId = (int)$_POST['bank_id'];
     $BRANCH = new Branch();
     
-    $db = new Database();
+    $db = Database::getInstance();
     $query = "SELECT * FROM `branches` WHERE `bank_id` = $bankId ORDER BY `name` ASC";
     $result = $db->readQuery($query);
     

@@ -27,6 +27,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'create_purchase_order') {
     $entryDate = $_POST['date'];
     $supplierId = $_POST['supplier_id'];
     $brand = $_POST['brand'];
+    $category = isset($_POST['category']) ? $_POST['category'] : null;
     $invoice_no = $_POST['invoice_no'];
     $country = $_POST['country'];
     $department = $_POST['department'];
@@ -55,6 +56,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'create_purchase_order') {
     $PURCHASE_ORDER->order_date = $entryDate;
     $PURCHASE_ORDER->supplier_id = $supplierId;
     $PURCHASE_ORDER->brand = $brand;
+    $PURCHASE_ORDER->category = $category;
     $PURCHASE_ORDER->invoice_no = $invoice_no;
     $PURCHASE_ORDER->country = $country;
     $PURCHASE_ORDER->department = $department;
@@ -129,9 +131,10 @@ if (isset($_POST['action']) && $_POST['action'] === 'update_purchase_order') {
     $PURCHASE_ORDER->order_date = $_POST['order_date'];
     $PURCHASE_ORDER->supplier_id = $_POST['supplier_id'];
     $PURCHASE_ORDER->brand = $_POST['brand'];
+    $PURCHASE_ORDER->category = isset($_POST['category']) ? $_POST['category'] : null;
     $PURCHASE_ORDER->invoice_no = $_POST['invoice_no'];
     $PURCHASE_ORDER->country = $_POST['country'];
-    $PURCHASE_ORDER->department_id = $_POST['department_id'];
+    $PURCHASE_ORDER->department = $_POST['department_id'];
     $PURCHASE_ORDER->purchase_date = $_POST['purchase_date'];
     $PURCHASE_ORDER->remarks = $_POST['remarks'];
 

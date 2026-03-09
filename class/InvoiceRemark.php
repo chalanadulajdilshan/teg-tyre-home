@@ -15,7 +15,7 @@ class InvoiceRemark
     {
         if ($id) {
             $query = "SELECT * FROM `remark` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -38,7 +38,7 @@ class InvoiceRemark
 )";
 
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -59,7 +59,7 @@ class InvoiceRemark
             WHERE `id` = '$this->id'";
 
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -72,7 +72,7 @@ class InvoiceRemark
     public function all()
     {
         $query = "SELECT * FROM `remark` ORDER BY `queue` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 
@@ -86,7 +86,7 @@ class InvoiceRemark
     public function getActiveGroups()
     {
         $query = "SELECT * FROM `remark` WHERE `is_active` = 1 ORDER BY `queue` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 
@@ -100,7 +100,7 @@ class InvoiceRemark
     public function delete()
     {
         $query = "DELETE FROM `remark` WHERE `id` = '$this->id'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -108,14 +108,14 @@ class InvoiceRemark
     public function getLastID()
     {
         $query = "SELECT * FROM `remark` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }
 
     public function fetchForDataTable($request)
     {
-        $db = new Database();
+        $db = Database::getInstance();
 
         $start = isset($request['start']) ? (int)$request['start'] : 0;
         $length = isset($request['length']) ? (int)$request['length'] : 100;
@@ -154,7 +154,7 @@ class InvoiceRemark
     public function getIdbyItemCode($code)
     {
         $query = "SELECT `id` FROM `remark` WHERE `code` = '$code' LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($row = mysqli_fetch_assoc($result)) {
@@ -182,7 +182,7 @@ class InvoiceRemark
 
         // Get all active remarks for this payment type, ordered by queue
         $query = "SELECT `remark` FROM `remark` WHERE `payment_type` = $paymentType AND `is_active` = 1 ORDER BY `queue` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {

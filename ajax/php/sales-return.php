@@ -19,6 +19,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'check_invoice_exists') {
             'invoice' => $invoice,
             'customer' => [
                 'id' => $CUSTOMER->id,
+                'code' => $CUSTOMER->code,
                 'name' => $CUSTOMER->name,
                 'address' => $CUSTOMER->address,
                 'mobile_number' => $CUSTOMER->mobile_number
@@ -46,10 +47,23 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_invoice_items') {
         // Extract item_id from item_code if needed, or use the id field
         $item_id = isset($item['item_code']) ? $item['item_code'] : $item['item_code'];
 
+        $item_code_display = $item['item_code'];
+        if (!empty($item['item_code']) && $item['item_code'] != 0) {
+            $ITEM_MASTER = new ItemMaster($item['item_code']);
+            if (!empty($ITEM_MASTER->code)) {
+                $item_code_display = $ITEM_MASTER->code;
+            }
+        } elseif (isset($item['service_item_code']) && $item['service_item_code'] != 0 && class_exists('ServiceItem')) {
+            $SERVICE_ITEM = new ServiceItem($item['service_item_code']);
+            if (!empty($SERVICE_ITEM->item_code)) {
+                $item_code_display = $SERVICE_ITEM->item_code;
+            }
+        }
+
         $result[] = [
             'id' => $item['id'],
             'item_id' => $item_id,
-            'item_code' => $item['item_code'],
+            'item_code' => $item_code_display,
             'item_name' => $item['item_name'],
             'quantity' => $item['available_quantity'], // Use available quantity instead of original quantity
             'original_quantity' => $item['quantity'], // Keep original for reference
@@ -66,6 +80,23 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_invoice_items') {
     exit();
 }
 
+// Get next sales return number (for display on form)
+if (isset($_POST['action']) && $_POST['action'] == 'get_next_return_no') {
+    $db = Database::getInstance();
+    $query = "SELECT MAX(CAST(SUBSTRING_INDEX(return_no, '/', -1) AS UNSIGNED)) as max_num FROM sales_return";
+    $result = $db->readQuery($query);
+    $row = mysqli_fetch_array($result);
+
+    $nextNumber = ($row && $row['max_num']) ? $row['max_num'] + 1 : 1;
+    $return_no = 'WT/SR/00/' . str_pad($nextNumber, 2, '0', STR_PAD_LEFT);
+
+    echo json_encode([
+        'status' => 'success',
+        'return_no' => $return_no
+    ]);
+    exit();
+}
+
 // Save sales return
 if (isset($_POST['action']) && $_POST['action'] == 'save_sales_return') {
     $return_data = json_decode($_POST['return_data'], true);
@@ -78,7 +109,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'save_sales_return') {
     }
 
     // Check if sales_return table exists
-    $db = new Database();
+    $db = Database::getInstance();
     $table_check = $db->readQuery("SHOW TABLES LIKE 'sales_return'");
     if (mysqli_num_rows($table_check) == 0) {
         echo json_encode(['status' => 'error', 'type' => 'error', 'message' => 'Database table sales_return does not exist']);
@@ -224,12 +255,14 @@ if (isset($_POST['action']) && $_POST['action'] == 'get_sales_return_details') {
     $items = $SALES_RETURN_ITEM->getByReturnId($return_id);
 
     $CUSTOMER = new CustomerMaster($SALES_RETURN->customer_id);
-    $db = new Database();
+    $db = Database::getInstance();
 
     // Get department from the original invoice
-    $invoice_query = "SELECT department_id FROM `sales_invoice` WHERE `invoice_no` = '" . $SALES_RETURN->invoice_no . "' LIMIT 1";
+    $invoice_query = "SELECT * FROM `sales_invoice` WHERE `invoice_no` = '" . $SALES_RETURN->invoice_no . "' LIMIT 1";
     $invoice_result = mysqli_fetch_array($db->readQuery($invoice_query));
     $DEPARTMENT = new DepartmentMaster($invoice_result ? $invoice_result['department_id'] : null);
+    $invoice_date = $invoice_result ? $invoice_result['invoice_date'] : null;
+    $payment_type = $invoice_result ? $invoice_result['payment_type'] : null;
 
     $return_data = [
         'id' => $SALES_RETURN->id,
@@ -238,6 +271,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'get_sales_return_details') {
         'invoice_no' => $SALES_RETURN->invoice_no,
         'customer' => [
             'id' => $CUSTOMER->id,
+            'code' => $CUSTOMER->code,
             'name' => $CUSTOMER->name,
             'address' => $CUSTOMER->address,
             'mobile_number' => $CUSTOMER->mobile_number
@@ -249,7 +283,9 @@ if (isset($_POST['action']) && $_POST['action'] == 'get_sales_return_details') {
         'total_amount' => $SALES_RETURN->total_amount,
         'return_reason' => $SALES_RETURN->return_reason,
         'remarks' => $SALES_RETURN->remarks,
-        'is_damaged' => $SALES_RETURN->is_damaged
+        'is_damaged' => $SALES_RETURN->is_damaged,
+        'invoice_date' => $invoice_date,
+        'payment_type' => $payment_type
     ];
 
     error_log("Return data: " . print_r($return_data, true));

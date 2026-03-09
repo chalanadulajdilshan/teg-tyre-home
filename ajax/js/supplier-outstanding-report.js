@@ -146,3 +146,64 @@ $(document).ready(function () {
             });
     }
 });
+
+$(document).ready(function () {
+    var supplierTable;
+
+    // Remove any generic handlers added from common.js for this modal
+    $('#AllSupplierModal').off('shown.bs.modal');
+
+    $('#AllSupplierModal').on('shown.bs.modal', function () {
+        if ($.fn.DataTable.isDataTable('#allSupplierTable')) {
+            $('#allSupplierTable').DataTable().destroy();
+        }
+
+        supplierTable = $('#allSupplierTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "ajax/php/customer-master.php",
+                type: "POST",
+                data: function (d) {
+                    d.filter = true;
+                    d.category = [2, 3]; // Supplier (2) or Both (3)
+                },
+                dataSrc: function (json) {
+                    return json.data || [];
+                },
+                error: function (xhr) {
+                    console.error("Server Error Response:", xhr.responseText);
+                }
+            },
+            columns: [
+                { data: "id", title: "#ID" },
+                { data: "code", title: "Code" },
+                { data: "display_name", title: "Name" },
+                { data: "mobile_number", title: "Mobile Number" },
+                { data: "email", title: "Email" },
+                { data: "category", title: "Category" },
+                { data: "province", title: "Province" },
+                { data: "credit_limit", title: "Credit Discount" },
+                { data: "vat_no", title: "Is Vat" },
+                { data: "status_label", title: "Status" }
+            ],
+            order: [[0, 'desc']],
+            pageLength: 100
+        });
+
+        // Handle row selection in supplier modal
+        $('#allSupplierTable tbody')
+            .off('click')
+            .on('click', 'tr', function () {
+                var data = supplierTable.row(this).data();
+                if (!data) return;
+
+                // Fill the supplier fields in your form
+                $('#customer_id').val(data.id || '');
+                $('#code').val(data.code || '');
+
+                // Close the modal
+                $('#AllSupplierModal').modal('hide');
+            });
+    });
+});

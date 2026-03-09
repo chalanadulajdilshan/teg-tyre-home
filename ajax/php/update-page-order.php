@@ -19,7 +19,7 @@ if (!isset($input['pageOrder']) || !is_array($input['pageOrder'])) {
     exit();
 }
 
-$db = new Database();
+$db = Database::getInstance();
 $success = true;
 
 // Start transaction

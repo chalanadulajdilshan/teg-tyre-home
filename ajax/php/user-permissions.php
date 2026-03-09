@@ -9,7 +9,7 @@ if (!isset($_POST['selectUser']) || !isset($_POST['permissions']) || empty($_POS
 $userId = (int) $_POST['selectUser']; // Changed from userType to selectUser
 $permissions = $_POST['permissions'];
 
-$db = new Database();
+$db = Database::getInstance();
 
 // Delete existing permissions for this user
 $deleteQuery = "DELETE FROM `user_permission` WHERE `user_id` = $userId";

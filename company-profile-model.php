@@ -16,6 +16,7 @@
                             <thead>
                                 <tr>
                                     <th>Company Code</th>
+                                    <th>Customer ID</th>
                                     <th>Name</th>
                                     <th>Address</th>
                                     <th>Mobile</th>
@@ -40,11 +41,17 @@
                                         data-email="<?php echo htmlspecialchars($company['email']); ?>"
                                         data-vatnumber="<?php echo htmlspecialchars($company['vat_number']); ?>"
                                         data-companycode="<?php echo htmlspecialchars($company['company_code']); ?>"
+                                        data-customerid="<?php echo htmlspecialchars($company['customer_id'] ?? ''); ?>"
                                         data-image="<?php echo htmlspecialchars($company['image_name']); ?>"
+                                        data-homeviewmode="<?php echo htmlspecialchars($company['home_view_mode'] ?? 'both'); ?>"
+                                        data-navlayout="<?php echo htmlspecialchars($company['navigation_layout'] ?? 'horizontal'); ?>"
                                         data-active="<?php echo $company['is_active']; ?>"
-                                        data-isvat="<?php echo $company['is_vat']; ?>">
+                                        data-isvat="<?php echo $company['is_vat']; ?>"
+                                        data-isonecompany="<?php echo $company['is_one_company']; ?>"
+                                        data-iscredit="<?php echo $company['is_credit']; ?>">
 
                                         <td><?php echo htmlspecialchars($company['company_code']); ?></td>
+                                        <td><?php echo htmlspecialchars($company['customer_id'] ?? ''); ?></td>
                                         <td><?php echo htmlspecialchars($company['name']); ?></td> 
                                         <td><?php echo htmlspecialchars($company['address']); ?></td>
                                         <td><?php echo htmlspecialchars($company['mobile_number_1']); ?></td>

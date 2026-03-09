@@ -14,7 +14,7 @@ class PageCategory
     {
         if ($id) {
             $query = "SELECT * FROM `page_categories` WHERE `id` = " . (int) $id . " ORDER BY `queue`";
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -33,7 +33,7 @@ class PageCategory
             '" . $this->name . "', 
             " . ($this->icon !== null ? $this->icon : "NULL") . ", 
             " . (int) $this->is_active . ")";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -51,7 +51,7 @@ class PageCategory
             `icon` = " . ($this->icon !== null ? $this->icon : "NULL") . ", 
             `is_active` = " . (int) $this->is_active . " 
             WHERE `id` = " . (int) $this->id;
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -65,7 +65,7 @@ class PageCategory
     public function delete()
     {
         $query = "DELETE FROM `page_categories` WHERE `id` = " . (int) $this->id;
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -73,7 +73,7 @@ class PageCategory
     public function all()
     {
         $query = "SELECT `id`, `name`, `icon`, `is_active` FROM `page_categories` ORDER BY `name` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -88,7 +88,7 @@ class PageCategory
     public function getMainCategories()
     {
         $query = "SELECT `id`, `name`, `is_active` FROM `page_categories` WHERE `icon` IS NULL ORDER BY `name` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -103,7 +103,7 @@ class PageCategory
     public function getActiveCategory()
     {
         $query = "SELECT * FROM `page_categories` WHERE `is_active` = 1 ORDER BY `queue` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 

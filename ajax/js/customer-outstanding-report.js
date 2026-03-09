@@ -33,27 +33,15 @@ $(document).ready(function () {
                 console.error('Server response:', xhr.responseText);
             }
         },
-        // Update the columns configuration to handle is_vat properly
-columns: [
-    { data: 'id' },
-    { data: 'code' },
-    { data: 'name' },
-    { data: 'mobile_number' },
-    { data: 'email' },
-    { data: 'category' },
-    { data: 'credit_limit' },  // Credit Discount
-    { data: 'outstanding' },   // Outstanding amount
-    { 
-        data: 'is_vat',
-        render: function(data) {
-            return (data === 1 || data === '1') ? 'Yes' : 'No';
-        }
-    },
-    { 
-        data: 'status_label',
-        orderable: false
-    }
-],
+        // Columns configuration matching the modal table (6 columns)
+        columns: [
+            { data: 'id' },
+            { data: 'code' },
+            { data: 'name' },
+            { data: 'mobile_number' },
+            { data: 'email' },
+            { data: 'outstanding' }
+        ],
         order: [[0, 'desc']],
         pageLength: 10,
         responsive: true,
@@ -167,7 +155,7 @@ columns: [
             data: requestData,
             beforeSend: function () {
                 console.log('Sending request...');
-                $('#reportTableBody').html('<tr><td colspan="7" class="text-center">Loading...</td></tr>');
+                $('#reportTableBody').html('<tr><td colspan="8" class="text-center">Loading...</td></tr>');
             },
             success: function (response) {
                 console.log('Server response:', response);
@@ -177,7 +165,7 @@ columns: [
                     const errorMsg = response && response.message ? response.message : 'Error loading data';
                     console.error('Error response:', errorMsg);
                     alert(errorMsg);
-                    $('#reportTableBody').html('<tr><td colspan="7" class="text-center">No data found</td></tr>');
+                    $('#reportTableBody').html('<tr><td colspan="8" class="text-center">No data found</td></tr>');
                 }
             },
             error: function (xhr, status, error) {
@@ -187,7 +175,7 @@ columns: [
                     response: xhr.responseText
                 });
                 alert('Error loading data. Please check console for details.');
-                $('#reportTableBody').html('<tr><td colspan="7" class="text-center">Error loading data</td></tr>');
+                $('#reportTableBody').html('<tr><td colspan="8" class="text-center">Error loading data</td></tr>');
             },
             complete: function () {
                 console.log('Request completed');
@@ -201,7 +189,7 @@ columns: [
         tbody.empty();
 
         if (!data || data.length === 0) {
-            tbody.html('<tr><td colspan="7" class="text-center">No records found</td></tr>');
+            tbody.html('<tr><td colspan="8" class="text-center">No records found</td></tr>');
             $('[id^=total]').text('0.00');
             return;
         }
@@ -209,6 +197,7 @@ columns: [
         let totalInvoice = 0;
         let totalPaid = 0;
         let totalOutstanding = 0;
+        let totalOldOutstanding = 0;
 
         data.forEach(function (item) {
             // Calculate row highlighting based on days until due
@@ -242,6 +231,7 @@ columns: [
                     <td class="text-end">${parseFloat(item.invoice_amount || 0).toFixed(2)}</td>
                     <td class="text-end">${parseFloat(item.paid_amount || 0).toFixed(2)}</td>
                     <td class="text-end text-danger" style="background-color: #ffebee;">${parseFloat(item.outstanding || 0).toFixed(2)}</td>
+                    <td class="text-end">${parseFloat(item.old_outstanding || 0).toFixed(2)}</td>
                 </tr>`;
 
             tbody.append(row);
@@ -249,6 +239,7 @@ columns: [
             totalInvoice += parseFloat(item.invoice_amount || 0);
             totalPaid += parseFloat(item.paid_amount || 0);
             totalOutstanding += parseFloat(item.outstanding || 0);
+            totalOldOutstanding += parseFloat(item.old_outstanding || 0);
         });
 
         // Update totals
@@ -257,5 +248,6 @@ columns: [
         $('#totalOutstanding')
             .text(totalOutstanding.toFixed(2))
             .attr('style', 'background-color: #eb4034 !important; color: #ffffff !important;');
+        $('#totalOldOutstanding').text(totalOldOutstanding.toFixed(2));
     }
 });

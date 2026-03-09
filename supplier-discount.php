@@ -132,10 +132,11 @@ $last_dis_id = 'SD/0' . ($lastId + 1);
                                             </div>
 
                                             <div class="col-md-3">
-                                                <label class="form-label" for="suplier_id">Supplier </label>
+                                                <label class="form-label" for="suplier_code">Supplier </label>
                                                 <div class="input-group mb-3">
-                                                    <input id="suplier_id" name="suplier_id" type="text"
-                                                        placeholder="Select Code" class="form-control" readonly>
+                                                    <input id="suplier_code" type="text" placeholder="Select Code"
+                                                        class="form-control" readonly>
+                                                    <input type="hidden" id="suplier_id" name="suplier_id">
                                                     <button class="btn btn-info" type="button" data-bs-toggle="modal"
                                                         data-bs-target="#supplierModal">
                                                         <i class="uil uil-search me-1"></i>
@@ -159,7 +160,7 @@ $last_dis_id = 'SD/0' . ($lastId + 1);
                                                     <?php
                                                     $BRAND = new Brand(NULL);
                                                     foreach ($BRAND->all() as $brand) {
-                                                    ?>
+                                                        ?>
                                                         <option value="<?php echo $brand['id']; ?>">
                                                             <?php echo $brand['name']; ?>
                                                         </option>
@@ -235,11 +236,12 @@ $last_dis_id = 'SD/0' . ($lastId + 1);
                                         $key++;
                                         $SUPLIER = new CustomerMaster($discount['suplier_id']);
                                         $BRAND = new Brand($discount['brand_id']);
-                                    ?>
+                                        ?>
                                         <tr class="select-model" data-id="<?php echo $discount['id']; ?>"
                                             data-code="<?php echo htmlspecialchars($discount['code']); ?>"
                                             data-date="<?php echo htmlspecialchars($discount['date']); ?>"
                                             data-suplier_id="<?php echo htmlspecialchars($discount['suplier_id']); ?>"
+                                            data-suplier_code="<?php echo htmlspecialchars($SUPLIER->code ?? ''); ?>"
                                             data-name="<?php echo htmlspecialchars($discount['name']); ?>"
                                             data-brand_id="<?php echo htmlspecialchars($discount['brand_id']); ?>"
                                             data-discount="<?php echo htmlspecialchars($discount['discount']); ?>"
@@ -248,7 +250,7 @@ $last_dis_id = 'SD/0' . ($lastId + 1);
                                             <td><?php echo $key; ?></td>
                                             <td><?php echo htmlspecialchars($discount['code']); ?></td>
                                             <td><?php echo htmlspecialchars($discount['date']); ?></td>
-                                            <td><?php echo htmlspecialchars($discount['suplier_id']); ?></td>
+                                            <td><?php echo htmlspecialchars($SUPLIER->code ?? ''); ?></td>
                                             <td><?php echo htmlspecialchars($discount['name']); ?></td>
                                             <td><?php echo htmlspecialchars($BRAND->name); ?></td>
                                             <td><?php echo htmlspecialchars($discount['discount']); ?></td>

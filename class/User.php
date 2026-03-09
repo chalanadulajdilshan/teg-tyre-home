@@ -35,7 +35,7 @@ class User
 
             $query = "SELECT * FROM `user` WHERE `id`=" . $id;
 
-            $db = new Database();
+            $db = Database::getInstance();
 
             $result = mysqli_fetch_array($db->readQuery($query));
 
@@ -60,6 +60,12 @@ class User
         }
     }
 
+    public function setPassword($password)
+    {
+        $this->show_password = $password;
+        $this->password = md5($password);
+    }
+
     public function create($name, $code, $type, $company_id, $active, $email, $phone, $username, $show_password, $password, $department_id)
     {
         $enPass = md5($password);
@@ -68,7 +74,7 @@ class User
         $createdAt = date('Y-m-d H:i:s');
         $query = "INSERT INTO `user` (`name`,code,`type`,`company_id`,`isActive`,`email`,`phone`,`createdAt`,`username`,`show_password`,`password`,`department_id`) VALUES  ('" . $name . "','" . $code . "',  '" . $type . "',  '" . $company_id . "','" . $active . "', '" . $email . "','" . $phone . "', '" . $createdAt . "', '" . $username . "',  '" . $show_password . "', '" . $enPass . "','" . $department_id . "')";
 
-        $db = new Database();
+        $db = Database::getInstance();
 
         $result = $db->readQuery($query);
         if ($result) {
@@ -87,7 +93,7 @@ class User
 
         $query = "SELECT * FROM `user` WHERE `username`= '" . $username . "' AND `password`= '" . $enPass . "'";
 
-        $db = new Database();
+        $db = Database::getInstance();
 
         $result = mysqli_fetch_array($db->readQuery($query));
 
@@ -113,7 +119,7 @@ class User
 
         $query = "SELECT `id` FROM `user` WHERE `id`= '" . $id . "' AND `password`= '" . $enPass . "'";
 
-        $db = new Database();
+        $db = Database::getInstance();
 
         $result = mysqli_fetch_array($db->readQuery($query));
 
@@ -134,10 +140,11 @@ class User
         $enPass = md5($password);
 
         $query = "UPDATE  `user` SET "
+            . "`show_password` ='" . $password . "', "
             . "`password` ='" . $enPass . "' "
             . "WHERE `id` = '" . $id . "'";
 
-        $db = new Database();
+        $db = Database::getInstance();
 
         $result = $db->readQuery($query);
 
@@ -155,7 +162,7 @@ class User
 
         $query = "SELECT * FROM `user` ";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
         while ($row = mysqli_fetch_array($result)) {
@@ -192,7 +199,7 @@ class User
 
         $query = "SELECT `id` FROM `user` WHERE `id`= '" . $id . "' AND `authToken`= '" . $authToken . "'";
 
-        $db = new Database();
+        $db = Database::getInstance();
 
         $result = mysqli_fetch_array($db->readQuery($query));
 
@@ -245,16 +252,23 @@ class User
 
         $query = "UPDATE  `user` SET "
             . "`name` ='" . $this->name . "', "
+            . "`code` ='" . $this->code . "', "
             . "`username` ='" . $this->username . "', "
             . "`type` ='" . $this->type . "', "
             . "`email` ='" . $this->email . "', "
             . "`company_id` ='" . $this->company_id . "', "
             . "`department_id` ='" . $this->department_id . "', "
             . "`image_name` ='" . $this->image_name . "', "
-            . "`phone` ='" . $this->phone . "'  "
-            . "WHERE `id` = '" . $this->id . "'";
+            . "`phone` ='" . $this->phone . "', "
+            . "`isActive` ='" . $this->isActive . "'";
 
-        $db = new Database();
+        if (!empty($this->password)) {
+            $query .= ", `show_password` ='" . $this->show_password . "', `password` ='" . $this->password . "'";
+        }
+
+        $query .= " WHERE `id` = '" . $this->id . "'";
+
+        $db = Database::getInstance();
 
         $result = $db->readQuery($query);
 
@@ -302,7 +316,7 @@ class User
 
         $query = "UPDATE `user` SET `authToken` ='" . $authToken . "' WHERE `id`='" . $id . "'";
 
-        $db = new Database();
+        $db = Database::getInstance();
 
         if ($db->readQuery($query)) {
             return $authToken;
@@ -323,7 +337,7 @@ class User
 
         $query = "UPDATE `user` SET `lastLogin` ='" . $now . "' WHERE `id`='" . $id . "'";
 
-        $db = new Database();
+        $db = Database::getInstance();
 
         if ($db->readQuery($query)) {
 
@@ -341,7 +355,7 @@ class User
 
         $query = "SELECT `email`,`username` FROM `user` WHERE `email`= '" . $email . "'";
 
-        $db = new Database();
+        $db = Database::getInstance();
 
         $result = mysqli_fetch_array($db->readQuery($query));
 
@@ -363,7 +377,7 @@ class User
             . "`resetcode` ='" . $rand . "' "
             . "WHERE `email` = '" . $email . "'";
 
-        $db = new Database();
+        $db = Database::getInstance();
 
         $result = $db->readQuery($query);
 
@@ -387,7 +401,7 @@ class User
 
             $query = "SELECT `email`,`username`,`resetcode` FROM `user` WHERE `email`= '" . $email . "'";
 
-            $db = new Database();
+            $db = Database::getInstance();
 
             $result = mysqli_fetch_array($db->readQuery($query));
 
@@ -404,7 +418,7 @@ class User
     public function SelectResetCode($code)
     {
         $query = "SELECT `id` FROM `user` WHERE `resetcode` = '" . $code . "' AND `resetcode` IS NOT NULL";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result && mysqli_num_rows($result) > 0) {
@@ -423,10 +437,11 @@ class User
         $enPass = md5($password);
 
         $query = "UPDATE  `user` SET "
+            . "`show_password` ='" . $password . "', "
             . "`password` ='" . $enPass . "' "
             . "WHERE `resetcode` = '" . $code . "'";
 
-        $db = new Database();
+        $db = Database::getInstance();
 
         $result = $db->readQuery($query);
 
@@ -443,7 +458,7 @@ class User
     public function getLastID()
     {
         $query = "SELECT * FROM `user` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }
@@ -451,7 +466,7 @@ class User
     public function getActiveUsers()
     {
         $query = "SELECT * FROM `user` WHERE `isActive` = 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
         while ($row = mysqli_fetch_array($result)) {
@@ -464,7 +479,7 @@ class User
     {
         $enPass = md5($password);
         $query = "SELECT `id` FROM `user` WHERE `id` = " . $this->id . " AND `password` = '" . $enPass . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result ? true : false;
     }
@@ -474,7 +489,7 @@ class User
     public function clearResetCode($code)
     {
         $query = "UPDATE `user` SET `resetcode` = NULL WHERE `resetcode` = '" . $code . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {

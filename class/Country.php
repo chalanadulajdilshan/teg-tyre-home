@@ -12,7 +12,7 @@ class Country
     {
         if ($id) {
             $query = "SELECT * FROM `country` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -32,7 +32,7 @@ class Country
             $this->code . "', '" .
             $this->name . "', '" . 
             $this->is_active . "', NOW())";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -49,7 +49,7 @@ class Country
             `name` = '" . $this->name . "',
             `is_active` = '" . $this->is_active . "'
             WHERE `id` = " . (int) $this->id;
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -63,7 +63,7 @@ class Country
     public function delete()
     {
         $query = "DELETE FROM `country` WHERE `id` = " . (int) $this->id;
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -71,7 +71,7 @@ class Country
     public function all()
     {
         $query = "SELECT * FROM `country` ORDER BY id ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -86,7 +86,7 @@ class Country
     public function getCountriesByType($type)
     {
         $query = 'SELECT * FROM `country` WHERE `type` = "' . $type . '" ORDER BY name ASC';
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -100,7 +100,7 @@ class Country
     public function getLastID()
     {
         $query = "SELECT * FROM `country` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }
@@ -108,7 +108,7 @@ class Country
     public function activeCountry()
     {
         $query = "SELECT * FROM `country` WHERE is_active = 1 ORDER BY name ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 

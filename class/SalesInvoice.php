@@ -14,6 +14,7 @@ class SalesInvoice
     public $customer_mobile;
     public $customer_address;
     public $recommended_person;
+    public $vehicle_no;
     public $department_id;
     public $sale_type;
     public $discount_type;
@@ -35,7 +36,7 @@ class SalesInvoice
     {
         if ($id) {
             $query = "SELECT * FROM `sales_invoice` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -51,6 +52,7 @@ class SalesInvoice
                 $this->customer_mobile = $result['customer_mobile'];
                 $this->customer_address = $result['customer_address'];
                 $this->recommended_person = $result['recommended_person'];
+                $this->vehicle_no = $result['vehicle_no'] ?? '';
                 $this->department_id = $result['department_id'];
                 $this->sale_type = $result['sale_type'];
                 $this->discount_type = $result['discount_type'];
@@ -74,18 +76,18 @@ class SalesInvoice
     public function create()
     {
         $query = "INSERT INTO `sales_invoice` (
-            `ref_id`,`invoice_type`,`invoice_no`, `invoice_date`, `company_id`, `customer_id`, `customer_name`, `customer_mobile`, `customer_address`, `recommended_person`, `department_id`, 
+            `ref_id`,`invoice_type`,`invoice_no`, `invoice_date`, `company_id`, `customer_id`, `customer_name`, `customer_mobile`, `customer_address`, `recommended_person`, `vehicle_no`, `department_id`, 
             `sale_type`, `discount_type`,`final_cost`, `payment_type`, `sub_total`, `discount`, 
             `tax`, `grand_total`, `outstanding_settle_amount`, `remark`, `credit_period`, `due_date`
         ) VALUES (
-            '{$this->ref_id}','{$this->invoice_type}', '{$this->invoice_no}', '{$this->invoice_date}', '{$this->company_id}', '{$this->customer_id}', '{$this->customer_name}', '{$this->customer_mobile}', '{$this->customer_address}', '{$this->recommended_person}', '{$this->department_id}', 
+            '{$this->ref_id}','{$this->invoice_type}', '{$this->invoice_no}', '{$this->invoice_date}', '{$this->company_id}', '{$this->customer_id}', '{$this->customer_name}', '{$this->customer_mobile}', '{$this->customer_address}', '{$this->recommended_person}', '{$this->vehicle_no}', '{$this->department_id}', 
             '{$this->sale_type}', '{$this->discount_type}', '{$this->final_cost}','{$this->payment_type}', '{$this->sub_total}', '{$this->discount}', 
             '{$this->tax}', '{$this->grand_total}', '{$this->outstanding_settle_amount}', '{$this->remark}', '{$this->credit_period}', '{$this->due_date}'
         )";
 
 
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -108,6 +110,7 @@ class SalesInvoice
             `customer_mobile` = '{$this->customer_mobile}', 
             `customer_address` = '{$this->customer_address}', 
             `recommended_person` = '{$this->recommended_person}', 
+            `vehicle_no` = '{$this->vehicle_no}', 
             `department_id` = '{$this->department_id}', 
             `sale_type` = '{$this->sale_type}', 
             `discount_type` = '{$this->discount_type}', 
@@ -119,7 +122,7 @@ class SalesInvoice
             `remark` = '{$this->remark}' 
             WHERE `id` = '{$this->id}'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -131,15 +134,15 @@ class SalesInvoice
 
     public function cancel()
     {
+
         // Check if invoice has been returned
         if ($this->is_return == 1) {
             return ['success' => false, 'reason' => 'returned', 'message' => 'Cannot cancel invoice that has been returned. Please process returns separately.'];
         }
-
         // Use prepared statement to prevent SQL injection
         $query = "UPDATE `sales_invoice` SET `is_cancel` = 1 WHERE `id` = $this->id";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query); // Assuming your Database class supports parameters
 
          if ($result) {
@@ -154,7 +157,7 @@ class SalesInvoice
     public function updateIsReturnFlag()
     {
         $query = "SELECT COUNT(*) as return_count FROM `sales_return` WHERE `invoice_id` = {$this->id}";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         
         $is_return = ($result['return_count'] > 0) ? 1 : 0;
@@ -172,7 +175,7 @@ class SalesInvoice
         $id = $invoiceId ?: $this->id;
         
         $query = "SELECT COUNT(*) as payment_count FROM `payment_receipt_method` WHERE `invoice_id` = {$id}";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         
         return ($result['payment_count'] > 0);
@@ -184,7 +187,7 @@ class SalesInvoice
     public function delete()
     {
         $query = "DELETE FROM `sales_invoice` WHERE `id` = '{$this->id}'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -192,7 +195,7 @@ class SalesInvoice
     public function all()
     {
         $query = "SELECT * FROM `sales_invoice` ORDER BY `invoice_date` DESC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -208,7 +211,7 @@ class SalesInvoice
 
 
 
-        $db = new Database();
+        $db = Database::getInstance();
         $conn = $db->DB_CON;
 
         $start = isset($request['start']) ? (int) $request['start'] : 0;
@@ -271,7 +274,7 @@ class SalesInvoice
     public function getLastID()
     {
         $query = "SELECT * FROM `sales_invoice` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
 
         if ($result && isset($result['id'])) {
@@ -284,7 +287,7 @@ class SalesInvoice
     public function getByID($id)
     {
         $query = "SELECT * FROM `sales_invoice` where `id` = '$id'";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
 
         if ($result && isset($result['id'])) {
@@ -300,7 +303,7 @@ class SalesInvoice
         $query = "SELECT * FROM `sales_invoice` where `invoice_no` = '$id' ";
 
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
 
         return ($result) ? true : false;
@@ -308,7 +311,7 @@ class SalesInvoice
 
     public static function filterSalesInvoices($filters)
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $conditions = [];
 
         // Customer filter
@@ -366,7 +369,7 @@ class SalesInvoice
 
     public static function getProfitTable($filters)
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $conditions = [];
 
         // Filter: Customer
@@ -461,8 +464,8 @@ class SalesInvoice
                  AND `customer_id` = $customer_id 
                  AND `grand_total` > `outstanding_settle_amount`      
                  AND `is_cancel`='0'
-                 ORDER BY `invoice_date` DESC";
-        $db = new Database();
+                 ORDER BY `invoice_date` ASC";
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -480,7 +483,7 @@ class SalesInvoice
               LEFT JOIN department_master dm ON si.department_id = dm.id
               ORDER BY si.id DESC 
         LIMIT 10";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -496,7 +499,7 @@ class SalesInvoice
     // Search invoices (invoice_no, customer, department)
     public function search($keyword)
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $keyword = $db->escapeString($keyword);
 
         $query = "SELECT si.*, dm.name as department_name 
@@ -528,7 +531,7 @@ class SalesInvoice
      */
     public function getSalesSummaryReport($filters = [])
     {
-        $db = new Database();
+        $db = Database::getInstance();
 
         // Base query
         $query = "SELECT 
@@ -537,6 +540,7 @@ class SalesInvoice
                     si.invoice_date as date,
                     si.customer_name as customer,
                     dm.name as department,
+                    si.tax as vat_amount,
                     si.grand_total as amount,
                     CASE 
                         WHEN si.sale_type = 1 THEN 'Cash Sale'
@@ -587,7 +591,8 @@ class SalesInvoice
             3 => 'customer',
             4 => 'dm.name',
             5 => 'sales_type',
-            6 => 'si.grand_total'
+            6 => 'si.tax',
+            7 => 'si.grand_total'
         ];
 
         if (isset($columnMap[$orderColumn])) {
@@ -606,16 +611,20 @@ class SalesInvoice
         $result = $db->readQuery($query);
         $data = [];
         $totalAmount = 0;
+        $totalVat = 0;
 
         while ($row = mysqli_fetch_assoc($result)) {
             $amount = (float)$row['amount'];
+            $vatAmount = (float)$row['vat_amount'];
             $totalAmount += $amount;
+            $totalVat += $vatAmount;
             $data[] = [
                 'id' => $row['id'],
                 'invoice_id' => $row['invoice_id'],
                 'date' => date('Y-m-d', strtotime($row['date'])),
                 'customer_name' => $row['customer'],
                 'department' => $row['department'],
+                'vat_amount' => $vatAmount,
                 'amount' => $amount, // Keep as number for DataTables
                 'formatted_amount' => number_format($amount, 2), // Add formatted version for display
                 'sales_type' => $row['sales_type'],
@@ -626,7 +635,8 @@ class SalesInvoice
         return [
             'data' => $data,
             'total_records' => $totalRecords,
-            'total_amount' => number_format($totalAmount, 2)
+            'total_amount' => round($totalAmount, 2),
+            'total_vat' => round($totalVat, 2)
         ];
     }
 
@@ -634,14 +644,14 @@ class SalesInvoice
     {
         $query = "UPDATE `sales_invoice` SET `outstanding_settle_amount` = `outstanding_settle_amount` + $amount WHERE `id` = $invoice_id";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         return ($result) ? true : false;
     }
 
     public function getMonthlyProfitByYear($year)
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $query = "SELECT 
                 MONTH(invoice_date) as month,
                 SUM(grand_total - final_cost) as total_profit
@@ -660,11 +670,35 @@ class SalesInvoice
         return $data;
     }
 
+    /**
+     * Get monthly sales totals by year
+     */
+    public function getMonthlySalesByYear($year)
+    {
+        $db = Database::getInstance();
+        $query = "SELECT 
+                MONTH(invoice_date) as month,
+                SUM(grand_total) as total_sales
+              FROM sales_invoice
+              WHERE YEAR(invoice_date) = '" . $db->escapeString($year) . "'
+              AND is_cancel = 0
+              GROUP BY MONTH(invoice_date)";
+
+        $result = $db->readQuery($query);
+        $data = [];
+        if ($result) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $data[] = $row;
+            }
+        }
+        return $data;
+    }
+
     // Get invoice by invoice number
     public function getInvoiceByNo($invoice_no)
     {
         $query = "SELECT * FROM `sales_invoice` WHERE `invoice_no` = '{$invoice_no}' LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result;
     }
@@ -683,7 +717,7 @@ class SalesInvoice
                   WHERE (sii.quantity - COALESCE(returned_totals.returned_quantity, 0)) > 0
                   ORDER BY si.invoice_date DESC";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 

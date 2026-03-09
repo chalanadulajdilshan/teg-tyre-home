@@ -29,10 +29,10 @@ try {
             throw new Exception('Both from date and to date are required when filtering by date');
         }
 
-        $db = new Database();
+        $db = Database::getInstance();
 
-        // Build the base query for sales invoices
-        $query = "SELECT 
+        // Build the base query for sales invoices with old outstanding
+        $query = "SELECT
                     si.invoice_no,
                     si.invoice_date,
                     si.customer_name,
@@ -41,12 +41,13 @@ try {
                     (si.grand_total - COALESCE(si.outstanding_settle_amount, 0)) as outstanding,
                     si.due_date,
                     DATEDIFF(si.due_date, CURDATE()) as days_until_due,
-                    cm.mobile_number
-                  FROM 
+                    cm.mobile_number,
+                    cm.old_outstanding
+                  FROM
                     sales_invoice si
-                  LEFT JOIN 
+                  LEFT JOIN
                     customer_master cm ON si.customer_id = cm.id
-                  WHERE 
+                  WHERE
                     si.status = 'active' AND
                     si.grand_total > 0 AND
                     si.is_cancel = 0 AND
@@ -80,6 +81,7 @@ try {
                 'invoice_amount' => (float)$row['invoice_amount'],
                 'paid_amount' => (float)$row['paid_amount'],
                 'outstanding' => (float)$row['outstanding'],
+                'old_outstanding' => (float)$row['old_outstanding'],
                 'due_date' => $row['due_date'],
                 'days_until_due' => (int)$row['days_until_due']
             ];

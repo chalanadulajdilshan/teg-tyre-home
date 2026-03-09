@@ -10,7 +10,7 @@ class Permission
     {
         if ($id) {
             $query = "SELECT `id`, `permission_name` FROM `permissions` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -24,7 +24,7 @@ class Permission
     public function create()
     {
         $query = "INSERT INTO `permissions` (`permission_name`) VALUES ('" . $this->permission_name . "')";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -38,7 +38,7 @@ class Permission
     public function update()
     {
         $query = "UPDATE `permissions` SET `permission_name` = '" . $this->permission_name . "' WHERE `id` = " . (int) $this->id;
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -52,7 +52,7 @@ class Permission
     public function delete()
     {
         $query = "DELETE FROM `permissions` WHERE `id` = " . (int) $this->id;
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -60,7 +60,7 @@ class Permission
     public function all()
     {
         $query = "SELECT `id`, `permission_name` FROM `permissions` ORDER BY `permission_name` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 

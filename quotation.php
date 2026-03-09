@@ -197,24 +197,6 @@ $quotation_id = $COMPANY_PROFILE_DETAILS->company_code . '/QUO/00/0' . ($lastId 
                                             </div>
 
                                             <div class="col-md-3">
-                                                <label for="vat_type" class="form-label">Vat Type</label>
-                                                <div class="input-group mb-3">
-                                                    <select id="vat_type" name="vat_type" class="form-select">
-
-                                                        <?php
-                                                        $VAT_TYPE = new VatType(NULL);
-                                                        foreach ($VAT_TYPE->all() as $vat_type) {
-                                                            ?>
-                                                            <option value="<?php echo $vat_type['id'] ?>">
-                                                                <?php echo $vat_type['name'] ?>
-                                                            </option>
-                                                        <?php } ?>
-
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-3">
                                                 <label for="department_id" class="form-label">Department</label>
                                                 <div class="input-group mb-3">
                                                     <select id="department_id" name="department_id" class="form-select">
@@ -243,23 +225,6 @@ $quotation_id = $COMPANY_PROFILE_DETAILS->company_code . '/QUO/00/0' . ($lastId 
                                             </div>
 
                                             <div class="col-md-3">
-                                                <label for="sales_type" class="form-label">Sales Type</label>
-                                                <div class="input-group mb-3">
-                                                    <select id="sales_type" name="sales_type" class="form-select">
-                                                        <?php
-                                                        $SALES_TYPE = new SalesType(NULL);
-                                                        foreach ($SALES_TYPE->getSalesTypeByStatus(1) as $sales_type) {
-                                                            ?>
-                                                            <option value="<?php echo $sales_type['id'] ?>">
-                                                                <?php echo $sales_type['name'] ?>
-                                                            </option>
-                                                        <?php } ?>
-
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-3">
                                                 <label for="payment_type" class="form-label">Payment Type</label>
                                                 <div class="input-group mb-3">
                                                     <select id="payment_type" name="payment_type" class="form-select">
@@ -275,25 +240,33 @@ $quotation_id = $COMPANY_PROFILE_DETAILS->company_code . '/QUO/00/0' . ($lastId 
                                                 </div>
                                             </div>
 
-
-                                            <div class="col-md-3">
-                                                <label for="payment_type" class="form-label">Marketing Executive
-                                                </label>
+                                            <div class="col-md-2">
+                                                <label for="is_vat_invoice" class="form-label">VAT Invoice</label>
                                                 <div class="input-group mb-3">
-                                                    <select id="marketing_executive_id" name="marketing_executive_id"
-                                                        class="form-select">
-
-                                                        <?php
-                                                        $MARKETING_EXECUTIVE = new MarketingExecutive(NULL);
-                                                        foreach ($MARKETING_EXECUTIVE->getActiveExecutives() as $marketing_executive) {
-                                                            ?>
-                                                            <option value="<?php echo $marketing_executive['id'] ?>">
-                                                                <?php echo $marketing_executive['full_name'] ?>
-                                                            </option>
-                                                        <?php } ?>
-                                                    </select>
+                                                    <div class="form-check form-switch mt-2">
+                                                        <input class="form-check-input" type="checkbox" id="is_vat_invoice" name="is_vat_invoice" value="1">
+                                                        <label class="form-check-label" for="is_vat_invoice">
+                                                            Apply VAT
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
+
+                                            <div class="col-md-3" hidden>
+                                                <label for="vat_no" class="form-label">VAT No</label>
+                                                <div class="input-group mb-3">
+                                                    <?php
+                                                    $COMPANY_PROFILE = new CompanyProfile(null);
+                                                    $active_company = $COMPANY_PROFILE->getActiveCompany();
+                                                    $vat_number = !empty($active_company) ? $active_company[0]['vat_number'] : '';
+                                                    $vat_percentage = !empty($active_company) ? $active_company[0]['vat_percentage'] : '';
+                                                    ?>
+                                                    <input id="vat_no" name="vat_no" type="text"
+                                                        class="form-control" value="<?php echo htmlspecialchars($vat_number); ?>" readonly>
+                                                </div>
+                                            </div>
+
+                                            <input type="hidden" id="vat_percentage" name="vat_percentage" value="<?php echo htmlspecialchars($vat_percentage); ?>" />
 
                                             <div class="col-12">
                                                 <label for="remark" class="form-label">Remark Note</label>
@@ -316,7 +289,6 @@ $quotation_id = $COMPANY_PROFILE_DETAILS->company_code . '/QUO/00/0' . ($lastId 
 
                                             <h5 class="mb-3">Add Quotation Items</h5>
 
-
                                             <div class="row align-items-end">
                                                 <div class="col-md-2">
                                                     <label for="itemCode" class="form-label">Item Code</label>
@@ -325,6 +297,19 @@ $quotation_id = $COMPANY_PROFILE_DETAILS->company_code . '/QUO/00/0' . ($lastId 
                                                             placeholder="Item Code" readonly>
                                                         <button class="btn btn-info" type="button"
                                                             data-bs-toggle="modal" data-bs-target="#item_master">
+                                                            <i class="uil uil-search me-1"></i>
+                                                        </button>
+                                                        <?php
+                                                        $hasViewAllItemsPermission = false;
+                                                        if (isset($_SESSION['id'])) {
+                                                            $specialPermission = new SpecialUserPermission();
+                                                            $hasViewAllItemsPermission = $specialPermission->hasAccess($_SESSION['id'], 'view_all_items');
+                                                        }
+                                                        ?>
+                                                        <button class="btn btn-danger view-all-items-btn" type="button"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#all_item_master"
+                                                            style="display: <?php echo $hasViewAllItemsPermission ? 'inline-block' : 'none'; ?>">
                                                             <i class="uil uil-search me-1"></i>
                                                         </button>
                                                     </div>
@@ -336,29 +321,29 @@ $quotation_id = $COMPANY_PROFILE_DETAILS->company_code . '/QUO/00/0' . ($lastId 
                                                         placeholder="Name" readonly>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <label class="form-label">Price</label>
+                                                    <label class="form-label">List Price</label>
                                                     <input type="number" id="itemPrice" class="form-control"
                                                         placeholder="Price" oninput="calculatePayment()">
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <label class="form-label">Cost</label>
+                                                    <input type="text" id="itemCost" class="form-control"
+                                                        placeholder="Cost" disabled>
                                                 </div>
                                                 <div class="col-md-1">
                                                     <label class="form-label">Qty</label>
                                                     <input type="number" id="itemQty" class="form-control"
                                                         placeholder="Qty" oninput="calculatePayment()">
                                                 </div>
-                                                <div class="col-md-2 cus_width">
-                                                    <label class="form-label">Discount (%)</label>
-                                                    <input type="number" id="itemDiscount" class="form-control"
-                                                        placeholder="Discount" oninput="calculatePayment()">
+                                                <div class="col-md-1">
+                                                    <label class="form-label">Dis Amount</label>
+                                                    <input type="number" id="itemDiscount" class="form-control" min="0"
+                                                        placeholder="Dis Amount" oninput="calculatePayment()">
                                                 </div>
-                                                <div class="col-md-2 cus_width hidden cus_width_hidden">
-                                                    <label class="form-label">Vat Amount</label>
-                                                    <input type="text" id="vat_amount" class="form-control"
-                                                        placeholder="Vat Amount" readonly>
-                                                </div>
-                                                <div class="col-md-2 cus_width">
-                                                    <label class="form-label">Total Amount</label>
-                                                    <input type="text" id="itemPayment" class="form-control"
-                                                        placeholder="Total Amount" readonly>
+                                                <div class="col-md-2">
+                                                    <label class="form-label">Selling Price</label>
+                                                    <input type="number" id="itemSalePrice" class="form-control" min="0"
+                                                        placeholder="Sale Price" oninput="calculatePayment()">
                                                 </div>
                                                 <div class="col-md-1">
                                                     <button type="button" class="btn btn-success w-100"
@@ -366,6 +351,9 @@ $quotation_id = $COMPANY_PROFILE_DETAILS->company_code . '/QUO/00/0' . ($lastId 
                                                 </div>
                                             </div>
 
+                                            <!-- Hidden fields for item data -->
+                                            <input type="hidden" id="arn_no">
+                                            <input type="hidden" id="available_qty">
 
                                             <!-- Table -->
                                             <div class="table-responsive mt-4">
@@ -374,11 +362,10 @@ $quotation_id = $COMPANY_PROFILE_DETAILS->company_code . '/QUO/00/0' . ($lastId 
                                                         <tr>
                                                             <th>Code</th>
                                                             <th>Name</th>
-                                                            <th>Price</th>
+                                                            <th>List Price</th>
                                                             <th>Qty</th>
                                                             <th>Discount</th>
-                                                            <th>Amount</th>
-                                                            <th class="th_vat hidden">Vat Amount</th>
+                                                            <th>Selling Price</th>
                                                             <th>Total</th>
                                                             <th>Action</th>
                                                         </tr>
@@ -587,6 +574,7 @@ $quotation_id = $COMPANY_PROFILE_DETAILS->company_code . '/QUO/00/0' . ($lastId 
     <script src="assets/libs/jquery/jquery.min.js"></script>
     <!-- /////////////////////////// -->
     <script src="ajax/js/quotation.js"></script>
+    <script src="ajax/js/common.js"></script>
 
 
     <!-- include main js  -->
@@ -597,7 +585,6 @@ $quotation_id = $COMPANY_PROFILE_DETAILS->company_code . '/QUO/00/0' . ($lastId 
 
     <script>
         $('#quotation_table').DataTable();
-        $('#customerTable').DataTable();    
     </script>
 
 </body>

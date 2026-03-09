@@ -13,7 +13,7 @@ class ServiceIncome
     {
         if ($id) {
             $query = "SELECT * FROM `service_income` WHERE `id` = " . (int)$id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -36,7 +36,7 @@ class ServiceIncome
                     '{$this->remark}', 
                     NOW()
                   )";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query) ? mysqli_insert_id($db->DB_CON) : false;
     }
 
@@ -49,21 +49,21 @@ class ServiceIncome
                     `remark` = '{$this->remark}'
                   WHERE `id` = '{$this->id}'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function delete()
     {
         $query = "DELETE FROM `service_income` WHERE `id` = '{$this->id}'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function all()
     {
         $query = "SELECT * FROM `service_income` ORDER BY `created_at` DESC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 
@@ -77,7 +77,7 @@ class ServiceIncome
     public function getLastID()
     {
         $query = "SELECT * FROM `service_income` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }

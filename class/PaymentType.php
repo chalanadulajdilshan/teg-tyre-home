@@ -13,7 +13,7 @@ class PaymentType
     {
         if ($id) {
             $query = "SELECT * FROM `payment_type` WHERE `id` = " . (int)$id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -34,7 +34,7 @@ class PaymentType
                     '" . $this->is_active . "')";
 
                    
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -54,7 +54,7 @@ class PaymentType
                   WHERE `id` = '" . $this->id . "'";
 
        
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -68,7 +68,7 @@ class PaymentType
     public function delete()
     {
         $query = "DELETE FROM `payment_type` WHERE `id` = '" . $this->id . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -76,7 +76,7 @@ class PaymentType
     public function all()
     {
         $query = "SELECT * FROM `payment_type` ORDER BY `queue` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -90,7 +90,7 @@ class PaymentType
     public function getActivePaymentType()
     {
         $query = "SELECT * FROM `payment_type` Where is_active = 1 ORDER BY `queue` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 

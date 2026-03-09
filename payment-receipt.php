@@ -165,7 +165,7 @@ $payment_receipt_id = $COMPANY_PROFILE_DETAILS->company_code . '/CPR/00/0' . ($l
                                                     <label for="remark" class="form-label"># Enter Remark</label>
                                                     <div class="input-group mb-3">
                                                         <input id="remark" name="remark" type="text"
-                                                            class="form-control" placeholder="">
+                                                            class="form-control" placeholder="Enter Remark">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
@@ -472,36 +472,7 @@ $payment_receipt_id = $COMPANY_PROFILE_DETAILS->company_code . '/CPR/00/0' . ($l
             </div>
             <!-- model close here -->
 
-            <div id="customerModal" class="modal fade bs-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="ModalLabel">Manage Customers</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-12">
-                                    <table id="customerTable" class="table table-bordered dt-responsive nowrap w-100">
-                                        <thead>
-                                            <tr>
-                                                <th>#ID</th>
-                                                <th>Code</th>
-                                                <th>Name</th>
-                                                <th>Mobile Number</th>
-                                                <th>Email</th> 
-                                                <th>Outstanding</th>
-
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          
 
             <div id="paymentReceiptModal" class="modal fade bs-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl">
@@ -514,7 +485,8 @@ $payment_receipt_id = $COMPANY_PROFILE_DETAILS->company_code . '/CPR/00/0' . ($l
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <table id="paymentReceiptTable" class="table table-bordered dt-responsive nowrap w-100">
+                                    <table class="datatable table table-bordered dt-responsive nowrap"
+                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
                                                 <th>#ID</th>

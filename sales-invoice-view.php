@@ -130,7 +130,8 @@ $CUSTOMER = new CustomerMaster($SALES_INVOICE->customer_id);
                                                 <label for="InvoiceCode" class="form-label">Invoice No</label>
                                                 <div class="input-group mb-3">
                                                     <input id="invoice_no" name="invoice_no" type="text"
-                                                        class="form-control" value="<?php echo $SALES_INVOICE->invoice_no ?>" readonly>
+                                                        class="form-control"
+                                                        value="<?php echo $SALES_INVOICE->invoice_no ?>" readonly>
                                                     <!-- <button class="btn btn-info" type="button" data-bs-toggle="modal"
                                                         data-bs-target="#invoiceModal">
                                                         <i class="uil uil-search me-1"></i>
@@ -157,7 +158,8 @@ $CUSTOMER = new CustomerMaster($SALES_INVOICE->customer_id);
                                             <div class="col-md-2">
                                                 <label for="customerCode" class="form-label">Customer Code</label>
                                                 <div class="input-group mb-3">
-                                                    <input id="customer_code" name="customer_code" value="<?php echo $CUSTOMER->code ?>" type="text"
+                                                    <input id="customer_code" name="customer_code"
+                                                        value="<?php echo $CUSTOMER->code ?>" type="text"
                                                         class="form-control" readonly>
                                                 </div>
                                             </div>
@@ -165,9 +167,11 @@ $CUSTOMER = new CustomerMaster($SALES_INVOICE->customer_id);
 
 
                                             <div class="col-md-3">
-                                                <label for="customerName" class="form-label">Customer Name <span class="text-danger">*</span></label>
+                                                <label for="customerName" class="form-label">Customer Name <span
+                                                        class="text-danger">*</span></label>
                                                 <div class="input-group mb-3">
-                                                    <input id="customer_name" name="customer_name" value="<?php echo $CUSTOMER->name ?>" type="text"
+                                                    <input id="customer_name" name="customer_name"
+                                                        value="<?php echo $CUSTOMER->name ?>" type="text"
                                                         class="form-control" placeholder="Enter Customer Name">
                                                 </div>
                                             </div>
@@ -176,7 +180,8 @@ $CUSTOMER = new CustomerMaster($SALES_INVOICE->customer_id);
                                                 <label for="customerAddress" class="form-label">Customer
                                                     Address</label>
                                                 <div class="input-group mb-3">
-                                                    <input id="customer_address" name="customer_address" value="<?php echo $CUSTOMER->address ?>" type="text"
+                                                    <input id="customer_address" name="customer_address"
+                                                        value="<?php echo $CUSTOMER->address ?>" type="text"
                                                         class="form-control" placeholder="Enter customer address">
                                                 </div>
                                             </div>
@@ -184,7 +189,8 @@ $CUSTOMER = new CustomerMaster($SALES_INVOICE->customer_id);
                                             <div class="col-md-2">
                                                 <label for="mobileNumber" class="form-label">Mobile Number</label>
                                                 <div class="input-group mb-3">
-                                                    <input id="customer_mobile" name="customer_mobile" value="<?php echo $CUSTOMER->mobile_number ?>" type="text"
+                                                    <input id="customer_mobile" name="customer_mobile"
+                                                        value="<?php echo $CUSTOMER->mobile_number ?>" type="text"
                                                         class="form-control" placeholder="Enter Mobile Number">
                                                 </div>
                                             </div>
@@ -213,25 +219,14 @@ $CUSTOMER = new CustomerMaster($SALES_INVOICE->customer_id);
                                             </div>
 
 
-                                            <div class="col-md-3">
-                                                <label for="customerCode" class="form-label">Dag Ref No</label>
-                                                <div class="input-group mb-3">
-                                                    <input id="ref_no" name="ref_no" type="text" class="form-control"
-                                                        placeholder="Select Dag Ref No" readonly>
-                                                    <button class="btn btn-info" type="button" data-bs-toggle="modal"
-                                                        data-bs-target="#dagModel">
-                                                        <i class="uil uil-search me-1"></i>
-                                                    </button>
-                                                </div>
 
-                                                <input type="hidden" id="dag_id" name="dag_id" />
-                                            </div>
 
                                             <div class="col-md-3 hidden">
                                                 <label for="quotationCode" class="form-label">Quotation ref No</label>
                                                 <div class="input-group mb-3">
                                                     <input id="quotation_ref_no" name="quotation_ref_no" type="text"
-                                                        class="form-control" placeholder="Select Quotation ref No" readonly>
+                                                        class="form-control" placeholder="Select Quotation ref No"
+                                                        readonly>
 
                                                 </div>
                                                 <input type="hidden" id="quotation_id" name="quotation_id" />
@@ -293,18 +288,36 @@ $CUSTOMER = new CustomerMaster($SALES_INVOICE->customer_id);
                                                             <th>Price</th>
                                                             <th>Qty</th>
                                                             <th>Discount</th>
+                                                            <th>Sell Price</th>
+                                                            <th>Serial No</th>
+                                                            <?php if ($SALES_INVOICE->tax > 0): ?>
+                                                                <th>VAT</th>
+                                                            <?php endif; ?>
                                                             <th>Total</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="invoiceItemsBody">
-                                                        <?php foreach ($SALES_INVOICE_ITEMS->getItemsByInvoiceId($invoice_id) as $item) { ?>
+                                                        <?php
+                                                        $vat_percentage = $COMPANY_PROFILE_DETAILS->vat_percentage;
+                                                        foreach ($SALES_INVOICE_ITEMS->getItemsByInvoiceId($invoice_id) as $item) {
+                                                            $item_vat = 0;
+                                                            if ($SALES_INVOICE->tax > 0) {
+                                                                $item_vat = $item['total'] * ($vat_percentage / (100 + $vat_percentage));
+                                                            }
+                                                            ?>
                                                             <tr>
-                                                                <td><?php echo $item['item_code'] ?></td>
-                                                                <td><?php echo $item['item_name'] ?></td>
-                                                                <td><?php echo $item['price'] ?></td>
+                                                                <td><?php echo $item['item_code_name'] ?></td>
+                                                                <td><?php echo $item['display_name'] ?></td>
+                                                                <td><?php echo number_format($item['list_price'] ?: $item['price'], 2) ?>
+                                                                </td>
                                                                 <td><?php echo $item['quantity'] ?></td>
-                                                                <td><?php echo $item['discount'] ?></td>
-                                                                <td><?php echo $item['total'] ?></td>
+                                                                <td><?php echo number_format($item['discount'], 2) ?></td>
+                                                                <td><?php echo number_format($item['price'], 2) ?></td>
+                                                                <td><?php echo $item['serial_no'] ?></td>
+                                                                <?php if ($SALES_INVOICE->tax > 0): ?>
+                                                                    <td><?php echo number_format($item_vat, 2) ?></td>
+                                                                <?php endif; ?>
+                                                                <td><?php echo number_format($item['total'], 2) ?></td>
 
                                                             </tr>
                                                         <?php } ?>
@@ -339,7 +352,9 @@ $CUSTOMER = new CustomerMaster($SALES_INVOICE->customer_id);
                                                                 <select class="form-control">
                                                                     <option>-- Select Remark --</option>
                                                                     <?php if (!empty($SALES_INVOICE->remark)) { ?>
-                                                                        <option value="1"><?php echo $SALES_INVOICE->remark; ?></option>
+                                                                        <option value="1">
+                                                                            <?php echo $SALES_INVOICE->remark; ?>
+                                                                        </option>
                                                                     <?php } ?>
                                                                 </select>
                                                             </div>
@@ -362,7 +377,8 @@ $CUSTOMER = new CustomerMaster($SALES_INVOICE->customer_id);
                                                             </div>
                                                             <div class="col-5">
                                                                 <input type="text" class="form-control" id="subTotal"
-                                                                    value="<?php echo $SALES_INVOICE->sub_total ?>" disabled>
+                                                                    value="<?php echo $SALES_INVOICE->sub_total ?>"
+                                                                    disabled>
                                                             </div>
                                                         </div>
 
@@ -373,7 +389,8 @@ $CUSTOMER = new CustomerMaster($SALES_INVOICE->customer_id);
                                                             </div>
                                                             <div class="col-5">
                                                                 <input type="text" class="form-control" id="disTotal"
-                                                                    value="<?php echo $SALES_INVOICE->discount ?>" disabled>
+                                                                    value="<?php echo $SALES_INVOICE->discount ?>"
+                                                                    disabled>
                                                             </div>
                                                         </div>
 
@@ -395,7 +412,9 @@ $CUSTOMER = new CustomerMaster($SALES_INVOICE->customer_id);
                                                             </div>
                                                             <div class="col-5">
                                                                 <input type="text" class="form-control  fw-bold"
-                                                                    id="finalTotal" value="<?php echo $SALES_INVOICE->grand_total ?>" disabled>
+                                                                    id="finalTotal"
+                                                                    value="<?php echo $SALES_INVOICE->grand_total ?>"
+                                                                    disabled>
                                                             </div>
                                                         </div>
                                                     </div>

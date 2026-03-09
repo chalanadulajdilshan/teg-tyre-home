@@ -18,6 +18,147 @@ if (isset($_POST['action']) && $_POST['action'] == 'loard_price_Control') {
     exit;
 }
 
+// Handle monthly sales data request
+if (isset($_POST['action']) && $_POST['action'] === 'get_monthly_sales') {
+    try {
+        $year = isset($_POST['year']) ? (int)$_POST['year'] : date('Y');
+
+        $salesInvoice = new SalesInvoice();
+        $monthlySales = $salesInvoice->getMonthlySalesByYear($year);
+
+        $salesMap = [];
+        foreach ($monthlySales as $row) {
+            $salesMap[$row['month']] = (float)$row['total_sales'];
+        }
+
+        $data = [];
+        $monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+        for ($m = 1; $m <= 12; $m++) {
+            $data[] = [
+                'month' => $monthNames[$m - 1],
+                'value' => round($salesMap[$m] ?? 0)
+            ];
+        }
+
+        echo json_encode([
+            'status' => 'success',
+            'data' => $data
+        ]);
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Failed to load monthly sales data: ' . $e->getMessage()
+        ]);
+    }
+    exit;
+}
+
+// Summary cards data (current month)
+if (isset($_POST['action']) && $_POST['action'] === 'get_dashboard_cards') {
+    try {
+        $db = Database::getInstance();
+        $year = date('Y');
+        $month = date('m');
+        $fromDate = date('Y-m-01');
+        $toDate = date('Y-m-d');
+
+        // Sales + profit per item (same as profit report)
+        $filters = [
+            'from_date' => $fromDate,
+            'to_date' => $toDate,
+            'all_customers' => 1
+        ];
+        $salesInvoice = new SalesInvoice();
+        $items = $salesInvoice->getProfitTable($filters);
+
+        $salesTotal = 0; // gross selling
+        $profitTotal = 0; // item_profit sum
+        foreach ($items as $row) {
+            $salesTotal += (float)($row['selling_price'] ?? 0);
+            $profitTotal += (float)($row['profit'] ?? 0);
+        }
+
+        // Expenses (month to date)
+        $expense = new Expense();
+        $monthlyExpenses = $expense->getTotalExpensesByDateRange($fromDate, $toDate);
+
+        // Returns (month to date)
+        $salesReturn = new SalesReturn();
+        $monthlyReturns = $salesReturn->getTotalReturnsByDateRange($fromDate, $toDate);
+
+        // Daily income (month to date)
+        $dailyIncome = new DailyIncome();
+        $monthlyDailyIncome = $dailyIncome->getTotalIncome($fromDate, $toDate);
+
+        // Final profit matches profit report: profit - returns - expenses + daily income
+        $finalProfit = $profitTotal - $monthlyReturns - $monthlyExpenses + $monthlyDailyIncome;
+
+        // Net sales after returns
+        $netSales = $salesTotal - $monthlyReturns;
+
+        // Total stock (sum quantities)
+        $stockSql = "SELECT IFNULL(SUM(quantity),0) AS qty FROM stock_master WHERE is_active = 1";
+        $stockRes = mysqli_fetch_assoc($db->readQuery($stockSql));
+        $totalStock = (float)($stockRes['qty'] ?? 0);
+
+        echo json_encode([
+            'status' => 'success',
+            'data' => [
+                'monthly_sales' => round($netSales),
+                'monthly_sales_gross' => round($salesTotal),
+                'monthly_expenses' => round($monthlyExpenses),
+                'monthly_returns' => round($monthlyReturns),
+                'monthly_daily_income' => round($monthlyDailyIncome),
+                'monthly_profit' => round($finalProfit),
+                'total_stock' => round($totalStock)
+            ]
+        ]);
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Failed to load dashboard cards: ' . $e->getMessage()
+        ]);
+    }
+    exit;
+}
+
+//load all active brand items (for pre-invoice)
+if (isset($_POST['action']) && $_POST['action'] == 'load_all_active_items') {
+
+    $category_id = $_POST['category_id'] ?? 0;
+    $brand_id = $_POST['brand_id'] ?? 0;
+    $group_id = $_POST['group_id'] ?? 0;
+    $item_code = $_POST['item_code'] ?? '';
+
+    $ITEM = new ItemMaster(NULL);
+    $items = $ITEM->getItemsByActiveBrands($category_id, $brand_id, $group_id, $item_code);
+
+    echo json_encode($items);
+    exit;
+}
+
+//check pre-invoice pending qty for an item (used during GRN entry)
+if (isset($_POST['action']) && $_POST['action'] == 'check_pre_invoice_qty') {
+    $item_id = isset($_POST['item_id']) ? (int)$_POST['item_id'] : 0;
+    $pre_invoice_qty = 0;
+
+    if ($item_id > 0) {
+        $db = Database::getInstance();
+        $query = "SELECT SUM(remaining_qty) as total_remaining FROM `pre_invoice_pending` WHERE `item_id` = '{$item_id}' AND `remaining_qty` > 0";
+        $result = $db->readQuery($query);
+        if ($result) {
+            $row = mysqli_fetch_assoc($result);
+            $pre_invoice_qty = (float)($row['total_remaining'] ?? 0);
+        }
+    }
+
+    echo json_encode(['pre_invoice_qty' => $pre_invoice_qty]);
+    exit;
+}
+
 //profit table load
 if (isset($_POST['action']) && $_POST['action'] === 'load_profit_report') {
     // Collect filters into an array

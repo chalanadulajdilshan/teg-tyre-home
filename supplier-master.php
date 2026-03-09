@@ -14,7 +14,7 @@ $customer_id = 'SM/' . $_SESSION['id'] . '/0' . ($lastId + 1);
 <head>
 
     <meta charset="utf-8" />
-    <title>Customer Master | <?php echo $COMPANY_PROFILE_DETAILS->name ?></title>
+    <title>Supplier Master | <?php echo $COMPANY_PROFILE_DETAILS->name ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="#" name="description" />
     <meta content="<?php echo $COMPANY_PROFILE_DETAILS->name ?>" name="author" />
@@ -105,9 +105,7 @@ $customer_id = 'SM/' . $_SESSION['id'] . '/0' . ($lastId + 1);
                                                         to add items
                                                     </p>
                                                 </div>
-                                                <div class="flex-shrink-0">
-                                                    <i class="mdi mdi-chevron-up accor-down-icon font-size-24"></i>
-                                                </div>
+
 
                                             </div>
 
@@ -118,13 +116,13 @@ $customer_id = 'SM/' . $_SESSION['id'] . '/0' . ($lastId + 1);
                                         <form id="form-data" autocomplete="off">
                                             <div class="row">
                                                 <!-- Customer Code -->
-                                                <div class="col-md-2">
+                                                <div class="col-md-3">
                                                     <label for="customerCode" class="form-label">Supplier Code</label>
                                                     <div class="input-group mb-3">
                                                         <input id="code" name="code" type="text" class="form-control"
                                                             value="<?php echo $customer_id ?>" readonly>
                                                         <button class="btn btn-info" type="button"
-                                                            data-bs-toggle="modal" data-bs-target="#AllSupplierModal"><i
+                                                            data-bs-toggle="modal" data-bs-target="#supplierModal"><i
                                                                 class="uil uil-search me-1"></i>
                                                         </button>
                                                     </div>
@@ -132,21 +130,16 @@ $customer_id = 'SM/' . $_SESSION['id'] . '/0' . ($lastId + 1);
 
                                                 <!-- Full Name -->
                                                 <div class="col-md-3">
-                                                    <label for="fullName" class="form-label">Company Name <span
+                                                    <label for="fullName" class="form-label">Supplier Name<span
                                                             class="text-danger">*</span></label>
                                                     <input id="name" name="name" onkeyup="toUpperCaseInput(this)" type="text" class="form-control"
-                                                        placeholder="Enter company name">
-                                                </div>
-
-                                                <!-- Name 2 -->
-                                                <div class="col-md-3">
-                                                    <label for="name2" class="form-label">Supplier Name</label>
-                                                    <input id="name_2" name="name_2" onkeyup="toUpperCaseInput(this)" type="text" class="form-control"
                                                         placeholder="Enter supplier name">
                                                 </div>
 
+
+
                                                 <!-- Address -->
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <label for="address" class="form-label">Address <span
                                                             class="text-danger">*</span></label>
                                                     <input id="address" onkeyup="toUpperCaseInput(this)" name="address" type="text" class="form-control"
@@ -186,7 +179,7 @@ $customer_id = 'SM/' . $_SESSION['id'] . '/0' . ($lastId + 1);
                                                 </div>
 
                                                 <!-- Contact Person No -->
-                                                <div class="col-md-3 mt-3">
+                                                <div class="col-md-3  ">
                                                     <label for="contact_person_number" class="form-label">Contact Person
                                                         No
                                                     </label>
@@ -194,94 +187,29 @@ $customer_id = 'SM/' . $_SESSION['id'] . '/0' . ($lastId + 1);
                                                         type="tel" class="form-control"
                                                         placeholder="Enter contact person number" pattern="[0-9]{10}" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                                                 </div>
+
+
+                                                <!-- Credit Info -->
+                                                <div class="col-md-3 mt-3">
+                                                    <label for="credit_limit" class="form-label">Credit Limit</label>
+                                                    <input id="credit_limit" name="credit_limit" type="text"
+                                                        class="form-control" placeholder="Enter credit limit">
+                                                </div>
+                                                <div class="col-md-3 mt-3">
+                                                    <label for="outstanding" class="form-label">Outstanding Balance</label>
+                                                    <input id="outstanding" name="outstanding" type="text"
+                                                        class="form-control" placeholder="Enter outstanding balance">
+                                                </div>
+
                                                 <div class="col-md-1 mt-5 d-flex justify-content-center align-items-center">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="checkbox" id="is_active"
-                                                            name="is_active">
+                                                            name="is_active" checked>
                                                         <label class="form-check-label" for="is_active">
                                                             Active
                                                         </label>
                                                     </div>
                                                 </div>
-
-                                                <hr class="mt-3">
-                                                <!-- Credit Info -->
-                                                <div class="col-md-4 mt-3">
-                                                    <label for="credit_limit" class="form-label">Credit Limit</label>
-                                                    <input id="credit_limit" name="credit_limit" type="number"
-                                                        class="form-control" placeholder="Enter credit limit">
-                                                </div>
-                                                <div class="col-md-4 mt-3">
-                                                    <label for="outstanding" class="form-label">Outstanding Balance</label>
-                                                    <input id="outstanding" name="outstanding" type="number"
-                                                        class="form-control" placeholder="Enter outstanding balance">
-                                                </div>
-                                                <div class="col-md-4 mt-3" style="display: none;">
-                                                    <label for="overdue" class="form-label">Overdue</label>
-                                                    <input id="overdue" name="overdue" type="number" class="form-control"
-                                                        placeholder="Enter overdue amount">
-                                                </div>
-
-                                                <!-- VAT Details -->
-                                                <div class="col-md-4 mt-3">
-                                                    <label for="vat_no" class="form-label">VAT No</label>
-                                                    <input id="vat_no" name="vat_no" type="text" class="form-control"
-                                                        placeholder="Enter VAT number">
-                                                </div>
-                                                <div class="col-md-4 mt-3">
-                                                    <label for="svat_no" class="form-label">SVAT No</label>
-                                                    <input id="svat_no" name="svat_no" type="text" class="form-control"
-                                                        placeholder="Enter SVAT number">
-                                                </div>
-
-                                                <!-- Hidden Customer Category with default value 'customer' -->
-                                                <div class="col-md-4 mt-3" style="display: none;">
-                                                    <label for="category" class="form-label">Customer Category</label>
-                                                    <input id="category" name="category" type="text" class="form-control"
-                                                        placeholder="Enter SVAT number" value="2">
-                                                </div>
-
-                                                <div class="col-md-4 mt-3" style="display: none;">
-                                                    <label for="province" class="form-label">Province</label>
-                                                    <select id="province" name="province" class="form-select select2">
-                                                        <option value="" selected> -- Select province -- </option>
-                                                        <?php
-                                                        $PROVINCE = new Province(null);
-                                                        foreach ($PROVINCE->all() as $province) {
-                                                        ?>
-                                                            <option value="<?php echo $province['id'] ?>">
-                                                                <?php echo $province['name'] ?>
-                                                            </option>
-                                                        <?php } ?>
-                                                    </select>
-                                                </div>
-
-                                                <!-- Region Info -->
-                                                <div class="col-md-4 mt-3" style="display: none;">
-                                                    <label for="district" class="form-label">District</label>
-                                                    <select id="district" name="district" class="form-select select2 ">
-                                                        <option value="" selected>-- Select province first -- </option>
-                                                        <?php
-                                                        $DISTRICT = new District(null);
-                                                        foreach ($DISTRICT->all() as $district) {
-                                                        ?>
-                                                            <option value="<?php echo $district['id'] ?>">
-                                                                <?php echo $district['name'] ?>
-                                                            </option>
-                                                        <?php } ?>
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-md-4 mt-3" style="display: none;">
-                                                    <label for="vat_group" class="form-label">Customer VAT Group</label>
-                                                    <select id="vat_group" name="vat_group" class="form-select">
-                                                        <option value="" selected> -- Select VAT group -- </option>
-                                                        <option value="Private VAT">Private VAT</option>
-                                                        <option value="GOV VAT">GOV VAT</option>
-                                                        <option value="GOV NON VAT">GOV NON VAT</option>
-                                                    </select>
-                                                </div>
-
                                                 <!-- Remark Note -->
                                                 <div class="col-12 mt-3">
                                                     <label for="remark" class="form-label">Remark Note</label>
@@ -289,6 +217,7 @@ $customer_id = 'SM/' . $_SESSION['id'] . '/0' . ($lastId + 1);
                                                         placeholder="Enter any remarks or notes about the customer..."></textarea>
                                                 </div>
                                                 <input type="hidden" id="customer_id" name="customer_id" />
+                                                <input id="category" name="category" type="hidden" value="2">
                                             </div>
                                         </form>
                                     </div>
@@ -314,6 +243,7 @@ $customer_id = 'SM/' . $_SESSION['id'] . '/0' . ($lastId + 1);
     <!-- /////////////////////////// -->
     <script src="ajax/js/customer-master.js"></script>
     <script src="ajax/js/common.js"></script>
+    <?php include 'supplier-master-model.php' ?>
 
     <!-- include main js  -->
     <?php include 'main-js.php' ?>

@@ -17,7 +17,7 @@ class StockItemTmp
     {
         if ($id) {
             $query = "SELECT * FROM `stock_item_tmp` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -37,7 +37,7 @@ class StockItemTmp
             '{$this->list_price}','{$this->invoice_price}', '{$this->department_id}', '{$this->status}', NOW()
         )";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -59,7 +59,7 @@ class StockItemTmp
             `invoice_price` = '{$this->invoice_price}'
         WHERE `id` = '{$this->id}'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -72,14 +72,14 @@ class StockItemTmp
     public function delete()
     {
         $query = "DELETE FROM `stock_item_tmp` WHERE `id` = '{$this->id}'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function all()
     {
         $query = "SELECT * FROM `stock_item_tmp` ORDER BY `id` DESC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         $array_res = array();
@@ -93,7 +93,7 @@ class StockItemTmp
     public function getByArnId($arn_id)
     {
         $query = "SELECT * FROM `stock_item_tmp` WHERE `arn_id` = '" . (int) $arn_id . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         $array_res = array();
@@ -111,7 +111,7 @@ class StockItemTmp
                  WHERE sit.`item_id` = '" . (int) $id . "' 
                  AND (am.is_cancelled IS NULL OR am.is_cancelled = 0)";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         $array_res = array();
@@ -131,7 +131,7 @@ class StockItemTmp
                  AND sit.`department_id` = '" . (int) $department_id . "' 
                  AND (am.is_cancelled IS NULL OR am.is_cancelled = 0)";
         
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         $array_res = array();
@@ -150,7 +150,7 @@ class StockItemTmp
      */
     public function transferBetweenDepartments($item_id, $from_department_id, $to_department_id, $transfer_qty)
     {
-        $db = new Database();
+        $db = Database::getInstance();
 
         $item_id = (int)$item_id;
         $from_department_id = (int)$from_department_id;
@@ -207,7 +207,7 @@ class StockItemTmp
      */
     public function addBackQuantity($item_id, $department_id, $qty_to_add)
     {
-        $db = new Database();
+        $db = Database::getInstance();
 
         $item_id = (int)$item_id;
         $department_id = (int)$department_id;
@@ -262,7 +262,7 @@ class StockItemTmp
             return ['error' => 'Discount must be between 0 and 100'];
         }
 
-        $db = new Database();
+        $db = Database::getInstance();
         $value = mysqli_real_escape_string($db->DB_CON, $value);
         $id = (int) $id;
 
@@ -279,7 +279,7 @@ class StockItemTmp
 
     public function updateQtyByArnId($arn_id, $item_id, $department_id, $qty_change)
     {
-        $db = new Database();
+        $db = Database::getInstance();
 
         // 1. Get the current quantity
         $selectQuery = "SELECT `qty` FROM `stock_item_tmp` 
@@ -332,7 +332,7 @@ class StockItemTmp
             return ['success' => true, 'deducted' => 0];
         }
 
-        $db = new Database();
+        $db = Database::getInstance();
 
         // Check available quantity across active ARN lots
         $availableQuery = "

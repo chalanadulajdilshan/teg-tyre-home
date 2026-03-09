@@ -10,7 +10,7 @@ $departments = $DEPARTMENT_MASTER->all();
 // Resolve Item Master page ID for permission-safe redirects
 $ITEM_MASTER_PAGE_ID = 0;
 try {
-    $dbTmp = new Database();
+    $dbTmp = Database::getInstance();
     $resTmp = $dbTmp->readQuery("SELECT id FROM `pages` WHERE LOWER(`page_url`) LIKE '%item-master%' LIMIT 1");
     if ($resTmp && ($rowTmp = mysqli_fetch_assoc($resTmp))) {
         $ITEM_MASTER_PAGE_ID = (int)$rowTmp['id'];

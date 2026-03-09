@@ -1,0 +1,4303 @@
+{
+    "description": "DO NOT DELETE THIS FILE. This file is used to keep track of which files have been synced in the most recent deployment. If you delete this file a resync will need to be done (which can take a while) - read more: https://github.com/SamKirkland/FTP-Deploy-Action",
+    "version": "1.0.0",
+    "generatedTime": 1772597315922,
+    "data": [
+        {
+            "type": "file",
+            "name": ".htaccess",
+            "size": 158,
+            "hash": "bc2f192619fd6adb0d00de5860b43b80987939c67dac361118298234078aa3d8"
+        },
+        {
+            "type": "file",
+            "name": "README.md",
+            "size": 44,
+            "hash": "69d4fcf64f22dc44868fe7c6eb20d75356f4eb74853d7985429ac2b19a16bb8b"
+        },
+        {
+            "type": "file",
+            "name": "accounts-master.php",
+            "size": 19260,
+            "hash": "4d1233f00e4f05bcfc55a0c3d72c5ca57007bf7566a375d0a1bcea07596bc17a"
+        },
+        {
+            "type": "file",
+            "name": "administrator-tab.php",
+            "size": 4235,
+            "hash": "6f269bc0e69918dcf0a320b1f947cf43d4630ce10cba9c646034fa3f38a040ac"
+        },
+        {
+            "type": "folder",
+            "name": "ajax"
+        },
+        {
+            "type": "file",
+            "name": "all-customers-model.php",
+            "size": 877,
+            "hash": "495b563b9a2c46fb2ef11422d62c35bf021ca3027b6499e5ec3b1860fbd421cd"
+        },
+        {
+            "type": "file",
+            "name": "all-suppliers-model.php",
+            "size": 1529,
+            "hash": "1d2bc224bdfaa1e48edc085966154a4f93ef01570b3bf8de5eabaef6b363094e"
+        },
+        {
+            "type": "file",
+            "name": "all_item-master-model.php",
+            "size": 7272,
+            "hash": "1fea4e50076bedfe848608c1244199d67f78aa978fe2455b3aa278f604156440"
+        },
+        {
+            "type": "file",
+            "name": "arn-history.php",
+            "size": 16136,
+            "hash": "e6e223047d664267448e6d69c6a073ca5d91eca4dc7fa18bd9261962dbc0a7df"
+        },
+        {
+            "type": "file",
+            "name": "arn-modal.php",
+            "size": 1380,
+            "hash": "60e256eff0504c1c52a0516ad7925c6118d88063dffd36692bf815efa4a9294e"
+        },
+        {
+            "type": "file",
+            "name": "arn-qr-genaretor.php",
+            "size": 8132,
+            "hash": "faa2e05db638144ef2be271c0f7741dd32f12881d6802e9196bfb7e3d5e81817"
+        },
+        {
+            "type": "file",
+            "name": "arn.php",
+            "size": 48321,
+            "hash": "d06d64b88d02f1a8e4fc18df033ffb5d7c76bd85b288cf693dbffd9d630b8fba"
+        },
+        {
+            "type": "folder",
+            "name": "assets"
+        },
+        {
+            "type": "file",
+            "name": "auth.php",
+            "size": 2373,
+            "hash": "8cdcc78eca0f2b2cbb69ab9c49b023e0372c279f92d6bfc766cc9f238490b72f"
+        },
+        {
+            "type": "file",
+            "name": "bank-master.php",
+            "size": 9115,
+            "hash": "144d2f0de7656806a59bc74c7a7d3a130e0095184260863ca490da05789fdf23"
+        },
+        {
+            "type": "file",
+            "name": "belt-master.php",
+            "size": 10727,
+            "hash": "96d29108132667e67463295a8325c146145ad95e0bc01badb6c4a269b91090cf"
+        },
+        {
+            "type": "file",
+            "name": "bin-card.php",
+            "size": 15916,
+            "hash": "e34bbfd94753ee1851412b4ac150295a4a4fa2671078a2e96e560a6d1fa7e849"
+        },
+        {
+            "type": "file",
+            "name": "brand-category.php",
+            "size": 9578,
+            "hash": "ad0687e2ff969b1756ba5b9774f05b17ea8d6fcf29994e1dc1bcb61fd61a2674"
+        },
+        {
+            "type": "file",
+            "name": "branch-master.php",
+            "size": 15632,
+            "hash": "8f3ab7f45f3a87ac2a0274e92c982ad861e01aae0467857ada3caf3957ebc745"
+        },
+        {
+            "type": "file",
+            "name": "brand-master.php",
+            "size": 15165,
+            "hash": "7204b72a8a783ffeca505c76a7da926b214c0202d7decd98be697a76ef43765d"
+        },
+        {
+            "type": "file",
+            "name": "brand-wise-dis.php",
+            "size": 12683,
+            "hash": "24c77f5b00c0edb2cc5da3c3f09536766a7aa5feaccc8a17fb85cd8f4683ff86"
+        },
+        {
+            "type": "file",
+            "name": "cashbook.php",
+            "size": 19611,
+            "hash": "ba3667a0ac86e3e88d1711a00681deeb9e57d90dc7f4194c8588ce07b7812cae"
+        },
+        {
+            "type": "file",
+            "name": "category-master.php",
+            "size": 11218,
+            "hash": "8d7f68b4903a2e3d7babc6d10403f5d950c7312ece072ff4dc181d379ac59709"
+        },
+        {
+            "type": "folder",
+            "name": "class"
+        },
+        {
+            "type": "file",
+            "name": "company-assign-dag.php",
+            "size": 18550,
+            "hash": "40f13a4b26718da5b6dcf94a7dc9e0ba8ef66d09040d94bb9cc8ba752fdd7a7e"
+        },
+        {
+            "type": "file",
+            "name": "company-handling-print.php",
+            "size": 13739,
+            "hash": "7f579af98fef8e55a4221c864266c0e7592c1856fd5bcb7c4e0b035813055b68"
+        },
+        {
+            "type": "file",
+            "name": "company-handling.php",
+            "size": 21447,
+            "hash": "0dac7fb561937aa70af83ff0604d37034fd1514a3248889341fdf6484bfe1599"
+        },
+        {
+            "type": "file",
+            "name": "company-master.php",
+            "size": 15003,
+            "hash": "8970b64068c447029ff7d2d02fdc9a079dd4041774fb330e7cd544e8322989de"
+        },
+        {
+            "type": "file",
+            "name": "company-profile-model.php",
+            "size": 5418,
+            "hash": "2a5b0bde75b17cb3f5c38860ab799158b0561387bc1c3b4ee5cb978b341ea460"
+        },
+        {
+            "type": "file",
+            "name": "company-profile.php",
+            "size": 19598,
+            "hash": "cd38f87072e94ceb21291a9bb8a9564a92d32abc83a228ed519b7df7f755216c"
+        },
+        {
+            "type": "file",
+            "name": "complaint-create.php",
+            "size": 13909,
+            "hash": "cc2963698f2eeaae9ff3fba6ce77837f0f4f501b9c79d3e8626e3f2786c19cb0"
+        },
+        {
+            "type": "file",
+            "name": "complaint-print.php",
+            "size": 22048,
+            "hash": "7aa63d4af6b3248a01d645df878f892239f45e5f7eca99a1432e16190553e2dd"
+        },
+        {
+            "type": "file",
+            "name": "complaint-report.php",
+            "size": 18126,
+            "hash": "5bf9400299579d825433af6ef93530f63fe1600d9ba7d2c67c632ba495114e42"
+        },
+        {
+            "type": "file",
+            "name": "complaint-tab.php",
+            "size": 4234,
+            "hash": "fe55116cc94adbe3f4299eed7bac722faf83c1341459cd9caeb604ea797bfe60"
+        },
+        {
+            "type": "file",
+            "name": "country-master.php",
+            "size": 10856,
+            "hash": "51c393b448f5a5f806130a27d9f58670814e286e01449a13f714f8d4e5c189b1"
+        },
+        {
+            "type": "file",
+            "name": "credit-period.php",
+            "size": 10751,
+            "hash": "f71343793f02c04307d750934f990474a0d7b21158e90c21462c11ec7322b7dd"
+        },
+        {
+            "type": "file",
+            "name": "customer-master-model.php",
+            "size": 987,
+            "hash": "66eda6c2d6d971bc50860bbf25b37f88aa0a4f048552200592c144651e918096"
+        },
+        {
+            "type": "file",
+            "name": "customer-master-report.php",
+            "size": 10162,
+            "hash": "044b14c49b09b398142b6efa1d113d8bdd0300441673f8e055725219ad776537"
+        },
+        {
+            "type": "file",
+            "name": "customer-outstanding-report.php",
+            "size": 12787,
+            "hash": "339732e2972c2d3bbe3c2d8643ce9f20b3704b9937fddf968596e71652cb4d14"
+        },
+        {
+            "type": "file",
+            "name": "customer-master.php",
+            "size": 16597,
+            "hash": "7a11df30afa086cd4ff72b85a9b9821cdc3da2389e34e5b132025e953964c4ec"
+        },
+        {
+            "type": "file",
+            "name": "customer_model.php",
+            "size": 2853,
+            "hash": "9c7bc8d73fa8217e9cdeae23995aa8b4be24016c2cd4eff6b56ec1af6db59917"
+        },
+        {
+            "type": "file",
+            "name": "dag-customer.php",
+            "size": 19183,
+            "hash": "0f1e1ce340c28109a737f7815103493a7a23c0a471ec6c45b5c47127007e0fd4"
+        },
+        {
+            "type": "file",
+            "name": "dag-invoice.php",
+            "size": 16973,
+            "hash": "a48de7dd73df29f6d05146ac1d451fd345141d401bf9e4848af0db2f4304afcd"
+        },
+        {
+            "type": "file",
+            "name": "dag-report.php",
+            "size": 12137,
+            "hash": "cdde392f78d2e57253c8a990aa1ae8b0b2dba3c2a5b1faf8520dec7d2517044c"
+        },
+        {
+            "type": "file",
+            "name": "dag-tab.php",
+            "size": 4235,
+            "hash": "6f269bc0e69918dcf0a320b1f947cf43d4630ce10cba9c646034fa3f38a040ac"
+        },
+        {
+            "type": "file",
+            "name": "daily-income.php",
+            "size": 12033,
+            "hash": "7f5c787de96bc62e698fc413814540ab1e0fd1b97bd482b25a79d82236b7a824"
+        },
+        {
+            "type": "file",
+            "name": "dashboard-tab.php",
+            "size": 4090,
+            "hash": "68420e4cc94cad6c7ee1f49f050d9d5bc4d20c9719513df7ed08456a1edb06aa"
+        },
+        {
+            "type": "file",
+            "name": "data-capture-tab.php",
+            "size": 4235,
+            "hash": "6f269bc0e69918dcf0a320b1f947cf43d4630ce10cba9c646034fa3f38a040ac"
+        },
+        {
+            "type": "file",
+            "name": "department-master.php",
+            "size": 11671,
+            "hash": "1f0bee43ad7949e0819a8607b5ef640d5109b5dbc1803d66a353c42f7f68882e"
+        },
+        {
+            "type": "file",
+            "name": "department-stock-model.php",
+            "size": 3391,
+            "hash": "9d2dd8a7321565d54d8fc1b625d8654c0e4212de965acf1a247706c899c8cbad"
+        },
+        {
+            "type": "file",
+            "name": "design-master.php",
+            "size": 10889,
+            "hash": "1e3eea6ebd5758dc7cb6c6d7175399e2e5bed3c66600245e8ac9e7b415d47751"
+        },
+        {
+            "type": "file",
+            "name": "employee-master.php",
+            "size": 19952,
+            "hash": "296a1f4d09ec6fd9857c7effa7a1cc70b9d6e8f8dad6a0d0495bc08a59bde768"
+        },
+        {
+            "type": "file",
+            "name": "equipment-master.php",
+            "size": 12616,
+            "hash": "81161fc03c73fa20b8e694fd9e368d9ba86688f915e6173bb148258d9a3ea833"
+        },
+        {
+            "type": "file",
+            "name": "error_log",
+            "size": 457118,
+            "hash": "2338ab80c6c058713f0c73421d2c6b85ae3e7e575bc7fb77df0ad908e5d5898e"
+        },
+        {
+            "type": "file",
+            "name": "expense-type-master.php",
+            "size": 10422,
+            "hash": "9ea0f57e90b786754444bcc2b1f74188b369db1ed201abe346f9715bd54f24ec"
+        },
+        {
+            "type": "file",
+            "name": "expense.php",
+            "size": 12952,
+            "hash": "3e78feedab6836fb36a99b2f6855e45d89ac8c6f45a24dd707ca1f485dd12b0a"
+        },
+        {
+            "type": "file",
+            "name": "footer.php",
+            "size": 1466,
+            "hash": "4539e8a3e8dbfcd7e55e7736bf56faeb04ca352110d2858e3f9b5fe9e18ca4b8"
+        },
+        {
+            "type": "file",
+            "name": "forget-password.php",
+            "size": 3805,
+            "hash": "00b0863e6e4382d9238fe92e3748997811cb449d9b923a967a16854999286015"
+        },
+        {
+            "type": "file",
+            "name": "group-master.php",
+            "size": 10918,
+            "hash": "74afc84da1f21d11f1a7e324919847e85dbdbc074978843be889f2add48bafe3"
+        },
+        {
+            "type": "file",
+            "name": "index.php",
+            "size": 14453,
+            "hash": "c9d64e75ba2738c8ece9fc79471b50f81624f224faae82cf8ae17d49f93c4181"
+        },
+        {
+            "type": "file",
+            "name": "invoice-model.php",
+            "size": 2188,
+            "hash": "48e29871f17872eb3f5a1a0fe2c6dd0e77e3269d08b9d21652d05018e2951dd8"
+        },
+        {
+            "type": "file",
+            "name": "invoice-remark.php",
+            "size": 12558,
+            "hash": "a5a13907ea2c3e3169a34d2cca634b47d39cdea338087617b87b9c9bd822b9bf"
+        },
+        {
+            "type": "file",
+            "name": "invoice.php",
+            "size": 27134,
+            "hash": "fe8e7ab49dc000bdf440dbe19942a678da1a283e208a43720653a5b6147f0ef4"
+        },
+        {
+            "type": "file",
+            "name": "item-master-model.php",
+            "size": 7420,
+            "hash": "978b1a6e266c5df4eee058b1951e3b2e3ecacb09f0309c015823b8764667129d"
+        },
+        {
+            "type": "file",
+            "name": "item-master.php",
+            "size": 23215,
+            "hash": "f2dd8b1d744202d5d58a1286dce71a17e73b6c1ef96bf902fd1efa3e2bd25ee3"
+        },
+        {
+            "type": "file",
+            "name": "item-master-report.php",
+            "size": 10461,
+            "hash": "f9034993fc00d970195a7eab3711fb255f835d167bfecca292b6f3b761cc9fd4"
+        },
+        {
+            "type": "file",
+            "name": "labour-master.php",
+            "size": 13711,
+            "hash": "8f290f7d82ddef96f9f260f63e6cf4e28279c16e3b085cc78458f21a69ac572e"
+        },
+        {
+            "type": "file",
+            "name": "live-stock-public.php",
+            "size": 8546,
+            "hash": "6990e18d653152b5328e181188b2509aa387f6521583612bbb960c761eae76ee"
+        },
+        {
+            "type": "file",
+            "name": "live-stock.php",
+            "size": 8822,
+            "hash": "614a6186a023028616684bafe6ed1449c32a624856efd96aa82ac53ee70981f2"
+        },
+        {
+            "type": "file",
+            "name": "log-out.php",
+            "size": 174,
+            "hash": "ce15a7dda0271fe9064b5b23c7f00445fcd446c1d5aa50501e585ecedd07dca7"
+        },
+        {
+            "type": "file",
+            "name": "main-css.php",
+            "size": 4563,
+            "hash": "5be0beb71f2442f2dd210faa97cf67000d5645617bc9ebc3551705668ff5e4e6"
+        },
+        {
+            "type": "file",
+            "name": "login.php",
+            "size": 7370,
+            "hash": "03b0a3d3ec6024e28f4190de845f8757eeac6729c311c00bfb6d666548593374"
+        },
+        {
+            "type": "file",
+            "name": "main-item-master-model.php",
+            "size": 1476,
+            "hash": "bd858ef56b6403791973bc2fef7f7ee0023bd267deb92362e365616dbe265769"
+        },
+        {
+            "type": "file",
+            "name": "main-js.php",
+            "size": 2062,
+            "hash": "48ac7a444c427b1d805bc2d0141baf943b22e3ca8f5baa3d07960b281d325d9e"
+        },
+        {
+            "type": "file",
+            "name": "manage-pages.php",
+            "size": 15702,
+            "hash": "cf9950943c50e4a2ca2e642e2c1761416e6d541bf0ed150c792affe9aa85a27c"
+        },
+        {
+            "type": "file",
+            "name": "manage-user-permission.php",
+            "size": 12389,
+            "hash": "6e70dccffb93f4e05a3d85585002abc4bd7e5f79d8f5d14dc5e93d4d0f93b400"
+        },
+        {
+            "type": "file",
+            "name": "manage-user-type.php",
+            "size": 9990,
+            "hash": "f92c4577d6b46348026f6bbc2166e17a6bf1653b5cf40fb89abf0616bc9d3406"
+        },
+        {
+            "type": "file",
+            "name": "manage-users.php",
+            "size": 18695,
+            "hash": "8037281f8ed4aed2395572c0cb8f2a24e6fdd8fdf398dbc4a7c388ea3a1d33c6"
+        },
+        {
+            "type": "file",
+            "name": "master-file-tab.php",
+            "size": 4235,
+            "hash": "6f269bc0e69918dcf0a320b1f947cf43d4630ce10cba9c646034fa3f38a040ac"
+        },
+        {
+            "type": "file",
+            "name": "no-permission.php",
+            "size": 1780,
+            "hash": "eabbd9d2fe3ce0ad5b2a47459537fee89a6794e37ea958c1ac93df9fa2e62a8f"
+        },
+        {
+            "type": "file",
+            "name": "navigation.php",
+            "size": 21569,
+            "hash": "8dafd135d7121a8609c392a6532c21081bc1e5ceb7f96c12207c60336847ed00"
+        },
+        {
+            "type": "file",
+            "name": "note",
+            "size": 225,
+            "hash": "8d4e412b241d07afc9bb0c78bd4d7504b32b6b6d6462e9bfa4d7fbdacec25bf4"
+        },
+        {
+            "type": "file",
+            "name": "old-outstanding-customer-model.php",
+            "size": 1669,
+            "hash": "4d14c15cba7c61b6935f2ba64360ee21155f20f70510cd00e037955bf1228ac8"
+        },
+        {
+            "type": "file",
+            "name": "old-outstanding-report.php",
+            "size": 7854,
+            "hash": "939a9e1f338af1036ebcc29649dedc917a5d77c8a1be5deea5b8dd1e4dd81a57"
+        },
+        {
+            "type": "file",
+            "name": "old-outstanding-settlement.php",
+            "size": 5578,
+            "hash": "733b56be945c2d124dd57283501be58b5121a2d34fd1c78aea8a78c8d6cbc170"
+        },
+        {
+            "type": "file",
+            "name": "outstand-settlement.php",
+            "size": 9616,
+            "hash": "d4a34a689e48c7dc38d9278e41d383596cc7a30717597e68426f1aaba295d017"
+        },
+        {
+            "type": "file",
+            "name": "outstanding.php",
+            "size": 9269,
+            "hash": "322ef2cadd1f1fbdd71a2745f01d6d5f41914dce3f9802e52936c84d02476d7b"
+        },
+        {
+            "type": "file",
+            "name": "outstanding_report.php",
+            "size": 10686,
+            "hash": "c54b9a2121100c6bc2d5e127ea3d7bad1d52955c841e32e055c22accc0522022"
+        },
+        {
+            "type": "folder",
+            "name": "partials"
+        },
+        {
+            "type": "file",
+            "name": "payment-master.php",
+            "size": 9797,
+            "hash": "e3e7bc39e3e2d6b5ef01a54480d92cae83b3e61db66032f048405816f37696ce"
+        },
+        {
+            "type": "file",
+            "name": "payment-receipt-supplier-view.php",
+            "size": 26174,
+            "hash": "c9b9ec1ac252de0d55fda541d5ec92a6ed1a30a4fbb8aeb22a1c2f7c1946d001"
+        },
+        {
+            "type": "file",
+            "name": "payment-model.php",
+            "size": 7180,
+            "hash": "8426bbb958be4ca335824aedc55fff3c62d14e741a7a5eac61f085a83c795ba5"
+        },
+        {
+            "type": "file",
+            "name": "payment-receipt-supplier.php",
+            "size": 36093,
+            "hash": "c22cbfed66d94982f759b88aad72047c151031920018f4c96a51ca2fb06cce73"
+        },
+        {
+            "type": "file",
+            "name": "payment-receipt-view.php",
+            "size": 41793,
+            "hash": "300ed8368c1b80256163ea3640d7521bebc613825fb9aff30e596d5cc58060ce"
+        },
+        {
+            "type": "file",
+            "name": "payment-receipt.php",
+            "size": 34332,
+            "hash": "72888aad70b5d09bda1bac23d5db3fcd0dc004118680f46572dbfc20b11d56fc"
+        },
+        {
+            "type": "file",
+            "name": "pending-check.php",
+            "size": 6879,
+            "hash": "0559dd28beaa67bcbbb5ffcf4acd7604a36c7340882f8f01f1e1c6ef709c38a9"
+        },
+        {
+            "type": "file",
+            "name": "price-controler.php",
+            "size": 12676,
+            "hash": "7020c108ce1b85e5fcc612a6f581b83b4d30d988ffcbe0dad77dfe32073efafa"
+        },
+        {
+            "type": "file",
+            "name": "print-assign-dag.php",
+            "size": 9469,
+            "hash": "0706493d52f670bd5d6900458041dd9a6ffff7ede1ebd116b1c8256b8a9bd8eb"
+        },
+        {
+            "type": "file",
+            "name": "print-dag-customer.php",
+            "size": 7035,
+            "hash": "037ae94ed273432d8e8d428f0b36ae991d5d88831a6399372ba9fe4bb6fefa05"
+        },
+        {
+            "type": "file",
+            "name": "print-dag-invoice.php",
+            "size": 12157,
+            "hash": "3f7bc5af80bedd23a28c6903afa2612007d90d306861d91a37f0eae26422b73c"
+        },
+        {
+            "type": "file",
+            "name": "profile.php",
+            "size": 14366,
+            "hash": "8b5f2e93d0abcc38d08e916ad38de75624a8b1f566261b2c9972996267fd2bcf"
+        },
+        {
+            "type": "file",
+            "name": "profit-report.php",
+            "size": 15022,
+            "hash": "28e2c8c1deacb8bf14afb1884bed8998fcb76cf5671eae34140493f219a937e3"
+        },
+        {
+            "type": "file",
+            "name": "purchase-order.php",
+            "size": 28854,
+            "hash": "bae8f74539fc1b8d3e3a8b7f75952b06d932c4707c1f2f8913a285cc3e9f27dc"
+        },
+        {
+            "type": "file",
+            "name": "purchase-return-arn-items.php",
+            "size": 4835,
+            "hash": "88ae6af54c72b76dc7e755fd48e5a26be425848ebb3844117ddb84c7edaef1bd"
+        },
+        {
+            "type": "file",
+            "name": "purchase-returned-item-list.php",
+            "size": 1931,
+            "hash": "08a29823506814e76b7a0faccd4cc1c18363caedef4089a19adcd72cffded3e1"
+        },
+        {
+            "type": "file",
+            "name": "purchase-return.php",
+            "size": 21275,
+            "hash": "dd2d28fa17b33c51233528d26175febc120348d629b9fa7221c3b5f2bfd1c79a"
+        },
+        {
+            "type": "file",
+            "name": "quotation-print.php",
+            "size": 12329,
+            "hash": "e910f0e25887d93bac6bcf52fbb0a2e10bf317697458943e26088eb49cc5a9bf"
+        },
+        {
+            "type": "file",
+            "name": "quotation.php",
+            "size": 37974,
+            "hash": "24a74e7775b85858d6a6db61352a06b6fc248b24353c3ee11d745a0b6f803886"
+        },
+        {
+            "type": "file",
+            "name": "rent-type-master.php",
+            "size": 11945,
+            "hash": "adb5b6e611444b900bb27f8640336544254bb7f500f863b92742292d5d5bc584"
+        },
+        {
+            "type": "file",
+            "name": "reports-tab.php",
+            "size": 4276,
+            "hash": "208c6493431a7e57da337b4360a15a6f0f131b9b2278674b75ee00156906bfb6"
+        },
+        {
+            "type": "file",
+            "name": "reset-code.php",
+            "size": 4328,
+            "hash": "36993a8a4cae822327d680b169db32e3159cbf14ce1cec8d54316311547b8b78"
+        },
+        {
+            "type": "file",
+            "name": "return-items-report.php",
+            "size": 13474,
+            "hash": "74c1fd2c8605c064f55fbb58123ee4de40006733cbafcc7b66dc9f86ab848b99"
+        },
+        {
+            "type": "file",
+            "name": "reset-password.php",
+            "size": 5040,
+            "hash": "046b3a1baa59098c5f0ee09a5ec1a3f55aa28b355769e3cef4be46321d176ef8"
+        },
+        {
+            "type": "file",
+            "name": "sales-executive.php",
+            "size": 15812,
+            "hash": "a03f3de7740c9eddd441646b9cd1423ad84ec59779d156333de39ae2a5cfe703"
+        },
+        {
+            "type": "file",
+            "name": "sales-invoice-view.php",
+            "size": 28971,
+            "hash": "2010c88c494475c2e5bbb88000d118b5a630d26b5c615a928394cca328331442"
+        },
+        {
+            "type": "file",
+            "name": "sales-invoice.php",
+            "size": 55876,
+            "hash": "12096730ef3319ad97ded889bd61a76286dbac5a34599cae8e1a371db2e5e7da"
+        },
+        {
+            "type": "file",
+            "name": "sales-return-model.php",
+            "size": 2210,
+            "hash": "6e64a2ca3bc23a030217b78e1fe2eb4a160de83781c4b23f540aea5674e28de3"
+        },
+        {
+            "type": "file",
+            "name": "sales-return.php",
+            "size": 19237,
+            "hash": "e6bc64b7b498a025ccdda25dabbf45020ccee7ecbe62cff2ce6e06b83b810c93"
+        },
+        {
+            "type": "file",
+            "name": "sales-summary.php",
+            "size": 22092,
+            "hash": "43cc7ab07bd2441a5dca82b0fc01714bebdee3b522161fa94a77634492fa9e85"
+        },
+        {
+            "type": "file",
+            "name": "save-purchase-return.php",
+            "size": 9142,
+            "hash": "958d6749e98e2f65998e57727466d89a458e5cb884ba20d94bf3c2c953af3bf3"
+        },
+        {
+            "type": "file",
+            "name": "service-income.php",
+            "size": 9735,
+            "hash": "6687267320f2b2c8eb439aba4d277f05fe5ce6c21215d8f61b33d7ace2ed82e7"
+        },
+        {
+            "type": "file",
+            "name": "service-item-master.php",
+            "size": 12078,
+            "hash": "79a236a73b1968aa4f522fcddf7523fb8b347cf722a4d92942590fb4429be6c1"
+        },
+        {
+            "type": "file",
+            "name": "service.php",
+            "size": 9380,
+            "hash": "fedf17a2a25d086194ad7ffc22451904baf5780785f5c168a4618853d1db0391"
+        },
+        {
+            "type": "file",
+            "name": "size-master.php",
+            "size": 10186,
+            "hash": "8d19feab14b63236631710c58a5c501ac1df64f3dbebdb9fe48090ecc831d0e3"
+        },
+        {
+            "type": "file",
+            "name": "special-permission-model.php",
+            "size": 2059,
+            "hash": "2dfc219452154821b0ab070d73b488e9d8966e1bbc3666bebf79cf6ecdf3d690"
+        },
+        {
+            "type": "file",
+            "name": "stock-adjustment.php",
+            "size": 14112,
+            "hash": "5c6ce0730e798452a25cbc290d7cc0ae8f73764957e1e87a294398ee341352f1"
+        },
+        {
+            "type": "file",
+            "name": "stock-check.php",
+            "size": 4059,
+            "hash": "368f0d57654351d110af1e09b64f92b2b92441d1c97f66c375bae962635219a9"
+        },
+        {
+            "type": "file",
+            "name": "stock-transfer.php",
+            "size": 14582,
+            "hash": "b2fcbb2d0d5bc043c959da27b2c08359109c49ec40811cd9b0ad76ffc9bf3919"
+        },
+        {
+            "type": "file",
+            "name": "stores-tab.php",
+            "size": 4235,
+            "hash": "6f269bc0e69918dcf0a320b1f947cf43d4630ce10cba9c646034fa3f38a040ac"
+        },
+        {
+            "type": "file",
+            "name": "sub-category-master.php",
+            "size": 12531,
+            "hash": "e9d1163df6342686ea8ca69575a000f6be4e2a0f53d3cedd2461c68c53d56a4d"
+        },
+        {
+            "type": "file",
+            "name": "supplier-discount.php",
+            "size": 15335,
+            "hash": "1cc22a3c56453672b6bef1b07694d35242f28e6021dd249220ecdeddcfab1b48"
+        },
+        {
+            "type": "file",
+            "name": "supplier-master-model.php",
+            "size": 1404,
+            "hash": "48e73371daaf4495bd5ae60dbbc2dcc94c1fbca76790155bccea3df172fd4118"
+        },
+        {
+            "type": "file",
+            "name": "supplier-master.php",
+            "size": 14543,
+            "hash": "df0d85a647c22db0151981fa9eeee1ca494b1efd25e1efc17c8d491e062e6f4c"
+        },
+        {
+            "type": "file",
+            "name": "supplier-outstanding-report.php",
+            "size": 11418,
+            "hash": "4ff32b6fa7d6b28c2f53a247efbde9d9e91eceac61e93b6457d021c94c21a641"
+        },
+        {
+            "type": "file",
+            "name": "supplier-payment-model.php",
+            "size": 9108,
+            "hash": "0d0614c00ac2d1f42ad7398912d77335cba7fb68b916a830c4c82c40282cdc59"
+        },
+        {
+            "type": "folder",
+            "name": "upload"
+        },
+        {
+            "type": "file",
+            "name": "system-payment-required.php",
+            "size": 16062,
+            "hash": "e26c79a2d1eb6568f1da6a60583c0cdf5ac085452ab484f28a1b683a29f95239"
+        },
+        {
+            "type": "folder",
+            "name": "uploads"
+        },
+        {
+            "type": "file",
+            "name": "utilization.php",
+            "size": 24224,
+            "hash": "9bd4cb428af63f023fcf41557db905aaf8becf37b03c8f50cec75b04289b2225"
+        },
+        {
+            "type": "file",
+            "name": "vehicle-brand.php",
+            "size": 9381,
+            "hash": "889d401dee36b64596172e475ace2277f16924165f522c0e9aab0893fc3bd284"
+        },
+        {
+            "type": "file",
+            "name": "vehicle-model.php",
+            "size": 11125,
+            "hash": "75ac21decaa0dd17fe7089ed6b036ec7bf5352094a933e316ef331ce2944aa2b"
+        },
+        {
+            "type": "folder",
+            "name": "ajax/js"
+        },
+        {
+            "type": "folder",
+            "name": "ajax/php"
+        },
+        {
+            "type": "folder",
+            "name": "assets/css"
+        },
+        {
+            "type": "folder",
+            "name": "assets/fonts"
+        },
+        {
+            "type": "folder",
+            "name": "assets/images"
+        },
+        {
+            "type": "folder",
+            "name": "assets/js"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs"
+        },
+        {
+            "type": "file",
+            "name": "class/ArnItem.php",
+            "size": 4812,
+            "hash": "8a1f05db87dc8a7eb0c36ba176efb2652aea8e95371b2e99ef115d6ac29bcf53"
+        },
+        {
+            "type": "file",
+            "name": "class/ArnMaster.php",
+            "size": 10321,
+            "hash": "46592dedc9549a5646ddaa2684b8babbeb1d06e651748f3dced1979e5889725d"
+        },
+        {
+            "type": "file",
+            "name": "class/ArnQrGenaretor.php",
+            "size": 6387,
+            "hash": "6d168ea80ba896a79738cb80887bd6eaa855a5aba1e9336d351d6145f5ae6c7e"
+        },
+        {
+            "type": "file",
+            "name": "class/ArnReturn.php",
+            "size": 2958,
+            "hash": "e5a59dae6a9288fb00d63828112fc3c406b37f997aeee531610d95b170c7db06"
+        },
+        {
+            "type": "file",
+            "name": "class/AuditLog.php",
+            "size": 2599,
+            "hash": "203ae647e11406181d156538480ab60179af8d057b18e97b96cdbcce7581c1d1"
+        },
+        {
+            "type": "file",
+            "name": "class/Bank.php",
+            "size": 2245,
+            "hash": "8d2235908022fc04faf6661ef54740429f7f50c9b97832d03a16f9f8658af24c"
+        },
+        {
+            "type": "file",
+            "name": "class/BeltMaster.php",
+            "size": 5533,
+            "hash": "53e53416f75c37614780609f7f3a8d239f42c05e1b76e4be55f734d6b5ccbbac"
+        },
+        {
+            "type": "file",
+            "name": "class/Brand.php",
+            "size": 2982,
+            "hash": "6df9d7ae8d3b837dabde3755adf2e978015bd7094360b41c994ea75e157ee3b8"
+        },
+        {
+            "type": "file",
+            "name": "class/Branch.php",
+            "size": 5103,
+            "hash": "d753c3ad81bc967096c5a1405c6f58ab4e3c3a4142206b3fb4f3e1655948bfb0"
+        },
+        {
+            "type": "file",
+            "name": "class/BrandCategory.php",
+            "size": 2913,
+            "hash": "b1a8172c0e2842518d9d18a0d3abcce47b6cdc45f5fdbec61ebae7032a59afc1"
+        },
+        {
+            "type": "file",
+            "name": "class/BrandWiseDis.php",
+            "size": 3269,
+            "hash": "a2045132b830ee7a86c4c4dba09e190dedc313cb702a13471d7258e1c3222d39"
+        },
+        {
+            "type": "file",
+            "name": "class/Cashbook.php",
+            "size": 28041,
+            "hash": "e8e0f3c40b318c7f7a2de24f6e1184fd1390c28960e7c00aa6c975c18e5df63c"
+        },
+        {
+            "type": "file",
+            "name": "class/CategoryMaster.php",
+            "size": 2615,
+            "hash": "5f69e26406084ad61a5b98aba7d137a4d6f2537474c8ee2f835698f3333658bc"
+        },
+        {
+            "type": "file",
+            "name": "class/CompanyHandling.php",
+            "size": 9589,
+            "hash": "d668947887891e3b967bc0ffe00a7e728cb17a83aa436b61c798d78ec53367dd"
+        },
+        {
+            "type": "file",
+            "name": "class/CompanyMaster.php",
+            "size": 4319,
+            "hash": "fa1703fb8960e9ad1ad88ab98c8b423a8753a6d677efc000487bef01229c54d8"
+        },
+        {
+            "type": "file",
+            "name": "class/CompanyProfile.php",
+            "size": 7923,
+            "hash": "a7566755dc8dca947553566cb8fe0ac37db7c50ebe21ff28851712a1051c51bc"
+        },
+        {
+            "type": "file",
+            "name": "class/Country.php",
+            "size": 3529,
+            "hash": "8afe4489b59642220c1ddafc4ce82ee44f4bcd6f307ed1473d81e50a66f6c202"
+        },
+        {
+            "type": "file",
+            "name": "class/CreditPeriod.php",
+            "size": 3322,
+            "hash": "75262e59dc9b2a6d9978c22589585d1656a429d6b0447b74e8ac598ebca897a6"
+        },
+        {
+            "type": "file",
+            "name": "class/CustomerCategory.php",
+            "size": 2807,
+            "hash": "8a623cf62fd30e64993105f708f133aed06933ff48fea609afa8082dfbbc4bf3"
+        },
+        {
+            "type": "file",
+            "name": "class/CustomerComplaint.php",
+            "size": 7776,
+            "hash": "eeb14fe90724ec94333ff1cf14e2945af2ec81328830cac9e82cf15bfc62e13d"
+        },
+        {
+            "type": "file",
+            "name": "class/CustomerMaster.php",
+            "size": 10081,
+            "hash": "800d97d204ae7545a7c0a15c9949895542e52e80fce987ec2e0f077e8bd998e5"
+        },
+        {
+            "type": "file",
+            "name": "class/DagCompanyAssignment.php",
+            "size": 5115,
+            "hash": "96755b5cf0f0fdf0bf2c8fb8644faa2be864f1c064c1278d825fd1e4dedbb65f"
+        },
+        {
+            "type": "file",
+            "name": "class/DagCustomer.php",
+            "size": 16107,
+            "hash": "6ea0e11064d2351f716c327ed0b52f98af6856e4cf1b674f7ecf83323b0016e1"
+        },
+        {
+            "type": "file",
+            "name": "class/DailyIncome.php",
+            "size": 4359,
+            "hash": "2c53d650e68c1f3fb5420fdf83e3f198aa05659e24e238d7b1aab290554ebbe1"
+        },
+        {
+            "type": "file",
+            "name": "class/Database.php",
+            "size": 1974,
+            "hash": "52fb52b2b0c68b4a4f33fe7f0313facaee032604e8e5853166be4c0af6f95517"
+        },
+        {
+            "type": "file",
+            "name": "class/DefaultData.php",
+            "size": 1539,
+            "hash": "bae5813acfe4732098f306ebeece72ded4259f80d03e7006d20444d73a6924c7"
+        },
+        {
+            "type": "file",
+            "name": "class/DepartmentMaster.php",
+            "size": 3640,
+            "hash": "971f6403c89b39108b0547090da6b1a133f900295b1434dabfb07219f1fae786"
+        },
+        {
+            "type": "file",
+            "name": "class/DesignMaster.php",
+            "size": 5194,
+            "hash": "f83a1200e6c0f8d2a22740eccd494d1f01ec8d083878ec05d72852ee9a5440d2"
+        },
+        {
+            "type": "file",
+            "name": "class/District.php",
+            "size": 3029,
+            "hash": "432afe99903264d08878a2bfaa54543958bbd17fa9c92d5f7d228e4b04686918"
+        },
+        {
+            "type": "file",
+            "name": "class/DocumentTracking.php",
+            "size": 5303,
+            "hash": "21cc6a5533eb20fd674e78d25de0db011d006ff06edc1db3d58f277c8f870a88"
+        },
+        {
+            "type": "file",
+            "name": "class/EmployeeMaster.php",
+            "size": 5181,
+            "hash": "deba953102b453d8fe8281d315f30e70b5be87c75901fbec6abd76541d51d5e9"
+        },
+        {
+            "type": "file",
+            "name": "class/Equipment.php",
+            "size": 6354,
+            "hash": "0221b527230198eb9ed22542978935532a6861e2bf248d21236f171d2233d20a"
+        },
+        {
+            "type": "file",
+            "name": "class/ExpenseTypeMaster.php",
+            "size": 2730,
+            "hash": "f7d1b89e180eaa15248c13d39279bde3fc8fbcf7b2be4040b2569bfbde53fef5"
+        },
+        {
+            "type": "file",
+            "name": "class/Expenses.php",
+            "size": 8357,
+            "hash": "3f78e1ba51740204f27d685a5e0fb3b5b6a41cc808fe0e4dbe4ce8cdedd7738b"
+        },
+        {
+            "type": "file",
+            "name": "class/GroupMaster.php",
+            "size": 3242,
+            "hash": "6ea460e0b5810c76c90da5655b2ad8ece9fc6cd3ed7be85738584fe5eae236fb"
+        },
+        {
+            "type": "file",
+            "name": "class/Helper.php",
+            "size": 13742,
+            "hash": "629e1da5ebe62192d2bd15a6b1900045386b56463da341c2c8b3d814c7b6d1c1"
+        },
+        {
+            "type": "file",
+            "name": "class/InvoicePayments.php",
+            "size": 4616,
+            "hash": "c5a688e3975838850e5be1dde4aae509c29a9c39b91ec1a8781b2f06eae0642c"
+        },
+        {
+            "type": "file",
+            "name": "class/InvoiceRemark.php",
+            "size": 5612,
+            "hash": "abb0aeca65648ac62add602fb4bd7704d61ec3cdcb21c7d12459342eaf88371e"
+        },
+        {
+            "type": "file",
+            "name": "class/ItemMaster.php",
+            "size": 25962,
+            "hash": "956b8deb3d68d847d4d23527eaa38ca5e4dd2eae14663faf28a097008d0dcceb"
+        },
+        {
+            "type": "file",
+            "name": "class/LabourMaster.php",
+            "size": 2764,
+            "hash": "4aff226e145b58c089f017400c3a02e7b3ba2de5fe7fc9db9325f76db2c04519"
+        },
+        {
+            "type": "file",
+            "name": "class/LabourType.php",
+            "size": 2588,
+            "hash": "a0703c00250ea832dd068953c0135441c35e75d890e579d3ae68a5559c83825f"
+        },
+        {
+            "type": "file",
+            "name": "class/MarketingExecutive.php",
+            "size": 4245,
+            "hash": "85b5b5cd119f82cd7e975435bb982144f6c84e8371fb8d28fc22b6eebf1aabea"
+        },
+        {
+            "type": "file",
+            "name": "class/Message.php",
+            "size": 3462,
+            "hash": "059de0b2da45f41e658219f87ab128f2cb392d039118b30f29d6014ba9247c47"
+        },
+        {
+            "type": "file",
+            "name": "class/NonPermissionPage.php",
+            "size": 1861,
+            "hash": "ef58822eca8c3e422d9cdfac4cfff4b9cd30761e21b22d87a1b6c22f9dc47d40"
+        },
+        {
+            "type": "file",
+            "name": "class/Pages.php",
+            "size": 4832,
+            "hash": "2ad87dd73a10d3ca9679dfadc0def0101e1455bc355bc91a6ce787421ffbf0c7"
+        },
+        {
+            "type": "file",
+            "name": "class/PageCategory.php",
+            "size": 3638,
+            "hash": "1156c01b9ac2073825b3e8329c0ab7a5024bd7efc1dedcabf41edf1ff3f476b6"
+        },
+        {
+            "type": "file",
+            "name": "class/PaymentReceipt.php",
+            "size": 3386,
+            "hash": "33d73b6f4283a19e8fe991d36ce7507e0206f6d0f217953e706596773303e7d7"
+        },
+        {
+            "type": "file",
+            "name": "class/PaymentReceiptMethod.php",
+            "size": 6384,
+            "hash": "27e9c7b51a89c56831d1591c79eea363b1f59a906e981b35f461c888829986aa"
+        },
+        {
+            "type": "file",
+            "name": "class/PaymentReceiptMethodSupplier.php",
+            "size": 4568,
+            "hash": "0c99784dc7cb2bc18f042c5e17c296d2a2d1bb05f637069e3cf321dd28bf2ecf"
+        },
+        {
+            "type": "file",
+            "name": "class/PaymentReceiptSupplier.php",
+            "size": 3430,
+            "hash": "ce9d4c1674fb1a5e03723cdfcb0cf24182186854b2d2459c3ef8a8a7b8c15c2c"
+        },
+        {
+            "type": "file",
+            "name": "class/PaymentType.php",
+            "size": 2729,
+            "hash": "dc82b84508a7e83e949057f390a35659cd66a944c557babb78a03a00c2a186b5"
+        },
+        {
+            "type": "file",
+            "name": "class/Permission.php",
+            "size": 2273,
+            "hash": "1279ee2cc6a14a0fb99a1fbcad9f9dc403bdbcfd52da102b0f8424657d7f7c72"
+        },
+        {
+            "type": "file",
+            "name": "class/Province.php",
+            "size": 2641,
+            "hash": "3b28037efedbbcbc98434cc1c5e0fdcd238fb893df95d6c8b432f10744dada26"
+        },
+        {
+            "type": "file",
+            "name": "class/PurchaseOrder.php",
+            "size": 5348,
+            "hash": "fc9b0bcd10b78c4987530ed287b69c05427738a06545263cca35d0b46d6b0961"
+        },
+        {
+            "type": "file",
+            "name": "class/PurchaseOrderItem.php",
+            "size": 3785,
+            "hash": "d3d448b6532848aeaa87ab74efd71a47dd2a1b6d6ba1ebe723876568c06d11a4"
+        },
+        {
+            "type": "file",
+            "name": "class/PurchaseReturn.php",
+            "size": 3245,
+            "hash": "81da74551d8b74d0b634128cb79dff3b41626e11fb814a6334850b184bfa4884"
+        },
+        {
+            "type": "file",
+            "name": "class/PurchaseType.php",
+            "size": 2338,
+            "hash": "bd43ddc14594d4248f1de0ef9cab2623a800e88e58ae737ec34d7d82bd0b4277"
+        },
+        {
+            "type": "file",
+            "name": "class/Quotation.php",
+            "size": 5658,
+            "hash": "cdde39a3a3fbe44e9f95b5af70737981f8bc3f14b048dbd69f38e251371ff23f"
+        },
+        {
+            "type": "file",
+            "name": "class/QuotationItem.php",
+            "size": 3905,
+            "hash": "e74c990a8c136da4b273ceb924c59e87bd1a3d6af1c389bdbaf87c9464807231"
+        },
+        {
+            "type": "file",
+            "name": "class/RentType.php",
+            "size": 4821,
+            "hash": "653abe0e30cea4259dd66cbfcc1cee931dcfc5e429654a1b72bc09c2e5900011"
+        },
+        {
+            "type": "file",
+            "name": "class/SalesInvoice.php",
+            "size": 26395,
+            "hash": "4162ddcaa2a5e4de214958ccc4e69e538bab6be95438f1e9df0b375ad56fcb5b"
+        },
+        {
+            "type": "file",
+            "name": "class/SalesInvoiceItem.php",
+            "size": 8160,
+            "hash": "e0e65109c0390bb4d8f54ccb25591590a4d58fe04add74eeb8c63c5353232ac3"
+        },
+        {
+            "type": "file",
+            "name": "class/SalesReturn.php",
+            "size": 6266,
+            "hash": "bd275c7302aab7099f5b62ce3251c7d0e6113e3b9925e84def9b4eb5cbf9ad91"
+        },
+        {
+            "type": "file",
+            "name": "class/SalesReturnItem.php",
+            "size": 4324,
+            "hash": "8d4d957185c9a3d79b6bc8a3dbb6756022528147e6c4a3bcb625af5905cc7aa0"
+        },
+        {
+            "type": "file",
+            "name": "class/SalesType.php",
+            "size": 2652,
+            "hash": "ae9c9a4616577a363b38bb5d9557c74934a6361d6540749c9cd2a30e11ed8259"
+        },
+        {
+            "type": "file",
+            "name": "class/Service.php",
+            "size": 2975,
+            "hash": "2f3eb087210557e012bc4e0f44dde5866476e314293cbd031cc7485b1164d43e"
+        },
+        {
+            "type": "file",
+            "name": "class/ServiceIncome.php",
+            "size": 2407,
+            "hash": "3b378d7adf26a6278f1140a1d8b56e3fcbec11c7b8134756840b4358f47e57ef"
+        },
+        {
+            "type": "file",
+            "name": "class/ServiceItem.php",
+            "size": 3311,
+            "hash": "f9166052e3113057f7cf0bd0e5c5434d0f7b3f6aa73cda9305e35a9c491c5f09"
+        },
+        {
+            "type": "file",
+            "name": "class/Setting.php",
+            "size": 1985,
+            "hash": "d4438750c0f2ec59961260a90a5abdd70fc20068ff0406b7b4ba1787663ff1f1"
+        },
+        {
+            "type": "file",
+            "name": "class/SizeMaster.php",
+            "size": 2720,
+            "hash": "79a36a1f2de5d821d0db3b5b2a22f2a3275f201e94d1c4b76abc3f8c77f40a11"
+        },
+        {
+            "type": "file",
+            "name": "class/SpecialPermission.php",
+            "size": 5795,
+            "hash": "343b5f0738bca86e6d92eacbf93e8766dec379fe42599c3c0f251470891201a6"
+        },
+        {
+            "type": "file",
+            "name": "class/StockAdjustmentType.php",
+            "size": 1141,
+            "hash": "d381adcc69f9e68a6ff3f84c600124e5fef55486c3723c6c0fc2e45b2ff12e7a"
+        },
+        {
+            "type": "file",
+            "name": "class/StockItemTmp.php",
+            "size": 16517,
+            "hash": "0aeeaf51f26ecfcd54f39020655d3a4fc44f0754842effc036b6c4db06017528"
+        },
+        {
+            "type": "file",
+            "name": "class/StockMaster.php",
+            "size": 15102,
+            "hash": "ab0bdbbaa3bed0246020c692d4872b40272c3fce3b706cf0c70e9615511efbde"
+        },
+        {
+            "type": "file",
+            "name": "class/StockTransaction.php",
+            "size": 5022,
+            "hash": "5b134c1119e197cd5ee6bdda7a25b465c7f5806cd3b4079ee5157fe599413de5"
+        },
+        {
+            "type": "file",
+            "name": "class/StockType.php",
+            "size": 2976,
+            "hash": "b5946d109d45e981805648979cd74abaee0f57698fefeccd32750467e465fda7"
+        },
+        {
+            "type": "file",
+            "name": "class/SubCategoryMaster.php",
+            "size": 2952,
+            "hash": "6d9079ddf4e3a4e13cc11f00211c6c59ef3a582cb0f49c1cbb8835d5dc668c69"
+        },
+        {
+            "type": "file",
+            "name": "class/SupplierDiscount.php",
+            "size": 6705,
+            "hash": "987107fe4e6551b4a65a8bf316945afbf3521b9d29090ba0c049c6545e854b89"
+        },
+        {
+            "type": "file",
+            "name": "class/SupplierPayment.php",
+            "size": 5105,
+            "hash": "68efebf2370fec1412729aaef8800cf198a3269a1f2e84dfb2f8f7f9edb28d76"
+        },
+        {
+            "type": "file",
+            "name": "class/Upload.php",
+            "size": 256139,
+            "hash": "0a92c2741faffcf5c6d3bce0b2035fb5b39aa86dfa2db103d3e130f42eeb16e0"
+        },
+        {
+            "type": "file",
+            "name": "class/User.php",
+            "size": 11517,
+            "hash": "ecfd25595de1068953235e493386acb7c20ba179e312de47350b595e3eb1beea"
+        },
+        {
+            "type": "file",
+            "name": "class/UserPermission.php",
+            "size": 7419,
+            "hash": "0c9d7dc0b31726a8af61eaa79c049a7efcd4a106617daf347193a1856dbad12f"
+        },
+        {
+            "type": "file",
+            "name": "class/UserType.php",
+            "size": 3141,
+            "hash": "ca9b229e7d5051a97db0c6b5a03823b3fae4e811cb6a8db770ea1ed11bb7ff58"
+        },
+        {
+            "type": "file",
+            "name": "class/VehicleBrand.php",
+            "size": 4297,
+            "hash": "3c2f7458f26c54588a7ce039a7426d90650d60e1263cb78adc6a05332bf9e1b8"
+        },
+        {
+            "type": "file",
+            "name": "class/VehicleModel.php",
+            "size": 4479,
+            "hash": "c8d6d0d73e40d57b10d519194d16f96d5eb836bf315817c5531443e0de00a170"
+        },
+        {
+            "type": "file",
+            "name": "class/include.php",
+            "size": 4834,
+            "hash": "913b25f8c689e087952cffee29c50e39764c6b2fd691f9a30e9c1efaefa39a34"
+        },
+        {
+            "type": "folder",
+            "name": "partials/subscription-countdown"
+        },
+        {
+            "type": "folder",
+            "name": "upload/users"
+        },
+        {
+            "type": "folder",
+            "name": "uploads/company-logos"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/arn-master.js",
+            "size": 60582,
+            "hash": "91db2da74f088ca9018d92c6357ade9febd9965336e2b252828c5be58140fa16"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/arn-qr-genarator.js",
+            "size": 11866,
+            "hash": "e1d1f60043e916cfa9349cb67aae8865c48074ee9039da1184960cb1b6a0975d"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/arn-history.js",
+            "size": 12548,
+            "hash": "635f9cf3da2db5d831cc1e338259efc9f05656cc630c9ade96e82b7785969966"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/bank-master.js",
+            "size": 6856,
+            "hash": "63fef21eb0de340135b9f04bb123c5fbf507369b4836e83eeb1dbd51064f97bd"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/belt-master.js",
+            "size": 6504,
+            "hash": "f397646717d10b08a556ac14b94e66243a0adf2d18c99840fea68d958d10f152"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/bin-card.js",
+            "size": 15005,
+            "hash": "12ea7940fb25f2ed9a79cef6ae2c64d01f957917d67cae51f07f3e726798036f"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/branch.js",
+            "size": 10815,
+            "hash": "23428884821fbcbbad506229a2c19b31ec7d7c25c36927da8efc78298c0ae9ec"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/brand-category.js",
+            "size": 8377,
+            "hash": "9b6aa82cca3f6e46890a24a18810b72665c37ae1c871c583904bfbbad746518f"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/brand-wise-dis.js",
+            "size": 8549,
+            "hash": "da24f3c7d1e2e1cff17abb72562a73f1fb6d274745854f294fb79bf7a5cb37b8"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/brand.js",
+            "size": 7778,
+            "hash": "53da68b73a99dad57e9f48714bdd6d5f6df054b470e37fb59de5f7810900c6f1"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/calculator.js",
+            "size": 3175,
+            "hash": "2625b7b1a4379f4315be6b1f02a5eb9d1c17c634030e269c66939e05d6229225"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/cashbook.js",
+            "size": 10291,
+            "hash": "ba820d19a11ef3543a5f8cef0f2db661628249d9bee66992cdbb00f368f3ce18"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/category-master.js",
+            "size": 7015,
+            "hash": "a4a906564255dc142ad2c981fcf7d2a73049f2eb70f19b58555f44f57ed2d412"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/common.js",
+            "size": 27023,
+            "hash": "5c0726e4fc84f8953fd0a4c1c517b3af424b3864a278312cb06f670caee6b5b9"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/company-assign-dag.js",
+            "size": 18661,
+            "hash": "b47580cbaffbf320f22c8696f310e342e3447542719e0fab92b9debca7bd3d48"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/company-handling.js",
+            "size": 13869,
+            "hash": "68aa006fe1f4ab135dd4f8b087e28b1c791644dc1b93bdd395bedb16d81628dc"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/company-master.js",
+            "size": 10690,
+            "hash": "b9adbbe1042c3f9195e97c126586561febcb9999820ed830f2584a0cd18a9d26"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/company-profile.js",
+            "size": 19349,
+            "hash": "732d23b2d5fe3cef62239284d394ef5a58c5e0383a4bc4f34d23a55a734c2e2c"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/complaint-report.js",
+            "size": 6600,
+            "hash": "487348360cae2c2e2064688871d9376d66acd4a5ba7751530e5aedf6603e166d"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/country.js",
+            "size": 6081,
+            "hash": "d9c352ccfc4a6a7d3bdcec76864163f783415da9337a1e19b288b866988b32c8"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/credit-period.js",
+            "size": 7011,
+            "hash": "96ddcbdb81e611a4bba9740a0ffb6a38f60db8bf0763fb739811a579473e3d13"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/customer-complaint.js",
+            "size": 10460,
+            "hash": "5973daea3be49098b6d584fd48b7b2ea58c02732c58e2ec79862b3fd04d6e46b"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/customer-master.js",
+            "size": 16082,
+            "hash": "7d46619eb6e6e562f6d2e4fd27172523056748ce5d652371ead66a5df3c19885"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/customer-outstanding-report.js",
+            "size": 9714,
+            "hash": "2c6bce1c3f104d49b8a5ed3d180b03e43e211c2b1c7dc6a0d8f22f6b4e173090"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/dag-customer.js",
+            "size": 8681,
+            "hash": "5af54de602cac6346dbb47e514c615bfeb2020221a5dc111dd8ca3e05021e141"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/dag-report.js",
+            "size": 11636,
+            "hash": "3c6366845ad3404270262dad4254271fc4d4b6aa4ee526345e797345e8e77f4d"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/daily-income.js",
+            "size": 9545,
+            "hash": "4b5a468107262c5090c627b8d889c9473baa9ba8605328c21ff91b1302a326f8"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/department-master.js",
+            "size": 7721,
+            "hash": "8832f61a2d3a94e73cadc0f9f902dafdc7f5574ba513a50d60590891540e93bc"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/dag-invoice.js",
+            "size": 23906,
+            "hash": "1f47c4a380272c0cdac0fbb8e0dc43fe9812a6db15a9e4a73bcac4140dc53bf8"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/design-master.js",
+            "size": 6526,
+            "hash": "b24c3bcee51a79eb93a2e44d0bca47eb817d2c69833a0b3e38e75745d33b2995"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/employee-master.js",
+            "size": 14420,
+            "hash": "25f3b4ddcc5c9d63ce3abf523380669cfa9fd2e77aaebbe7068c2c9919636b82"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/equipment-master.js",
+            "size": 13666,
+            "hash": "3f24b13361d3668aa4bc3dffe9e1971123623d932903dda300005d617cb6f998"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/expense-type-master.js",
+            "size": 6542,
+            "hash": "069c37b98bff265fd5b67161ea3c803a028d5e9663071feceba035514d9e707e"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/expense.js",
+            "size": 8604,
+            "hash": "da7a5b966fee21457d90b7391fffb28ec9b953ee082eefb4ab39f2d37df5e813"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/group-master.js",
+            "size": 7812,
+            "hash": "eae2009380de33d151407be855b0ccce418b900517ecc655f3e2325c7c3ee96b"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/invoice-payments.js",
+            "size": 0,
+            "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/invoice-remark.js",
+            "size": 7234,
+            "hash": "9c522d3bba72515bcb554764df7147e7ff4fbdef0427857aa0618c9b0aea8a76"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/item-master.js",
+            "size": 22714,
+            "hash": "f12785ecb5dc925255be0896270278dee9ac80bb2248a5b979b481911a3612bd"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/labour-master.js",
+            "size": 8385,
+            "hash": "99d3904795169e7f596b5a721db53f46883d164fe6ad7a40cb46317085a00c6e"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/live-stock.js",
+            "size": 40785,
+            "hash": "d4807af30ae97faa54660c5a92af8007b0357b9c6b22cf2ac5945ca706a7cfdc"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/login.js",
+            "size": 2146,
+            "hash": "ff2ec50c0d90901a4809a7674d0ea3e43572935bb8c338fb17cea6bb5af60d53"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/marketing-executive.js",
+            "size": 11066,
+            "hash": "8b4c886ecaaf2be7f70940db0190c5c5ed9cac32e59f29c7f769e59681e22f04"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/non-permission-page.js",
+            "size": 3513,
+            "hash": "88df864f66d46bb3c7bdc980b0c05030d435439f63c5dad980c3b5f05a19a19d"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/old-outstanding-report.js",
+            "size": 7553,
+            "hash": "4dccdfc6cbae42a3e650bf2a7fde4016c67c958ce12a25ae5f428c145076e057"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/old-outstanding-settlement.js",
+            "size": 16447,
+            "hash": "4e6f9665948635749ae0e0bd2a6468b27319364d97a334b517936e898df22b22"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/outstand-settlement.js",
+            "size": 11791,
+            "hash": "5b926782b15c1348ee3c0241cddab019ada3f164b7fbb54e7eed467bee040152"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/pages.js",
+            "size": 5121,
+            "hash": "16e3ddc467243d2b3090b9f03c481d0acc2c62c2e419ad513178274632983927"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/payment-receipt-supplier.js",
+            "size": 29150,
+            "hash": "4fa4b25285057a4693da7ed5faade4fd04e4baef9bf52e337dcb8aae59e24840"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/payment-receipt.js",
+            "size": 28823,
+            "hash": "ff6a34c2fac2caa96eb40298f866b25e9f5974bd769144534f8d6c8401b5392b"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/payment-type-master.js",
+            "size": 7214,
+            "hash": "4dde466df2769c9474bf9afba82f77c9b7802bf905ed98a591ff751f26d6a321"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/pending-check.js",
+            "size": 7718,
+            "hash": "f13ee870a65b3443243a8b88ed30b32de7e501831aeca20ab2a4a16e138312db"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/purchase-order-return.js",
+            "size": 6358,
+            "hash": "928024bb94625425122fcf727a38eefad67932aa6b3a7e090e07579395f3f4b7"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/purchase-order.js",
+            "size": 27948,
+            "hash": "1bdc00a0047c63938e33d50bfe48055aaf49b713805440ed329201138e058d42"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/quotation.js",
+            "size": 43969,
+            "hash": "56cae9e0b29ca7408252ebeeab530607e0edf21a03366e6e4809898ed53e2306"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/rent-type-master.js",
+            "size": 13693,
+            "hash": "8bb0a27055ca52f3918d3962424e13dd442ec253b771d061f20aa920f80885e9"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/report.js",
+            "size": 27705,
+            "hash": "950eed093fbbacc2485f073361d5604d95277cd95f36441c0823c8724a4f3095"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/return-items-report.js",
+            "size": 13074,
+            "hash": "ddb1a8853b8421962f359baeb8f94eac654843d044532c7dfca8ecfc5cc74496"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/sales-invoice.js",
+            "size": 103340,
+            "hash": "bee5adcee35cfba5b2ecf459e504d64f14aa83173edd33fcdf47cdf000c60956"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/sales-return.js",
+            "size": 31490,
+            "hash": "88187f10e68e46c0e7b283ae5a0f7010c66283c98460b7a582387de6772a613a"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/service-income.js",
+            "size": 5857,
+            "hash": "cd588a1bef38ddcd216d865ecfbe11c92e1dc5a384716486c07e0ce8fd413c32"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/sales-summary.js",
+            "size": 7533,
+            "hash": "b7b980b683a7f3036c1f3eec1beebe00cd416a3b635b0cccaf082b773495ce4f"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/service-item.js",
+            "size": 9168,
+            "hash": "c63e6a73c30899ae088b4b9dc08f20438ecd5552f893467746a8109a0dcb1deb"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/service.js",
+            "size": 7814,
+            "hash": "1dd712b7b6627e79204c1c29d9acf056db252990e51dd3d49c9ea008183b6c29"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/size-master.js",
+            "size": 6519,
+            "hash": "a4dfc9b15035c36dd0637432a42f59e49981b0b8658a93a128c4d515679fd308"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/stock-adjustment.js",
+            "size": 14717,
+            "hash": "d2a8aa67603813bddbb1bcb61ac27c9bfb850809e6a8aa8d85825bfdc5655ad6"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/stock-check.js",
+            "size": 2134,
+            "hash": "184d8471d8475a43675c6b58cdde44f077e669d4c8cc06e4690a6fb6e138faad"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/stock-transfer.js",
+            "size": 13388,
+            "hash": "af5a70e79250fcf958f60d9f02d0d99376c699e85ed3d5b06317a22ec520b596"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/sub-category-master.js",
+            "size": 7175,
+            "hash": "73a8efe52425ddf0092269721b19865aef9ebd74bc3b8a42065f8ebc6244b0ef"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/supplier-discount.js",
+            "size": 10178,
+            "hash": "b002a23bd54ef9cd715150885ff5c6f8ada50b3bd35f1309f99d49232530a81c"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/supplier-outstanding-report.js",
+            "size": 7506,
+            "hash": "e2a21167eaff26a05f35f062116339cbaa5683ca15ea06f6fafb49be0ffd2bb4"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/supplier-payment.js",
+            "size": 9304,
+            "hash": "92c06417ab91866e0d4fda0e667c0d77600c70569f2387874f0ba7984118deaf"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/user-permissions.js",
+            "size": 13721,
+            "hash": "c6f3608e2f28af7448adf02e480a8e9e44cf2bb6c70a5d927507740b96068582"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/user-type.js",
+            "size": 7418,
+            "hash": "c6d31eb0f88f0704e3e2480e779010e1ea304fdf6adca6b2e532965fba9485c6"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/vehicle-brand.js",
+            "size": 6913,
+            "hash": "870052438a9eb2d429067520c9daa616fb9ee1e586fc234a19dcf4b9a714a8ab"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/user.js",
+            "size": 17375,
+            "hash": "ce427c01da28acbc10629b10b1c363f3b550eb3cdea8a65a4275e6cb7bdf0d4d"
+        },
+        {
+            "type": "file",
+            "name": "ajax/js/vehicle-model.js",
+            "size": 7601,
+            "hash": "5f646a8366ac05f72af81b029d069f0c6729af0c3e1b5043070ac376592cfe0d"
+        },
+        {
+            "type": "file",
+            "name": "assets/css/app.min.css",
+            "size": 104594,
+            "hash": "914368b84069737569e7d6b0b84be0c121c68ea9968749a4c5c2ea7be2f369f7"
+        },
+        {
+            "type": "file",
+            "name": "assets/css/bootstrap.min.css",
+            "size": 205519,
+            "hash": "8c7ae7c7efb092554644046d9b67fd54fd8263efe505eaa65bb4577b9b1de07c"
+        },
+        {
+            "type": "file",
+            "name": "assets/css/icons.min.css",
+            "size": 385200,
+            "hash": "52346465fd4e6ca31242586a5c54ef4ac01ec343b1fd616e32dfe69adc278dfc"
+        },
+        {
+            "type": "file",
+            "name": "assets/css/calculators.css",
+            "size": 6565,
+            "hash": "a90081d078cfde6e32f4c3118f6ae20a573c6deae3c6bfe4b1c2a22c8a464a6a"
+        },
+        {
+            "type": "file",
+            "name": "assets/css/preloader.css",
+            "size": 2286,
+            "hash": "0e95039c5a91d8f6f3c35b078d6e6693df7599167c5c3a5c35d115a6f9510b60"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/arn-history.php",
+            "size": 5918,
+            "hash": "1e810dfdd3628739ec475a83c95824ad77e5987cdece73dfd84ab86f376cfeab"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/arn-master.php",
+            "size": 13902,
+            "hash": "86df09950ac1b921e2c817f8d90e1fb3e87e702b8473bfb7ff06dec9f0a597f5"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/bank-master.php",
+            "size": 1516,
+            "hash": "3086770631b2c9bba8e804775ef79c0aa5aa19da1d9fea6a24c3c14d507e3c0e"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/arn-qr-genaretor.php",
+            "size": 5561,
+            "hash": "ccef19df435170526fa0585a2f86611ebd95874a231b395b1ab7586bbd47f89a"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/belt-master.php",
+            "size": 1651,
+            "hash": "2171e1ca2ab310f7e16b854468cc694af73c4b85350f1cc6129814bb2f60c646"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/branch.php",
+            "size": 2124,
+            "hash": "029c457d3cadd4042146835948ea07385d4e7facdf65dac84ddb5ac2d0036065"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/brand-category.php",
+            "size": 1683,
+            "hash": "d8a11bec44d66d0bbec0e500bf3c1e1b17eed256425198c79c5fea8ce24b8202"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/brand-wise-dis.php",
+            "size": 1620,
+            "hash": "1bd11cc0b7560d5fbcc0dd6683ece5343e3781ae02e487665f322965fb541a31"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/brand.php",
+            "size": 1518,
+            "hash": "9c1c5aaecdf21e7cec5bdf77ce1fa59a2ac1ee54c432e3fba1de306691ee48da"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/cashbook.php",
+            "size": 4923,
+            "hash": "c588a83c48451a86d67ee980bf666df62b607e186437f926632411f58d2bb33c"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/category-master.php",
+            "size": 1216,
+            "hash": "dde58428a2bde00ebce0b55f957f1d37d48a6753828d551115e00c4350024e95"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/check-queue-columns.php",
+            "size": 1806,
+            "hash": "e06231e8a76d924c950e02fb80a563e9f1e36bcafcbb92dd0784b19c3e62230e"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/common.php",
+            "size": 1109,
+            "hash": "82270d1155b2825bf9bac912e4cb4d42740d9f12cb1f2b76e5ca2afe08d70add"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/company-assign-dag.php",
+            "size": 7624,
+            "hash": "771b11a05d7fc1a90643b44b5fb1f8f5631dff82ead8b65b696e43c717e7d07f"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/company-handling.php",
+            "size": 10321,
+            "hash": "9aa0bacea358a145098ae2a44544a5761999d4740dac20fa8a14de9e5120d08b"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/company-master.php",
+            "size": 2064,
+            "hash": "bf20474cdf62035e2d925f1de3afae87ce05c3a445fd29f010df0f963a1d413b"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/company-profile.php",
+            "size": 6658,
+            "hash": "142772082a63f348d0e3ef255d4096b4078c4d57d07ebafac4d4c7e585efd730"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/country.php",
+            "size": 1662,
+            "hash": "adc9622703c96a006f959193be730bf2c4b3865df4cce7b6c707e9ca336efb1e"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/credit-period.php",
+            "size": 1706,
+            "hash": "3bd378ba4fdb86ab9d12d88486358b5bfb4e12808a1fd315a86ab143f2f6b934"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/customer-complaint.php",
+            "size": 5065,
+            "hash": "ee6a07ec704974b134d1288d9ce3c108bd0da4ffbd724eec425688261a656a70"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/customer-master.php",
+            "size": 13940,
+            "hash": "7b77d346656734344ea348651f4ba28234f54f6537d13de0c581ac2ff860bdb1"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/dag-customer.php",
+            "size": 2046,
+            "hash": "47a1a15d79c0e248f7adf94c167502c222ac6b396a22ff6ba2e9ba0e8e593fa3"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/customer-outstanding-report.php",
+            "size": 3846,
+            "hash": "63c107faec56d160f95fef1e0d15f6731f9b69efbe9dfae4966903861230c7ef"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/dag-invoice.php",
+            "size": 4917,
+            "hash": "369ae84a02b6b98d08933b3420b99fb746d284601ff6ba63546f5a4119aff6bc"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/dag-report.php",
+            "size": 735,
+            "hash": "a08247d289c6f515c66b54cb500c2f81323baaa841668affea1250de62743686"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/daily-income.php",
+            "size": 4949,
+            "hash": "85b3cccafc3ff8ec2f6da624d99617c8da692c43ad38d7b699e1602549c7456e"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/department-master.php",
+            "size": 2005,
+            "hash": "6a63584f814326a9f6a7e73c291b112793b0419ce9f747d1bc48f5106687251d"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/design-master.php",
+            "size": 1711,
+            "hash": "759a441c669e6ad99387f1b0c90a3b8e53ecc4324da1511356f151349df307c2"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/district.php",
+            "size": 257,
+            "hash": "6b178fc2698362b00540fd1218b1f4bd20086fea9d4abcba7b9da0b7a6815dab"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/employee-master.php",
+            "size": 2775,
+            "hash": "0656efb49288d2e9ec86dfc53277681a8b16650e60187682c062f69f11af3865"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/error_log",
+            "size": 224976,
+            "hash": "8d1d3371e6006a7ff24340759ca72f97776b5830995faae5c4a3b370d9ff13da"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/equipment-master.php",
+            "size": 6597,
+            "hash": "5c1d1848f5a0b1ef0cc1de6e5cc0c403e1984a3b8fd73f39a0cac453375509a2"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/expense-type-master.php",
+            "size": 1717,
+            "hash": "d1f276ddcc892c6f64544d6503b6a2b3c7d35e7dd370502e839fa6e9e312180f"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/expense.php",
+            "size": 5153,
+            "hash": "925b10fcc6197e0bfaa07bb0975c03ac0bfe3e66c2dd3b409b34eb48a1f57840"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/get-permissions.php",
+            "size": 2686,
+            "hash": "56d986ab80fea779e352292cd3cace76413472721d9b55a48de644df3ef2fa48"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/invoice-payments.php",
+            "size": 1,
+            "hash": "36a9e7f1c95b82ffb99743e0c5c4ce95d83c9a430aac59f84ef3cbfab6145068"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/group-master.php",
+            "size": 1271,
+            "hash": "41cd0ac91b0350092043f3a724b4e5d1adcc17e280dcdb3fcf7d9c96996e1348"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/invoice-remark.php",
+            "size": 1726,
+            "hash": "ee71b8dabfa771674fb6f09e614aad47e9a8674c7c9e73716e06c044ca3fd7be"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/item-master.php",
+            "size": 43260,
+            "hash": "8525a81920ac7eaa14ccfba5c4fd00440f4ee4efae4f699c16b8133e2d7b6405"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/labour-master.php",
+            "size": 1842,
+            "hash": "e76a46f7c9faee2a0fe430c23178e315ee7fc8fcdbc5ad37bb35de351066bd98"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/login.php",
+            "size": 576,
+            "hash": "3ddaccaa0f0f9eff3c7272ab00c547906eff038925befd331f5a0afcef355f1d"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/marketing-executive.php",
+            "size": 2070,
+            "hash": "d994f36f083b8e514a3ca1ac091a5c06778bb97477eb012cd6d831e0e1f9c9e2"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/old-outstanding-report.php",
+            "size": 2236,
+            "hash": "deace0eae41d313e16fc9d8a71e4b9eff1374998bd64a70f7cbcb9df997a0cb9"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/old-outstanding-settlement.php",
+            "size": 3824,
+            "hash": "652c2e6da029884ee9ba6c70b141de0abe483ab1b7312ef65a03210d053ed976"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/non_permission_pages.php",
+            "size": 1100,
+            "hash": "d0f2f9524bb87805bdb1be8480deddbfc303eb5187c37ef630cb5d2320212391"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/outstand-settlement.php",
+            "size": 9454,
+            "hash": "d4c0975ee01ef95be3d73a75bcd5f7d42bff142cc9c48036fcf700fedb0312f9"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/pages.php",
+            "size": 1698,
+            "hash": "a24654305003e1663ac6422a94c9219e7b661398395d0600009a18a5eeb1d903"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/payment-receipt-method.php",
+            "size": 4277,
+            "hash": "27a63f42a41ac0f0a1ff609f3d3d1ebce509fcebd9e998953f4ba8be5c94eb2a"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/payment-receipt-supplier.php",
+            "size": 5113,
+            "hash": "832608b2561de2be37c0b834f87a5cd0cc6a617a68335de2f27477c3271bf789"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/payment-receipt.php",
+            "size": 7175,
+            "hash": "414f8ef31d4d1dfc75b59035c7572b0acf36ff798b63291b2677b477e2621a4d"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/payment-type-master.php",
+            "size": 1624,
+            "hash": "ffbf40faaf43c55341db1ccf6766ccb37b3b4810e3e347bbadf0c2f93c0dfabd"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/pending-check.php",
+            "size": 738,
+            "hash": "f918afc4589e852320264d40b744afb30c3bf828307da94d514ffaeb090d340e"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/purchase-order.php",
+            "size": 8306,
+            "hash": "54f28a964221cce7ed85e85fcdf07a07aa7b6cd20945d30c5827bfdb1a13a6be"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/rent-type-master.php",
+            "size": 6155,
+            "hash": "9b9eec263494f074c38b05c97862a07c59ed3e0781509c4ddbbc68827e61aa9e"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/quotation.php",
+            "size": 13552,
+            "hash": "1bc78a645171e1be55bc12d37c6a3d0543dcb709f570879534dfca36b59d55c1"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/report.php",
+            "size": 7287,
+            "hash": "0e0564f031b695f482a2b91350a5262b1ed85ac264fddc7d46dda63ad5e710f1"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/return-items-report.php",
+            "size": 3135,
+            "hash": "8977a479451d84e02de7b038eacc9ac9d45926a7e390705b781172a862dd45b1"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/sales-invoice-quotation.php",
+            "size": 4028,
+            "hash": "026bf8e18978a2fd390ec5a252b91716cc86a813dc823fb77bf1da4c4a087a1e"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/sales-invoice.php",
+            "size": 27084,
+            "hash": "7c4ca133f4e01cbb8e6f707319f58dad03f51d51390cb353f05f96e3abbfc342"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/sales-return.php",
+            "size": 16404,
+            "hash": "3cdd6f8f0a07d57b81344420b1cff48d392ad07e83d1061afff2c386c40325ba"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/sales-summary.php",
+            "size": 3417,
+            "hash": "1ee9323efa0f9f95647a988b4cf8d105c68e197830a845fc0e8e1219e10328fc"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/service-income.php",
+            "size": 1363,
+            "hash": "5398572cc2cc4094e911749e30cac6cf90bf7174cede981a3f814d168355ccb4"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/service-item.php",
+            "size": 2435,
+            "hash": "0a5e0807e4c354b303a58122ae148fb476998edad3ac6183335ce6e0619eb06f"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/service.php",
+            "size": 1962,
+            "hash": "11e800170cebb876768833fa3bd81521c7a7e4471c36163dff7ba491d2fd7e42"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/size-master.php",
+            "size": 1672,
+            "hash": "c5a8dd86f7ec97b666acd33c9aeac517c31777208eb14fddac2ddc9a1d3654a6"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/special-user-permission.php",
+            "size": 3539,
+            "hash": "e1b1e49fc421b8099d789dcccc4383b5fc397a1255a9c57ceb5e11ea5f70d36b"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/stock-adjustment.php",
+            "size": 2882,
+            "hash": "9b140bf131242a63d004bb8660dc74be43054dac9cc347714329f8596ff9f981"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/stock-check.php",
+            "size": 1986,
+            "hash": "61b2c3bf66b18fd5b51ebc65a54af0a2d4124243a91930dec479a2c93faac305"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/sub-category-master.php",
+            "size": 1879,
+            "hash": "662ee9e621122104f60072c074b52636f6d0aa5f9588bc94bc673c6c3ef67b4c"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/stock-transfer.php",
+            "size": 15786,
+            "hash": "df19f056ca21ad9488ba8bc79adb255b73990d764de2e9543bac92becfccaaa6"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/supplier-outstanding-report.php",
+            "size": 3377,
+            "hash": "7b1f664365e76e39a34f671ed5219775c9740ca45ce628a33b325338aa855804"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/supplier-discount.php",
+            "size": 2568,
+            "hash": "9d9018e98316fd10ca319723ca108cdae761b14bbf470796cb8b6de2a055f174"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/supplier-payment.php",
+            "size": 6057,
+            "hash": "74532e176c7eba68c701a5352413e306659e6553dd000c0828447d7b3f51158c"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/temp-sales-items.php",
+            "size": 332,
+            "hash": "ead70a6c18f4e539171790539a5763cc7cb96e9a293b2c04ffa1680c666f3dcb"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/update-page-order.php",
+            "size": 1506,
+            "hash": "96af32e89789c5aeeacb23e3fd97ef40d4556513f549737c1817df2dbc39d606"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/user-permissions.php",
+            "size": 1636,
+            "hash": "215e8a4a0b0bb9dbbef3db6c176027738e782886526a17fa7116de58004af3ea"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/user-type.php",
+            "size": 1941,
+            "hash": "e5b28347e91e43ea9cec4eb3e13a3c77d006aa0d354705242d6e47a41ebffb91"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/user.php",
+            "size": 9350,
+            "hash": "169d02b68d63c6fb4179dabd5b41345a6cd20dfc8e7aed60d1cc56095e6eba1a"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/vehicle-brand.php",
+            "size": 1582,
+            "hash": "a88dd7359f3026e9128c156f5357d694deff19d62eb41d57daebc59b052a7300"
+        },
+        {
+            "type": "file",
+            "name": "ajax/php/vehicle-model.php",
+            "size": 1668,
+            "hash": "813c1bf9b50f77cc63a623b16196f2315b8d3576a8a655b69ad9812560b1bde7"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/logo-4.png",
+            "size": 167963,
+            "hash": "6a4ac46b05e145c8029846f5774bd64e3471704da0cb3b2b8654319bf6db33e7"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/logo.jpg",
+            "size": 167963,
+            "hash": "6a4ac46b05e145c8029846f5774bd64e3471704da0cb3b2b8654319bf6db33e7"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/logo.png",
+            "size": 126367,
+            "hash": "3d8f14f44156354ce6de1d5195615097db2c63be881995be2844b7c73728acf5"
+        },
+        {
+            "type": "folder",
+            "name": "assets/images/users"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/welcome.png",
+            "size": 130215,
+            "hash": "62b80c5632a53e9ed563a994674159b47923452f6933e10c4ac6d03cdbe32342"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/boxicons.eot",
+            "size": 209260,
+            "hash": "802c35640fced8e2ab71a41f8783677e43e6ceff07f08d3eb5e30c7dd0a5bc7d"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/boxicons.svg",
+            "size": 744380,
+            "hash": "809f57f0bba7aa595c00cc723e84682096013df8a8e6df393691bbdec461c937"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/boxicons.ttf",
+            "size": 209092,
+            "hash": "ac7dcf49337576dda35e1b5ba8a605dd4b327e4904382c1800447299fe81c8c8"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/boxicons.woff",
+            "size": 209168,
+            "hash": "77e1b957cddd1a0f76110f716b3b2ae865b8acfeb7bdce7a6f5f8dd4a52097e7"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/boxicons.woff2",
+            "size": 74712,
+            "hash": "79f146048436739bb1c4dd1964b0e2493166373e611ca6ba66c79ddb07930cb8"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/dripicons-v2-1.eot",
+            "size": 40522,
+            "hash": "4551d45f9461084536f7f773b845761b945e68ec435c6f244e8b2d72b371d335"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/dripicons-v2.eot",
+            "size": 40522,
+            "hash": "4551d45f9461084536f7f773b845761b945e68ec435c6f244e8b2d72b371d335"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/dripicons-v2.svg",
+            "size": 99368,
+            "hash": "2c1ce9e2c6fa50aadaaa63c72eeb45bed1f61bdfa0746619c21f33d8d59a4ef0"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/dripicons-v2.ttf",
+            "size": 40348,
+            "hash": "d8c798b53ed325b354524c6f83c735bc8a461a429daa2c0302d671988aa6da0f"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/dripicons-v2.woff",
+            "size": 26004,
+            "hash": "e87a09cef1a17d8c6a5a1b542521889f2f409262589d8d4fb1d9112c9e144bfb"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/fa-brands-400-1.eot",
+            "size": 133034,
+            "hash": "811e1577184066108ceca86d5a624a9012303df5206c5cb0b27d5e3fedcba5a3"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/fa-brands-400.svg",
+            "size": 715890,
+            "hash": "02340ba1789d09bcc507563c89c4a847ba537bb8132082777a50519cf74bcb5b"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/fa-brands-400.eot",
+            "size": 133034,
+            "hash": "811e1577184066108ceca86d5a624a9012303df5206c5cb0b27d5e3fedcba5a3"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/fa-brands-400.ttf",
+            "size": 132728,
+            "hash": "a0c145382acfe59767d1487d6505f349665b685c2885cd91b621d141a292b0f8"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/fa-brands-400.woff",
+            "size": 89824,
+            "hash": "e836c5d5dfc13e18170c5bddefb4fdac7c65ac0ad43a4b431acdc4a98865a260"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/fa-brands-400.woff2",
+            "size": 76612,
+            "hash": "5d9190292acdd48ba0fc35080f7e7448f3cdf0d79199a4d23f0f49b5341fdf29"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/fa-regular-400-1.eot",
+            "size": 34390,
+            "hash": "01f4416f5db59e2dd6b6fbd9dc32336d99db18f7eb623a49f584d04afd279473"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/fa-regular-400.eot",
+            "size": 34390,
+            "hash": "01f4416f5db59e2dd6b6fbd9dc32336d99db18f7eb623a49f584d04afd279473"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/fa-regular-400.svg",
+            "size": 144322,
+            "hash": "865fd23de13b1920280e182359579e09eff7a09eb24676eceec7552838559f55"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/fa-regular-400.ttf",
+            "size": 34092,
+            "hash": "f32b94a29060dfec0c797a1dfe111357eb1d682f1aca4ac4b95cf0f4c3e2bfa9"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/fa-regular-400.woff",
+            "size": 16800,
+            "hash": "8e2d96198711b63752e5f2f5987b8ffc536df6156a065bdbe28cb7231cad793d"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/fa-regular-400.woff2",
+            "size": 13584,
+            "hash": "6a8c8e9e1e7f692c21af1956de163f3d026778e6449fe93a09a671847ca1ae65"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/fa-solid-900-1.eot",
+            "size": 202902,
+            "hash": "32501727bb23fc77615b1ec76b5f298ec22198c0f3d6a3e7d6fe4ac3cf315db9"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/fa-solid-900.svg",
+            "size": 897426,
+            "hash": "e768539808757f7eec20f09c9ee9b36b0e6c5636e90c9ee697995cbbc6ee0555"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/fa-solid-900.eot",
+            "size": 202902,
+            "hash": "32501727bb23fc77615b1ec76b5f298ec22198c0f3d6a3e7d6fe4ac3cf315db9"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/fa-solid-900.woff",
+            "size": 103300,
+            "hash": "352f8ead280419dd953d2bc7843386bb9430e8152c2dbd2c2d2494f6b9567ee7"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/fa-solid-900.ttf",
+            "size": 202616,
+            "hash": "231d68cefbc6846fb78cafca8467401a4f371e226418662e8900e3d52adc00ab"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/fa-solid-900.woff2",
+            "size": 79444,
+            "hash": "7f4d3fd0a705dbf8403298aad91d5de6972e6b5d536068eba8b24954a5a0a8c7"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/materialdesignicons-webfont-1.eot",
+            "size": 1005160,
+            "hash": "e1ad512032e46fa30b072abd2163f46af93fcd69256487c3bafdf94e8c5b6947"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/materialdesignicons-webfont.eot",
+            "size": 1005160,
+            "hash": "e1ad512032e46fa30b072abd2163f46af93fcd69256487c3bafdf94e8c5b6947"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/materialdesignicons-webfont.ttf",
+            "size": 1004940,
+            "hash": "4045a75f15f352c9bf701779019446bf41ad899b05cc035b6771f5049a9565b4"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/materialdesignicons-webfont.woff",
+            "size": 456532,
+            "hash": "7b7ee7a1be57c25913c5befaf4a56aee799487af3df86f311e0a3177f526f0a4"
+        },
+        {
+            "type": "file",
+            "name": "assets/fonts/materialdesignicons-webfont.woff2",
+            "size": 319984,
+            "hash": "34845bb6344cdad5b3e15a37bcfee67bde497cdf5805d31c952c35a92b630e67"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/app.js",
+            "size": 6141,
+            "hash": "4aba608d1bb50a7f0960a8d1ded295dfa2a70a9cb08c705aa71af0851fa4b7e7"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/jquery.preloader.min.js",
+            "size": 2058,
+            "hash": "d5e4fab685946815288e5a822630a0345b35e223adf1c58de3ec483bf66188c1"
+        },
+        {
+            "type": "folder",
+            "name": "assets/js/pages"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/@chenfengyuan"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/@ckeditor"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/@curiosityx"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/@fullcalendar"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/admin-resources"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/apexcharts"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/bootstrap"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/bootstrap-editable"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/bootstrap-maxlength"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/bootstrap-touchspin"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/bootstrap-datepicker"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/chart.js"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/datatables.net"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/datatables.net-bs4"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/datatables.net-buttons"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/datatables.net-buttons-bs4"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/datatables.net-responsive"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/datatables.net-responsive-bs4"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/dropzone"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/flot-charts"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/gmaps"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/inputmask"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/ion-rangeslider"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/jquery"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/jquery-bar-rating"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/jquery-knob"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/jquery-countdown"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/jquery-steps"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/jquery-sparkline"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/jquery-ui-dist"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/jquery.counterup"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/jquery.flot.tooltip"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/jszip"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/jquery.repeater"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/magnific-popup"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/leaflet"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/masonry-layout"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/metismenu"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/moment"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/node-waves"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/owl.carousel"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/parsleyjs"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/pdfmake"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/select2"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/simplebar"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/spectrum-colorpicker2"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/sweetalert"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/sweetalert2"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/table-edits"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/tinymce"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/toastr"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/waypoints"
+        },
+        {
+            "type": "folder",
+            "name": "partials/subscription-countdown/ajax"
+        },
+        {
+            "type": "folder",
+            "name": "partials/subscription-countdown/class"
+        },
+        {
+            "type": "file",
+            "name": "partials/subscription-countdown/subscription-countdown.php",
+            "size": 15447,
+            "hash": "cd77eea30cae8e4cb55194c31f2fc44c67c2fc153e36640092f5f2cc6821588c"
+        },
+        {
+            "type": "file",
+            "name": "partials/subscription-countdown/system-status-monitor.php",
+            "size": 1798,
+            "hash": "bb0c6c228b3e2c2f9f9b292d9abcb650a335385359bd64219db499376d33f5a0"
+        },
+        {
+            "type": "file",
+            "name": "upload/users/8.jpg",
+            "size": 1887391,
+            "hash": "d5b83ee3a3b509672662e8b44b851cd93f47974fa81efccb240e892601b4a1b4"
+        },
+        {
+            "type": "file",
+            "name": "upload/users/8_1.jpg",
+            "size": 7303,
+            "hash": "09a79512c07da0f725d497c3c4e71e9f3ea06a7168534a685dd4061f1667eab5"
+        },
+        {
+            "type": "file",
+            "name": "uploads/company-logos/favicon_68b6b9866cee75.72244490.png",
+            "size": 167963,
+            "hash": "6a4ac46b05e145c8029846f5774bd64e3471704da0cb3b2b8654319bf6db33e7"
+        },
+        {
+            "type": "file",
+            "name": "uploads/company-logos/favicon_68cb966c770f32.51723847.png",
+            "size": 35353,
+            "hash": "92e2dadfc60a7adbf5deb5af71ab69bbc4b2439336fb29eeb679e2d2af9ff93e"
+        },
+        {
+            "type": "file",
+            "name": "uploads/company-logos/logo_67fe90a3f30720.06669576.jpg",
+            "size": 30081,
+            "hash": "369d99088b7a5ed8346e6801f0d4fbaf71d6b1c9d96f6bea39335d7d798c3cf7"
+        },
+        {
+            "type": "file",
+            "name": "uploads/company-logos/logo_6801efc06d7568.52517105.png",
+            "size": 24439,
+            "hash": "8b1eef8b7018ae182667d1ba34d08e76c79a7dbc9215699494329acebbc4143c"
+        },
+        {
+            "type": "file",
+            "name": "uploads/company-logos/logo_68b6b9866cba23.42169922.png",
+            "size": 126367,
+            "hash": "3d8f14f44156354ce6de1d5195615097db2c63be881995be2844b7c73728acf5"
+        },
+        {
+            "type": "file",
+            "name": "uploads/company-logos/favicon_6964db03af09f1.28206727.png",
+            "size": 178467,
+            "hash": "166649faa1e6dbe3872f543dbf1e3073f2f3438053666b77dbcb2e63bb5be24d"
+        },
+        {
+            "type": "file",
+            "name": "uploads/company-logos/logo_68cad402add513.99439998.png",
+            "size": 162567,
+            "hash": "72d5f8495f8062349b1f926ac1994bae0f6699127943309e479d25c336daa6fb"
+        },
+        {
+            "type": "file",
+            "name": "uploads/company-logos/logo_68d3b6cef3adb3.64686056.png",
+            "size": 162567,
+            "hash": "72d5f8495f8062349b1f926ac1994bae0f6699127943309e479d25c336daa6fb"
+        },
+        {
+            "type": "file",
+            "name": "uploads/company-logos/logo_6964db03aeeef4.91192115.png",
+            "size": 178467,
+            "hash": "166649faa1e6dbe3872f543dbf1e3073f2f3438053666b77dbcb2e63bb5be24d"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/users/avatar-1.jpg",
+            "size": 15503,
+            "hash": "7bb6ff2fe9c9e5407cf467834ad528eae524989724ec53ffbe55d689e3a5fba6"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/users/avatar-2.jpg",
+            "size": 10370,
+            "hash": "8d5771fee2883d4b0a07895550c12766f7a64bfda0236a0d1377f3fbab3a4c75"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/users/avatar-3.jpg",
+            "size": 18274,
+            "hash": "c27a9dc42e20e1fd15de6c98138599d5a5c83e209dca3a1ade564a4672a712dc"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/users/avatar-4.jpg",
+            "size": 13993,
+            "hash": "b0db35bec3b3ffa815ef8ed5d1cf2918733267afb79e8207f91a9df432c66344"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/users/avatar-5.jpg",
+            "size": 10549,
+            "hash": "48503ad16267b7bf71ee000c04c3f15a564842181f436ecd4c55d36a0c283551"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/users/avatar-6.jpg",
+            "size": 19359,
+            "hash": "db235aa6e16b97e37588ccc0c6ff71e52ea7a9592a50232464a98a8c536c34c2"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/users/avatar-7.jpg",
+            "size": 11962,
+            "hash": "e5ed400e19067310a55c6e9bdec57474023b0fbd4df488938c7324fc5d4f06d4"
+        },
+        {
+            "type": "file",
+            "name": "assets/images/users/avatar-8.jpg",
+            "size": 11738,
+            "hash": "9eb5fbf1d37263975bb0053a814cc7a661246d91e93e2afc714c398138628aba"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/auth-carousel.init.js",
+            "size": 99,
+            "hash": "5b512d574e05eab6466a10c28e6b871ac4b8a1f2d9a6f3ca05c636d4d5a7dabe"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/calendar.init.js",
+            "size": 2618,
+            "hash": "cbaebaec2921a412ee5c69c893252f5112b42cef5210b49fc4981365dfab223c"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/chartjs.init.js",
+            "size": 3550,
+            "hash": "b87e195e46060fe26150fb6356108847926faae52577b95a8aa0fc42e7109198"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/apexcharts.init.js",
+            "size": 6892,
+            "hash": "f0932fc9db07c7eb97e35db2e096e486d2c9196a2096c62f11b5947e69e22b87"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/coming-soon.init.js",
+            "size": 350,
+            "hash": "1d6fe5577a28a8094633dc0d6219ec78f92d3fe18020193ecca6448500724f76"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/dashboard.init.js",
+            "size": 4944,
+            "hash": "a44179b94029dc8a651226f8d5bf00c7722eb77d0e1b7058ad7b50f13c8ce17f"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/datatables.init.js",
+            "size": 299,
+            "hash": "25259db85e02f0897795f0764815ff93f47e56012b3723ca664280ea7ebb125f"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/ecommerce-add-product.init.js",
+            "size": 24,
+            "hash": "3e0ad04621ac02ca155aebb17aab248187295337f52b16b35fd7e36b05e1c12f"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/ecommerce-cart.init.js",
+            "size": 138,
+            "hash": "8d8cbd406c3761e9f1815f1fb08fc1828df71afbc2786844477de8b41fd78fa8"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/ecommerce-datatables.init.js",
+            "size": 129,
+            "hash": "f9f77151ded4acca865e7583535225816763746846e37029908ec2124f7886c3"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/flot.init.js",
+            "size": 3410,
+            "hash": "0d02c8adfb8adf7f2ef11f6cd12764d1f9115f3486c730e2b5746b807484320c"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/fontawesome.init.js",
+            "size": 573358,
+            "hash": "2bfc91ead196955173c2ee96a4c8a97e3ec6a2a13ee547547778f4cf6c1b9bf9"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/form-advanced.init.js",
+            "size": 3994,
+            "hash": "7b41ef73542cd22876e8b60b6e145d61fbac30b23934db0c28b80706b96bd661"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/form-editor.init.js",
+            "size": 949,
+            "hash": "de4eef91da7406c9a21f37ff5a3db322f624c807d001effe164260f9e683cf56"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/form-mask.init.js",
+            "size": 60,
+            "hash": "d68c5a862145ba376c87c272d9b8d9da0d6a784e4c98a2f481809593a7673e96"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/email-editor.init.js",
+            "size": 966,
+            "hash": "0635b5191c93d6be58773b94654107ad03c9ecd6af5f521d07c9a941a78d6b55"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/form-wizard.init.js",
+            "size": 220,
+            "hash": "e69268d3502660b78843cb4202561cdefcd0f6b68887edc07dd5aef3dbf10c94"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/form-xeditable.init.js",
+            "size": 1204,
+            "hash": "8064472367213cc83de368c306e4e505fbff47f1c1246d98a3c7e0f8914c0ea5"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/gmaps.init.js",
+            "size": 987,
+            "hash": "887bf8a3650d963116ed250a8562600f1aeb56769103152be4dda86555b9decd"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/jquery-knob.init.js",
+            "size": 33,
+            "hash": "c0116bd90b7b3ad1e6104b03e67ef52e54ac2bbd373aca9c5c0f67fbf44687b6"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/leaflet-map.init.js",
+            "size": 4835,
+            "hash": "da030123a2418b8570549036ead86a948ee826e7ce3a20eaca6e64b3e0b8bcf9"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/leaflet-us-states.js",
+            "size": 88384,
+            "hash": "5f40f095e9f6083362c44b4e033a8c0553b845ee6cf68419ce793333f082c74e"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/lightbox.init.js",
+            "size": 1777,
+            "hash": "00eb5c3ebcb7faaaad699306d8f2a88c5c1b27a23492c5e165d3c57420caae07"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/form-validation.init.js",
+            "size": 385,
+            "hash": "d4e159027562a598c5dae0b6335d506bccc36793cc5b8e79471b887a617c7b2d"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/form-repeater.int.js",
+            "size": 792,
+            "hash": "b6347f2d6ab8a39bbf91b7d6528b90cbd5efc0c45dc78e9a3eec66b73bedfaa5"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/materialdesign.init.js",
+            "size": 314462,
+            "hash": "8cc867770144e609732f1bc6bb31076e3f88a4ca04f015ada975e0405db7b1c1"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/product-filter-range.init.js",
+            "size": 142,
+            "hash": "d54a67f2d1699955a08695a43ed1205121f750d8b44e75eafea99d57930a5d3d"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/range-sliders.init.js",
+            "size": 1343,
+            "hash": "ae310bc80f649ac41a02daa36a808a30ed31163dab681f925fee6d553b0691e9"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/rating-init.js",
+            "size": 1585,
+            "hash": "fb0bc60e6b0aa030a3689acaf323d9a1a9aabce49f85994f1407fc3548859b58"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/session-timeout.init.js",
+            "size": 300,
+            "hash": "66eb6cc2a9602de3005484c4307b0f33ae964bf3ae4e677b40439a4f714bc333"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/sparklines.init.js",
+            "size": 2261,
+            "hash": "2e43a8b519f61f335dcc5f55b71efbb08ee0c8b0f82de1ed338213896d08fd61"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/sweet-alerts.init.js",
+            "size": 4413,
+            "hash": "bdf7d85aa8b3f4337e082c29f8b692b6208bca16db70a2752d6bb9ef8f8f1807"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/timeline.init.js",
+            "size": 224,
+            "hash": "1b561ec6306f8a598953803aee0f0ead970ab181adfd0110133c333da95c59b0"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/toastr.init.js",
+            "size": 3175,
+            "hash": "ae826a10c3ec00a82917cf78524ca4ee3a1ea1652e015d259ab2c19f0a054175"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/vector-maps.init.js",
+            "size": 2260,
+            "hash": "6bb072692066775724ad314438fe57e25bf954bff44156933e382388afe82a50"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/@chenfengyuan/datepicker"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/table-editable.int.js",
+            "size": 506,
+            "hash": "10f9f9a4b526b658406eeabe1f4ffe846ddc05136fa81494032f6f349d9e087f"
+        },
+        {
+            "type": "file",
+            "name": "assets/js/pages/table-responsive.init.js",
+            "size": 169,
+            "hash": "0f7be430f7045b9149ba917f1f148a7fe2502da3e23668ba28e881dfb809db6e"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/@ckeditor/ckeditor5-build-classic"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/@curiosityx/bootstrap-session-timeout"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/@fullcalendar/bootstrap"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/@fullcalendar/core"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/@fullcalendar/daygrid"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/@fullcalendar/interaction"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/@fullcalendar/timegrid"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/admin-resources/jquery.vectormap"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/admin-resources/rwd-table"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/apexcharts/apexcharts.min.js",
+            "size": 470213,
+            "hash": "c361072383bf1d69eca4b06f8bb37c6b459c1147a3bb587ebd67a42c83e6fb11"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/bootstrap-editable/css"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/bootstrap-editable/img"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/bootstrap-editable/js"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/bootstrap/js"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js",
+            "size": 8424,
+            "hash": "dd944e0d4ce4b75e61499f6bfbe85f650b554e61e44097f25f12a1473e8592d4"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css",
+            "size": 444,
+            "hash": "968f3883c3676679a3e8cf34daeed83067fc98cba8418578c4a1086f60eb4679"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js",
+            "size": 11284,
+            "hash": "8b6d79ce995d9b9891b38aff3ea5db75fc9a84f16e5bf82d3c40aae439f78127"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/bootstrap-datepicker/css"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/bootstrap-datepicker/js"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/chart.js/Chart.bundle.min.js",
+            "size": 226496,
+            "hash": "780fb2721eeddf53a3897b377d85348968e7f47bd732208b9ae9cfd86a608689"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/datatables.net/js"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/datatables.net-bs4/css"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/datatables.net-bs4/js"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/datatables.net-buttons/js"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/datatables.net-buttons-bs4/css"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/datatables.net-buttons-bs4/js"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/datatables.net-responsive/js"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/datatables.net-responsive-bs4/js"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/datatables.net-responsive-bs4/css"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/dropzone/min"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/flot-charts/jquery.flot.crosshair.js",
+            "size": 5419,
+            "hash": "5c19fde427cf06e6644c356b9dfdc5cc54dab1d435e684236522f564694ae749"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/flot-charts/jquery.flot.js",
+            "size": 122971,
+            "hash": "b7b931f273c38b1277b9c6c1f4e05c4ec09885a487bddaf3279e2d7e49a38e12"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/flot-charts/jquery.flot.pie.js",
+            "size": 23809,
+            "hash": "46c11661df6074b1b56c221c53c8f9f5192f7ffd4eec7b73a03d53454b36d9c5"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/flot-charts/jquery.flot.resize.js",
+            "size": 3314,
+            "hash": "8b9f5146f324ab0fb6f260eee984732a8efb82633b93d68f64cb5cc38e7082ee"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/flot-charts/jquery.flot.selection.js",
+            "size": 13141,
+            "hash": "e6c85f6c1ebe4b4da29d8ae238c7c5060283f05f7ef054f6b91817d02c092918"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/flot-charts/jquery.flot.stack.js",
+            "size": 7090,
+            "hash": "8119b5d127f5f289f1c0e488c9233347d9239a340ad5e8df86b0d675eadc39f5"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/flot-charts/jquery.flot.time.js",
+            "size": 11768,
+            "hash": "a582c832adc7138a6b05aaf61f16ebac274701f1be4afea77e739a1c34b9c41a"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/gmaps/gmaps.min.js",
+            "size": 31936,
+            "hash": "eef8e501e6fc39a4eb09766408dba7f5d8f3b81da8c14b1a3bbda45da143049b"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/inputmask/min"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/ion-rangeslider/css"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/ion-rangeslider/js"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/jquery/jquery.min.js",
+            "size": 89476,
+            "hash": "f7f6a5894f1d19ddad6fa392b2ece2c5e578cbf7da4ea805b6885eb6985b6e3d"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/jquery-bar-rating/jquery.barrating.min.js",
+            "size": 5719,
+            "hash": "e06e5f5b9aba59ed9bb034a02c2c247ca305bc6c7f49b46c66488d65b8570af3"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/jquery-bar-rating/themes"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/jquery-knob/jquery.knob.min.js",
+            "size": 10804,
+            "hash": "db5e38abe34e33f5d4e99c52a914c9f0fd16fc2918eb35dcea65d8b78fa617db"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/jquery-countdown/jquery.countdown.min.js",
+            "size": 5339,
+            "hash": "2249399b2268c260d0698542503d16afebc80e437c846239f12196744ebbd40f"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/jquery-steps/build"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/jquery-sparkline/jquery.sparkline.min.js",
+            "size": 62673,
+            "hash": "4ca5f0033c2f04ece9c5a3192a5eb87dc701849bf2837c2b23cfe3a17538540e"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/jquery-ui-dist/jquery-ui.min.js",
+            "size": 253669,
+            "hash": "28ce75d953678c4942df47a11707a15e3c756021cf89090e3e6aa7ad6b6971c3"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/jquery.flot.tooltip/js"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/jszip/jszip.min.js",
+            "size": 95842,
+            "hash": "70d5d1830ad4ef84d08930ec7a9dd3a8d13564e04face9985585a2f9f33c733c"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/jquery.counterup/jquery.counterup.min.js",
+            "size": 2182,
+            "hash": "b8985337c167aa4e6e5296ffa6fd288e65bcd4e0da8f82439726f961f6f733da"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/jquery.repeater/jquery.repeater.min.js",
+            "size": 10550,
+            "hash": "d79a30a896bc99ee111071893b3d1818d4923630bfdf099eec5457691570c516"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/magnific-popup/jquery.magnific-popup.min.js",
+            "size": 20216,
+            "hash": "3fddc6d28aba3c13d64cfd4847c333ff48c71d4a5a58bd1a0494ca6ae8ac1bb4"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/magnific-popup/magnific-popup.css",
+            "size": 6951,
+            "hash": "45d1f5f6cf913746c45dd697b1a8f3b719c02d8b3f678dc7fc2766d54e1aaf6e"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/leaflet/images"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/leaflet/leaflet.css",
+            "size": 13628,
+            "hash": "8ac8ff34b84d8aaed5f1f856a92cad06ba434d8ad2c70f4559bf27801278e578"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/leaflet/leaflet.js",
+            "size": 142601,
+            "hash": "7cda11af090fd86b983db352266309382c9f441d8384f41ed2b19383346ccaca"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/masonry-layout/masonry.pkgd.min.js",
+            "size": 24103,
+            "hash": "367d6afdfc741fb48d2d9310e47c3924b693459a74c882c0fc545ec5ed7d55d2"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/moment/min"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/metismenu/metisMenu.min.js",
+            "size": 4792,
+            "hash": "76c63eb57b94cca29ebfe2936ee2f04484e54b149e0237d731984d577d7f7474"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/node-waves/waves.min.js",
+            "size": 6329,
+            "hash": "47ffc00429342db1b5fd3bd0438fac6f08f398fc499fd485e5fec5276030278a"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/owl.carousel/assets"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/owl.carousel/owl.carousel.min.js",
+            "size": 44342,
+            "hash": "a53c43f834b32309b084ea9314df8307e9c78cee2202c6e07f216ae4ae5b704d"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/parsleyjs/parsley.min.js",
+            "size": 42773,
+            "hash": "a44767fe9276b724f7edac5b1083e4c9451fb86d725d1d3e615fa1fa3a617a6e"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/pdfmake/build"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/select2/css"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/select2/js"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/simplebar/simplebar.min.js",
+            "size": 46363,
+            "hash": "a133ac374f1d67d935e32954eecad95016064e834d305cd076899fa1e60713f7"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/spectrum-colorpicker2/spectrum.min.css",
+            "size": 10063,
+            "hash": "5d4860e3f5c8f866e1eec1aeb2c847a841e8e42517001dc1af4abcd36d30e502"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/spectrum-colorpicker2/spectrum.min.js",
+            "size": 36053,
+            "hash": "9e51d18b5aeb945b061b265642e0b591b328200905fa69ad2de994cf67d4b692"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/sweetalert/sweetalert-dev.js",
+            "size": 121789,
+            "hash": "63a004bafba0af2bdef34160ccf1377b610e3607e260f71a49aa85faf2051880"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/sweetalert/sweetalert.css",
+            "size": 22879,
+            "hash": "93ae81483be2e9705db4cd911fa410bc2cf6c24f355dc5ac899de49fab854e63"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/sweetalert/sweetalert.min.js",
+            "size": 16977,
+            "hash": "7a056fc64aba501090c8acd106b0c7bbc9a267914e695ae34aa42a6ae2a094a7"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/sweetalert2/sweetalert2.min.css",
+            "size": 24444,
+            "hash": "0854dc7b18243a9093e1464a1d6edffa307d1e4d8d444e0512e22f166932a35f"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/sweetalert2/sweetalert2.min.js",
+            "size": 44930,
+            "hash": "56f27e9ccc8e0735a82f04de4c1ac27e263e8b23cbd75434d68d28277d47389d"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/table-edits/build"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/tinymce/tinymce.min.js",
+            "size": 395541,
+            "hash": "3824b2feecc4f4522af5c1baaf84681692b7ec71a5afae6cc63adf212df47551"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/toastr/build"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/waypoints/lib"
+        },
+        {
+            "type": "folder",
+            "name": "partials/subscription-countdown/ajax/js"
+        },
+        {
+            "type": "folder",
+            "name": "partials/subscription-countdown/ajax/php"
+        },
+        {
+            "type": "file",
+            "name": "partials/subscription-countdown/class/CompanyErpDatabase.php",
+            "size": 9680,
+            "hash": "f7f84b0d9cb3a3e635e85898855e6cdeee05785e897d9b56b33dfbf205f5fc11"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/@chenfengyuan/datepicker/datepicker.min.css",
+            "size": 3510,
+            "hash": "37a8f6af3364f68b0070fb4ef2fed2a63d529ef3eeacd9f19a484fa234336aea"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/@chenfengyuan/datepicker/datepicker.min.js",
+            "size": 18765,
+            "hash": "32f8d51e6cb30bddc20cb2046394fe8684bae7dbec9d1d27c3dabdf823090d61"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/@ckeditor/ckeditor5-build-classic/build"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/@curiosityx/bootstrap-session-timeout/index.js",
+            "size": 4084,
+            "hash": "6f326b67b35296addffe875e66b02143506920d9a2ffb0d5c990f5a2b9080d0f"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/@fullcalendar/bootstrap/main.min.css",
+            "size": 416,
+            "hash": "3480e1dcdde1a1f4951809c15d7c65ba347be2fea1d2a11265f641e25afc062f"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/@fullcalendar/bootstrap/main.min.js",
+            "size": 1650,
+            "hash": "7199c60496f82fac01e938bfafe510942b807c6c9a3983c5c245dcde920f9f86"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/@fullcalendar/core/main.min.css",
+            "size": 14357,
+            "hash": "1c3163bea22d5dd8d6ed310cd1c8cdffda3d0913e4a68e61986b5de80a8dd76e"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/@fullcalendar/core/main.min.js",
+            "size": 127416,
+            "hash": "bca583b15f8ab2d3c8db6f03276cbf880aa9647db190bdb34c842617abad5b3f"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/@fullcalendar/daygrid/main.min.css",
+            "size": 1004,
+            "hash": "36dd638dc6fb063a4818bf411098e764df6cc9225775822fc8184ca1aa377ee8"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/@fullcalendar/daygrid/main.min.js",
+            "size": 28238,
+            "hash": "e898af086a16dac7cb59a1b07b8445c6d471300a39895253b31b169e59b24174"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/@fullcalendar/interaction/main.min.js",
+            "size": 36208,
+            "hash": "5c59e86430e923a7f11170e595f7a093f5314c4ab4fe3f0c842bf6e9c27d6342"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/@fullcalendar/timegrid/main.min.css",
+            "size": 3377,
+            "hash": "5880fa017cd4bc59f91db0e26eaba50b9a93ebf044545d3a2a01546131580d43"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/@fullcalendar/timegrid/main.min.js",
+            "size": 25180,
+            "hash": "28d75d03a8d9cb33345fcede544289d796c23687f6f703f230c5c40475d490d1"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/.eslintrc.json",
+            "size": 692,
+            "hash": "b7d242c5019730362baf41504453251d7bf72eb5a2bb33777016adf50d4d609c"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/.husky"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/.npmrc",
+            "size": 16,
+            "hash": "be85cc462e740587626bbcbb1c3ed1c40b26e62ec072e8cbd2768f23915c28e6"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/.nvmrc",
+            "size": 12,
+            "hash": "c178271cd08857a48742c24ade0cf064d07190f5756c7b32b3bdaa75cfdb2dd5"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/CHANGELOG.md",
+            "size": 2323,
+            "hash": "afd9fd9179b2db342dd8c69d535a3ef6cfbc8e58ad7010b73230dea28e93d30a"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/.prettierrc.json",
+            "size": 128,
+            "hash": "30f9872a705e56052a9e4d7f79d12a04590b814af475d9b8ddb954dbf4cff3a1"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/LICENSE",
+            "size": 1068,
+            "hash": "a406579cd136771c705c521db86ca7d60a6f3de7c9b5460e6193a2df27861bde"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/README.md",
+            "size": 8950,
+            "hash": "5222dca7ba3c4b97d956ea1635ea9974f22d8114b96b4fa50e86aa05a4055b48"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/assets"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/build"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/index.d.ts",
+            "size": 501,
+            "hash": "f9cf83826402f32469e7a9f7eaeaf53c9e286c723764c379f130086808bb80e5"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/package-lock.json",
+            "size": 260600,
+            "hash": "97491e483dfc2c88e08a6f4d68eadb764d3e93fac1cfcac0fb3fc1e755f321d1"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/index.html",
+            "size": 25735,
+            "hash": "60be42c9bc18d4b44a147b2530595c1fa7884927544ef87083a5b27fc4508e9f"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/package.json",
+            "size": 2077,
+            "hash": "756e1ccf122feb7a77fe06c172150c600fc8c0674c22bda332ea9f5896b6f473"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/resources"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/rollup.config.mjs",
+            "size": 1359,
+            "hash": "2a1add8059d0b5cdc0b7bd9b021dd800affe4c66482946f3f48bb418b8434ad9"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/source"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/tsconfig.json",
+            "size": 570,
+            "hash": "25ed653e43878958634029403f297e31cee6c29ec56a70149653dfabac96abd8"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/tsconfig.lib.json",
+            "size": 219,
+            "hash": "526aa6fc12d2e651d16dd0c8d7a207ccae888f674a52e23e05d21a80d52661c8"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/tsconfig.spec.json",
+            "size": 298,
+            "hash": "5d2c2d35315a81b5529ad7dd94720bd8e136118676c6125fae0d05e4753fdc50"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/vite.config.ts",
+            "size": 255,
+            "hash": "bd679b4cfd360375c5352bec2feda39b58a08141c3d5a3ee919917589bc8c940"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css",
+            "size": 692,
+            "hash": "334cddbe2488b02c702087272caae96bcceda72316b40bd88c27b9f6f2a76e13"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js",
+            "size": 33323,
+            "hash": "df8ec33cb91637d19231cad7963e39a6d5302d6b63aad6eadd5227e5cd99885a"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/admin-resources/jquery.vectormap/maps"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/admin-resources/rwd-table/rwd-table.min.css",
+            "size": 15001,
+            "hash": "c5767f259eaa4367160fcdf4dc2853098f0bc6215c7e0ac8a398b728bb27c95e"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/admin-resources/rwd-table/rwd-table.min.js",
+            "size": 11552,
+            "hash": "ed464b30a7f05cc68ded3980ee75a858b6b386cb2babaf2cc653febabef56808"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/bootstrap-editable/css/bootstrap-editable.css",
+            "size": 21202,
+            "hash": "62c27b2e473f601d3eb2c04acf4734193c74448f819d770a1f94a99edb4445a6"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/bootstrap-editable/img/clear.png",
+            "size": 509,
+            "hash": "3e7ca776783956c0521083ddd59b772e3c18a5e6501c302637528edba421378a"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/bootstrap-editable/img/loading.gif",
+            "size": 1849,
+            "hash": "f6ecff617ec2ba7f559e6f535cad9b70a3f91120737535dab4d4548a6c83576c"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/bootstrap-editable/js/index.js",
+            "size": 231292,
+            "hash": "a34f106f0832e47f4294bbd7361ec3706996bbc4a2b249c6f26211e12d0708ee"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/bootstrap/js/bootstrap.bundle.min.js",
+            "size": 78748,
+            "hash": "79d443b15f542c8a8acca8e937f2a3c90ecba78bd49fdbac6c9b878c7f1293e9"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css",
+            "size": 15731,
+            "hash": "b22c8ea45fe905650f8087108b5ed32c1923bcd80d400adc9b0241f18be40208"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js",
+            "size": 33693,
+            "hash": "6ea55ea86749ee1fe560fabac6b3effd81b33046fa74dc657e24d41d28110a9f"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/datatables.net/js/jquery.dataTables.min.js",
+            "size": 83597,
+            "hash": "8fd44a290480b21cf6c3c3918302d2bde9cc3a1651e5500e64edae3cf5dd9fb1"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css",
+            "size": 5395,
+            "hash": "ba0a6ace4f4d84add2dac5693204ab2229f5033b09325a9420c3825f2ccf68bf"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js",
+            "size": 2094,
+            "hash": "81de5ed2a103ee798c9f6413374d10449dd3b294851715e9a92d272a882847d5"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/datatables.net-buttons/js/buttons.colVis.min.js",
+            "size": 2796,
+            "hash": "341bf05be30b302e449183717dd94cee7a99405399f468967c8b20e6c43b57b8"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/datatables.net-buttons/js/buttons.html5.min.js",
+            "size": 24800,
+            "hash": "d1d34bd083a3147943a045d6cf50b6af9efa8e6f469353a6d9fabb09a4386db7"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/datatables.net-buttons/js/buttons.print.min.js",
+            "size": 2212,
+            "hash": "43c9c663cdacecedbae7c913386783e1363bc8fbdc9a4c613b4d1abf98a83f95"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js",
+            "size": 19799,
+            "hash": "823e96f06a133ce12e36482a33be109e21e72f333b5d5f726818d6beb2b2a919"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css",
+            "size": 3495,
+            "hash": "d4efa25e845d49480d4e3ecdce65be0b776945ac621a7d5a7d25fea9f4425784"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js",
+            "size": 1043,
+            "hash": "c9580b9667720a8755d81eb5d10c7ea8f44580958ff77c86148e2924d781acff"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js",
+            "size": 13968,
+            "hash": "a15d23ee390ef931b18866d78bd63b0c8651d0d136057ba35a820bff8291c113"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js",
+            "size": 1244,
+            "hash": "69754ee3b45beece7c1613130b06ccdfd7a7ff55dc9b31a40a547305ee6dc4ab"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css",
+            "size": 4162,
+            "hash": "aeb2d5e099062e9cb9b6b48dd41347ce94e5ad05cdb8f06edce25ce000a4bf4b"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/dropzone/min/dropzone.min.js",
+            "size": 47487,
+            "hash": "5415bac2043fc2ac4abb2e4cf3b5219f96efcc199e5e0595422c00a8f2d48dfa"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/dropzone/min/dropzone.min.css",
+            "size": 9846,
+            "hash": "0202fcc8498d7cbb42a47fa0629f71a89c220c84c6a9cc006c8f2d09f9d8da5c"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/inputmask/min/jquery.inputmask.bundle.min.js",
+            "size": 118400,
+            "hash": "3b8af6338a757717d51602afc0adb70f545075353c001948062afd6863fe2896"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/ion-rangeslider/css/ion.rangeSlider.min.css",
+            "size": 11084,
+            "hash": "83b1e0a0cc92672a27b8fc074ce45ffae18711e3a6ed5448da47d75979499dca"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/ion-rangeslider/js/ion.rangeSlider.min.js",
+            "size": 41171,
+            "hash": "67adfdac93b9ec1899cd00e55ac1b217e109dc5b379c3e2940f91f8a64f2dd2f"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/jquery-bar-rating/themes/bars-horizontal.css",
+            "size": 1265,
+            "hash": "63303082e22e83941fec6f705aae53431bc5d364bea800d4b194fe9ca17c623e"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/jquery-bar-rating/themes/bars-movie.css",
+            "size": 1249,
+            "hash": "8de9e369708f599ac96e8f19805fb03a127221e5ef1796928331b3650a5c2afc"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/jquery-bar-rating/themes/bars-pill.css",
+            "size": 1665,
+            "hash": "a93bf8ef535bf8cda7f131aeb2e61217139943add6974555138fb995c4be0eea"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/jquery-bar-rating/themes/bars-reversed.css",
+            "size": 1374,
+            "hash": "a61fc5c2460b3b41c3ddd77da38e79a83a1d1eaea6c06d3d476ca34b9d2d822d"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/jquery-bar-rating/themes/bars-square.css",
+            "size": 1189,
+            "hash": "b8f10bd87a320c9d4e81de2bcc9883455dd2ac935e7aa661f85ed25876ad1e96"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/jquery-bar-rating/themes/bars-1to10.css",
+            "size": 1276,
+            "hash": "f4fdc47d03ee6d6ffac9a2e5c29a462210491e2193fb5b99f6d0f36ebc8aa2dd"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/jquery-bar-rating/themes/css-stars.css",
+            "size": 831,
+            "hash": "19b7ae8b41dfe6b604d820122f02fc77cf42b5b4ea93ffeb0ca55e34fdd3e591"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/jquery-bar-rating/themes/fontawesome-stars-o.css",
+            "size": 1449,
+            "hash": "d1d3edd720de584585ab18c7313a040f75383b82ad614e21a982e6dce591b640"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/jquery-bar-rating/themes/fontawesome-stars.css",
+            "size": 958,
+            "hash": "ed76c727c2d5cbbb3ebe6ce6ab23b968bb7d024d4ac7ca6c064eb539f29b50bd"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/jquery-steps/build/jquery.steps.min.js",
+            "size": 13857,
+            "hash": "c9459a9e11e4c63fb7a30d2a644e80b733fc9599302ef3da8142cbe8f9d9333d"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/jquery.flot.tooltip/js/jquery.flot.tooltip.min.js",
+            "size": 8866,
+            "hash": "e8f860e0e4a6bdcc272abea0755459a51cbbce901084a7636abe6cf727e0e1f7"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/leaflet/images/layers-2x.png",
+            "size": 1259,
+            "hash": "066daca850d8ffbef007af00b06eac0015728dee279c51f3cb6c716df7c42edf"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/leaflet/images/marker-icon.png",
+            "size": 1466,
+            "hash": "574c3a5cca85f4114085b6841596d62f00d7c892c7b03f28cbfa301deb1dc437"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/leaflet/images/layers.png",
+            "size": 696,
+            "hash": "1dbbe9d028e292f36fcba8f8b3a28d5e8932754fc2215b9ac69e4cdecf5107c6"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/moment/min/moment.min.js",
+            "size": 53324,
+            "hash": "e22419e8154be2a34a950dbb4c4c448413751c53ef02f00c6c56af28aa2c4964"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/owl.carousel/assets/owl.carousel.min.css",
+            "size": 3351,
+            "hash": "521410e1fc44780061e09adc980275fb5ea277fd5d9e538454214ec4379ff4bc"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/owl.carousel/assets/owl.theme.default.min.css",
+            "size": 1013,
+            "hash": "924b0dc630d1c5dff9fa31aead9509775b1d476bfe0a5ac2977b2f11205a26ac"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/owl.carousel/assets/owl.video.play.png",
+            "size": 4976,
+            "hash": "0436045686fddf10ccbbe2568e0cbffb457e7de7d43d1115c0056e81e97149ff"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/pdfmake/build/pdfmake.min.js",
+            "size": 1178225,
+            "hash": "1e3372d4d6c255c6d2073d152e97a48588e2363cb2590b659eb398f06af1dbbe"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/pdfmake/build/vfs_fonts.js",
+            "size": 926228,
+            "hash": "52c6021ddc04c53bbd71907e42070e90dcd4093c1e5ebe5c35f465000b4894f6"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/select2/css/select2.min.css",
+            "size": 14966,
+            "hash": "15d6ad4dfdb43d0affad683e70029f97a8f8fc8637a28845009ee0542dccdf81"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/select2/js/select2.min.js",
+            "size": 70851,
+            "hash": "00501810e93307a8882a74d864e7547fd1458deea539361dc1124ac133799a4b"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/table-edits/build/table-edits.min.js",
+            "size": 1988,
+            "hash": "f6591cfa3c24e250058776f5fc143edad5c776c59196ae086b62d73d08b8908b"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/toastr/build/toastr.min.css",
+            "size": 6454,
+            "hash": "47dd690f8f315bea076e92581a7e7147443bb4c847e313ab5a7d50a8c44836d0"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/toastr/build/toastr.min.js",
+            "size": 5251,
+            "hash": "1e0c2ad4e069276efa1d43fd1f7549912bfd64219119037e26574f27ca4d7143"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/waypoints/lib/jquery.waypoints.min.js",
+            "size": 9028,
+            "hash": "368daab67b1a5b2b2802edbbac79a2aa4ba992a2ebf9c67b98ad784d8004018c"
+        },
+        {
+            "type": "file",
+            "name": "partials/subscription-countdown/ajax/js/subscription-countdown.js",
+            "size": 3866,
+            "hash": "8e04bd35266aacd87616adc1488bcaa9ae9e333aa76dd97a15d20607ba202a13"
+        },
+        {
+            "type": "file",
+            "name": "partials/subscription-countdown/ajax/js/system-down-status.js",
+            "size": 2894,
+            "hash": "1f1bed9aa8b5a51ec0302544fd65538d64eec3de9900bfe65efa044e66513b97"
+        },
+        {
+            "type": "file",
+            "name": "partials/subscription-countdown/ajax/php/error_log",
+            "size": 1968,
+            "hash": "cc1602b4e00cd85baef1fa80329d4bf348416cb745251193f152524fa426d39b"
+        },
+        {
+            "type": "file",
+            "name": "partials/subscription-countdown/ajax/php/get-subscription-status.php",
+            "size": 3071,
+            "hash": "eddae41048d6fb17108225d7cf23e54ee83bf108963473405182fcbd12427e84"
+        },
+        {
+            "type": "file",
+            "name": "partials/subscription-countdown/ajax/php/get-system-down-status.php",
+            "size": 3140,
+            "hash": "8daaff38aa95ada26b3c40b4cf024021274446d17b026daf67bc5f8fdd2ed9c3"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js",
+            "size": 670062,
+            "hash": "58387653926c219e302f025c64c50aa9f05f7950d9434a4c879e280d385e9677"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/.husky/pre-commit",
+            "size": 55,
+            "hash": "1a2b1911d68b496f964e39d21af12bbbfdfa0637b1e9dc5fcfb7d7451b26de44"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/assets/images"
+        },
+        {
+            "type": "folder",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/assets/js"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/build/jquery.syotimer.js",
+            "size": 13708,
+            "hash": "f40496e2eeac9da4e5e74c4e9ebbc7fa6c89f85ab0010a7b61af8efceea83803"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/build/jquery.syotimer.d.ts",
+            "size": 2467,
+            "hash": "2128b0a38d2f99ed234e7107894c05158bb53bebd3a39796f097c736345311e5"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/build/jquery.syotimer.min.js.map",
+            "size": 20577,
+            "hash": "7f39072e8f94dffcfd0545f8484070ff76ccbb47bed4dd7d63e18ba2152f23bd"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/build/jquery.syotimer.min.js",
+            "size": 4926,
+            "hash": "13afea0a2acd86be51cfca53ab709fd128faa8a904a6319298acdd700c929d64"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/resources/default.css",
+            "size": 3706,
+            "hash": "0cc93186a71747ec88028aeec2f41cb6dbbbfb8fe30f6dc61d7b7548062c57ac"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/source/SyoTimer.ts",
+            "size": 4946,
+            "hash": "d3cd4ed3d1446640734278e5ad612fc454555413948661e3eac9cf9003e4d8c7"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/source/constants.ts",
+            "size": 1474,
+            "hash": "2dc69e9427ec77767a7e43d3f7954bc70d629631545face25e020f6fe7332920"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/source/index.ts",
+            "size": 1141,
+            "hash": "2d6442ed8076f525628c1c4330a3daca121801af10b6f07308c312def18d19b6"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/source/localization.ts",
+            "size": 1130,
+            "hash": "3bf69e77ce036c07de565687c0f316d6c1c2cc37c5ea04cb7ffeda1e2958e3a6"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/source/types.ts",
+            "size": 2477,
+            "hash": "7bd19dc87b64be7130248216195b06d1beee80e9cf45fbddf42b7bd998aad72a"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/source/utils.spec.ts",
+            "size": 766,
+            "hash": "f92e0cc4f561f1eea7e208919d9a88fa43233b10f127cfab1c87fbe1c0758e89"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/source/utils.ts",
+            "size": 3966,
+            "hash": "d1a5c627b0fe10e42f258f9f4a998b51cd3933e4995327fd026fc0c11ad2e6a3"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-au-mill-en.js",
+            "size": 33856,
+            "hash": "c303dc5364fe22843d63c94145b4dd926465ada9e1f56558d7f4657d287c857c"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-ca-lcc-en.js",
+            "size": 125547,
+            "hash": "93424b62253bce1a001b5580ee17335cf148c863419d25fbb42628ced32850d2"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-in-mill-en.js",
+            "size": 141209,
+            "hash": "4d3c1b2bfde3f396cfeb3a0f095ca326dfab9ac6de30ec8f4ef20f91916c04c2"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-uk-mill-en.js",
+            "size": 62840,
+            "hash": "4f95ebcb228811cfcc4c1403357ba6ae39372e5161ff7cdb886d7e4478e19cec"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-il-chicago-mill-en.js",
+            "size": 38626,
+            "hash": "4e3bcf163fb32dc138ca0c507798142c1cc32e1aa3e7d9d7638ad8234c2a780b"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js",
+            "size": 130780,
+            "hash": "37a04f6796e616e75fdc4a5d4492257fefe7459c23d56a6407018f914bb0c60d"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js",
+            "size": 144313,
+            "hash": "7dd1d8ba9f4e4666603edefb2ae664b34ed632725a02f8dbd4533022ab2f96c5"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/assets/images/timer.png",
+            "size": 2446,
+            "hash": "b8149429582fb09cc47f6defb0ddd312cff372a65e1422c4399cd6f124b710ab"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/assets/images/timer_long.png",
+            "size": 3907,
+            "hash": "f1ae2f43a4b64de3b8aa4da65c5b955700f1d7bac838b43b2f7d6687940686e4"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/assets/js/service.js",
+            "size": 689,
+            "hash": "febbca0a1ac5d8543aaf76fa1c2aed1afe75bec0f929587d0c9046e81577a7d3"
+        },
+        {
+            "type": "file",
+            "name": "assets/libs/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/Simple-Countdown-Periodic-Timer-Plugin-With-jQuery-SyoTimer/assets/js/syotimer.examples.js",
+            "size": 4392,
+            "hash": "6c007089017c010c64f8b06f4a8d4ca6c812123bfb32b93f72c83e52bb65c7b5"
+        }
+    ]
+}

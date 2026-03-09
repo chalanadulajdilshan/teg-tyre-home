@@ -91,9 +91,7 @@ $department_id = 'DP/0' . ($lastId + 1);
                                             <p class="text-muted text-truncate mb-0">Fill all information below to
                                                 Departments</p>
                                         </div>
-                                        <div class="flex-shrink-0">
-                                            <i class="mdi mdi-chevron-up accor-down-icon font-size-24"></i>
-                                        </div>
+                                       s
                                     </div>
 
                                 </div>

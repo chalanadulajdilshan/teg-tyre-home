@@ -23,7 +23,8 @@ if ($action === 'fetch_sales_summary') {
         'recordsTotal' => count($result['data']),
         'recordsFiltered' => $result['total_records'] ?? count($result['data']),
         'data' => $result['data'],
-        'total_amount' => $result['total_amount'] ?? 0
+        'total_amount' => $result['total_amount'] ?? 0,
+        'total_vat' => $result['total_vat'] ?? 0
     ];
     
     echo json_encode($response);

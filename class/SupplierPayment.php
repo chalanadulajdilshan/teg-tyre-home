@@ -21,7 +21,7 @@ class SupplierPayment
                              `cheq_no`, `bank_id`, `branch_id`, `cheq_date`, `is_settle`
                       FROM `supplier_payment` 
                       WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -54,7 +54,7 @@ class SupplierPayment
                       '" . $this->branch_id . "', 
                       '" . $this->cheq_date . "', 
                       '" . $this->is_settle . "')";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -78,7 +78,7 @@ class SupplierPayment
                     `cheq_date` = '" . $this->cheq_date . "',
                     `is_settle` = '" . $this->is_settle . "'
                   WHERE `id` = '" . $this->id . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         return $result ? true : false;
@@ -88,7 +88,7 @@ class SupplierPayment
     public function delete()
     {
         $query = "DELETE FROM `supplier_payment` WHERE `id` = '" . $this->id . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -98,7 +98,7 @@ class SupplierPayment
         $query = "SELECT `id`, `arn_id`, `supplier_id`, `payment_type_id`, `amount`, `cheq_no`, `bank_id`, `branch_id`, `cheq_date`, `is_settle`
                   FROM `supplier_payment` 
                   ORDER BY `id` DESC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -115,7 +115,7 @@ class SupplierPayment
         $query = "SELECT * FROM `supplier_payment` 
                   WHERE `arn_id` = '" . (int) $arn_id . "' 
                   ORDER BY `id` DESC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -132,7 +132,7 @@ class SupplierPayment
         $query = "SELECT * FROM `supplier_payment` 
                   WHERE `is_settle` = '" . (int) $status . "' 
                   ORDER BY `id` DESC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 

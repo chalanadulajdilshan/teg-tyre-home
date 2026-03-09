@@ -23,9 +23,12 @@ if (isset($_POST['create'])) {
     $RECEIPT->amount_paid  = $_POST['paid_amount'];
     $RECEIPT->remark       = $_POST['remark'];
 
-    $res = $RECEIPT->create();
+    try {
+        $res = $RECEIPT->create();
 
-    if ($res) {
+        if (!$res) {
+            throw new Exception('Failed to create payment receipt');
+        }
         // Check if new JSON format is being used
         if (isset($_POST['methods']) && !empty($_POST['methods'])) {
             $methods = json_decode($_POST['methods'], true);
@@ -33,17 +36,26 @@ if (isset($_POST['create'])) {
             if (is_array($methods)) {
                 foreach ($methods as $method) {
                     $PAYMENT_RECEIPT_METHOD_SUPPLIER = new PaymentReceiptMethodSupplier(null);
-
                     $PAYMENT_RECEIPT_METHOD_SUPPLIER->receipt_id = $res;
                     $PAYMENT_RECEIPT_METHOD_SUPPLIER->invoice_id = $method['invoice_id'] ?? null;
                     $PAYMENT_RECEIPT_METHOD_SUPPLIER->payment_type_id = $method['payment_type_id'] ?? null;
                     $PAYMENT_RECEIPT_METHOD_SUPPLIER->amount = $method['amount'] ?? 0;
                     $PAYMENT_RECEIPT_METHOD_SUPPLIER->cheq_no = $method['cheq_no'] ?? null;
-                    $PAYMENT_RECEIPT_METHOD_SUPPLIER->bank_id = $method['bank_id'] ?? null;
                     $PAYMENT_RECEIPT_METHOD_SUPPLIER->branch_id = $method['branch_id'] ?? null;
                     $PAYMENT_RECEIPT_METHOD_SUPPLIER->cheq_date = $method['cheq_date'] ?? null;
 
-                    $PAYMENT_RECEIPT_METHOD_SUPPLIER->create();
+                    // Derive bank_id from branch_id when not provided explicitly
+                    if (empty($method['bank_id']) && !empty($PAYMENT_RECEIPT_METHOD_SUPPLIER->branch_id)) {
+                        $BRANCH = new Branch($PAYMENT_RECEIPT_METHOD_SUPPLIER->branch_id);
+                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->bank_id = $BRANCH->bank_id;
+                    } else {
+                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->bank_id = $method['bank_id'] ?? null;
+                    }
+
+                    $methodResult = $PAYMENT_RECEIPT_METHOD_SUPPLIER->create();
+                    if (!$methodResult) {
+                        throw new Exception('Failed to create payment method');
+                    }
 
                     // Update invoice outstanding if invoice_id is provided
                     if (!empty($PAYMENT_RECEIPT_METHOD_SUPPLIER->invoice_id)) {
@@ -58,59 +70,18 @@ if (isset($_POST['create'])) {
                     }
                 }
             }
-        } else {
-            // Fallback to old format for backward compatibility
-            // var_dump($_POST['cheque_no']);
-            foreach ($_POST['invoice_id'] as $index => $invoice_id) {
-                // Get the payment amounts for this invoice and ensure they are floats
-                $chequePay = isset($_POST['cheque_pay'][$index]) ? floatval(str_replace(',', '', $_POST['cheque_pay'][$index])) : 0.0;
-                $cashPay = isset($_POST['cash_pay'][$index]) ? floatval(str_replace(',', '', $_POST['cash_pay'][$index])) : 0.0;
+            $CUSTOMER_MASTER = new CustomerMaster(NULL);
+            $CUSTOMER_MASTER->updateCustomerOutstanding($_POST['customer_id'], $_POST['paid_amount'], false);
 
-                $PAYMENT_RECEIPT_METHOD_SUPPLIER = new PaymentReceiptMethodSupplier(null);
-                $ARN = new ARNMaster(null);
+            $DOCUMENT_TRACKING = new DocumentTracking(null);
+            $DOCUMENT_TRACKING->incrementDocumentId('payment_receipt_supplier');
 
-                // Only process if at least one payment method has an amount > 0
-                if ($chequePay > 0 || $cashPay > 0) {
-                    if ($cashPay > 0) {
-                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->receipt_id = $res;
-                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->invoice_id = $invoice_id;
-                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->payment_type_id = 1; // 1 for 'cash'
-                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->amount = $cashPay;
-                    }
-                    if ($chequePay > 0) {
-                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->receipt_id = $res;
-                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->invoice_id = $invoice_id;
-                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->payment_type_id = 2; // 2 for 'cheque'
-                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->amount = $chequePay;
-                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->cheq_no = $_POST['cheque_no'][$index] ?? '';
-                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->branch_id = $_POST['bank_branch'][$index] ?? null;
-                        $PAYMENT_RECEIPT_METHOD_SUPPLIER->cheq_date = $_POST['cheque_date'][$index] ?? null;
-                    }
-                    $res1 = $PAYMENT_RECEIPT_METHOD_SUPPLIER->create();
-                }
-                $ARN->updateInvoiceOutstanding($invoice_id, $chequePay + $cashPay);
-
-                // Reload the invoice to get updated outstanding amount
-                $ARN_ = new ARNMaster($invoice_id);
-
-
-                if ($ARN_->paid_amount >= $ARN_->total_arn_value) {
-                    $PAYMENT_RECEIPT_METHOD_SUPPLIER->updateIsSettle($res1);
-                }
-            }
+            // If we get here, everything was successful
+            echo json_encode(["status" => 'success', "id" => $res]);
         }
-
-        $CUSTOMER_MASTER = new CustomerMaster(NULL);
-        $CUSTOMER_MASTER->updateCustomerOutstanding($_POST['customer_id'], $_POST['paid_amount'], false);
-
-        $DOCUMENT_TRACKING = new DocumentTracking(null);
-        $DOCUMENT_TRACKING->incrementDocumentId('payment_receipt');
-    }
-
-    if ($res) {
-        echo json_encode(["status" => 'success', "id" => $res]);
-    } else {
-        echo json_encode(["status" => 'error']);
+    } catch (Exception $e) {
+        error_log('Payment Receipt Error: ' . $e->getMessage());
+        echo json_encode(["status" => 'error', "message" => $e->getMessage()]);
     }
     exit();
 }

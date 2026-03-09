@@ -8,8 +8,6 @@ class Quotation
     public $date;
     public $customer_id;
     public $department_id;
-    public $marketing_executive_id;
-    public $vat_type;
     public $payment_type;
     public $remarks;
     public $credit_period;
@@ -18,13 +16,17 @@ class Quotation
     public $sub_total;
     public $discount;
     public $grand_total;
+    public $is_vat_invoice;
+    public $vat_total;
+    public $vat_percentage;
     public $created_at;
+    public $is_invoiced;
 
     public function __construct($id = null)
     {
         if ($id) {
             $query = "SELECT * FROM `quotation` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -34,8 +36,6 @@ class Quotation
                 $this->date = $result['date'];
                 $this->customer_id = $result['customer_id'];
                 $this->department_id = $result['department_id'];
-                $this->marketing_executive_id = $result['marketing_executive_id'];
-                $this->vat_type = $result['vat_type'];
                 $this->payment_type = $result['payment_type'];
                 $this->remarks = $result['remarks'];
                 $this->credit_period = $result['credit_period'];
@@ -44,7 +44,11 @@ class Quotation
                 $this->sub_total = $result['sub_total'];
                 $this->discount = $result['discount'];
                 $this->grand_total = $result['grand_total'];
+                $this->is_vat_invoice = isset($result['is_vat_invoice']) ? $result['is_vat_invoice'] : 0;
+                $this->vat_total = isset($result['vat_total']) ? $result['vat_total'] : 0;
+                $this->vat_percentage = isset($result['vat_percentage']) ? $result['vat_percentage'] : 0;
                 $this->created_at = $result['created_at'];
+                $this->is_invoiced = isset($result['is_invoiced']) ? $result['is_invoiced'] : 0;
             }
         }
     }
@@ -52,12 +56,12 @@ class Quotation
     public function create()
     {
         $query = "INSERT INTO `quotation` 
-        (`quotation_no`, `company_id`, `date`, `customer_id`,   `department_id`, `marketing_executive_id`, `vat_type`,  `payment_type`, `remarks`, `credit_period`, `payment_term`, `validity`, `sub_total`, `discount`,  `grand_total`, `created_at`) 
+        (`quotation_no`, `company_id`, `date`, `customer_id`, `department_id`, `payment_type`, `remarks`, `credit_period`, `payment_term`, `validity`, `sub_total`, `discount`, `vat_total`, `vat_percentage`, `is_vat_invoice`, `grand_total`, `created_at`) 
         VALUES 
-        ('{$this->quotation_no}', '{$this->company_id}',  '{$this->date}', '{$this->customer_id}',   '{$this->department_id}', '{$this->marketing_executive_id}', '{$this->vat_type}', '{$this->payment_type}', '{$this->remarks}', '{$this->credit_period}', '{$this->payment_term}', '{$this->validity}', '{$this->sub_total}', '{$this->discount}',   '{$this->grand_total}', '{$this->created_at}')";
+        ('{$this->quotation_no}', '{$this->company_id}', '{$this->date}', '{$this->customer_id}', '{$this->department_id}', '{$this->payment_type}', '{$this->remarks}', '{$this->credit_period}', '{$this->payment_term}', '{$this->validity}', '{$this->sub_total}', '{$this->discount}', '{$this->vat_total}', '{$this->vat_percentage}', '{$this->is_vat_invoice}', '{$this->grand_total}', '{$this->created_at}')";
 
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -75,8 +79,6 @@ class Quotation
         `date` = '{$this->date}',
         `customer_id` = '{$this->customer_id}', 
         `department_id` = '{$this->department_id}',
-        `marketing_executive_id` = '{$this->marketing_executive_id}',
-        `vat_type` = '{$this->vat_type}',
         `payment_type` = '{$this->payment_type}',
         `remarks` = '{$this->remarks}',
         `credit_period` = '{$this->credit_period}',
@@ -84,17 +86,21 @@ class Quotation
         `validity` = '{$this->validity}',
         `sub_total` = '{$this->sub_total}',
         `discount` = '{$this->discount}', 
+        `vat_total` = '{$this->vat_total}',
+        `vat_percentage` = '{$this->vat_percentage}',
+        `is_vat_invoice` = '{$this->is_vat_invoice}',
         `grand_total` = '{$this->grand_total}',
-        `created_at` = '{$this->created_at}'
+        `created_at` = '{$this->created_at}',
+        `is_invoiced` = '{$this->is_invoiced}'
         WHERE `id` = '{$this->id}'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function delete()
     {
-        $db = new Database();
+        $db = Database::getInstance();
 
         $db->readQuery("DELETE FROM `quotation_item` WHERE `quotation_id` = '{$this->id}'");
 
@@ -106,7 +112,22 @@ class Quotation
     public function all()
     {
         $query = "SELECT * FROM `quotation` ORDER BY `id` DESC";
-        $db = new Database();
+        $db = Database::getInstance();
+        $result = $db->readQuery($query);
+        $array_res = array();
+
+        while ($row = mysqli_fetch_array($result)) {
+            array_push($array_res, $row);
+        }
+
+        return $array_res;
+    }
+
+
+    public function getNotInvoiced()
+    {
+        $query = "SELECT * FROM `quotation` WHERE `is_invoiced` = 0 ORDER BY `id` DESC";
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -122,7 +143,7 @@ class Quotation
         $query = "SELECT * FROM `quotation` where `quotation_no` = '$quotation_no' ";
 
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
 
         return ($result) ? true : false;
@@ -132,7 +153,7 @@ class Quotation
     public function getLastID()
     {
         $query = "SELECT * FROM `quotation` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }

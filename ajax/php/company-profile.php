@@ -88,10 +88,21 @@ if (isset($_POST['create']) || isset($_POST['update'])) {
     $COMPANY->vat_number = $_POST['vat_number'] ?? '';
     $COMPANY->is_active = isset($_POST['is_active']) ? 1 : 0;
     $COMPANY->is_vat = isset($_POST['is_vat']) ? 1 : 0;
+    $COMPANY->is_one_company = isset($_POST['is_one_company']) ? 1 : 0;
+    $COMPANY->is_credit = isset($_POST['is_credit']) ? 1 : 0;
     $COMPANY->vat_percentage = isset($_POST['vat_percentage']) ? (float)$_POST['vat_percentage'] : 0;
     $COMPANY->company_code = $_POST['company_code'] ?? '';
+    $COMPANY->customer_id = $_POST['customer_id'] ?? null;
     $COMPANY->theme = $_POST['theme'] ?? '#3b5de7';
-    $COMPANY->cashbook_opening_balance = isset($_POST['cashbook_opening_balance']) ? (float)$_POST['cashbook_opening_balance'] : 0;
+
+    $homeViewMode = $_POST['home_view_mode'] ?? 'both';
+    $homeViewMode = in_array($homeViewMode, ['header', 'nav_buttons', 'both'], true) ? $homeViewMode : 'both';
+    $COMPANY->home_view_mode = $homeViewMode;
+    $navigationLayout = $_POST['navigation_layout'] ?? 'horizontal';
+    $navigationLayout = in_array($navigationLayout, ['horizontal', 'vertical'], true) ? $navigationLayout : 'horizontal';
+    $COMPANY->navigation_layout = $navigationLayout;
+    
+
 
     // Save to database
     $result = $isUpdate ? $COMPANY->update() : $COMPANY->create();
@@ -149,8 +160,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 'is_vat' => $company->is_vat,
                 'vat_number' => $company->vat_number,
                 'vat_percentage' => $company->vat_percentage,
+                'is_one_company' => $company->is_one_company,
+                'is_credit' => $company->is_credit,
+                'customer_id' => $company->customer_id,
                 'theme' => $company->theme ?? 'default',
-                'cashbook_opening_balance' => $company->cashbook_opening_balance ?? 0
+                'home_view_mode' => $company->home_view_mode ?? 'both'
             ]
         ];
     } else {

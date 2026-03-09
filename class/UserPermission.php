@@ -16,7 +16,7 @@ class UserPermission
     {
         if ($id) {
             $query = "SELECT * FROM `user_permission` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -48,9 +48,12 @@ class UserPermission
                 '" . $this->other_page . "'
             )";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
-        return $result ? mysqli_insert_id($db->DB_CON) : false;
+
+        // readQuery() will die() on SQL error, so reaching here means success
+        // Return boolean for callers that only need to know success/failure
+        return $result ? true : false;
     }
 
     public function update()
@@ -66,7 +69,7 @@ class UserPermission
             `other_page` = '" . $this->other_page . "'
             WHERE `id` = " . (int) $this->id;
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         return $result ? $this->__construct($this->id) : false;
     }
@@ -74,14 +77,14 @@ class UserPermission
     public function delete()
     {
         $query = "DELETE FROM `user_permission` WHERE `id` = " . (int) $this->id;
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function all()
     {
         $query = "SELECT * FROM `user_permission` ORDER BY `user_id` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = [];
 
@@ -99,7 +102,7 @@ class UserPermission
                   WHERE `user_id` = $user_id AND `page_id` = $page_id 
                   LIMIT 1";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_assoc($db->readQuery($query));
 
         return $result ? $result : [
@@ -125,7 +128,7 @@ class UserPermission
         $userId = (int) $_SESSION['id'];
         $pageId = (int) $pageId;
 
-        $db = new Database();
+        $db = Database::getInstance();
         $query = "SELECT `add_page`, `edit_page`, `delete_page`, `search_page`, `print_page`, `other_page`
               FROM `user_permission`
               WHERE `user_id` = $userId AND `page_id` = $pageId
@@ -161,7 +164,7 @@ class UserPermission
                   WHERE `user_id` = " . (int) $user_id . " 
                   AND `page_id` = " . (int) $page_id;
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($row = mysqli_fetch_assoc($result)) {
@@ -194,7 +197,7 @@ class UserPermission
               AND `page_id` = " . (int) $page_id . "  
               LIMIT 1";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result && mysqli_num_rows($result) > 0) {

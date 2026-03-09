@@ -45,18 +45,19 @@ if (isset($data['create'])) {
     } else {
         $ARN->supplier_id = $data['supplier'];
     }
-    $ARN->lc_tt_no = $data['lc_no'];
-    $ARN->ci_no = $data['ci_no'];
-    $ARN->bl_no = $data['bl_no'];
-    $ARN->pi_no = $data['pi_no'];
-    $ARN->brand = $data['brand'];
-    $ARN->category = $data['category'];
-    $ARN->country = $data['country'];
-    $ARN->order_by = $data['order_by'];
-    $ARN->purchase_type = $data['purchase_type'];
+    $ARN->lc_tt_no = $data['lc_no'] ?? '';
+    $ARN->ci_no = $data['ci_no'] ?? '';
+    $ARN->bl_no = $data['bl_no'] ?? '';
+    $ARN->pi_no = $data['pi_no'] ?? '';
+    $ARN->brand = $data['brand'] ?? '';
+    $ARN->category = $data['category'] ?? '';
+    $ARN->country = $data['country'] ?? '';
+    $ARN->order_by = $data['order_by'] ?? '';
+    $ARN->purchase_type = $data['purchase_type'] ?? '';
     $ARN->arn_status = $data['arn_status'];
     $ARN->credit_note_amount = $data['credit_note_amount'];
     $ARN->delivery_date = $data['delivery_date'];
+    $ARN->calls_due_date = $data['calls_due_date'] ?? '';
     $ARN->invoice_date = $data['invoice_date'];
     $ARN->entry_date = $data['entry_date'];
     $ARN->total_arn_value = $data['total_arn'];
@@ -64,7 +65,8 @@ if (isset($data['create'])) {
     $ARN->total_received_qty = $data['total_received_qty'];
     $ARN->total_order_qty = $data['total_order_qty'];
     $ARN->department = $data['department_id'];
-    $ARN->po_no = $data['purchase_order_id'];
+    // Save the human-readable PO number (code) in arn_master.po_no
+    $ARN->po_no = isset($data['po_no']) ? $data['po_no'] : '';
     $ARN->po_date = $data['purchase_date'];
     $ARN->payment_type = $data['payment_type'];
     
@@ -74,10 +76,13 @@ if (isset($data['create'])) {
     $CUSTOMER->outstanding = $ARN->total_arn_value;
     $CUSTOMER->update();
 
-    // 2. Update Purchase Order Status
-    $PURCHASE_ORDER = new PurchaseOrder($ARN->po_no);
-    $PURCHASE_ORDER->status = 1;
-    $PURCHASE_ORDER->update();
+    // 2. Update Purchase Order Status using numeric PO ID
+    $purchaseOrderId = isset($data['purchase_order_id']) ? (int)$data['purchase_order_id'] : 0;
+    if ($purchaseOrderId > 0) {
+        $PURCHASE_ORDER = new PurchaseOrder($purchaseOrderId);
+        $PURCHASE_ORDER->status = 1;
+        $PURCHASE_ORDER->update();
+    }
 
     // 3. Create ARN master
     $arn_id = $ARN->create();
@@ -129,11 +134,55 @@ if (isset($data['create'])) {
             $stockMaster = new StockMaster();
 
             if ($recQty >= 0) {
-                // Stock Item Temporary (additions)
+                // DB handle for pre-invoice lookups/updates
+                $db = Database::getInstance();
+                // Check for pre-invoiced items that need to be deducted from this GRN qty
+                $preInvoiceDeduction = 0;
+                $preInvQuery = "SELECT * FROM `pre_invoice_pending` 
+                                WHERE `item_id` = '{$itemId}' 
+                                AND `remaining_qty` > 0 
+                                ORDER BY `created_at` ASC";
+                $preInvResult = $db->readQuery($preInvQuery);
+                $remainingGrnQty = $recQty;
+
+                while ($preInvRow = mysqli_fetch_assoc($preInvResult)) {
+                    if ($remainingGrnQty <= 0) break;
+
+                    $preInvRemaining = (float)$preInvRow['remaining_qty'];
+                    $deductQty = min($preInvRemaining, $remainingGrnQty);
+
+                    // Update remaining qty in pre_invoice_pending
+                    $newRemaining = $preInvRemaining - $deductQty;
+                    if ($newRemaining <= 0) {
+                        // fully settled — remove the record to avoid future deduction prompts
+                        $db->readQuery("DELETE FROM `pre_invoice_pending` WHERE `id` = '{$preInvRow['id']}'");
+                    } else {
+                        $db->readQuery("UPDATE `pre_invoice_pending` SET `remaining_qty` = '{$newRemaining}' WHERE `id` = '{$preInvRow['id']}'");
+                    }
+
+                    $preInvoiceDeduction += $deductQty;
+                    $remainingGrnQty -= $deductQty;
+
+                    // Log the deduction
+                    $stockTransaction = new StockTransaction(NULL);
+                    $stockTransaction->item_id = $itemId;
+                    $stockTransaction->type = 4;
+                    $stockTransaction->date = date("Y-m-d");
+                    $stockTransaction->qty_in = 0;
+                    $stockTransaction->qty_out = $deductQty;
+                    $stockTransaction->remark = "Pre-Invoice deduction - Invoice #{$preInvRow['invoice_id']} ARN #{$ARN->arn_no}";
+                    $stockTransaction->created_at = date("Y-m-d H:i:s");
+                    $stockTransaction->create();
+                }
+
+                // Actual qty to add to stock = GRN qty - pre-invoice deductions
+                $effectiveRecQty = $recQty - $preInvoiceDeduction;
+
+                // Stock Item Temporary (additions) - always record full GRN qty
                 $STOCK_ITEM_TMP = new StockItemTmp();
                 $STOCK_ITEM_TMP->arn_id = $arn_id;
                 $STOCK_ITEM_TMP->item_id = $itemId;
-                $STOCK_ITEM_TMP->qty = $recQty;
+                $STOCK_ITEM_TMP->qty = $effectiveRecQty;
                 $STOCK_ITEM_TMP->cost = $item['actual_cost'];
                 $STOCK_ITEM_TMP->list_price = $item['list_price'];
                 $STOCK_ITEM_TMP->invoice_price = $item['invoice_price'];
@@ -141,18 +190,20 @@ if (isset($data['create'])) {
                 $STOCK_ITEM_TMP->status = 1;
                 $STOCK_ITEM_TMP->create();
 
-                // Stock Master update for additions
+                // Stock Master update for additions (use effective qty after pre-invoice deduction)
                 $existingStock = $stockMaster->getAvailableQuantity($ARN->department, $itemId);
-                if ($existingStock > 0) {
-                    $newQty = $existingStock + $recQty;
-                    $stockMaster->updateQtyByItemAndDepartment($ARN->department, $itemId, $newQty);
-                } else {
-                    $stockMaster->item_id = $itemId;
-                    $stockMaster->department_id = $ARN->department;
-                    $stockMaster->quantity = $recQty;
-                    $stockMaster->created_at = date("Y-m-d H:i:s");
-                    $stockMaster->is_active = 1;
-                    $stockMaster->create();
+                if ($existingStock > 0 || $effectiveRecQty > 0) {
+                    $newQty = $existingStock + $effectiveRecQty;
+                    if ($existingStock > 0) {
+                        $stockMaster->updateQtyByItemAndDepartment($ARN->department, $itemId, $newQty);
+                    } else {
+                        $stockMaster->item_id = $itemId;
+                        $stockMaster->department_id = $ARN->department;
+                        $stockMaster->quantity = $effectiveRecQty;
+                        $stockMaster->created_at = date("Y-m-d H:i:s");
+                        $stockMaster->is_active = 1;
+                        $stockMaster->create();
+                    }
                 }
 
                 // Item Master update
@@ -161,14 +212,14 @@ if (isset($data['create'])) {
                 $ITEM_master->invoice_price = $item['invoice_price'];
                 $ITEM_master->update();
 
-                // Stock Transaction log for additions
+                // Stock Transaction log for additions (log full GRN qty received)
                 $stockTransaction = new StockTransaction(NULL);
                 $stockTransaction->item_id = $itemId;
                 $stockTransaction->type = 2; // Stock In
                 $stockTransaction->date = date("Y-m-d");
                 $stockTransaction->qty_in = $recQty;
                 $stockTransaction->qty_out = 0;
-                $stockTransaction->remark = "ARN #{$ARN->arn_no} received";
+                $stockTransaction->remark = "ARN #{$ARN->arn_no} received" . ($preInvoiceDeduction > 0 ? " (Pre-invoice deducted: {$preInvoiceDeduction})" : "");
                 $stockTransaction->created_at = date("Y-m-d H:i:s");
                 $stockTransaction->create();
             } else {
@@ -261,6 +312,76 @@ if (isset($_POST['brand_id'], $_POST['category_id'])) {
   
     echo json_encode(['discount_01' => $discount_01, 'discount_02' => $discount_02, 'discount_03' => $discount_03, 'total_discount' => $total_discount]);
     exit();
+}
+
+if (isset($_POST['filter'])) {
+    header('Content-Type: application/json; charset=UTF-8');
+    $db = Database::getInstance();
+    $draw = isset($_POST['draw']) ? intval($_POST['draw']) : 1;
+    $start = isset($_POST['start']) ? intval($_POST['start']) : 0;
+    $length = isset($_POST['length']) ? intval($_POST['length']) : 10;
+    $searchValue = isset($_POST['search']['value']) ? $db->escapeString($_POST['search']['value']) : '';
+    $orderColumn = isset($_POST['order'][0]['column']) ? intval($_POST['order'][0]['column']) : 1;
+    $orderDir = isset($_POST['order'][0]['dir']) ? $db->escapeString($_POST['order'][0]['dir']) : 'asc';
+
+    $columns = [
+        0 => 'id',
+        1 => 'arn_no',
+        2 => 'invoice_date',
+        3 => 'supplier_name',
+        4 => 'payment_type',
+        5 => 'total_arn_value',
+        6 => 'paid_amount',
+        7 => 'status'
+    ];
+
+    $orderBy = isset($columns[$orderColumn]) ? $columns[$orderColumn] : 'arn_no';
+
+    $query = "SELECT SQL_CALC_FOUND_ROWS am.id, am.arn_no, am.invoice_date, cm.code, cm.name, am.purchase_type, am.total_arn_value, am.paid_amount,
+              CASE WHEN am.is_cancelled = 1 THEN 'Cancelled' ELSE 'Active' END as status
+              FROM arn_master am
+              LEFT JOIN customer_master cm ON am.supplier_id = cm.id
+              WHERE 1=1";
+
+    if (!empty($searchValue)) {
+        $query .= " AND (am.arn_no LIKE '%$searchValue%' OR CONCAT(cm.code, ' - ', cm.name) LIKE '%$searchValue%')";
+    }
+
+    $query .= " ORDER BY $orderBy $orderDir LIMIT $start, $length";
+
+    $result = $db->readQuery($query);
+
+    $data = [];
+
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $supplierName = (!empty($row['code']) && !empty($row['name'])) ? $row['code'] . ' - ' . $row['name'] : 'N/A';
+            $data[] = [
+                'id' => $row['id'],
+                'arn_no' => $row['arn_no'],
+                'invoice_date' => $row['invoice_date'],
+                'supplier_name' => $supplierName,
+                'payment_type' => $row['purchase_type'],
+                'total_arn_value' => number_format($row['total_arn_value'], 2),
+                'paid_amount' => number_format($row['paid_amount'], 2),
+                'status' => $row['status']
+            ];
+        }
+
+        $totalResult = $db->readQuery("SELECT FOUND_ROWS() as total");
+        $totalRow = mysqli_fetch_assoc($totalResult);
+        $totalRecords = $totalRow['total'];
+
+        $response = [
+            'draw' => $draw,
+            'recordsTotal' => $totalRecords,
+            'recordsFiltered' => $totalRecords,
+            'data' => $data
+        ];
+
+        echo json_encode($response);
+        exit();
+    }
 }
 
 

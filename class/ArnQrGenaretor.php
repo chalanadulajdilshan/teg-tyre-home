@@ -21,7 +21,7 @@ class ArnQrGenaretor
 
     private function load()
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $query = "SELECT * FROM `barcode_details` WHERE `id` = " . $this->id;
         $result = $db->readQuery($query);
         
@@ -48,7 +48,7 @@ class ArnQrGenaretor
 
     public function create()
     {
-        $db = new Database();
+        $db = Database::getInstance();
         
         $this->created_at = date('Y-m-d H:i:s');
         $this->updated_at = date('Y-m-d H:i:s');
@@ -76,7 +76,7 @@ class ArnQrGenaretor
 
     public function update()
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $this->updated_at = date('Y-m-d H:i:s');
 
         $query = "UPDATE `barcode_details` SET
@@ -93,14 +93,14 @@ class ArnQrGenaretor
 
     public function delete()
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $query = "DELETE FROM `barcode_details` WHERE `id` = " . $this->id;
         return $db->readQuery($query);
     }
 
     public static function getNextSequence($arnId, $itemId)
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $query = "SELECT COUNT(*) as count FROM `barcode_details` 
                  WHERE `arn_id` = " . (int)$arnId . " 
                  AND `item_id` = " . (int)$itemId;
@@ -113,7 +113,7 @@ class ArnQrGenaretor
 
     public static function getBarcodesByArn($arnId)
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $query = "SELECT bd.*, ai.description as item_description 
                  FROM `barcode_details` bd
                  JOIN `arn_items` ai ON bd.item_id = ai.id
@@ -138,7 +138,7 @@ class ArnQrGenaretor
             return false;
         }
 
-        $db = new Database();
+        $db = Database::getInstance();
         $values = [];
         $now = date('Y-m-d H:i:s');
 
@@ -171,7 +171,7 @@ class ArnQrGenaretor
 
     public static function getBarcodeById($barcodeId)
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $query = "SELECT * FROM `barcode_details` WHERE `barcode_id` = '" . $db->escapeString($barcodeId) . "' LIMIT 1";
         $result = $db->readQuery($query);
         
@@ -183,7 +183,7 @@ class ArnQrGenaretor
 
     public static function getBarcodesByItem($arnId, $itemId)
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $query = "SELECT * FROM `barcode_details` 
                  WHERE `arn_id` = " . (int)$arnId . " 
                  AND `item_id` = " . (int)$itemId . "

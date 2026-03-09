@@ -17,7 +17,7 @@ class SpecialUserPermission
                       FROM `special_user_permissions` 
                       WHERE `id` = " . (int) $id;
 
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -34,7 +34,7 @@ class SpecialUserPermission
     // Create a new record
     public function create()
     {
-        $db = new Database();
+        $db = Database::getInstance();
 
         // First check if a permission with the same name already exists for this user
         $checkQuery = "SELECT `id` FROM `special_user_permissions` 
@@ -81,7 +81,7 @@ class SpecialUserPermission
     // Update record
     public function update()
     {
-        $db = new Database();
+        $db = Database::getInstance();
 
         $query = "UPDATE `special_user_permissions` SET 
                     `user_id` = " . (int)$this->user_id . ",
@@ -107,7 +107,7 @@ class SpecialUserPermission
                   FROM `special_user_permissions` 
                   ORDER BY `created_at` DESC";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -126,7 +126,7 @@ class SpecialUserPermission
                   WHERE `user_id` = " . (int) $userId . "
                   ORDER BY `created_at` DESC";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -148,7 +148,7 @@ class SpecialUserPermission
      */
     public function hasAccess($userId, $permissionName)
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $permissionName = $db->escapeString($permissionName);
         
         $query = "SELECT COUNT(*) as count 

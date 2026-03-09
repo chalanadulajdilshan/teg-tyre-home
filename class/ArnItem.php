@@ -26,7 +26,7 @@ class ArnItem
     public function __construct($id = NULL)
     {
         if ($id) {
-            $db = new Database();
+            $db = Database::getInstance();
             $query = "SELECT * FROM `arn_items` WHERE `id` = '$id'";
             $result = $db->readQuery($query);
             if ($row = mysqli_fetch_assoc($result)) {
@@ -56,7 +56,7 @@ class ArnItem
 
     public function create()
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $query = "INSERT INTO `arn_items` (
             `arn_id`, `item_code`, `order_qty`, `received_qty`,
             `discount_1`, `discount_2`, `discount_3`, `discount_4`, `discount_5`, `discount_6`, `discount_7`, `discount_8`, `final_cost`, `unit_total`,
@@ -78,7 +78,7 @@ class ArnItem
 
     public static function all()
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $query = "SELECT * FROM `arn_items`";
         $result = $db->readQuery($query);
 
@@ -91,14 +91,14 @@ class ArnItem
 
     public function delete()
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $query = "DELETE FROM `arn_items` WHERE `id` = '{$this->id}'";
         return $db->readQuery($query);
     }
 
     public function update()
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $query = "UPDATE `arn_items` SET 
             `order_qty` = '{$this->order_qty}',
             `received_qty` = '{$this->received_qty}',
@@ -123,7 +123,7 @@ class ArnItem
 
     public function getArnCostByArnId($arn_id)
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $query = "SELECT `final_cost` FROM `arn_items` WHERE `arn_id` = '{$arn_id}'";
         $result = $db->readQuery($query);
 

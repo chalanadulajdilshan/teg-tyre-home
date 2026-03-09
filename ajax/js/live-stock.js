@@ -22,6 +22,24 @@ jQuery(document).ready(function () {
     return colors[departmentId % colors.length] || "#f8f9fa"; // Default light gray
   }
 
+  function formatQty(value) {
+    const num = Number(value);
+    if (!Number.isFinite(num)) {
+      return "0";
+    }
+    const normalized = Math.abs(num) < 1e-9 ? 0 : num;
+    if (Number.isInteger(normalized)) {
+      return normalized.toLocaleString("en-US", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      });
+    }
+    return normalized.toLocaleString("en-US", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    });
+  }
+
   // Initialize DataTable with server-side processing
   var table = $("#stockTable").DataTable({
     processing: true,
@@ -150,22 +168,19 @@ jQuery(document).ready(function () {
               row.row_department_qty != null
                 ? row.row_department_qty
                 : row.available_qty || 0;
-            return parseFloat(q || 0).toLocaleString("en-US", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            });
+            const num = parseFloat(q || 0) || 0;
+            if (type === "sort" || type === "type") return num;
+            return formatQty(num);
           }
           // Otherwise, show quantity for the selected department
           if (data && data.length > 0) {
             const stock = data.find((s) => s.department_id == departmentId);
-            return stock
-              ? parseFloat(stock.quantity || 0).toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })
-              : "0.00";
+            const num = stock ? parseFloat(stock.quantity || 0) || 0 : 0;
+            if (type === "sort" || type === "type") return num;
+            return formatQty(num);
           }
-          return "0.00";
+          if (type === "sort" || type === "type") return 0;
+          return "0";
         },
       },
       {
@@ -343,10 +358,7 @@ jQuery(document).ready(function () {
         }) +
         "</td>" +
         '<td class="text-end">' +
-        Number(l.qty || 0).toLocaleString("en-US", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        }) +
+        formatQty(l.qty || 0) +
         "</td>" +
         '<td class="text-end">' +
         Number((l.cost || 0) * (l.qty || 0)).toLocaleString("en-US", {
@@ -732,7 +744,7 @@ jQuery(document).ready(function () {
               : "0.00"
           }</td>
           <td class="text-right">${
-            item.quantity ? parseFloat(item.quantity).toFixed(2) : "0.00"
+            item.quantity != null ? formatQty(item.quantity) : "0"
           }</td>
           <td class="text-center">
             <span class="status-badge" style="background-color: ${
@@ -780,7 +792,7 @@ jQuery(document).ready(function () {
                 <tr>
                   <td>${lot.arn_no || "-"}</td>
                   <td class="text-right">${cost.toFixed(2)}</td>
-                  <td class="text-right">${qty.toFixed(2)}</td>
+                  <td class="text-right">${formatQty(qty)}</td>
                   <td class="text-right">${totalCost.toFixed(2)}</td>
                   <td class="text-right">${listPrice.toFixed(2)}</td>
                   <td class="text-right">${invoicePrice.toFixed(2)}</td>
@@ -794,8 +806,8 @@ jQuery(document).ready(function () {
                 <tr style="background-color: #f8f9fa; font-weight: 500;">
                   <td><strong>Total</strong></td>
                   <td></td>
-                  <td class="text-right"><strong>${totalQty.toFixed(
-                    2
+                  <td class="text-right"><strong>${formatQty(
+                    totalQty
                   )}</strong></td>
                   <td></td>
                   <td></td>
@@ -832,7 +844,7 @@ jQuery(document).ready(function () {
         <div style="flex: 1; min-width: 200px; margin: 5px 0;">
           <div style="font-size: 13px; color: #7f8c8d;">Total Quantity</div>
           <div style="font-size: 24px; font-weight: 600; color: #2c3e50;">
-            ${totalQty.toFixed(2)}
+            ${formatQty(totalQty)}
           </div>
         </div>
         <div style="flex: 1; min-width: 200px; margin: 5px 0;">
@@ -1035,8 +1047,8 @@ jQuery(document).ready(function () {
                   }</td>
                   <td class="text-right">${
                     item.quantity
-                      ? parseFloat(item.quantity).toFixed(2)
-                      : "0.00"
+                      ? formatQty(item.quantity)
+                      : "0"
                   }</td>
                   <td class="text-center"><span style="padding: 4px 8px; border-radius: 3px; font-size: 11px; font-weight: 500; 
                       background-color: ${
@@ -1086,7 +1098,7 @@ jQuery(document).ready(function () {
                               <tr>
                                   <td>${lot.arn_no || "-"}</td>
                                   <td class="text-right">${cost.toFixed(2)}</td>
-                                  <td class="text-right">${qty.toFixed(2)}</td>
+                                  <td class="text-right">${formatQty(qty)}</td>
                                   <td class="text-right">${(cost * qty).toFixed(
                                     2
                                   )}</td>
@@ -1117,8 +1129,8 @@ jQuery(document).ready(function () {
                               <tr style="background-color: #f8f9fa; font-weight: 500;">
                                   <td><strong>Total</strong></td>
                                   <td></td>
-                                  <td class="text-right"><strong>${totalQty.toFixed(
-                                    2
+                                  <td class="text-right"><strong>${formatQty(
+                                    totalQty
                                   )}</strong></td>
                                   <td></td>
                                   <td></td>
@@ -1150,12 +1162,12 @@ jQuery(document).ready(function () {
               <div style="flex: 1; min-width: 200px; margin: 5px 0;">
                   <div style="font-size: 13px; color: #7f8c8d;">Total Quantity</div>
                   <div style="font-size: 24px; font-weight: 600; color: #2c3e50;">
-                      ${data
-                        .reduce(
+                      ${formatQty(
+                        data.reduce(
                           (sum, item) => sum + parseFloat(item.quantity || 0),
                           0
                         )
-                        .toFixed(2)}
+                      )}
                   </div>
               </div>
               <div style="flex: 1; min-width: 200px; margin: 5px 0;">

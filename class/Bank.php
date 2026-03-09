@@ -13,7 +13,7 @@ class Bank
     {
         if ($id) {
             $query = "SELECT `id`, `name`, `code`, `created_at` FROM `banks` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -30,7 +30,7 @@ class Bank
     {
         $query = "INSERT INTO `banks` (`name`, `code`, `created_at`) VALUES ('" .
             $this->name . "', '" . $this->code . "', NOW())";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -49,7 +49,7 @@ class Bank
             WHERE `id` = '$this->id'";
  
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -63,7 +63,7 @@ class Bank
     public function delete()
     {
         $query = "DELETE FROM `banks` WHERE `id` = '" . $this->id . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -72,7 +72,7 @@ class Bank
     {
 
         $query = "SELECT * FROM `banks` ORDER BY name ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 

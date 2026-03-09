@@ -88,9 +88,7 @@ include 'auth.php';
                                                 <p class="text-muted text-truncate mb-0">Fill all information below to
                                                     Item Brands</p>
                                             </div>
-                                            <div class="flex-shrink-0">
-                                                <i class="mdi mdi-chevron-up accor-down-icon font-size-24"></i>
-                                            </div>
+                                            
                                         </div>
 
                                     </div>

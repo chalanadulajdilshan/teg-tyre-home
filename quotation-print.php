@@ -17,7 +17,7 @@ $CUSTOMER_MASTER = new CustomerMaster($QUOTATION->customer_id);
 
 <head>
     <meta charset="utf-8" />
-    <title>Invoice Details | <?php echo $COMPANY_PROFILE_DETAILS->name ?> </title>
+    <title>Quotation Details | <?php echo $COMPANY_PROFILE->name ?> </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Unicons CDN -->
     <link href="https://unicons.iconscout.com/release/v4.0.8/css/line.css" rel="stylesheet">
@@ -106,7 +106,7 @@ $CUSTOMER_MASTER = new CustomerMaster($QUOTATION->customer_id);
                             <?php echo date('d M, Y', strtotime($QUOTATION->date)); ?></p>
                     </div>
                     <div class="mb-4">
-                        <img src="./uploads/company-logos/<?php echo $COMPANY_PROFILE->image_name ?>" alt="logo">
+                        <img src="./uploads/company-logos/<?php echo $COMPANY_PROFILE->image_name ?>" alt="logo" style="height:60px; width:auto;">
                     </div>
 
                     <div class="row mb-4">
@@ -143,7 +143,7 @@ $CUSTOMER_MASTER = new CustomerMaster($QUOTATION->customer_id);
                                 <th>No.</th>
                                 <th>Item Code</th>
                                 <th>Name</th>
-                                <th>Dis % </th>
+                                <th>Dis</th>
                                 <th> Price</th>
                                 <th>Quantity</th>
                                 <th>Selling Price</th>
@@ -162,17 +162,18 @@ $CUSTOMER_MASTER = new CustomerMaster($QUOTATION->customer_id);
                                 $key++;
                                 $price = (float) $temp_items['price'];
                                 $quantity = (int) $temp_items['qty'];
-                                $discount_percentage = isset($temp_items['discount']) ? (float) $temp_items['discount'] : 0;
+                                // In quotation_item, discount is stored as a fixed amount per unit, not a percentage
+                                $discount_amount = isset($temp_items['discount']) ? (float) $temp_items['discount'] : 0;
 
                                 $ITEM_MASTER = new ItemMaster($temp_items['item_code']);
                                 // Calculate selling price after discount (per item)
-                                $discount_per_item = $price * ($discount_percentage / 100);
+                                $discount_per_item = $discount_amount;
                                 $selling_price = $price - $discount_per_item;
 
                                 // Line total = selling price × quantity
-                                $line_total = $price * $quantity;
+                                $line_total = $selling_price * $quantity;
 
-                                // Totals
+                                // Totals (gross and discount)
                                 $subtotal += $price * $quantity;
                                 $total_discount += $discount_per_item * $quantity;
                                 ?>
@@ -181,7 +182,8 @@ $CUSTOMER_MASTER = new CustomerMaster($QUOTATION->customer_id);
                                     <td>0<?php echo $key; ?></td>
                                     <td><?php echo $ITEM_MASTER->code ?></td>
                                     <td><?php echo $temp_items['item_name']; ?></td>
-                                    <td><?php echo $discount_percentage; ?>%</td>
+                                    <td><?php echo $discount_amount; ?></td>
+
                                     <td><?php echo number_format($price, 2); ?></td>
                                     <td><?php echo $quantity; ?></td>
                                     <td><?php echo number_format($selling_price, 2); ?></td> <!-- Selling price per item -->
@@ -212,10 +214,16 @@ $CUSTOMER_MASTER = new CustomerMaster($QUOTATION->customer_id);
                                 <td class="text-end"> <?php echo number_format($total_discount, 2); ?></td>
 
                             </tr>
+                            <?php if (!empty($QUOTATION->is_vat_invoice) && (float)$QUOTATION->vat_percentage > 0) { ?>
                             <tr>
-                                <td colspan="2" class="text-end"><strong>Net Amount:- </strong></td>
+                                <td colspan="2" class="text-end">VAT (<?php echo number_format($QUOTATION->vat_percentage, 2); ?>%) :- </td>
+                                <td class="text-end"> <?php echo number_format($QUOTATION->vat_total, 2); ?></td>
+                            </tr>
+                            <?php } ?>
+                            <tr>
+                                <td colspan="7" class="text-end"><strong>Net Amount:- </strong></td>
                                 <td class="text-end">
-                                    <strong><?php echo number_format($subtotal - $total_discount, 2); ?></strong>
+                                    <strong><?php echo number_format($QUOTATION->grand_total, 2); ?></strong>
                                 </td>
                             </tr>
 

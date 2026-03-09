@@ -22,7 +22,7 @@ jQuery(document).ready(function () {
     });
 
     // Company ARN Adjust checkbox handler
-    $('#company_arn_adjust').on('change', function() {
+    $('#company_arn_adjust').on('change', function () {
         if ($(this).is(':checked')) {
             // When checkbox is ticked, set supplier to SM/1/1/companyName format
             const supplierCode = 'SM/1/1/' + companyName;
@@ -95,7 +95,7 @@ jQuery(document).ready(function () {
 
                 var brandId = $('#brand').val();
                 var categoryId = $('#category').val();
-               
+
                 d.filter = true;
                 d.brand_id = brandId;
                 d.category_id = categoryId;
@@ -115,10 +115,10 @@ jQuery(document).ready(function () {
             { data: "key", title: "#ID" },
             { data: "code", title: "Code" },
             { data: "name", title: "Name" },
-            { data: "brand", title: "Brand" }, 
+            { data: "brand", title: "Brand" },
             { data: "list_price", title: "List Price" },
             { data: "invoice_price", title: "Invoice Price" },
-            { data: "qty", title: "Quantity" }, 
+            { data: "qty", title: "Quantity" },
             { data: "status_label", title: "Status" }
         ],
         order: [[0, 'desc']],
@@ -130,13 +130,13 @@ jQuery(document).ready(function () {
         // Column indices: 1-based, total_arn_value is in column 8, paid_amount in column 9
         const arnTotal = Math.round(parseFloat($(this).find('td:nth-child(7)').text().replace(/[^0-9.-]+/g, '')) || 0);
         const paidAmount = Math.round(parseFloat($(this).find('td:nth-child(8)').text().replace(/[^0-9.-]+/g, '')) || 0);
-      
-        
+
+
         if (arnTotal > 0) {
             const statusText = $('#paymentStatusText');
             const statusIcon = statusText.find('i');
             const statusLabel = statusText.find('span:last');
-            
+
             if (arnTotal === paidAmount) {
                 // Fully paid
                 statusIcon.attr('class', 'uil uil-check-circle me-1 text-success');
@@ -148,9 +148,9 @@ jQuery(document).ready(function () {
                 statusIcon.attr('class', 'uil uil-exclamation-circle me-1 text-danger');
                 statusLabel.text('PENDING PAYMENT').removeClass('text-success text-warning').addClass('text-danger');
                 $('#payment_Label').show();
-                $('#payment').show(); 
+                $('#payment').show();
                 $('#payment_type').val('1');
-               
+
             }
         }
     });
@@ -162,13 +162,33 @@ jQuery(document).ready(function () {
 
 
         $('#item_id').val(data.id);
-        $('#itemCode').val(data.code + ' - ' + data.name);      
+        $('#itemCode').val(data.code + ' - ' + data.name);
         $('#itemName').val(data.name);
         $('#itemQty').val(1);
         $('#available_qty').val(data.qty);
         $('#list_price').val(data.list_price);
-        $('#invoice_price').val(data.invoice_price);  
+        $('#invoice_price').val(data.invoice_price);
         $('#dis_2').val(data.discount);
+
+        // Check for pre-invoiced qty for this item
+        $.ajax({
+            url: 'ajax/php/report.php',
+            type: 'POST',
+            data: { action: 'check_pre_invoice_qty', item_id: data.id },
+            dataType: 'json',
+            success: function (res) {
+                if (res && res.pre_invoice_qty > 0) {
+                    $('#preInvoiceInfo').remove();
+                    const infoHtml = `<div id="preInvoiceInfo" class="alert alert-warning py-1 px-2 mt-1 mb-1">
+                        <small><strong>Pre-Invoiced Qty:</strong> ${res.pre_invoice_qty} 
+                        (Will be deducted from GRN stock)</small>
+                    </div>`;
+                    $('#rec_quantity').closest('.col-md-2, .col-md-3, .mb-3').append(infoHtml);
+                } else {
+                    $('#preInvoiceInfo').remove();
+                }
+            }
+        });
 
         // Match brand name to brand ID and set it
         $('#brand option').each(function () {
@@ -180,27 +200,27 @@ jQuery(document).ready(function () {
 
         // Get the selected brand ID after setting it
         const brandId = $('#brand').val();
-        const categoryId = $('#category').val();    
- 
+        const categoryId = $('#category').val();
+
         if (brandId) {
-             $.ajax({
+            $.ajax({
                 url: 'ajax/php/arn-master.php',
                 type: 'POST',
-                data: {brand_id: brandId, category_id: categoryId },
+                data: { brand_id: brandId, category_id: categoryId },
                 dataType: 'json',
                 success: function (res) {
 
-                     const totalDiscount = res && typeof res.total_discount !== 'undefined' ? res.total_discount : 0;
+                    const totalDiscount = res && typeof res.total_discount !== 'undefined' ? res.total_discount : 0;
 
-                     const discount_01 = res && typeof res.discount_01 !== 'undefined' ? res.discount_01 : 0;
-                     const discount_02 = res && typeof res.discount_02 !== 'undefined' ? res.discount_02 : 0;
-                     const discount_03 = res && typeof res.discount_03 !== 'undefined' ? res.discount_03 : 0;
+                    const discount_01 = res && typeof res.discount_01 !== 'undefined' ? res.discount_01 : 0;
+                    const discount_02 = res && typeof res.discount_02 !== 'undefined' ? res.discount_02 : 0;
+                    const discount_03 = res && typeof res.discount_03 !== 'undefined' ? res.discount_03 : 0;
 
                     $('#dis_1').val(totalDiscount);
                     $('#dis_6').val(discount_01);
                     $('#dis_7').val(discount_02);
                     $('#dis_8').val(discount_03);
-                    
+
                     calculatePayment();
                 },
                 error: function (xhr, status, error) {
@@ -224,7 +244,7 @@ jQuery(document).ready(function () {
 
         setTimeout(() => $('#itemQty').focus(), 200);
         $('#main_item_master').modal('hide');
-        
+
     });
 
 
@@ -238,9 +258,17 @@ jQuery(document).ready(function () {
             $('#payment').hide();
             $('#create_arn').show();
         }
+
+        // Show/hide Due Date field based on payment type (only for Credit = 2)
+        if (paymentType === '2') {
+            $('#calls_due_date').closest('.col-md-2').show();
+        } else {
+            $('#calls_due_date').closest('.col-md-2').hide();
+            $('#calls_due_date').val(''); // Clear the value when hidden
+        }
     });
 
-     
+
 
 
     // Bind Enter key to add item
@@ -259,19 +287,20 @@ jQuery(document).ready(function () {
         // Reset form
         $('#form-data')[0].reset();
         $('#category').prop('selectedIndex', 0); // reset dropdown if needed
-        
+
         // Hide payment label and reset its state
         $('#payment_Label').hide();
         $('#paymentStatusText span').text('').removeClass('text-success text-danger');
         $('#paymentStatusText i').hide();
-        
-        // Hide both buttons until payment type is selected
+
+        // For a new ARN, hide payment and cancel buttons and show Save
         $('#payment').hide();
-        $('#create_arn').hide();
-        
+        $('.cancel-arn-btn').hide();
+        $('#create_arn').show();
+
         // Clear item table
         $('#itemTableBody').empty();
-       
+
         // Optionally put a "no items" row
         $('#itemTableBody').append(`
         <tr id="noDataRow">
@@ -284,7 +313,7 @@ jQuery(document).ready(function () {
     function calculatePayment(skipActualCost = false) {
         const recQty = parseFloat($('#rec_quantity').val()) || 0;
         const list_price = parseFloat($('#list_price').val()) || 0;
-    
+
         // Get discounts
         const dis2 = parseFloat($('#dis_2').val()) || 0;
         const dis3 = parseFloat($('#dis_3').val()) || 0;
@@ -293,9 +322,9 @@ jQuery(document).ready(function () {
         const dis6 = parseFloat($('#dis_6').val()) || 0;
         const dis7 = parseFloat($('#dis_7').val()) || 0;
         const dis8 = parseFloat($('#dis_8').val()) || 0;
-    
+
         let finalCost;
-        
+
         if (skipActualCost) {
             // Use the manually entered actual cost
             finalCost = parseFloat($('#actual_cost').val()) || 0;
@@ -308,44 +337,44 @@ jQuery(document).ready(function () {
             let disAmount6 = (list_price - disAmount2 - disAmount3 - disAmount4 - disAmount5) * (dis6 / 100);
             let disAmount7 = (list_price - disAmount2 - disAmount3 - disAmount4 - disAmount5 - disAmount6) * (dis7 / 100);
             let disAmount8 = (list_price - disAmount2 - disAmount3 - disAmount4 - disAmount5 - disAmount6 - disAmount7) * (dis8 / 100);
-            
+
             finalCost = list_price - disAmount2 - disAmount3 - disAmount4 - disAmount5 - disAmount6 - disAmount7 - disAmount8;
-            
+
             // Debug logging (remove in production)
             console.log('Discount calculation:', {
                 list_price, dis2, dis3, dis4, dis5, dis6, dis7, dis8,
                 disAmount2, disAmount3, disAmount4, disAmount5, disAmount6, disAmount7, disAmount8,
                 finalCost
             });
-            
+
             $('#actual_cost').val(finalCost.toFixed(2));
         }
-        
+
         let unitTotal = finalCost * recQty;
         $('#unit_total').val(unitTotal.toFixed(2));
     }
-    
+
 
     // Bind function to relevant input fields (excluding actual_cost to prevent circular updates)
-    $('#arn-item-table').on('input', '#list_price,#rec_quantity,#dis_3,#dis_4,#dis_5,#invoice_price', function() {
+    $('#arn-item-table').on('input', '#list_price,#rec_quantity,#dis_3,#dis_4,#dis_5,#invoice_price', function () {
         calculatePayment();
     });
-    
+
     // Also bind to change event for better compatibility
-    $('#arn-item-table').on('change', '#list_price,#rec_quantity,#dis_3,#dis_4,#dis_5,#invoice_price', function() {
+    $('#arn-item-table').on('change', '#list_price,#rec_quantity,#dis_3,#dis_4,#dis_5,#invoice_price', function () {
         calculatePayment();
     });
-    
+
     // Bind to disabled fields separately (they need special handling)
-    $('#arn-item-table').on('input change', '#dis_1,#dis_2', function() {
+    $('#arn-item-table').on('input change', '#dis_1,#dis_2', function () {
         calculatePayment();
     });
 
     // When actual_cost is edited manually, calculate unit total and update discount
-    $('#actual_cost').on('input', function() {
+    $('#actual_cost').on('input', function () {
         const listPrice = parseFloat($('#list_price').val()) || 0;
         const actualCost = parseFloat($(this).val()) || 0;
-        
+
         // Validate that actual cost doesn't exceed list price
         if (listPrice > 0 && actualCost > listPrice) {
             $(this).addClass('is-invalid');
@@ -357,10 +386,10 @@ jQuery(document).ready(function () {
             $(this).removeClass('is-invalid');
             $(this).removeAttr('title');
         }
-        
+
         // Calculate unit total with manually entered actual cost
         calculatePayment(true);
-        
+
         // Auto-adjust item discount (dis_2) based on actual cost
         if (listPrice > 0 && actualCost <= listPrice) {
             const discount = ((listPrice - actualCost) / listPrice) * 100;
@@ -374,8 +403,8 @@ jQuery(document).ready(function () {
         const code = $('#itemCode').val();
         const recQty = parseFloat($('#rec_quantity').val()) || 0;
         const brand = parseFloat($('#brand').val()) || 0;
- 
-        
+
+
 
         const dis1 = parseFloat($('#dis_1').val()) || 0; // Brand Discount
         const dis2 = parseFloat($('#dis_2').val()) || 0; // Item Discount
@@ -420,7 +449,7 @@ jQuery(document).ready(function () {
             return;
         }
 
-    
+
 
         if (!InvoicePrice || InvoicePrice <= 0) {
             swal({ title: "Error!", text: "Please enter Selling Price", type: "error", timer: 2000, showConfirmButton: false });
@@ -437,7 +466,7 @@ jQuery(document).ready(function () {
 
 
         const newRow = `
-        <tr data-itemid="${item_id}">
+        <tr data-item-id="${item_id}">
             <td>${code}</td>
             <td><input type="number" name="items[][order_qty]" class="form-control form-control-sm" readonly></td>
             <td><input type="number" name="items[][rec_qty]" class="form-control form-control-sm" value="${recQty}" readonly></td>
@@ -521,6 +550,7 @@ jQuery(document).ready(function () {
         const piNo = $(this).data('pi_no');
         const lcTtNo = $(this).data('lc_tt_no');
         const brand = $(this).data('brand');
+        const category = $(this).data('category');
         const blNo = $(this).data('bl_no');
         const country = $(this).data('country');
         const ciNo = $(this).data('ci_no');
@@ -541,6 +571,9 @@ jQuery(document).ready(function () {
         $('#pi_no').val(piNo);
         $('#lc_tt_no').val(lcTtNo);
         $('#brand').val(brand);
+        if (category) {
+            $('#category').val(String(category));
+        }
         $('#bl_no').val(blNo);
         $('#country').val(country);
         $('#ci_no').val(ciNo);
@@ -665,7 +698,7 @@ jQuery(document).ready(function () {
     function recalcRow($row) {
         const price = parseFloat($row.find('input[name*="[list_price]"]').val()) || 0;
         const qty = parseFloat($row.find('input[name*="[rec_qty]"]').val()) || 0;
- 
+
         const dis2 = parseFloat($row.find('input[name*="[item_discount]"]').val()) || 0;
         const dis3 = parseFloat($row.find('input[name*="[dis3]"]').val()) || 0;
         const dis4 = parseFloat($row.find('input[name*="[dis4]"]').val()) || 0;
@@ -717,7 +750,7 @@ jQuery(document).ready(function () {
 
         // Loop through each row in itemTable
         $('#itemTableBody tr').each(function () {
-           
+
             const dis2 = parseFloat($(this).find('[name*="[dis2]"]').val()) || 0;
             const dis3 = parseFloat($(this).find('[name*="[dis3]"]').val()) || 0;
             const dis4 = parseFloat($(this).find('[name*="[dis4]"]').val()) || 0;
@@ -878,12 +911,12 @@ jQuery(document).ready(function () {
             },
         });
     }
-    
 
 
-      function createArn() { 
-        
-        if (!$("#supplier_code").val() || $("#supplier_code").val().length === 0) { 
+
+    function createArn() {
+
+        if (!$("#supplier_code").val() || $("#supplier_code").val().length === 0) {
             return swal({
                 title: "Error!",
                 text: "Please select a Supplier",
@@ -895,7 +928,7 @@ jQuery(document).ready(function () {
 
         // Validate bl_no is not empty
         const blNo = $('#bl_no').val().trim();
-        if (!blNo) {
+        if (!$('#company_arn_adjust').is(':checked') && !blNo) {
             return swal({
                 title: "Error!",
                 text: "Please enter Invoice No",
@@ -905,22 +938,24 @@ jQuery(document).ready(function () {
             });
         }
 
-        // Check if bl_no already exists
+        // Check if bl_no already exists (skip for Company ARN Adjust)
         let blNoExists = false;
-        $.ajax({
-            url: "ajax/php/arn-master.php",
-            type: "POST",
-            data: { check_bl_no: blNo },
-            async: false,
-            success: function(response) {
-                if (response.status === 'exists') {
-                    blNoExists = true;
+        if (!$('#company_arn_adjust').is(':checked') && blNo) {
+            $.ajax({
+                url: "ajax/php/arn-master.php",
+                type: "POST",
+                data: { check_bl_no: blNo },
+                async: false,
+                success: function (response) {
+                    if (response.status === 'exists') {
+                        blNoExists = true;
+                    }
+                },
+                error: function () {
+                    blNoExists = true; // Assume exists on error to be safe
                 }
-            },
-            error: function() {
-                blNoExists = true; // Assume exists on error to be safe
-            }
-        });
+            });
+        }
 
         if (blNoExists) {
             return swal({
@@ -934,7 +969,7 @@ jQuery(document).ready(function () {
 
         // Check if company ARN adjust is enabled
         const isCompanyArnAdjust = $('#company_arn_adjust').is(':checked');
-        
+
         // Validate remark for company ARN adjust
         if (isCompanyArnAdjust) {
             const remark = $('#remark').val();
@@ -949,7 +984,7 @@ jQuery(document).ready(function () {
                 });
             }
         }
-        
+
         // Validate payment type only if company ARN adjust is not enabled
         if (!isCompanyArnAdjust && (!$("#payment_type").val() || $("#payment_type").val().length === 0)) {
             return swal({
@@ -959,162 +994,171 @@ jQuery(document).ready(function () {
                 timer: 2000,
                 showConfirmButton: false,
             });
-        }else{
+        } else {
 
-        
-    
-        if (!isCompanyArnAdjust && $('#payment_type').val() === '1') {
-            const paymentValidation = validatePaymentInputs();
-            if (!paymentValidation.isValid) {
-                return swal({
-                    title: "Error!",
-                    text: paymentValidation.errorMessage,
-                    type: "error",
-                    timer: 3000,
-                    showConfirmButton: false,
-                });
+
+
+            if (!isCompanyArnAdjust && $('#payment_type').val() === '1') {
+                const paymentValidation = validatePaymentInputs();
+                if (!paymentValidation.isValid) {
+                    return swal({
+                        title: "Error!",
+                        text: paymentValidation.errorMessage,
+                        type: "error",
+                        timer: 3000,
+                        showConfirmButton: false,
+                    });
+                }
             }
-        }
 
-        let items = [];
-        let hasInvalidItem = false;
-    
-        $('#itemTableBody tr').each(function () {
-            if ($(this).attr('id') === 'noDataRow') return;
-    
-            const $row = $(this);
-            const cols = $row.find('td');
-            const itemId = $row.attr('data-itemid');
-    
-            const actualCost = parseFloat($(cols[9]).find('input').val()) || 0;
-            const listPrice = parseFloat($(cols[3]).find('input').val()) || 0;
- 
-            // Validation: actualCost should not exceed listPrice
-            if (actualCost > listPrice) {
-                hasInvalidItem = true;
+            let items = [];
+            let hasInvalidItem = false;
+
+            $('#itemTableBody tr').each(function () {
+                if ($(this).attr('id') === 'noDataRow') return;
+
+                const $row = $(this);
+                const cols = $row.find('td');
+                const itemId = $row.attr('data-item-id');
+
+                const actualCost = parseFloat($(cols[9]).find('input').val()) || 0;
+                const listPrice = parseFloat($(cols[3]).find('input').val()) || 0;
+
+                // Validation: actualCost should not exceed listPrice
+                if (actualCost > listPrice) {
+                    hasInvalidItem = true;
+                    return swal({
+                        title: "Error!",
+                        text: `Actual cost cannot exceed List Price for item: ${$(cols[0]).text().trim()}`,
+                        type: "error",
+                        timer: 3000,
+                        showConfirmButton: false
+                    });
+                }
+
+                items.push({
+                    item_id: itemId,
+                    code: $(cols[0]).text().trim(),
+                    order_qty: parseFloat($(cols[1]).find("input").val()) || 0,
+                    rec_qty: parseFloat($(cols[2]).find("input").val()) || 0,
+                    list_price: parseFloat($(cols[3]).find("input").val()) || 0,
+                    dis1: parseFloat($(cols[4]).find("input").val()) || 0,
+                    dis6: parseFloat($(cols[4]).find('input[name*="dis6"]').val()) || 0,
+                    dis7: parseFloat($(cols[4]).find('input[name*="dis7"]').val()) || 0,
+                    dis8: parseFloat($(cols[4]).find('input[name*="dis8"]').val()) || 0,
+                    dis2: parseFloat($(cols[5]).find("input").val()) || 0,
+                    dis3: parseFloat($(cols[6]).find("input").val()) || 0,
+                    dis4: parseFloat($(cols[7]).find("input").val()) || 0,
+                    dis5: parseFloat($(cols[8]).find("input").val()) || 0,
+                    actual_cost: parseFloat($(cols[9]).find("input").val()) || 0,
+                    unit_total: parseFloat($(cols[10]).find("input").val()) || 0,
+                    invoice_price: parseFloat($(cols[11]).find("input").val()) || 0,
+                });
+            });
+
+            if (hasInvalidItem) return;
+
+            if (items.length === 0) {
                 return swal({
                     title: "Error!",
-                    text: `Actual cost cannot exceed List Price for item: ${$(cols[0]).text().trim()}`,
+                    text: "No items to submit",
                     type: "error",
-                    timer: 3000,
+                    timer: 2000,
                     showConfirmButton: false
                 });
             }
-    
-            items.push({
-                item_id: itemId,
-                code: $(cols[0]).text().trim(),
-                order_qty: parseFloat($(cols[1]).find("input").val()) || 0,
-                rec_qty: parseFloat($(cols[2]).find("input").val()) || 0,
-                list_price: parseFloat($(cols[3]).find("input").val()) || 0,
-                dis1: parseFloat($(cols[4]).find("input").val()) || 0,
-                dis6: parseFloat($(cols[4]).find('input[name*="dis6"]').val()) || 0,
-                dis7: parseFloat($(cols[4]).find('input[name*="dis7"]').val()) || 0,
-                dis8: parseFloat($(cols[4]).find('input[name*="dis8"]').val()) || 0,
-                dis2: parseFloat($(cols[5]).find("input").val()) || 0,
-                dis3: parseFloat($(cols[6]).find("input").val()) || 0,
-                dis4: parseFloat($(cols[7]).find("input").val()) || 0,
-                dis5: parseFloat($(cols[8]).find("input").val()) || 0,
-                actual_cost: parseFloat($(cols[9]).find("input").val()) || 0,
-                unit_total: parseFloat($(cols[10]).find("input").val()) || 0,
-                invoice_price: parseFloat($(cols[11]).find("input").val()) || 0,
-            });
-        });
-    
-        if (hasInvalidItem) return;
-    
-        if (items.length === 0) {
-            return swal({
-                title: "Error!",
-                text: "No items to submit",
-                type: "error",
-                timer: 2000,
-                showConfirmButton: false
-            });
-        }
-    
-        const payload = {
-            create: true, 
-            supplier: $('#supplier_id').val(),
-            arn_no: $('#arn_no').val(),
-            arn_date: $('#entry_date').val(),
-            ci_no: $('#ci_no').val(),
-            lc_no: $('#lc_tt_no').val(),
-            bl_no: $('#bl_no').val(),
-            brand: $('#brand').val(),
-            category: $('#category').val(),
-            order_by: $('#order_by').val(),
-            credit_note_amount: $('#credit_note_amount').val(),
-            delivery_date: $('#delivery_date').val(),
-            purchase_type: $('#purchase_type').val(),
-            country: $('#country').val(),
-            arn_status: $('#arn_status').val(),
-            pi_no: $('#pi_no').val(),
-            department_id: $('#department_id').val(),
-            purchase_order_id: $('#purchase_order_id').val(),
-            purchase_date: $('#order_date').val(),
-            invoice_date: $('#invoice_date').val(),
-            entry_date: $('#entry_date').val(),
-            total_arn: parseFloat($('#total_arn').val()) || 0,
-            total_discount: parseFloat($('#total_discount').val()) || 0,
-            total_vat: parseFloat($('#total_vat').val()) || 0,
-            total_received_qty: parseFloat($('#total_received_qty').val()) || 0,
-            total_order_qty: parseFloat($('#total_order_qty').val()) || 0,
-            payment_type: isCompanyArnAdjust ? '' : $('#payment_type').val(), // No payment type for company ARN adjust
-            company_arn_adjust: isCompanyArnAdjust,
-            supplier_code: $('#supplier_code').val(), // Include modified supplier code
-            supplier_name: $('#supplier_name').val(), // Include modified supplier name
-            items: items
-        };
-    
-        $.ajax({
-            url: "ajax/php/arn-master.php",
-            type: "POST",
-            data: JSON.stringify(payload),
-            contentType: "application/json",
-            success: function (response) {
-                if (response.status === 'success') {
-                    swal({
-                        title: "Success!",
-                        text: "ARN created successfully!",
-                        type: "success",
-                        timer: 2000,
-                        showConfirmButton: false,
-                    });
 
-                    if(payload.company_arn_adjust) {
-                        // For company ARN adjust, just reload the page without payment processing
-                        setTimeout(() => location.reload(), 2000);
-                    } else if(payload.payment_type === '1') {
-                        if (response.arn_id) {
-                            sendPayment(response.arn_id , response.supplier_id) ;
+            const payload = {
+                create: true,
+                supplier: $('#supplier_id').val(),
+                arn_no: $('#arn_no').val(),
+                arn_date: $('#entry_date').val(),
+                ci_no: $('#ci_no').val(),
+                lc_no: $('#lc_tt_no').val(),
+                bl_no: $('#bl_no').val(),
+                brand: $('#brand').val(),
+                category: $('#category').val(),
+                order_by: $('#order_by').val(),
+                credit_note_amount: $('#credit_note_amount').val(),
+                delivery_date: $('#delivery_date').val(),
+                calls_due_date: $('#calls_due_date').val(),
+                purchase_type: $('#purchase_type').val(),
+                country: $('#country').val(),
+                arn_status: $('#arn_status').val(),
+                pi_no: $('#pi_no').val(),
+                department_id: $('#department_id').val(),
+                purchase_order_id: $('#purchase_order_id').val(),
+                po_no: $('#po_no').val(),
+                purchase_date: $('#order_date').val(),
+                invoice_date: $('#invoice_date').val(),
+                entry_date: $('#entry_date').val(),
+                total_arn: parseFloat($('#total_arn').val()) || 0,
+                total_discount: parseFloat($('#total_discount').val()) || 0,
+                total_vat: parseFloat($('#total_vat').val()) || 0,
+                total_received_qty: parseFloat($('#total_received_qty').val()) || 0,
+                total_order_qty: parseFloat($('#total_order_qty').val()) || 0,
+                payment_type: isCompanyArnAdjust ? '' : $('#payment_type').val(), // No payment type for company ARN adjust
+                company_arn_adjust: isCompanyArnAdjust,
+                supplier_code: $('#supplier_code').val(), // Include modified supplier code
+                supplier_name: $('#supplier_name').val(), // Include modified supplier name
+                items: items
+            };
+
+            $.ajax({
+                url: "ajax/php/arn-master.php",
+                type: "POST",
+                data: JSON.stringify(payload),
+                contentType: "application/json",
+                beforeSend: function () {
+                    $(".someBlock").preloader();
+                },
+                success: function (response) {
+                    $(".someBlock").preloader("remove");
+
+                    if (response.status === 'success') {
+                        swal({
+                            title: "Success!",
+                            text: "ARN created successfully!",
+                            type: "success",
+                            timer: 2000,
+                            showConfirmButton: false,
+                        });
+
+                        if (payload.company_arn_adjust) {
+                            // For company ARN adjust, just reload the page without payment processing
+                            setTimeout(() => location.reload(), 2000);
+                        } else if (payload.payment_type === '1') {
+                            if (response.arn_id) {
+                                sendPayment(response.arn_id, response.supplier_id);
+                            }
+                        } else {
+                            setTimeout(() => location.reload(), 2000);
                         }
                     } else {
-                        setTimeout(() => location.reload(), 2000);
+                        swal({
+                            title: "Error!",
+                            text: response.message || "Failed to create ARN.",
+                            icon: "error",
+                            timer: 2000,
+                            buttons: false,
+                        });
                     }
-                } else {
+                },
+                error: function () {
+                    $(".someBlock").preloader("remove");
+
                     swal({
                         title: "Error!",
-                        text: response.message || "Failed to create ARN.",
+                        text: "Server error. Please try again.",
                         icon: "error",
                         timer: 2000,
                         buttons: false,
                     });
                 }
-            },
-            error: function () {
-                swal({
-                    title: "Error!",
-                    text: "Server error. Please try again.",
-                    icon: "error",
-                    timer: 2000,
-                    buttons: false,
-                });
-            }
-        });
+            });
+        }
     }
-    }
-    
+
     // bind click
     $('#create_arn').on('click', function (e) {
         e.preventDefault();
@@ -1126,13 +1170,26 @@ jQuery(document).ready(function () {
         const $arn_id = $('#arn_id').val();
         const $supplier_id = $('#supplier_id').val();
 
-        if($arn_id && $supplier_id) {
-            sendPayment($arn_id , $supplier_id);
+        if ($arn_id && $supplier_id) {
+            sendPayment($arn_id, $supplier_id);
         } else {
-             createArn();
+            createArn();
         }
     });
-    
+
+
+    $(document).on('click', '#supplierTable tbody tr', function () {
+        const table = $('#supplierTable').DataTable();
+        const data = table.row(this).data();
+        if (!data) return;
+
+        $('#supplier_id').val(data.id || '');
+        $('#supplier_code').val(data.code || '');
+        $('#supplier_name').val(data.name || '');
+        $('#supplier_address').val(data.address || '');
+
+        $('#supplierModal').modal('hide');
+    });
 
 
     $(document).on('click', '.select-arn-order', function () {
@@ -1144,14 +1201,19 @@ jQuery(document).ready(function () {
             arn_no: row.data('arn_no'),
             po_no: row.data('po_number'),
             order_date: row.data('order_date'),
+            entry_date: row.data('entry_date'),
+            invoice_date: row.data('invoice_date'),
             supplier_id: row.data('supplier_id'),
             supplier_code: row.data('supplier_code'),
             supplier_name: row.data('supplier_name'),
             supplier_address: row.data('supplier_address'),
             pi_no: row.data('pi_no'),
             lc_tt_no: row.data('lc_tt_no'),
-            brand: row.data('brand'), 
+            brand_id: row.data('brand_id'),
+            brand: row.data('brand'),
+            category_id: row.data('category_id'),
             category: row.data('category'),
+            payment_type: row.data('payment_type'),
             bl_no: row.data('bl_no'),
             ci_no: row.data('ci_no'),
             country: row.data('country'),
@@ -1162,31 +1224,74 @@ jQuery(document).ready(function () {
             total_order_qty: row.data('total_order_qty'),
             status: row.data('status'),
             remarks: row.data('remarks'),
-            is_cancelled: row.data('is_cancelled')
+            is_cancelled: row.data('is_cancelled'),
+            calls_due_date: row.data('calls_due_date')
         };
 
         // Fill form fields (update selectors based on your actual form field IDs or classes)
         $('#arn_id').val(arnData.id);
         $('#arn_no').val(arnData.arn_no);
-        $('#po_date').val(arnData.order_date);
+        $('#po_no').val(arnData.po_no);
+        $('#order_date').val(arnData.order_date);
+        $('#entry_date').val(arnData.entry_date);
+        $('#invoice_date').val(arnData.invoice_date);
         $('#supplier_id').val(arnData.supplier_id);
         $('#supplier_code').val(arnData.supplier_code);
         $('#supplier_name').val(arnData.supplier_name);
         $('#supplier_address').val(arnData.supplier_address);
         $('#pi_no').val(arnData.pi_no);
         $('#lc_tt_no').val(arnData.lc_tt_no);
-        $('#brand').val(arnData.brand); 
-        $('#category').val(arnData.category);
+
+        const brandIdFromRow = arnData.brand_id || arnData.brand;
+        const categoryIdFromRow = arnData.category_id || arnData.category;
+
+        if (brandIdFromRow) {
+            $('#brand').val(brandIdFromRow);
+        }
+
+        if (categoryIdFromRow) {
+            $('#category').val(categoryIdFromRow);
+        }
+
+        if (!$('#brand').val() && arnData.brand) {
+            $('#brand option').each(function () {
+                if ($(this).text().trim() === String(arnData.brand).trim()) {
+                    $('#brand').val($(this).val());
+                    return false;
+                }
+            });
+        }
+
+        if (!$('#category').val() && arnData.category) {
+            $('#category option').each(function () {
+                if ($(this).text().trim() === String(arnData.category).trim()) {
+                    $('#category').val($(this).val());
+                    return false;
+                }
+            });
+        }
+
         $('#bl_no').val(arnData.bl_no);
         $('#ci_no').val(arnData.ci_no);
         $('#country').val(arnData.country);
         $('#department_id').val(arnData.department);
+        if (arnData.payment_type) {
+            $('#payment_type').val(String(arnData.payment_type));
+        }
         $('#total_arn').val(parseFloat(arnData.grand_total).toFixed(2));
         $('#remarks').val(arnData.remarks);
         $('#arn_status').val(arnData.status);
         $('#total_discount').val(arnData.total_discount);
         $('#total_received_qty').val(arnData.total_received_qty);
         $('#total_order_qty').val(arnData.total_order_qty);
+        $('#calls_due_date').val(arnData.calls_due_date);
+
+        // Show/hide Due Date field based on payment type (only for Credit = 2)
+        if (arnData.payment_type == '2') {
+            $('#calls_due_date').closest('.col-md-2').show();
+        } else {
+            $('#calls_due_date').closest('.col-md-2').hide();
+        }
         // Close modal
         $('#arn_modal').modal('hide');
 
@@ -1205,8 +1310,8 @@ jQuery(document).ready(function () {
 
     //load arn items
     function loadArnItems(arnId) {
-      
-     
+
+
         $(".someBlock").preloader();
 
         $.ajax({
@@ -1217,7 +1322,7 @@ jQuery(document).ready(function () {
             success: function (items) {
 
                 $(".someBlock").preloader("remove");
-               
+
 
                 const tbody = $('#itemTableBody');
                 tbody.empty();
@@ -1227,15 +1332,15 @@ jQuery(document).ready(function () {
                     return;
                 }
 
-                items.forEach(item => { 
+                items.forEach(item => {
                     const d6 = parseFloat(item.discount_6) || 0;
                     const d7 = parseFloat(item.discount_7) || 0;
                     const d8 = parseFloat(item.discount_8) || 0;
-                
+
                     const dis1 = d6 + d7 + d8;
 
                     const row = `
-                        <tr data-itemid="${item.item_code}">
+                        <tr data-item-id="${item.item_code}">
                            <td>${item.item_code + ' - ' + item.item_name}  </td>
                             <td><input type="number" name="items[][order_qty]" class="form-control form-control-sm" value="${item.order_qty}" readonly></td>
                             <td><input type="number" name="items[][rec_qty]" class="form-control form-control-sm" value="${item.received_qty}" readonly></td>
@@ -1343,34 +1448,34 @@ jQuery(document).ready(function () {
         );
     });
 
-  // OPEN PAYMENT MODEL AND PRE-FILL TOTAL
-  $("#payment").on("click", function () {
-    const $modal = $("#supplierPaymentModal");
-    const totalRaw = $("#total_arn").val();
-    const invoiceId = $("#arn_no").val();
+    // OPEN PAYMENT MODEL AND PRE-FILL TOTAL
+    $("#payment").on("click", function () {
+        const $modal = $("#supplierPaymentModal");
+        const totalRaw = $("#total_arn").val();
+        const invoiceId = $("#arn_no").val();
 
-    const total = parseFloat((totalRaw || '0').toString().replace(/,/g, ""));
+        const total = parseFloat((totalRaw || '0').toString().replace(/,/g, ""));
 
-    if (isNaN(total) || total <= 0) {
-      swal({
-        title: "Error!",
-        text: "Please enter a valid Final Total amount",
-        type: "error",
-        timer: 3000,
-        showConfirmButton: false,
-      });
-      return;
-    }
+        if (isNaN(total) || total <= 0) {
+            swal({
+                title: "Error!",
+                text: "Please enter a valid Final Total amount",
+                type: "error",
+                timer: 3000,
+                showConfirmButton: false,
+            });
+            return;
+        }
 
-    // Prefill fields inside the supplier payment modal only
-    $modal.find("#modal_invoice_id").val(invoiceId);
-    $modal.find("#modalFinalTotal").val(total.toFixed(2));
-    $modal.find("#totalPaid").val("0.00");
-    $modal.find("#balanceAmount").val(total.toFixed(2)).removeClass("text-danger");
+        // Prefill fields inside the supplier payment modal only
+        $modal.find("#modal_invoice_id").val(invoiceId);
+        $modal.find("#modalFinalTotal").val(total.toFixed(2));
+        $modal.find("#totalPaid").val("0.00");
+        $modal.find("#balanceAmount").val(total.toFixed(2)).removeClass("text-danger");
 
-    // Show after values are set; the modal's shown.bs.modal handler will reset rows
-    $modal.modal("show");
-  });
+        // Show after values are set; the modal's shown.bs.modal handler will reset rows
+        $modal.modal("show");
+    });
 
 
 

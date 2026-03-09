@@ -13,7 +13,7 @@ class DepartmentMaster
     {
         if ($id) {
             $query = "SELECT * FROM `department_master` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -31,7 +31,7 @@ class DepartmentMaster
     {
         $query = "INSERT INTO `department_master` (`code`, `name`, `remark`, `is_active`) 
                   VALUES ('" . $this->code . "', '" . $this->name . "', '" . $this->remark . "', '" . $this->is_active . "')";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         return $result ? mysqli_insert_id($db->DB_CON) : false;
@@ -46,7 +46,7 @@ class DepartmentMaster
                   `remark` = '" . $this->remark . "', 
                   `is_active` = '" . $this->is_active . "' 
                   WHERE `id` = '" . $this->id . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -54,7 +54,7 @@ class DepartmentMaster
     public function delete()
     {
         $query = "DELETE FROM `department_master` WHERE `id` = '" . $this->id . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -62,7 +62,7 @@ class DepartmentMaster
     public function all()
     {
         $query = "SELECT * FROM `department_master` ORDER BY `name` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         $array_res = array();
@@ -76,7 +76,7 @@ class DepartmentMaster
     public function getLastID()
     {
         $query = "SELECT * FROM `department_master` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }
@@ -84,7 +84,7 @@ class DepartmentMaster
     public function getActiveDepartment()
     {
         $query = "SELECT * FROM `department_master` WHERE `is_active` = 1 ORDER BY `id` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 
@@ -97,7 +97,7 @@ class DepartmentMaster
 
     public function getByID($id)
     {
-        $db = new Database();
+        $db = Database::getInstance();
 
         $query = "SELECT * FROM `department_master` WHERE `id` = '$id'";
         $result = $db->readQuery($query);
@@ -108,7 +108,20 @@ class DepartmentMaster
         }
 
         return $array;
-    }   
+    }
+
+    public function getIsOneCompany()
+    {
+        $query = "SELECT is_one_company FROM `company_profile` WHERE `is_active` = 1 LIMIT 1";
+        $db = Database::getInstance();
+        $result = $db->readQuery($query);
+        
+        if ($result && $row = mysqli_fetch_assoc($result)) {
+            return (bool)$row['is_one_company'];
+        }
+        
+        return false;
+    }
 
 }
 ?>

@@ -12,7 +12,7 @@ class SalesType
     {
         if ($id) {
             $query = "SELECT * FROM `sales_type` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -33,7 +33,7 @@ class SalesType
             '" . $this->is_active . "'
         )";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -52,7 +52,7 @@ class SalesType
             `is_active` = '" . $this->is_active . "'
             WHERE `id` = " . (int) $this->id;
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         return $result ? true : false;
@@ -62,7 +62,7 @@ class SalesType
     public function delete()
     {
         $query = "DELETE FROM `sales_type` WHERE `id` = " . (int) $this->id;
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -70,7 +70,7 @@ class SalesType
     public function all()
     {
         $query = "SELECT * FROM `sales_type` ORDER BY `code` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = [];
 
@@ -85,7 +85,7 @@ class SalesType
     public function getSalesTypeByStatus($status)
     {
         $query = "SELECT * FROM `sales_type` WHERE `is_active` = $status ORDER BY `id` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = [];
 

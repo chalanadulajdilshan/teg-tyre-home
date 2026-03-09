@@ -33,7 +33,8 @@ include 'auth.php';
 
 </head>
 
-<body data-layout="horizontal" data-topbar="colored" class="someBlock">
+<?php $navigationLayout = $COMPANY_PROFILE_DETAILS->navigation_layout ?? 'horizontal'; ?>
+<body data-layout="<?php echo $navigationLayout; ?>" data-topbar="colored" class="someBlock">
 
     <!-- Begin page -->
     <div id="layout-wrapper">
@@ -114,7 +115,7 @@ include 'auth.php';
                                             autocomplete="off">
                                             <div class="row">
                                                 <!-- Company Code -->
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <label class="form-label" for="company_code">Company Code</label>
                                                     <div class="input-group mb-3">
                                                         <input id="company_code" name="company_code" type="text"
@@ -127,22 +128,29 @@ include 'auth.php';
                                                     </div>
                                                 </div>
 
+                                                <!-- Customer ID -->
+                                                <div class="col-md-2">
+                                                    <label for="customer_id" class="form-label">Customer ID</label>
+                                                    <input id="customer_id" name="customer_id" type="text" class="form-control"
+                                                        placeholder="Enter customer id">
+                                                </div>
+
                                                 <!-- Company Name -->
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <label for="name" class="form-label">Company Name</label>
                                                     <input id="name" name="name" type="text" class="form-control"
                                                         placeholder="Enter company name">
                                                 </div>
 
                                                 <!-- Address -->
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <label for="address" class="form-label">Address</label>
                                                     <input id="address" name="address" type="text" class="form-control"
                                                         placeholder="Enter company address">
                                                 </div>
 
                                                 <!-- Mobile Number 01 -->
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <label for="mobile_number_1" class="form-label">Mobile Number
                                                         01</label>
                                                     <input id="mobile_number_1" name="mobile_number_1" type="text"
@@ -157,26 +165,12 @@ include 'auth.php';
                                                         class="form-control" placeholder="Enter mobile number 2">
                                                 </div>
 
-                                                <!-- Mobile Number 03 -->
-                                                <div class="col-md-2">
-                                                    <label for="mobile_number_3" class="form-label">Mobile Number
-                                                        03</label>
-                                                    <input id="mobile_number_3" name="mobile_number_3" type="text"
-                                                        class="form-control" placeholder="Enter mobile number 3">
-                                                </div>
 
                                                 <!-- Email -->
                                                 <div class="col-md-2">
                                                     <label for="email" class="form-label">Email</label>
                                                     <input id="email" name="email" type="email" class="form-control"
                                                         placeholder="Enter email address">
-                                                </div>
-
-                                                <!-- Cashbook Opening Balance -->
-                                                <div class="col-md-2">
-                                                    <label for="cashbook_opening_balance" class="form-label">Cashbook Opening Balance</label>
-                                                    <input id="cashbook_opening_balance" name="cashbook_opening_balance" type="number" step="0.01" class="form-control"
-                                                        placeholder="Enter opening balance">
                                                 </div>
 
                                                 <!-- Color Theme -->
@@ -189,6 +183,25 @@ include 'auth.php';
                                                     </div>
                                                 </div>
 
+                                                <div class="col-md-2">
+                                                    <label class="form-label" for="home_view_mode">Home View</label>
+                                                    <?php $homeViewMode = $COMPANY_PROFILE_DETAILS->home_view_mode ?? 'both'; ?>
+                                                    <select id="home_view_mode" name="home_view_mode" class="form-select">
+                                                        <option value="both" <?php echo $homeViewMode === 'both' ? 'selected' : ''; ?>>Header + Navigation Buttons</option>
+                                                        <option value="header" <?php echo $homeViewMode === 'header' ? 'selected' : ''; ?>>Header Only</option>
+                                                        <option value="nav_buttons" <?php echo $homeViewMode === 'nav_buttons' ? 'selected' : ''; ?>>Navigation Buttons Only</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <label class="form-label" for="navigation_layout">Navigation Layout</label>
+                                                    <?php $navLayout = $COMPANY_PROFILE_DETAILS->navigation_layout ?? 'horizontal'; ?>
+                                                    <select id="navigation_layout" name="navigation_layout" class="form-select">
+                                                        <option value="horizontal" <?php echo $navLayout === 'horizontal' ? 'selected' : ''; ?>>Top Navigation</option>
+                                                        <option value="vertical" <?php echo $navLayout === 'vertical' ? 'selected' : ''; ?>>Sidebar</option>
+                                                    </select>
+                                                </div>
+
                                                 <!-- VAT Registered -->
                                                 <div class="col-md-1 d-flex align-items-center">
                                                     <div class="form-check mt-4">
@@ -197,6 +210,29 @@ include 'auth.php';
                                                         <label class="form-check-label" for="is_vat">Is VAT?</label>
                                                     </div>
                                                 </div>
+                                                <?php
+                                                $US = new User($_SESSION['id']);
+                                                $user_name = $US->name;
+                                                ?>
+                                                <?php if ($user_name == 'dulaj'): ?>
+                                                <!-- One Company -->
+                                                <div class="col-md-1 d-flex align-items-center">
+                                                    <div class="form-check mt-4">
+                                                        <input class="form-check-input" type="checkbox" id="is_one_company"
+                                                            name="is_one_company">
+                                                        <label class="form-check-label" for="is_one_company">Is One Company</label>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Credit -->
+                                                <div class="col-md-1 d-flex align-items-center">
+                                                    <div class="form-check mt-4">
+                                                        <input class="form-check-input" type="checkbox" id="is_credit"
+                                                            name="is_credit">
+                                                        <label class="form-check-label" for="is_credit">Is Credit</label>
+                                                    </div>
+                                                </div>
+                                                <?php endif; ?>
                                                 <!-- Active Status -->
                                                 <div class="col-md-1 d-flex justify-content-center align-items-center">
                                                     <div class="form-check mt-4">

@@ -11,7 +11,7 @@ class CustomerCategory
     {
         if ($id) {
             $query = "SELECT `id`, `name`, `is_active` FROM `customer_category` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -27,7 +27,7 @@ class CustomerCategory
     {
         $query = "INSERT INTO `customer_category` (`name`, `is_active`) VALUES ('" .
             $this->name . "', '" . $this->is_active . "')";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -42,7 +42,7 @@ class CustomerCategory
     {
         $query = "UPDATE `customer_category` SET `name` = '" . $this->name . "', `is_active` = '" .
             $this->is_active . "' WHERE `id` = '" . $this->id . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -56,7 +56,7 @@ class CustomerCategory
     public function delete()
     {
         $query = "DELETE FROM `customer_category` WHERE `id` = '" . $this->id . "'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -64,7 +64,7 @@ class CustomerCategory
     public function all()
     {
         $query = "SELECT * FROM `customer_category` ORDER BY name ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -78,7 +78,7 @@ class CustomerCategory
     public function activeCategory()
     {
         $query = "SELECT * FROM `customer_category` WHERE is_active = 1 ORDER BY id ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 

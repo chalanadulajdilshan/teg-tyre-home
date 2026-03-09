@@ -26,7 +26,7 @@ class DocumentTracking
     {
         if ($id) {
             $query = "SELECT * FROM `document_tracking` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -48,7 +48,7 @@ class DocumentTracking
             NOW(), NOW()
         )";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -74,7 +74,7 @@ class DocumentTracking
             `updated_at` = NOW()
         WHERE `id` = '{$this->id}'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -88,7 +88,7 @@ class DocumentTracking
     public function delete()
     {
         $query = "DELETE FROM `document_tracking` WHERE `id` = '{$this->id}'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
@@ -96,7 +96,7 @@ class DocumentTracking
     public function all()
     {
         $query = "SELECT * FROM `document_tracking` ORDER BY `id` DESC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array_res = array();
 
@@ -116,7 +116,7 @@ class DocumentTracking
               AND `accounting_year_end` >= '" . $year_end . "' and `status` = 1";
 
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $ids = [];
 
@@ -130,7 +130,7 @@ class DocumentTracking
     //update Ids
     public function incrementDocumentId($type)
     {
-        $db = new Database();
+        $db = Database::getInstance();
 
         // Map accepted types to column names
         $columns = [

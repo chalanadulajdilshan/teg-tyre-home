@@ -1185,3 +1185,795 @@ Stack trace:
 [23-Oct-2025 09:26:44 UTC] Getting total expenses from 2025-09-01 to 2025-10-23
 [23-Oct-2025 09:26:44 UTC] Total expenses found: 0
 [25-Oct-2025 06:57:01 UTC] Looking up service with ID: 6
+[29-Oct-2025 05:44:57 UTC] Getting total expenses from 2025-10-01 to 2025-10-29
+[29-Oct-2025 05:44:57 UTC] Total expenses found: 0
+[29-Oct-2025 05:44:58 UTC] Getting total expenses from 2025-10-01 to 2025-10-29
+[29-Oct-2025 05:44:58 UTC] Total expenses found: 0
+[30-Oct-2025 09:17:52 UTC] Looking up service with ID: 6
+[09-Nov-2025 07:20:46 UTC] PHP Notice:  Undefined index: id in /home/chalcepi/sites/dstyre/ajax/php/arn-master.php on line 96
+[11-Nov-2025 02:58:26 UTC] Looking up service with ID: 6
+[11-Nov-2025 03:02:08 UTC] Looking up service with ID: 4
+[11-Nov-2025 03:07:21 UTC] Looking up service with ID: 6
+[14-Nov-2025 08:58:29 UTC] PHP Notice:  Undefined index: id in /home/chalcepi/sites/dstyre/ajax/php/sales-invoice.php on line 75
+[14-Nov-2025 08:58:29 UTC] PHP Notice:  Undefined index: id in /home/chalcepi/sites/dstyre/ajax/php/sales-invoice.php on line 259
+[14-Nov-2025 08:58:29 UTC] PHP Notice:  Undefined index: id in /home/chalcepi/sites/dstyre/ajax/php/sales-invoice.php on line 259
+[14-Nov-2025 08:58:29 UTC] PHP Notice:  Undefined index: id in /home/chalcepi/sites/dstyre/ajax/php/sales-invoice.php on line 259
+[15-Nov-2025 11:20:04 UTC] PHP Notice:  Undefined index: id in /home/chalcepi/sites/dstyre/ajax/php/customer-master.php on line 117
+[15-Nov-2025 11:21:35 UTC] Looking up service with ID: 6
+[15-Nov-2025 11:22:32 UTC] PHP Notice:  Undefined index: id in /home/chalcepi/sites/dstyre/ajax/php/sales-invoice.php on line 75
+[15-Nov-2025 11:22:32 UTC] PHP Notice:  Undefined index: id in /home/chalcepi/sites/dstyre/ajax/php/sales-invoice.php on line 259
+[15-Nov-2025 11:22:32 UTC] PHP Notice:  Undefined index: id in /home/chalcepi/sites/dstyre/ajax/php/sales-invoice.php on line 259
+[15-Nov-2025 11:39:31 UTC] Looking up service with ID: 6
+[18-Nov-2025 03:27:02 UTC] Getting total expenses from 2025-11-17 to 2025-11-18
+[18-Nov-2025 03:27:02 UTC] Total expenses found: 0
+[18-Nov-2025 03:27:02 UTC] Getting total expenses from 2025-11-17 to 2025-11-18
+[18-Nov-2025 03:27:02 UTC] Total expenses found: 0
+[18-Nov-2025 03:27:08 UTC] Getting total expenses from 2025-11-01 to 2025-11-18
+[18-Nov-2025 03:27:08 UTC] Total expenses found: 0
+[18-Nov-2025 03:27:08 UTC] Getting total expenses from 2025-11-01 to 2025-11-18
+[18-Nov-2025 03:27:08 UTC] Total expenses found: 0
+[18-Nov-2025 12:01:55 UTC] Looking up service with ID: 5
+[19-Nov-2025 03:30:52 UTC] Getting total expenses from 2025-11-01 to 2025-11-19
+[19-Nov-2025 03:30:52 UTC] Total expenses found: 0
+[19-Nov-2025 03:30:53 UTC] Getting total expenses from 2025-11-01 to 2025-11-19
+[19-Nov-2025 03:30:53 UTC] Total expenses found: 0
+[19-Nov-2025 03:50:53 UTC] Getting total expenses from 2025-11-01 to 2025-11-19
+[19-Nov-2025 03:50:53 UTC] Total expenses found: 0
+[19-Nov-2025 03:50:54 UTC] Getting total expenses from 2025-11-01 to 2025-11-19
+[19-Nov-2025 03:50:54 UTC] Total expenses found: 0
+[28-Nov-2025 06:55:14 UTC] Looking up service with ID: 5
+[28-Nov-2025 07:01:37 UTC] Getting total expenses from 2025-11-28 to 2025-11-28
+[28-Nov-2025 07:01:37 UTC] Total expenses found: 0
+[28-Nov-2025 07:01:37 UTC] Getting total expenses from 2025-11-28 to 2025-11-28
+[28-Nov-2025 07:01:37 UTC] Total expenses found: 0
+[28-Nov-2025 07:01:41 UTC] Getting total expenses from 2025-11-19 to 2025-11-28
+[28-Nov-2025 07:01:41 UTC] Total expenses found: 0
+[28-Nov-2025 07:01:41 UTC] Getting total expenses from 2025-11-19 to 2025-11-28
+[28-Nov-2025 07:01:41 UTC] Total expenses found: 0
+[28-Nov-2025 08:01:18 UTC] Getting total expenses from 2025-11-28 to 2025-11-28
+[28-Nov-2025 08:01:18 UTC] Total expenses found: 0
+[28-Nov-2025 08:01:18 UTC] Getting total expenses from 2025-11-28 to 2025-11-28
+[28-Nov-2025 08:01:18 UTC] Total expenses found: 0
+[28-Nov-2025 08:01:29 UTC] Getting total expenses from 2025-11-01 to 2025-11-28
+[28-Nov-2025 08:01:29 UTC] Total expenses found: 0
+[28-Nov-2025 08:01:29 UTC] Getting total expenses from 2025-11-01 to 2025-11-28
+[28-Nov-2025 08:01:29 UTC] Total expenses found: 0
+[28-Nov-2025 08:05:07 UTC] Getting total expenses from 2025-11-28 to 2025-11-28
+[28-Nov-2025 08:05:07 UTC] Total expenses found: 0
+[28-Nov-2025 08:05:07 UTC] Getting total expenses from 2025-11-28 to 2025-11-28
+[28-Nov-2025 08:05:07 UTC] Total expenses found: 0
+[28-Nov-2025 08:05:11 UTC] Getting total expenses from 2025-11-01 to 2025-11-28
+[28-Nov-2025 08:05:11 UTC] Total expenses found: 0
+[28-Nov-2025 08:05:11 UTC] Getting total expenses from 2025-11-01 to 2025-11-28
+[28-Nov-2025 08:05:11 UTC] Total expenses found: 0
+[28-Nov-2025 10:45:01 UTC] Looking up service with ID: 1
+[28-Nov-2025 10:45:55 UTC] Looking up service with ID: 3
+[28-Nov-2025 10:46:14 UTC] Looking up service with ID: 3
+[28-Nov-2025 10:47:25 UTC] Looking up service with ID: 1
+[28-Nov-2025 13:38:09 UTC] Getting total expenses from 2025-11-28 to 2025-11-28
+[28-Nov-2025 13:38:09 UTC] Total expenses found: 0
+[28-Nov-2025 13:38:10 UTC] Getting total expenses from 2025-11-28 to 2025-11-28
+[28-Nov-2025 13:38:10 UTC] Total expenses found: 0
+[28-Nov-2025 13:41:18 UTC] PHP Notice:  Undefined index: lc_no in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 48
+[28-Nov-2025 13:41:18 UTC] PHP Notice:  Undefined index: pi_no in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 51
+[28-Nov-2025 13:41:18 UTC] PHP Notice:  Undefined index: order_by in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 55
+[28-Nov-2025 13:41:18 UTC] PHP Notice:  Undefined index: purchase_type in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 56
+[28-Nov-2025 13:41:18 UTC] PHP Notice:  Undefined index: item_id in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 106
+[28-Nov-2025 14:22:21 UTC] Return data: Array
+(
+    [id] => 1
+    [return_no] => WT/SR/00/01
+    [return_date] => 2025-11-25
+    [invoice_no] => TH/CA/08/0002
+    [customer] => Array
+        (
+            [id] => 1
+            [name] => CASH SALES
+            [address] => -
+            [mobile_number] => 
+        )
+
+    [department] => Array
+        (
+            [id] => 
+            [name] => 
+        )
+
+    [total_amount] => 887.00
+    [return_reason] => 
+    [remarks] => 
+    [is_damaged] => 0
+)
+
+[28-Nov-2025 14:22:21 UTC] Items count: 0
+[28-Nov-2025 14:22:21 UTC] Item data: Array
+(
+)
+
+[28-Nov-2025 14:22:54 UTC] Return data: Array
+(
+    [id] => 1
+    [return_no] => WT/SR/00/01
+    [return_date] => 2025-11-25
+    [invoice_no] => TH/CA/08/0002
+    [customer] => Array
+        (
+            [id] => 1
+            [name] => CASH SALES
+            [address] => -
+            [mobile_number] => 
+        )
+
+    [department] => Array
+        (
+            [id] => 
+            [name] => 
+        )
+
+    [total_amount] => 887.00
+    [return_reason] => 
+    [remarks] => 
+    [is_damaged] => 0
+)
+
+[28-Nov-2025 14:22:54 UTC] Items count: 0
+[28-Nov-2025 14:22:54 UTC] Item data: Array
+(
+)
+
+[30-Nov-2025 03:40:10 UTC] Generated return number: WT/SR/00/02 (next after: 1)
+[30-Nov-2025 03:40:10 UTC] Item created for return 2: 1
+[30-Nov-2025 03:40:24 UTC] Return data: Array
+(
+    [id] => 2
+    [return_no] => WT/SR/00/02
+    [return_date] => 2025-11-30
+    [invoice_no] => DS/CA/08/0091
+    [customer] => Array
+        (
+            [id] => 1
+            [name] => CASH SALES
+            [address] => -
+            [mobile_number] => 
+        )
+
+    [department] => Array
+        (
+            [id] => 1
+            [name] => HEAD OFFICE
+        )
+
+    [total_amount] => 10000.00
+    [return_reason] => 
+    [remarks] => 
+    [is_damaged] => 0
+)
+
+[30-Nov-2025 03:40:24 UTC] Items count: 1
+[30-Nov-2025 03:40:24 UTC] Item data: Array
+(
+    [0] => Array
+        (
+            [id] => 1
+            [item_id] => 0
+            [item_code] => 
+            [item_name] => 
+            [quantity] => 1.00
+            [original_quantity] => 2
+            [unit_price] => 10000.00
+            [discount] => 0.00
+            [tax] => 0.00
+            [net_amount] => 10000.00
+            [remarks] => 
+        )
+
+)
+
+[30-Nov-2025 03:40:56 UTC] Return data: Array
+(
+    [id] => 2
+    [return_no] => WT/SR/00/02
+    [return_date] => 2025-11-30
+    [invoice_no] => DS/CA/08/0091
+    [customer] => Array
+        (
+            [id] => 1
+            [name] => CASH SALES
+            [address] => -
+            [mobile_number] => 
+        )
+
+    [department] => Array
+        (
+            [id] => 1
+            [name] => HEAD OFFICE
+        )
+
+    [total_amount] => 10000.00
+    [return_reason] => 
+    [remarks] => 
+    [is_damaged] => 0
+)
+
+[30-Nov-2025 03:40:56 UTC] Items count: 1
+[30-Nov-2025 03:40:56 UTC] Item data: Array
+(
+    [0] => Array
+        (
+            [id] => 1
+            [item_id] => 0
+            [item_code] => 
+            [item_name] => 
+            [quantity] => 1.00
+            [original_quantity] => 2
+            [unit_price] => 10000.00
+            [discount] => 0.00
+            [tax] => 0.00
+            [net_amount] => 10000.00
+            [remarks] => 
+        )
+
+)
+
+[30-Nov-2025 03:41:01 UTC] Return data: Array
+(
+    [id] => 1
+    [return_no] => WT/SR/00/01
+    [return_date] => 2025-11-25
+    [invoice_no] => TH/CA/08/0002
+    [customer] => Array
+        (
+            [id] => 1
+            [name] => CASH SALES
+            [address] => -
+            [mobile_number] => 
+        )
+
+    [department] => Array
+        (
+            [id] => 
+            [name] => 
+        )
+
+    [total_amount] => 887.00
+    [return_reason] => 
+    [remarks] => 
+    [is_damaged] => 0
+)
+
+[30-Nov-2025 03:41:01 UTC] Items count: 0
+[30-Nov-2025 03:41:01 UTC] Item data: Array
+(
+)
+
+[01-Dec-2025 04:45:53 UTC] PHP Fatal error:  Uncaught Error: Call to private Database::__construct() from invalid context in /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php:24
+Stack trace:
+#0 /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php(8): getPermissionsForUser(8)
+#1 {main}
+  thrown in /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php on line 24
+[01-Dec-2025 04:45:57 UTC] PHP Fatal error:  Uncaught Error: Call to private Database::__construct() from invalid context in /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php:24
+Stack trace:
+#0 /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php(8): getPermissionsForUser(1)
+#1 {main}
+  thrown in /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php on line 24
+[01-Dec-2025 04:46:00 UTC] PHP Fatal error:  Uncaught Error: Call to private Database::__construct() from invalid context in /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php:24
+Stack trace:
+#0 /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php(8): getPermissionsForUser(7)
+#1 {main}
+  thrown in /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php on line 24
+[01-Dec-2025 04:46:08 UTC] PHP Fatal error:  Uncaught Error: Call to private Database::__construct() from invalid context in /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php:24
+Stack trace:
+#0 /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php(8): getPermissionsForUser(1)
+#1 {main}
+  thrown in /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php on line 24
+[01-Dec-2025 04:47:43 UTC] PHP Fatal error:  Uncaught Error: Call to private Database::__construct() from invalid context in /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php:24
+Stack trace:
+#0 /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php(8): getPermissionsForUser(7)
+#1 {main}
+  thrown in /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php on line 24
+[01-Dec-2025 04:48:19 UTC] PHP Fatal error:  Uncaught Error: Call to private Database::__construct() from invalid context in /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php:24
+Stack trace:
+#0 /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php(8): getPermissionsForUser(8)
+#1 {main}
+  thrown in /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php on line 24
+[01-Dec-2025 04:52:42 UTC] PHP Fatal error:  Uncaught Error: Call to private Database::__construct() from invalid context in /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php:24
+Stack trace:
+#0 /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php(8): getPermissionsForUser(1)
+#1 {main}
+  thrown in /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php on line 24
+[01-Dec-2025 04:52:56 UTC] PHP Fatal error:  Uncaught Error: Call to private Database::__construct() from invalid context in /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php:24
+Stack trace:
+#0 /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php(8): getPermissionsForUser(8)
+#1 {main}
+  thrown in /home/chalcepi/sites/360-ERP/ajax/php/get-permissions.php on line 24
+[01-Dec-2025 07:34:09 UTC] PHP Notice:  Undefined index: lc_no in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 48
+[01-Dec-2025 07:34:09 UTC] PHP Notice:  Undefined index: pi_no in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 51
+[01-Dec-2025 07:34:09 UTC] PHP Notice:  Undefined index: order_by in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 55
+[01-Dec-2025 07:34:09 UTC] PHP Notice:  Undefined index: purchase_type in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 56
+[02-Dec-2025 04:24:39 UTC] PHP Notice:  Undefined property: CustomerMaster::$name_2 in /home/chalcepi/sites/360-ERP/ajax/php/customer-master.php on line 375
+[02-Dec-2025 04:25:19 UTC] PHP Notice:  Undefined property: CustomerMaster::$name_2 in /home/chalcepi/sites/360-ERP/ajax/php/customer-master.php on line 375
+[02-Dec-2025 04:25:25 UTC] PHP Notice:  Undefined property: CustomerMaster::$name_2 in /home/chalcepi/sites/360-ERP/ajax/php/customer-master.php on line 375
+[02-Dec-2025 04:26:16 UTC] PHP Notice:  Undefined property: CustomerMaster::$name_2 in /home/chalcepi/sites/360-ERP/ajax/php/customer-master.php on line 375
+[02-Dec-2025 04:27:11 UTC] PHP Notice:  Undefined property: CustomerMaster::$name_2 in /home/chalcepi/sites/360-ERP/ajax/php/customer-master.php on line 375
+[02-Dec-2025 04:27:47 UTC] PHP Notice:  Undefined property: CustomerMaster::$name_2 in /home/chalcepi/sites/360-ERP/ajax/php/customer-master.php on line 375
+[02-Dec-2025 04:27:51 UTC] PHP Notice:  Undefined property: CustomerMaster::$name_2 in /home/chalcepi/sites/360-ERP/ajax/php/customer-master.php on line 375
+[02-Dec-2025 04:27:56 UTC] PHP Notice:  Undefined property: CustomerMaster::$name_2 in /home/chalcepi/sites/360-ERP/ajax/php/customer-master.php on line 375
+[02-Dec-2025 04:28:26 UTC] PHP Notice:  Undefined property: CustomerMaster::$name_2 in /home/chalcepi/sites/360-ERP/ajax/php/customer-master.php on line 375
+[02-Dec-2025 04:29:14 UTC] PHP Notice:  Undefined index: old_outstanding in /home/chalcepi/sites/360-ERP/ajax/php/customer-master.php on line 43
+[02-Dec-2025 04:50:40 UTC] PHP Notice:  Undefined index: old_outstanding in /home/chalcepi/sites/360-ERP/ajax/php/customer-master.php on line 43
+[02-Dec-2025 04:53:32 UTC] PHP Notice:  Undefined index: lc_no in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 48
+[02-Dec-2025 04:53:32 UTC] PHP Notice:  Undefined index: pi_no in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 51
+[02-Dec-2025 04:53:32 UTC] PHP Notice:  Undefined index: order_by in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 55
+[02-Dec-2025 04:53:32 UTC] PHP Notice:  Undefined index: purchase_type in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 56
+[02-Dec-2025 05:23:56 UTC] PHP Notice:  Undefined index: lc_no in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 48
+[02-Dec-2025 05:23:56 UTC] PHP Notice:  Undefined index: pi_no in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 51
+[02-Dec-2025 05:23:56 UTC] PHP Notice:  Undefined index: order_by in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 55
+[02-Dec-2025 05:23:56 UTC] PHP Notice:  Undefined index: purchase_type in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 56
+[02-Dec-2025 06:18:21 UTC] PHP Notice:  Undefined index: lc_no in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 48
+[02-Dec-2025 06:18:21 UTC] PHP Notice:  Undefined index: pi_no in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 51
+[02-Dec-2025 06:18:21 UTC] PHP Notice:  Undefined index: order_by in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 55
+[02-Dec-2025 06:18:21 UTC] PHP Notice:  Undefined index: purchase_type in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 56
+[02-Dec-2025 06:19:17 UTC] PHP Notice:  Undefined index: lc_no in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 48
+[02-Dec-2025 06:19:17 UTC] PHP Notice:  Undefined index: pi_no in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 51
+[02-Dec-2025 06:19:17 UTC] PHP Notice:  Undefined index: order_by in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 55
+[02-Dec-2025 06:19:17 UTC] PHP Notice:  Undefined index: purchase_type in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 56
+[02-Dec-2025 06:33:28 UTC] PHP Notice:  Undefined index: lc_no in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 48
+[02-Dec-2025 06:33:28 UTC] PHP Notice:  Undefined index: pi_no in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 51
+[02-Dec-2025 06:33:28 UTC] PHP Notice:  Undefined index: order_by in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 55
+[02-Dec-2025 06:33:28 UTC] PHP Notice:  Undefined index: purchase_type in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 56
+[02-Dec-2025 07:15:47 UTC] PHP Notice:  Undefined index: lc_no in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 48
+[02-Dec-2025 07:15:47 UTC] PHP Notice:  Undefined index: pi_no in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 51
+[02-Dec-2025 07:15:47 UTC] PHP Notice:  Undefined index: order_by in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 55
+[02-Dec-2025 07:15:47 UTC] PHP Notice:  Undefined index: purchase_type in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 56
+[02-Dec-2025 07:15:47 UTC] PHP Notice:  Undefined index: item_id in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 106
+[03-Dec-2025 07:39:34 UTC] PHP Notice:  Undefined index: id in /home/chalcepi/sites/360-ERP/ajax/php/sales-invoice-dag.php on line 100
+[03-Dec-2025 07:39:34 UTC] PHP Notice:  Undefined index: id in /home/chalcepi/sites/360-ERP/ajax/php/sales-invoice-dag.php on line 173
+[03-Dec-2025 08:27:28 UTC] Looking up service with ID: 1
+[03-Dec-2025 08:29:21 UTC] Looking up service with ID: 1
+[03-Dec-2025 08:31:49 UTC] Looking up service with ID: 1
+[03-Dec-2025 08:32:11 UTC] Looking up service with ID: 1
+[05-Dec-2025 03:59:12 UTC] PHP Notice:  Undefined index: item_id in /home/chalcepi/sites/360-ERP/ajax/php/arn-master.php on line 106
+[12-Dec-2025 04:32:40 UTC] POST data: Array
+(
+    [code] => EXP/01
+    [expense_type] => 1
+    [expense_date] => 2025-12-19
+    [amount] => 1000
+    [remark] => 
+    [id] => 0
+    [create] => true
+)
+
+[12-Dec-2025 04:32:40 UTC] Creating expense with data: Expense Object
+(
+    [id] => 
+    [code] => EXP/01
+    [expense_type_id] => 1
+    [expense_date] => 2025-12-19
+    [amount] => 1000
+    [remark] => 
+)
+
+[12-Dec-2025 04:32:40 UTC] Successfully created expense with ID: 1
+[12-Dec-2025 04:33:06 UTC] POST data: Array
+(
+    [code] => EXP/02
+    [expense_type] => 1
+    [expense_date] => 2025-12-12
+    [amount] => 1000
+    [remark] => 
+    [id] => 0
+    [create] => true
+)
+
+[12-Dec-2025 04:33:06 UTC] Creating expense with data: Expense Object
+(
+    [id] => 
+    [code] => EXP/02
+    [expense_type_id] => 1
+    [expense_date] => 2025-12-12
+    [amount] => 1000
+    [remark] => 
+)
+
+[12-Dec-2025 04:33:06 UTC] Successfully created expense with ID: 2
+[16-Dec-2025 10:10:16 UTC] Getting total expenses from 2025-12-16 to 2025-12-16
+[16-Dec-2025 10:10:16 UTC] Total expenses found: 0
+[16-Dec-2025 10:10:16 UTC] Getting total expenses from 2025-12-16 to 2025-12-16
+[16-Dec-2025 10:10:16 UTC] Total expenses found: 0
+[16-Dec-2025 10:10:21 UTC] Getting total expenses from 2025-12-01 to 2025-12-16
+[16-Dec-2025 10:10:21 UTC] Total expenses found: 1000
+[16-Dec-2025 10:10:22 UTC] Getting total expenses from 2025-12-01 to 2025-12-16
+[16-Dec-2025 10:10:22 UTC] Total expenses found: 1000
+[17-Dec-2025 08:19:34 UTC] PHP Notice:  Undefined index: is_one_company in /home/chalcepi/sites/360-ERP/class/CompanyProfile.php on line 49
+[17-Dec-2025 08:19:34 UTC] PHP Notice:  Undefined index: is_credit in /home/chalcepi/sites/360-ERP/class/CompanyProfile.php on line 50
+[17-Dec-2025 11:20:56 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: e1f217a8c85eb8f2b9fe63b1e69552b5
+[17-Dec-2025 11:26:31 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: e1f217a8c85eb8f2b9fe63b1e69552b5
+[18-Dec-2025 04:08:17 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: b9f1c737af30e95c72701b4db235a732
+[18-Dec-2025 04:09:52 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: f67baaaacf2628e2b375b7bab4c3a800
+[18-Dec-2025 05:53:30 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: b9f1c737af30e95c72701b4db235a732
+[18-Dec-2025 05:53:45 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: b9f1c737af30e95c72701b4db235a732
+[18-Dec-2025 06:03:26 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 66a3144b5791e2b98e4dd3f658c8339e
+[18-Dec-2025 06:53:51 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 623fe98b56676bee34829e0f286cca0e
+[18-Dec-2025 06:55:45 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 623fe98b56676bee34829e0f286cca0e
+[18-Dec-2025 06:58:54 UTC] Getting total expenses from 2025-12-18 to 2025-12-18
+[18-Dec-2025 06:58:54 UTC] Total expenses found: 0
+[18-Dec-2025 06:58:54 UTC] Getting total expenses from 2025-12-18 to 2025-12-18
+[18-Dec-2025 06:58:54 UTC] Total expenses found: 0
+[18-Dec-2025 08:35:08 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: f67baaaacf2628e2b375b7bab4c3a800
+[18-Dec-2025 08:53:07 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: f67baaaacf2628e2b375b7bab4c3a800
+[22-Dec-2025 08:16:21 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: d96e157c703afeef6bf967c8d5ff95b5
+[24-Dec-2025 03:26:03 UTC] PHP Notice:  Undefined index: old_outstanding in /home/chalcepi/sites/360-ERP/ajax/php/customer-master.php on line 43
+[24-Dec-2025 03:26:03 UTC] PHP Notice:  Undefined index: vat_no in /home/chalcepi/sites/360-ERP/ajax/php/customer-master.php on line 46
+[30-Dec-2025 03:09:42 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8c32ee37d04eee68e02ed4ba75282bb3
+[30-Dec-2025 03:10:13 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8c32ee37d04eee68e02ed4ba75282bb3
+[31-Dec-2025 06:47:21 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 71868ba4733f93c1d7715f3aaef9f3ee
+[31-Dec-2025 06:47:24 UTC] Looking up service with ID: 1
+[05-Jan-2026 03:17:04 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 7fb982104b6ce1cfd672e33327dfc071
+[05-Jan-2026 05:50:20 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 6f33dd619586319e968844da180af7ab
+[05-Jan-2026 05:52:18 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 6f33dd619586319e968844da180af7ab
+[05-Jan-2026 05:53:47 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 6f33dd619586319e968844da180af7ab
+[05-Jan-2026 06:01:38 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 6f33dd619586319e968844da180af7ab
+[05-Jan-2026 06:19:36 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 7fb982104b6ce1cfd672e33327dfc071
+[05-Jan-2026 06:21:45 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 6f33dd619586319e968844da180af7ab
+[05-Jan-2026 06:21:55 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 6f33dd619586319e968844da180af7ab
+[05-Jan-2026 06:23:48 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 6f33dd619586319e968844da180af7ab
+[05-Jan-2026 08:36:03 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 947b9dc3e8391aa4857552153fcb5936
+[05-Jan-2026 08:38:08 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 947b9dc3e8391aa4857552153fcb5936
+[05-Jan-2026 10:09:40 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: a8ea763e421888537cd95ea29558acbc
+[05-Jan-2026 10:10:34 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: a8ea763e421888537cd95ea29558acbc
+[05-Jan-2026 10:10:55 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: a8ea763e421888537cd95ea29558acbc
+[05-Jan-2026 10:11:15 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: a8ea763e421888537cd95ea29558acbc
+[05-Jan-2026 10:15:16 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: a8ea763e421888537cd95ea29558acbc
+[05-Jan-2026 10:20:50 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: a8ea763e421888537cd95ea29558acbc
+[06-Jan-2026 07:30:47 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: e28ce47130f51db8878eebe3d1ce3243
+[06-Jan-2026 07:31:14 UTC] Looking up service with ID: 1
+[08-Jan-2026 04:58:51 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 0217e87828482dc5e2c2ecd5c666befa
+[08-Jan-2026 04:59:51 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 0217e87828482dc5e2c2ecd5c666befa
+[08-Jan-2026 05:34:28 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 0217e87828482dc5e2c2ecd5c666befa
+[08-Jan-2026 05:35:01 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 0217e87828482dc5e2c2ecd5c666befa
+[08-Jan-2026 05:35:29 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 0217e87828482dc5e2c2ecd5c666befa
+[08-Jan-2026 05:37:46 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 0217e87828482dc5e2c2ecd5c666befa
+[08-Jan-2026 05:38:30 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 0217e87828482dc5e2c2ecd5c666befa
+[08-Jan-2026 06:01:18 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: e64f8ec075bea77a24d736b04087140a
+[08-Jan-2026 06:19:15 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: f8b7e64c3cc78cc62e182dcb450d18fc
+[08-Jan-2026 06:25:37 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: f8b7e64c3cc78cc62e182dcb450d18fc
+[08-Jan-2026 06:56:05 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: b5937a18bcee356d8c2a09cd28d08f57
+[08-Jan-2026 09:37:17 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: db315c13060bc7b41298e756f5638db0
+[08-Jan-2026 11:01:49 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: e64f8ec075bea77a24d736b04087140a
+[08-Jan-2026 11:01:55 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: e64f8ec075bea77a24d736b04087140a
+[08-Jan-2026 11:01:56 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: e64f8ec075bea77a24d736b04087140a
+[08-Jan-2026 11:01:57 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: e64f8ec075bea77a24d736b04087140a
+[08-Jan-2026 11:05:00 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: e64f8ec075bea77a24d736b04087140a
+[08-Jan-2026 11:09:49 UTC] Getting total expenses from 2026-01-08 to 2026-01-08
+[08-Jan-2026 11:09:49 UTC] Total expenses found: 0
+[08-Jan-2026 11:09:49 UTC] Getting total expenses from 2026-01-08 to 2026-01-08
+[08-Jan-2026 11:09:49 UTC] Total expenses found: 0
+[08-Jan-2026 11:10:14 UTC] Getting total expenses from 2026-01-08 to 2026-01-08
+[08-Jan-2026 11:10:14 UTC] Total expenses found: 0
+[08-Jan-2026 11:10:14 UTC] Getting total expenses from 2026-01-08 to 2026-01-08
+[08-Jan-2026 11:10:14 UTC] Total expenses found: 0
+[08-Jan-2026 15:18:41 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: eca185e6abd8eb45a2b414edb3ae0fcc
+[09-Jan-2026 05:31:21 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 53c608a1b2feb53144303d98905ebcd2
+[09-Jan-2026 05:31:53 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 53c608a1b2feb53144303d98905ebcd2
+[09-Jan-2026 05:32:29 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 53c608a1b2feb53144303d98905ebcd2
+[09-Jan-2026 05:32:32 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 53c608a1b2feb53144303d98905ebcd2
+[09-Jan-2026 05:32:48 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 53c608a1b2feb53144303d98905ebcd2
+[10-Jan-2026 05:08:41 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 53c608a1b2feb53144303d98905ebcd2
+[10-Jan-2026 09:05:15 UTC] Getting total expenses from 2026-01-10 to 2026-01-10
+[10-Jan-2026 09:05:15 UTC] Total expenses found: 0
+[10-Jan-2026 09:05:15 UTC] Getting total expenses from 2026-01-10 to 2026-01-10
+[10-Jan-2026 09:05:15 UTC] Total expenses found: 0
+[10-Jan-2026 09:05:21 UTC] Getting total expenses from 2026-01-01 to 2026-01-10
+[10-Jan-2026 09:05:21 UTC] Total expenses found: 0
+[10-Jan-2026 09:05:21 UTC] Getting total expenses from 2026-01-01 to 2026-01-10
+[10-Jan-2026 09:05:21 UTC] Total expenses found: 0
+[10-Jan-2026 09:27:09 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 561567b4d38af7e4c736a531d7036757
+[10-Jan-2026 11:28:43 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3307c200c385ccf040d6a1efd9d204fa
+[10-Jan-2026 11:29:09 UTC] Looking up service with ID: 1
+[10-Jan-2026 11:29:15 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3307c200c385ccf040d6a1efd9d204fa
+[10-Jan-2026 11:29:16 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3307c200c385ccf040d6a1efd9d204fa
+[10-Jan-2026 11:29:17 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3307c200c385ccf040d6a1efd9d204fa
+[10-Jan-2026 11:29:18 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3307c200c385ccf040d6a1efd9d204fa
+[10-Jan-2026 11:29:18 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3307c200c385ccf040d6a1efd9d204fa
+[10-Jan-2026 11:32:03 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3307c200c385ccf040d6a1efd9d204fa
+[10-Jan-2026 11:32:40 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3307c200c385ccf040d6a1efd9d204fa
+[10-Jan-2026 11:32:43 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3307c200c385ccf040d6a1efd9d204fa
+[10-Jan-2026 11:33:47 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3307c200c385ccf040d6a1efd9d204fa
+[10-Jan-2026 11:37:26 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3307c200c385ccf040d6a1efd9d204fa
+[10-Jan-2026 11:39:14 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3307c200c385ccf040d6a1efd9d204fa
+[10-Jan-2026 11:44:57 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3307c200c385ccf040d6a1efd9d204fa
+[10-Jan-2026 17:37:32 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 9e13b1ba202e97915798ee50fa501bb6
+[10-Jan-2026 17:37:59 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 9e13b1ba202e97915798ee50fa501bb6
+[10-Jan-2026 17:38:02 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 9e13b1ba202e97915798ee50fa501bb6
+[11-Jan-2026 05:57:28 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 561567b4d38af7e4c736a531d7036757
+[11-Jan-2026 05:57:31 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 561567b4d38af7e4c736a531d7036757
+[11-Jan-2026 05:57:33 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 561567b4d38af7e4c736a531d7036757
+[11-Jan-2026 05:57:36 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 561567b4d38af7e4c736a531d7036757
+[11-Jan-2026 05:57:42 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 561567b4d38af7e4c736a531d7036757
+[11-Jan-2026 05:57:48 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 561567b4d38af7e4c736a531d7036757
+[11-Jan-2026 05:57:51 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 561567b4d38af7e4c736a531d7036757
+[11-Jan-2026 05:58:17 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 561567b4d38af7e4c736a531d7036757
+[11-Jan-2026 05:58:42 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 561567b4d38af7e4c736a531d7036757
+[11-Jan-2026 05:59:13 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 561567b4d38af7e4c736a531d7036757
+[11-Jan-2026 06:00:08 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 561567b4d38af7e4c736a531d7036757
+[11-Jan-2026 06:02:49 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 561567b4d38af7e4c736a531d7036757
+[11-Jan-2026 06:02:57 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 561567b4d38af7e4c736a531d7036757
+[11-Jan-2026 06:03:31 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 561567b4d38af7e4c736a531d7036757
+[11-Jan-2026 06:06:33 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 561567b4d38af7e4c736a531d7036757
+[11-Jan-2026 06:22:28 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 561567b4d38af7e4c736a531d7036757
+[11-Jan-2026 06:23:35 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 561567b4d38af7e4c736a531d7036757
+[11-Jan-2026 06:33:16 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 561567b4d38af7e4c736a531d7036757
+[11-Jan-2026 06:50:39 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 561567b4d38af7e4c736a531d7036757
+[12-Jan-2026 07:43:25 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: a5b31b4ddfb38d039d49faf41e5c281d
+[12-Jan-2026 07:43:45 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: a5b31b4ddfb38d039d49faf41e5c281d
+[12-Jan-2026 07:44:00 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: a5b31b4ddfb38d039d49faf41e5c281d
+[12-Jan-2026 11:06:16 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: a5b31b4ddfb38d039d49faf41e5c281d
+[14-Jan-2026 09:25:23 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: d597f578897391d1ede9645973827b94
+[14-Jan-2026 09:48:27 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3162c1efb8d74c5b6fe4c0dda7364f42
+[14-Jan-2026 10:05:17 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: eed6ebd89c5e68ef65a551d3dbe3be76
+[14-Jan-2026 10:05:51 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: eed6ebd89c5e68ef65a551d3dbe3be76
+[14-Jan-2026 10:13:24 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: eed6ebd89c5e68ef65a551d3dbe3be76
+[14-Jan-2026 10:13:32 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: eed6ebd89c5e68ef65a551d3dbe3be76
+[14-Jan-2026 10:13:36 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: eed6ebd89c5e68ef65a551d3dbe3be76
+[14-Jan-2026 10:19:01 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: eed6ebd89c5e68ef65a551d3dbe3be76
+[14-Jan-2026 10:19:04 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: eed6ebd89c5e68ef65a551d3dbe3be76
+[14-Jan-2026 10:20:05 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: eed6ebd89c5e68ef65a551d3dbe3be76
+[14-Jan-2026 10:21:33 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: eed6ebd89c5e68ef65a551d3dbe3be76
+[14-Jan-2026 10:25:24 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: eed6ebd89c5e68ef65a551d3dbe3be76
+[14-Jan-2026 10:51:53 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: eed6ebd89c5e68ef65a551d3dbe3be76
+[14-Jan-2026 10:56:39 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: eed6ebd89c5e68ef65a551d3dbe3be76
+[14-Jan-2026 18:09:38 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: b991ae28251fdc6c9242ebe2726c9dea
+[15-Jan-2026 07:46:22 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 818ef2d4e14aeacbe1c6fd49e396e5b1
+[15-Jan-2026 10:09:41 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 52a207b9396396902b64bc8784722a22
+[15-Jan-2026 10:10:25 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 52a207b9396396902b64bc8784722a22
+[15-Jan-2026 10:13:54 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 52a207b9396396902b64bc8784722a22
+[15-Jan-2026 10:29:39 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 52a207b9396396902b64bc8784722a22
+[15-Jan-2026 10:44:50 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8ca0073731c07df7a73d37f3e629f897
+[15-Jan-2026 11:20:51 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8ca0073731c07df7a73d37f3e629f897
+[15-Jan-2026 11:31:09 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8ca0073731c07df7a73d37f3e629f897
+[15-Jan-2026 11:40:20 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8ca0073731c07df7a73d37f3e629f897
+[15-Jan-2026 11:45:07 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8ca0073731c07df7a73d37f3e629f897
+[16-Jan-2026 04:07:13 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 4554c32f357baa099e3a4938bf08ff99
+[16-Jan-2026 04:09:06 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 4554c32f357baa099e3a4938bf08ff99
+[16-Jan-2026 04:09:36 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 4554c32f357baa099e3a4938bf08ff99
+[16-Jan-2026 04:20:39 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 4554c32f357baa099e3a4938bf08ff99
+[16-Jan-2026 04:33:24 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 90f1081f38c50090f580e72ddeab2784
+[16-Jan-2026 06:17:54 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 4554c32f357baa099e3a4938bf08ff99
+[17-Jan-2026 11:54:32 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 298f9d1a5ddbf0a5cce0c7fd32adb29b
+[17-Jan-2026 11:55:42 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 298f9d1a5ddbf0a5cce0c7fd32adb29b
+[19-Jan-2026 10:12:47 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3278e87fa50a16ce189b2484dcdf5e37
+[21-Jan-2026 08:02:05 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: efbce5837255f3f9913253527471f6fd
+[21-Jan-2026 08:02:22 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: efbce5837255f3f9913253527471f6fd
+[21-Jan-2026 08:03:22 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: efbce5837255f3f9913253527471f6fd
+[21-Jan-2026 08:03:29 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: efbce5837255f3f9913253527471f6fd
+[21-Jan-2026 08:05:10 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: efbce5837255f3f9913253527471f6fd
+[22-Jan-2026 07:45:01 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: b840a64a48a0d5cfc2380adb50bcd2dc
+[22-Jan-2026 07:45:34 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: b840a64a48a0d5cfc2380adb50bcd2dc
+[22-Jan-2026 07:46:11 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: b840a64a48a0d5cfc2380adb50bcd2dc
+[22-Jan-2026 07:50:36 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: b840a64a48a0d5cfc2380adb50bcd2dc
+[22-Jan-2026 07:51:41 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: b840a64a48a0d5cfc2380adb50bcd2dc
+[22-Jan-2026 07:52:18 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: b840a64a48a0d5cfc2380adb50bcd2dc
+[22-Jan-2026 07:52:35 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: b840a64a48a0d5cfc2380adb50bcd2dc
+[22-Jan-2026 07:52:42 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: b840a64a48a0d5cfc2380adb50bcd2dc
+[22-Jan-2026 07:58:48 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: b840a64a48a0d5cfc2380adb50bcd2dc
+[02-Feb-2026 10:32:22 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: cb962e04b7eae271920ed9137d6c3c9e
+[02-Feb-2026 10:34:01 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: cb962e04b7eae271920ed9137d6c3c9e
+[02-Feb-2026 10:36:28 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: cb962e04b7eae271920ed9137d6c3c9e
+[02-Feb-2026 11:07:57 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: cb962e04b7eae271920ed9137d6c3c9e
+[02-Feb-2026 11:23:35 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: cb962e04b7eae271920ed9137d6c3c9e
+[02-Feb-2026 11:23:54 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: cb962e04b7eae271920ed9137d6c3c9e
+[02-Feb-2026 11:30:19 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: cb962e04b7eae271920ed9137d6c3c9e
+[02-Feb-2026 11:35:32 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: cb962e04b7eae271920ed9137d6c3c9e
+[02-Feb-2026 11:35:41 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: cb962e04b7eae271920ed9137d6c3c9e
+[02-Feb-2026 11:40:21 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 919e7db1eddb8fe265882d0b87d7c581
+[03-Feb-2026 05:20:03 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 1288ee885e7dbf3257ab66772fc84549
+[03-Feb-2026 09:05:54 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8ec07764adc24681236751506d742eff
+[09-Feb-2026 06:10:05 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 4cffd35183b47131a24a6edb6a912f45
+[12-Feb-2026 12:33:37 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: f37e81e2aa808e4073f82e51450e3500
+[12-Feb-2026 12:35:07 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: f37e81e2aa808e4073f82e51450e3500
+[12-Feb-2026 12:37:51 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: f37e81e2aa808e4073f82e51450e3500
+[13-Feb-2026 05:00:15 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 913c1fd36db2659a92ecd2436da834eb
+[13-Feb-2026 05:00:33 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 913c1fd36db2659a92ecd2436da834eb
+[13-Feb-2026 06:27:40 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 913c1fd36db2659a92ecd2436da834eb
+[13-Feb-2026 06:38:43 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 106eed5ebc18e23808440c408a7ead7f
+[13-Feb-2026 06:48:10 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 9cc3328a64407cce954d91019712e351
+[13-Feb-2026 07:01:05 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 913c1fd36db2659a92ecd2436da834eb
+[13-Feb-2026 07:04:17 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 913c1fd36db2659a92ecd2436da834eb
+[13-Feb-2026 07:04:34 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 106eed5ebc18e23808440c408a7ead7f
+[13-Feb-2026 07:05:52 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 913c1fd36db2659a92ecd2436da834eb
+[13-Feb-2026 08:08:08 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 9cc3328a64407cce954d91019712e351
+[14-Feb-2026 04:57:08 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: b99169c784c2f7d03b1c4a9ca3e6268a
+[14-Feb-2026 04:57:38 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: b99169c784c2f7d03b1c4a9ca3e6268a
+[16-Feb-2026 09:58:08 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8fb7a92daf96a01e8685c6e9e48bed19
+[16-Feb-2026 09:58:41 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8fb7a92daf96a01e8685c6e9e48bed19
+[16-Feb-2026 09:59:00 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8fb7a92daf96a01e8685c6e9e48bed19
+[16-Feb-2026 09:59:02 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8fb7a92daf96a01e8685c6e9e48bed19
+[16-Feb-2026 10:11:24 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8fb7a92daf96a01e8685c6e9e48bed19
+[16-Feb-2026 10:11:30 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8fb7a92daf96a01e8685c6e9e48bed19
+[16-Feb-2026 10:14:17 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8fb7a92daf96a01e8685c6e9e48bed19
+[16-Feb-2026 10:16:17 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: b599d51eb48e41f3009f233148277ced
+[16-Feb-2026 10:17:39 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8fb7a92daf96a01e8685c6e9e48bed19
+[16-Feb-2026 10:23:34 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8fb7a92daf96a01e8685c6e9e48bed19
+[16-Feb-2026 10:25:59 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8fb7a92daf96a01e8685c6e9e48bed19
+[16-Feb-2026 10:40:52 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8fb7a92daf96a01e8685c6e9e48bed19
+[16-Feb-2026 10:42:19 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8fb7a92daf96a01e8685c6e9e48bed19
+[16-Feb-2026 10:42:43 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8fb7a92daf96a01e8685c6e9e48bed19
+[16-Feb-2026 10:43:04 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8fb7a92daf96a01e8685c6e9e48bed19
+[16-Feb-2026 10:46:11 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8fb7a92daf96a01e8685c6e9e48bed19
+[16-Feb-2026 10:47:57 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8fb7a92daf96a01e8685c6e9e48bed19
+[16-Feb-2026 10:48:31 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8fb7a92daf96a01e8685c6e9e48bed19
+[16-Feb-2026 10:50:44 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8fb7a92daf96a01e8685c6e9e48bed19
+[19-Feb-2026 03:14:05 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: f1f6fd32f02523eea6c4e308869acfad
+[04-Mar-2026 06:39:21 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 87e5aaa8dca0d694b07ac05c1723117b
+[04-Mar-2026 06:40:57 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 87e5aaa8dca0d694b07ac05c1723117b
+[05-Mar-2026 04:53:03 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 04:53:03 UTC] Total expenses found: 0
+[05-Mar-2026 04:53:03 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 04:53:03 UTC] Total expenses found: 0
+[05-Mar-2026 05:01:42 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 71490c40fbffc1548a9b83e3e10471e8
+[05-Mar-2026 05:01:47 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 71490c40fbffc1548a9b83e3e10471e8
+[05-Mar-2026 05:01:48 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 71490c40fbffc1548a9b83e3e10471e8
+[05-Mar-2026 05:01:50 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 71490c40fbffc1548a9b83e3e10471e8
+[05-Mar-2026 05:01:54 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 71490c40fbffc1548a9b83e3e10471e8
+[05-Mar-2026 05:06:58 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 71490c40fbffc1548a9b83e3e10471e8
+[05-Mar-2026 05:07:08 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 05:07:08 UTC] Total expenses found: 0
+[05-Mar-2026 05:07:08 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 05:07:08 UTC] Total expenses found: 0
+[05-Mar-2026 05:08:13 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 05:08:13 UTC] Total expenses found: 0
+[05-Mar-2026 05:08:13 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 05:08:13 UTC] Total expenses found: 0
+[05-Mar-2026 05:10:46 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 05:10:46 UTC] Total expenses found: 0
+[05-Mar-2026 05:10:46 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 05:10:46 UTC] Total expenses found: 0
+[05-Mar-2026 05:14:47 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 333e64f2ed3ee219f46c04244b9ed01b
+[05-Mar-2026 05:40:08 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 05:40:08 UTC] Total expenses found: 0
+[05-Mar-2026 05:40:08 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 05:40:08 UTC] Total expenses found: 0
+[05-Mar-2026 05:50:21 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 05:50:21 UTC] Total expenses found: 0
+[05-Mar-2026 05:50:21 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 05:50:21 UTC] Total expenses found: 0
+[05-Mar-2026 11:05:30 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:05:30 UTC] Total expenses found: 0
+[05-Mar-2026 11:05:30 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:05:30 UTC] Total expenses found: 0
+[05-Mar-2026 11:06:10 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:06:10 UTC] Total expenses found: 0
+[05-Mar-2026 11:06:10 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:06:10 UTC] Total expenses found: 0
+[05-Mar-2026 11:06:17 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:06:17 UTC] Total expenses found: 0
+[05-Mar-2026 11:06:17 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:06:17 UTC] Total expenses found: 0
+[05-Mar-2026 11:09:28 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:09:28 UTC] Total expenses found: 0
+[05-Mar-2026 11:09:29 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:09:29 UTC] Total expenses found: 0
+[05-Mar-2026 11:09:30 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:09:30 UTC] Total expenses found: 0
+[05-Mar-2026 11:09:30 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:09:30 UTC] Total expenses found: 0
+[05-Mar-2026 11:09:33 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:09:33 UTC] Total expenses found: 0
+[05-Mar-2026 11:09:33 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:09:33 UTC] Total expenses found: 0
+[05-Mar-2026 11:14:54 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:14:54 UTC] Total expenses found: 0
+[05-Mar-2026 11:14:54 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:14:54 UTC] Total expenses found: 0
+[05-Mar-2026 11:15:03 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:15:03 UTC] Total expenses found: 0
+[05-Mar-2026 11:15:03 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:15:03 UTC] Total expenses found: 0
+[05-Mar-2026 11:15:11 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 4ce1a8f5ec0b02aad3de45ae8c69723d
+[05-Mar-2026 11:21:47 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:21:47 UTC] Total expenses found: 0
+[05-Mar-2026 11:21:47 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:21:47 UTC] Total expenses found: 0
+[05-Mar-2026 11:25:06 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:25:06 UTC] Total expenses found: 0
+[05-Mar-2026 11:25:06 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:25:06 UTC] Total expenses found: 0
+[05-Mar-2026 11:27:12 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:27:12 UTC] Total expenses found: 0
+[05-Mar-2026 11:27:12 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:27:12 UTC] Total expenses found: 0
+[05-Mar-2026 11:33:22 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:33:22 UTC] Total expenses found: 0
+[05-Mar-2026 11:33:22 UTC] Getting total expenses from 2026-03-01 to 2026-03-05
+[05-Mar-2026 11:33:22 UTC] Total expenses found: 0
+[06-Mar-2026 03:31:55 UTC] Getting total expenses from 2026-03-01 to 2026-03-06
+[06-Mar-2026 03:31:55 UTC] Total expenses found: 0
+[06-Mar-2026 03:31:55 UTC] Getting total expenses from 2026-03-01 to 2026-03-06
+[06-Mar-2026 03:31:55 UTC] Total expenses found: 0
+[06-Mar-2026 03:32:21 UTC] Getting total expenses from 2026-03-01 to 2026-03-06
+[06-Mar-2026 03:32:21 UTC] Total expenses found: 0
+[06-Mar-2026 03:32:21 UTC] Getting total expenses from 2026-03-01 to 2026-03-06
+[06-Mar-2026 03:32:21 UTC] Total expenses found: 0
+[06-Mar-2026 03:32:43 UTC] Getting total expenses from 2026-03-01 to 2026-03-06
+[06-Mar-2026 03:32:43 UTC] Total expenses found: 0
+[06-Mar-2026 03:32:43 UTC] Getting total expenses from 2026-03-01 to 2026-03-06
+[06-Mar-2026 03:32:43 UTC] Total expenses found: 0
+[06-Mar-2026 03:37:18 UTC] Getting total expenses from 2026-03-01 to 2026-03-06
+[06-Mar-2026 03:37:18 UTC] Total expenses found: 0
+[06-Mar-2026 03:37:18 UTC] Getting total expenses from 2026-03-01 to 2026-03-06
+[06-Mar-2026 03:37:18 UTC] Total expenses found: 0
+[06-Mar-2026 03:38:20 UTC] Getting total expenses from 2026-03-01 to 2026-03-06
+[06-Mar-2026 03:38:20 UTC] Total expenses found: 0
+[06-Mar-2026 03:38:20 UTC] Getting total expenses from 2026-03-01 to 2026-03-06
+[06-Mar-2026 03:38:20 UTC] Total expenses found: 0
+[06-Mar-2026 04:04:20 UTC] Getting total expenses from 2026-03-01 to 2026-03-06
+[06-Mar-2026 04:04:20 UTC] Total expenses found: 0
+[06-Mar-2026 04:04:20 UTC] Getting total expenses from 2026-03-01 to 2026-03-06
+[06-Mar-2026 04:04:20 UTC] Total expenses found: 0
+[06-Mar-2026 04:10:13 UTC] Getting total expenses from 2026-03-01 to 2026-03-06
+[06-Mar-2026 04:10:13 UTC] Total expenses found: 0
+[06-Mar-2026 04:10:13 UTC] Getting total expenses from 2026-03-01 to 2026-03-06
+[06-Mar-2026 04:10:13 UTC] Total expenses found: 0
+[06-Mar-2026 04:13:16 UTC] Getting total expenses from 2026-03-01 to 2026-03-06
+[06-Mar-2026 04:13:16 UTC] Total expenses found: 0
+[06-Mar-2026 04:13:16 UTC] Getting total expenses from 2026-03-01 to 2026-03-06
+[06-Mar-2026 04:13:16 UTC] Total expenses found: 0
+[06-Mar-2026 04:13:34 UTC] Getting total expenses from 2026-03-01 to 2026-03-06
+[06-Mar-2026 04:13:34 UTC] Total expenses found: 0
+[06-Mar-2026 04:13:34 UTC] Getting total expenses from 2026-03-01 to 2026-03-06
+[06-Mar-2026 04:13:34 UTC] Total expenses found: 0
+[06-Mar-2026 04:15:21 UTC] Getting total expenses from 2026-03-01 to 2026-03-06
+[06-Mar-2026 04:15:21 UTC] Total expenses found: 0
+[06-Mar-2026 04:15:22 UTC] Getting total expenses from 2026-03-01 to 2026-03-06
+[06-Mar-2026 04:15:22 UTC] Total expenses found: 0
+[06-Mar-2026 05:44:32 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8d3ada7f5121a910bdc17178f27bf7a4
+[06-Mar-2026 06:50:09 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8d3ada7f5121a910bdc17178f27bf7a4
+[06-Mar-2026 08:28:40 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8d3ada7f5121a910bdc17178f27bf7a4
+[06-Mar-2026 11:04:17 UTC] Getting total expenses from 2026-03-01 to 2026-03-06
+[06-Mar-2026 11:04:17 UTC] Total expenses found: 0
+[06-Mar-2026 11:04:17 UTC] Getting total expenses from 2026-03-01 to 2026-03-06
+[06-Mar-2026 11:04:17 UTC] Total expenses found: 0
+[06-Mar-2026 11:10:33 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8d3ada7f5121a910bdc17178f27bf7a4
+[06-Mar-2026 11:13:35 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8d3ada7f5121a910bdc17178f27bf7a4
+[07-Mar-2026 03:40:44 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3b431dfd5dea98a624f148c41b022566
+[07-Mar-2026 03:40:48 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3b431dfd5dea98a624f148c41b022566
+[07-Mar-2026 03:40:50 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3b431dfd5dea98a624f148c41b022566
+[07-Mar-2026 03:40:53 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3b431dfd5dea98a624f148c41b022566
+[07-Mar-2026 03:40:56 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3b431dfd5dea98a624f148c41b022566
+[07-Mar-2026 04:06:13 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3b431dfd5dea98a624f148c41b022566
+[07-Mar-2026 04:07:06 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3b431dfd5dea98a624f148c41b022566
+[07-Mar-2026 04:07:35 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3b431dfd5dea98a624f148c41b022566
+[07-Mar-2026 04:09:36 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 3b431dfd5dea98a624f148c41b022566
+[07-Mar-2026 05:41:28 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 58d83e0ab5e2ae1183400de31da3f69d
+[07-Mar-2026 10:39:17 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 58d83e0ab5e2ae1183400de31da3f69d
+[07-Mar-2026 10:45:23 UTC] Getting total expenses from 2026-03-01 to 2026-03-07
+[07-Mar-2026 10:45:23 UTC] Total expenses found: 0
+[07-Mar-2026 10:45:23 UTC] Getting total expenses from 2026-03-01 to 2026-03-07
+[07-Mar-2026 10:45:23 UTC] Total expenses found: 0
+[08-Mar-2026 03:19:55 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 301ee32e5b9c2c4cc0d08902729e2072
+[08-Mar-2026 04:21:07 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: de4c270ec7f2861fb7718f4e6145fdad
+[08-Mar-2026 04:34:14 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: de4c270ec7f2861fb7718f4e6145fdad
+[08-Mar-2026 04:38:00 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: de4c270ec7f2861fb7718f4e6145fdad
+[08-Mar-2026 04:41:29 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: de4c270ec7f2861fb7718f4e6145fdad
+[08-Mar-2026 07:57:58 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 8e4be7f9d930c185698861fde6e3a0f9
+[09-Mar-2026 03:12:13 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 866c6f216262af2f268ae14353097571
+[09-Mar-2026 03:43:26 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: f05f107718ee53aba9fa8f6da4b6ceb9
+[09-Mar-2026 03:44:41 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: f05f107718ee53aba9fa8f6da4b6ceb9
+[09-Mar-2026 03:45:03 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: f05f107718ee53aba9fa8f6da4b6ceb9
+[09-Mar-2026 03:46:50 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: f05f107718ee53aba9fa8f6da4b6ceb9
+[09-Mar-2026 03:48:24 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: f05f107718ee53aba9fa8f6da4b6ceb9
+[09-Mar-2026 03:52:07 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 866c6f216262af2f268ae14353097571
+[09-Mar-2026 03:54:19 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 866c6f216262af2f268ae14353097571
+[09-Mar-2026 04:00:46 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: f05f107718ee53aba9fa8f6da4b6ceb9
+[09-Mar-2026 04:02:54 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: f05f107718ee53aba9fa8f6da4b6ceb9
+[09-Mar-2026 04:07:05 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: f05f107718ee53aba9fa8f6da4b6ceb9
+[09-Mar-2026 04:07:21 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 866c6f216262af2f268ae14353097571
+[09-Mar-2026 04:10:09 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 866c6f216262af2f268ae14353097571
+[09-Mar-2026 04:10:19 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 866c6f216262af2f268ae14353097571
+[09-Mar-2026 04:15:14 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 866c6f216262af2f268ae14353097571
+[09-Mar-2026 04:15:21 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 866c6f216262af2f268ae14353097571
+[09-Mar-2026 04:16:54 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 866c6f216262af2f268ae14353097571
+[09-Mar-2026 04:24:03 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 866c6f216262af2f268ae14353097571
+[09-Mar-2026 04:33:39 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 866c6f216262af2f268ae14353097571
+[09-Mar-2026 04:34:19 UTC] Auth Check - System Status: 0, Current Page: common.php, Session ID: 866c6f216262af2f268ae14353097571

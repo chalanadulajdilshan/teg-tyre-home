@@ -12,7 +12,7 @@ class BeltMaster
     {
         if ($id) {
             $query = "SELECT * FROM `belt_master` WHERE `id` = " . (int) $id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -32,7 +32,7 @@ class BeltMaster
             '$this->code', '$this->name','$this->is_active'
         )";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -51,7 +51,7 @@ class BeltMaster
             WHERE `id` = '$this->id'";
  
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -64,14 +64,14 @@ class BeltMaster
     public function delete()
     {
         $query = "DELETE FROM `belt_master` WHERE `id` = '$this->id'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function all()
     {
         $query = "SELECT * FROM `belt_master` ORDER BY name ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         $array_res = array();
@@ -85,14 +85,14 @@ class BeltMaster
     public function getLastID()
     {
         $query = "SELECT * FROM `belt_master` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }
 
     public function fetchForDataTable($request)
     {
-        $db = new Database();
+        $db = Database::getInstance();
     
         $start = isset($request['start']) ? (int)$request['start'] : 0;
         $length = isset($request['length']) ? (int)$request['length'] : 100;
@@ -169,7 +169,7 @@ class BeltMaster
     public function getIdbyItemCode($code)
     {
         $query = "SELECT `id` FROM `belt_master` WHERE `code` = '$code' LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
     
         if ($row = mysqli_fetch_assoc($result)) {
@@ -182,7 +182,7 @@ class BeltMaster
     public function getActiveBelt()
     {
         $query = "SELECT * FROM `belt_master` WHERE `is_active` = 1 ORDER BY `id` ASC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
         $array = [];
 

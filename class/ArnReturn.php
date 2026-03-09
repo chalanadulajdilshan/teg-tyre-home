@@ -17,7 +17,7 @@ class PurchaseReturn
     {
         if ($id) {
             $query = "SELECT * FROM `purchase_return` WHERE `id` = " . (int)$id;
-            $db = new Database();
+            $db = Database::getInstance();
             $result = mysqli_fetch_array($db->readQuery($query));
 
             if ($result) {
@@ -39,7 +39,7 @@ class PurchaseReturn
             '{$this->created_by}', NOW()
         )";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -62,7 +62,7 @@ class PurchaseReturn
             `created_by` = '{$this->created_by}'
         WHERE `id` = '{$this->id}'";
 
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         if ($result) {
@@ -75,14 +75,14 @@ class PurchaseReturn
     public function delete()
     {
         $query = "DELETE FROM `purchase_return` WHERE `id` = '{$this->id}'";
-        $db = new Database();
+        $db = Database::getInstance();
         return $db->readQuery($query);
     }
 
     public function all()
     {
         $query = "SELECT * FROM `purchase_return` ORDER BY `id` DESC";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = $db->readQuery($query);
 
         $array_res = [];
@@ -96,7 +96,7 @@ class PurchaseReturn
     public function getLastID()
     {
         $query = "SELECT `id` FROM `purchase_return` ORDER BY `id` DESC LIMIT 1";
-        $db = new Database();
+        $db = Database::getInstance();
         $result = mysqli_fetch_array($db->readQuery($query));
         return $result['id'];
     }
