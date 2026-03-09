@@ -73,7 +73,7 @@ if (!empty($customerMobile)) {
             /* Force A5 landscape, full bleed */
             @page {
                 size: A5 landscape;
-                margin: 4mm;
+                margin: 2.5mm;
             }
 
             html,
@@ -83,7 +83,8 @@ if (!empty($customerMobile)) {
                 height: auto;
                 margin: 0 !important;
                 padding: 0 !important;
-                font-size: 10px !important;
+                font-size: 8px !important;
+                line-height: 1.15;
             }
 
             #invoice-content,
@@ -101,7 +102,7 @@ if (!empty($customerMobile)) {
             }
 
             .card-body {
-                padding: 5px !important;
+                padding: 4px !important;
             }
 
             .container {
@@ -114,6 +115,46 @@ if (!empty($customerMobile)) {
             .table-responsive {
                 overflow: visible !important;
             }
+
+            h4,
+            h3 {
+                font-size: 10px !important;
+                margin: 0 !important;
+            }
+
+            p,
+            li {
+                font-size: 8px !important;
+                margin: 0.5px 0 !important;
+                line-height: 1.12 !important;
+            }
+
+            img {
+                max-height: 55px !important;
+                max-width: 110px !important;
+            }
+
+            table {
+                font-size: 7px !important;
+            }
+
+            table th,
+            table td {
+                padding: 0.8px 1.2px !important;
+                font-size: 7px !important;
+                line-height: 1.1 !important;
+            }
+
+            /* Tighten signature spacing */
+            #invoice-content table tr:last-child td {
+                padding-top: 4px !important;
+                padding-bottom: 2px !important;
+            }
+
+            /* Reduce vertical gaps */
+            .mb-1, .mb-2, .mb-3 { margin-bottom: 2px !important; }
+            .my-2 { margin-top: 2px !important; margin-bottom: 2px !important; }
+            hr { margin: 4px 0 !important; }
         }
 
         /* Remove padding and spacing in invoice table */
