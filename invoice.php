@@ -70,10 +70,10 @@ if (!empty($customerMobile)) {
                 display: none !important;
             }
 
-            /* Force A5 landscape, full bleed */
+            /* Prefer landscape; fill more of the sheet */
             @page {
                 size: A5 landscape;
-                margin: 2.5mm;
+                margin: 3mm;
             }
 
             html,
@@ -83,31 +83,35 @@ if (!empty($customerMobile)) {
                 height: auto;
                 margin: 0 !important;
                 padding: 0 !important;
-                font-size: 8px !important;
-                line-height: 1.15;
+                font-size: 10.5px !important;
+                line-height: 1.25;
+                background: white;
             }
 
             #invoice-content,
             .card {
-                width: 100% !important;
+                width: calc(100% / 1.18) !important;
                 max-width: none !important;
                 box-shadow: none;
                 margin: 0 !important;
                 page-break-inside: avoid;
+                transform: scale(1.18);
+                transform-origin: top left;
             }
 
             .card {
                 margin: 0 !important;
                 border: none !important;
+                padding: 0 !important;
             }
 
             .card-body {
-                padding: 4px !important;
+                padding: 6px !important;
             }
 
             .container {
                 width: 100% !important;
-                max-width: none !important;
+                max-width: 100% !important;
                 padding: 0 !important;
                 margin: 0 !important;
             }
@@ -118,43 +122,43 @@ if (!empty($customerMobile)) {
 
             h4,
             h3 {
-                font-size: 10px !important;
+                font-size: 12.5px !important;
                 margin: 0 !important;
             }
 
             p,
             li {
-                font-size: 8px !important;
-                margin: 0.5px 0 !important;
-                line-height: 1.12 !important;
+                font-size: 10px !important;
+                margin: 2px 0 !important;
+                line-height: 1.2 !important;
             }
 
             img {
-                max-height: 55px !important;
-                max-width: 110px !important;
+                max-height: 60px !important;
+                max-width: 120px !important;
             }
 
             table {
-                font-size: 7px !important;
+                font-size: 10px !important;
             }
 
             table th,
             table td {
-                padding: 0.8px 1.2px !important;
-                font-size: 7px !important;
-                line-height: 1.1 !important;
+                padding: 3px 4px !important;
+                font-size: 10px !important;
+                line-height: 1.2 !important;
             }
 
             /* Tighten signature spacing */
             #invoice-content table tr:last-child td {
-                padding-top: 4px !important;
-                padding-bottom: 2px !important;
+                padding-top: 8px !important;
+                padding-bottom: 4px !important;
             }
 
             /* Reduce vertical gaps */
-            .mb-1, .mb-2, .mb-3 { margin-bottom: 2px !important; }
-            .my-2 { margin-top: 2px !important; margin-bottom: 2px !important; }
-            hr { margin: 4px 0 !important; }
+            .mb-1, .mb-2, .mb-3 { margin-bottom: 4px !important; }
+            .my-2 { margin-top: 4px !important; margin-bottom: 4px !important; }
+            hr { margin: 8px 0 !important; }
         }
 
         /* Remove padding and spacing in invoice table */
