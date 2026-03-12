@@ -73,7 +73,6 @@ if (!empty($customerMobile)) {
             /* Prefer landscape; fill more of the sheet */
             @page {
                 size: A5;
-                margin: 3mm;
             }
 
             html,
@@ -83,7 +82,7 @@ if (!empty($customerMobile)) {
                 height: auto;
                 margin: 0 !important;
                 padding: 0 !important;
-                font-size: 10.5px !important;
+                font-size: 12px !important;
                 line-height: 1.25;
                 background: white;
             }
@@ -122,13 +121,13 @@ if (!empty($customerMobile)) {
 
             h4,
             h3 {
-                font-size: 12.5px !important;
+                font-size: 14px !important;
                 margin: 0 !important;
             }
 
             p,
             li {
-                font-size: 10px !important;
+                font-size: 12px !important;
                 margin: 2px 0 !important;
                 line-height: 1.2 !important;
             }
