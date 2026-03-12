@@ -72,7 +72,7 @@ if (!empty($customerMobile)) {
 
             /* Prefer landscape; fill more of the sheet */
             @page {
-                size: A5 landscape;
+                size: A5;
                 margin: 3mm;
             }
 
