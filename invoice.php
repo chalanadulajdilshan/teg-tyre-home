@@ -92,12 +92,12 @@ if (!empty($customerMobile)) {
             }
 
             /* Use full page without A5 restriction */
-            @page {
-                size: auto;
-                /* remove specific page size */
-                margin: 10mm;
-                /* optional margin */
-            }
+            /* @page { */
+            /* size: auto; */
+            /* remove specific page size */
+            /* margin: 10mm; */
+            /* optional margin */
+            /* } */
 
 
         }
