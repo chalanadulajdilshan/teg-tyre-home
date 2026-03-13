@@ -214,15 +214,7 @@ if (!empty($customerMobile)) {
                     </div>
 
                     <hr class="my-2" style="border-top: 1px solid #ccc;">
-
-                    <!-- Title -->
-                    <div class="row">
-                        <div class="col-12 text-center">
-                            <h3 style="font-weight:bold;font-size:22px; margin-top: 10px; margin-bottom: 20px;">
-
-                            </h3>
-                        </div>
-                    </div>
+ 
 
                     <!-- Customer Details -->
                     <div class="row mb-3">
