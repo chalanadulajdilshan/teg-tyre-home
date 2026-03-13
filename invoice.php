@@ -91,14 +91,6 @@ if (!empty($customerMobile)) {
                 padding: 0 !important;
             }
 
-            /* Use full page without A5 restriction */
-            /* @page { */
-            /* size: auto; */
-            /* remove specific page size */
-            /* margin: 10mm; */
-            /* optional margin */
-            /* } */
-
 
         }
 
@@ -340,23 +332,7 @@ if (!empty($customerMobile)) {
                                     $rowSpan = ($SALES_INVOICE->payment_type == 2) ? 5 : 3;
                                     ?>
                                     <tr>
-                                        <td colspan="4" rowspan="<?php echo $rowSpan; ?>" style="vertical-align:top;  ">
-                                            <h6 style="margin-top:8px;"><strong>Terms & Conditions:</strong></h6>
-                                            <ul style="padding-left:20px;margin-bottom:0;">
-                                                <?php
-                                                $invoiceRemark = new InvoiceRemark();
-                                                $paymentRemarks = $invoiceRemark->getRemarkByPaymentType($SALES_INVOICE->payment_type);
-                                                if (!empty($paymentRemarks)) {
-                                                    foreach ($paymentRemarks as $remark) {
-                                                        if (!empty($remark['remark'])) {
-                                                            echo '<li>' . htmlspecialchars($remark['remark']) . '</li>';
-                                                        }
-                                                    }
-                                                }
-                                                ?>
-                                            </ul>
-                                        </td>
-                                        <td colspan="<?php echo ($SALES_INVOICE->tax > 0) ? 4 : 3; ?>"
+                                        <td colspan="<?php echo ($SALES_INVOICE->tax > 0) ? 8 : 7; ?>"
                                             class="text-end font-weight-bold"><strong>Gross Amount:-</strong>
                                         </td>
                                         <td class="text-end font-weight-bold">
@@ -366,7 +342,7 @@ if (!empty($customerMobile)) {
                                     <?php if ($SALES_INVOICE->payment_type == 2): // Credit payment 
                                                 ?>
                                         <tr>
-                                            <td colspan="<?php echo ($SALES_INVOICE->tax > 0) ? 4 : 3; ?>"
+                                            <td colspan="<?php echo ($SALES_INVOICE->tax > 0) ? 8 : 7; ?>"
                                                 class="text-end font-weight-bold"><strong>Paid Amount:-</strong>
                                             </td>
                                             <td class="text-end font-weight-bold">
@@ -374,7 +350,7 @@ if (!empty($customerMobile)) {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="<?php echo ($SALES_INVOICE->tax > 0) ? 4 : 3; ?>"
+                                            <td colspan="<?php echo ($SALES_INVOICE->tax > 0) ? 8 : 7; ?>"
                                                 class="text-end font-weight-bold"><strong>Payable Amount:-</strong>
                                             </td>
                                             <td class="text-end font-weight-bold">
@@ -395,7 +371,7 @@ if (!empty($customerMobile)) {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="<?php echo ($SALES_INVOICE->tax > 0) ? 4 : 3; ?>" class="text-end">
+                                        <td colspan="<?php echo ($SALES_INVOICE->tax > 0) ? 8 : 7; ?>" class="text-end">
                                             <strong>Net Amount:-</strong>
                                         </td>
                                         <td class="text-end">
@@ -403,7 +379,7 @@ if (!empty($customerMobile)) {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="5" style="padding-top:50px !important;">
+                                        <td colspan="<?php echo ($SALES_INVOICE->tax > 0) ? 9 : 8; ?>" style="padding-top:20px !important;">
                                             <table style="width:100%;">
                                                 <tr>
                                                     <td style="text-align:center;">
@@ -414,6 +390,24 @@ if (!empty($customerMobile)) {
                                                         _________________________<br><strong>Received By</strong></td>
                                                 </tr>
                                             </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="<?php echo ($SALES_INVOICE->tax > 0) ? 9 : 8; ?>" style="vertical-align:top; border-top: none !important; ">
+                                            <h6 style="margin-top:15px;"><strong>Terms & Conditions:</strong></h6>
+                                            <ul style="padding-left:20px;margin-bottom:0; font-size: 13px;">
+                                                <?php
+                                                $invoiceRemark = new InvoiceRemark();
+                                                $paymentRemarks = $invoiceRemark->getRemarkByPaymentType($SALES_INVOICE->payment_type);
+                                                if (!empty($paymentRemarks)) {
+                                                    foreach ($paymentRemarks as $remark) {
+                                                        if (!empty($remark['remark'])) {
+                                                            echo '<li>' . htmlspecialchars($remark['remark']) . '</li>';
+                                                        }
+                                                    }
+                                                }
+                                                ?>
+                                            </ul>
                                         </td>
                                     </tr>
                                 </tbody>
