@@ -92,10 +92,14 @@ if (!empty($customerMobile)) {
             }
 
             /* Use full page without A5 restriction */
-            @page {
-                size: A5;
-                margin: 10mm;
-            }
+            /* @page { */
+            /* size: auto; */
+            /* remove specific page size */
+            /* margin: 10mm; */
+            /* optional margin */
+            /* } */
+
+
         }
 
         /* Remove padding and spacing in invoice table */
