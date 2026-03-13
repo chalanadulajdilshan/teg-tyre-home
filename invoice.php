@@ -70,14 +70,12 @@ if (!empty($customerMobile)) {
                 display: none !important;
             }
 
-            /* Make invoice full width for A5 */
+            /* Make invoice full width */
             body,
             html {
-                width: 148mm;
-                height: 210mm;
+                width: 100%;
                 margin: 0;
                 padding: 0;
-                font-size: 11pt;
             }
 
             #invoice-content,
@@ -85,36 +83,27 @@ if (!empty($customerMobile)) {
                 width: 100% !important;
                 max-width: 100% !important;
                 box-shadow: none;
-                border: none !important;
-                padding: 0 !important;
-                margin: 0 !important;
             }
 
             .container {
                 width: 100% !important;
                 max-width: 100% !important;
                 padding: 0 !important;
-                margin: 0 !important;
             }
 
-            /* Optimized for A5 paper */
+            /* Use full page without A5 restriction */
             @page {
-                size: A5 portrait;
-                margin: 5mm;
+                size: A5;
+                margin: 10mm;
             }
-
-            /* Adjust font sizes for A5 */
-            h4 { font-size: 16px !important; }
-            h3 { font-size: 18px !important; }
-            p, td, th { font-size: 11px !important; }
-            .flex-shrink-0 img { max-height: 50px !important; }
         }
 
         /* Remove padding and spacing in invoice table */
         #invoice-content table,
         #invoice-content th,
         #invoice-content td {
-            padding: 3px !important;
+            padding: 2px !important;
+            /* reduce padding */
             margin: 0 !important;
             border-spacing: 0 !important;
             border-collapse: collapse !important;
@@ -123,17 +112,15 @@ if (!empty($customerMobile)) {
         #invoice-content th,
         #invoice-content td {
             vertical-align: middle !important;
+            /* optional: center content vertically */
         }
 
-        /* Standardize table borders for print */
+        /* Optional: remove Bootstrap table styles */
         #invoice-content .table {
             width: 100%;
-            border: 1px solid #dee2e6 !important;
-        }
 
-        #invoice-content .table th,
-        #invoice-content .table td {
-            border: 1px solid #dee2e6 !important;
+            border-top-width: 0 !important;
+            border-style: none !important;
         }
     </style>
 
@@ -442,19 +429,18 @@ if (!empty($customerMobile)) {
             function downloadPDF() {
                 const element = document.getElementById('invoice-content');
                 const opt = {
-                    margin: 5,
+                    margin: 0.5,
                     filename: 'Invoice_<?php echo $SALES_INVOICE->invoice_no ?>.pdf',
                     image: {
                         type: 'jpeg',
                         quality: 0.98
                     },
                     html2canvas: {
-                        scale: 3,
-                        useCORS: true
+                        scale: 2
                     },
                     jsPDF: {
                         unit: 'mm',
-                        format: 'a5',
+                        format: 'a4',
                         orientation: 'portrait'
                     }
                 };
