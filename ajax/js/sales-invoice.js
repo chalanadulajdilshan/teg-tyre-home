@@ -1732,17 +1732,17 @@ jQuery(document).ready(function () {
     }
 
     // Validate that selling price is not lower than cost
-    const itemCost = parseFloat($("#item_cost_arn").val()) || 0;
-    if (itemCost > 0 && sale_price < itemCost) {
-      swal({
-        title: "Validation Error!",
-        text: `Selling price (${sale_price.toFixed(2)}) cannot be lower than cost (${itemCost.toFixed(2)}).`,
-        type: "error",
-        timer: 4000,
-        showConfirmButton: true,
-      });
-      return;
-    }
+    // const itemCost = parseFloat($("#item_cost_arn").val()) || 0;
+    // if (itemCost > 0 && sale_price < itemCost) {
+    //   swal({
+    //     title: "Validation Error!",
+    //     text: `Selling price (${sale_price.toFixed(2)}) cannot be lower than cost (${itemCost.toFixed(2)}).`,
+    //     type: "error",
+    //     timer: 4000,
+    //     showConfirmButton: true,
+    //   });
+    //   return;
+    // }
 
     // For pre-invoice items, skip stock validation entirely
     if (!isServiceItemCode && !isPureServiceCode && !isPreInvoiceMode) {
