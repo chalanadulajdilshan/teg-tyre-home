@@ -567,6 +567,15 @@ jQuery(document).ready(function () {
 
           response.forEach((item) => {
             const discountValue = parseFloat(item.discount) || 0;
+            const listPrice = parseFloat(item.list_price || item.price || 0);
+            const qty = parseFloat(item.quantity) || 0;
+            
+            let discountInfo = discountValue.toFixed(2);
+            if (discountValue > 0 && listPrice > 0 && qty > 0) {
+              let perc = (discountValue / (listPrice * qty)) * 100;
+              discountInfo += `<br><small class="text-danger">(${perc.toFixed(2)}%)</small>`;
+            }
+
             const totalValue = parseFloat(item.total) || 0;
             let itemVatAmount = 0;
 
@@ -585,7 +594,7 @@ jQuery(document).ready(function () {
               maximumFractionDigits: 2,
             })}</td>
                                 <td>${item.quantity}</td>
-                                <td>${discountValue}</td>
+                                <td>${discountInfo}</td>
                                 <td>${parseFloat(item.price).toLocaleString(
               undefined,
               {

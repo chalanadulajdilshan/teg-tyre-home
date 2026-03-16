@@ -62,7 +62,7 @@ jQuery(document).ready(function () {
 
   // BIND ENTER KEY TO ADD ITEM
   $(
-    "#itemCode, #itemName, #itemPrice, #itemQty, #itemDiscount ,#itemSalePrice"
+    "#itemCode, #itemName, #itemPrice, #itemQty, #itemDiscount ,#itemDiscountPercentage ,#itemSalePrice"
   ).on("keydown", function (e) {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -578,7 +578,7 @@ jQuery(document).ready(function () {
       $("#itemSalePrice").val(finalCombinedPrice.toFixed(2));
 
       // Trigger calculation to update totals
-      calculatePayment();
+      calculatePayment("salePrice");
     }
   }
 
@@ -736,8 +736,9 @@ jQuery(document).ready(function () {
 
     $("#itemQty").val("");
     $("#itemDiscount").val("");
+    $("#itemDiscountPercentage").val("");
 
-    calculatePayment();
+    calculatePayment("discount");
 
     focusAfterModal = true;
     setTimeout(() => $("#itemQty").focus(), 200);
@@ -770,7 +771,7 @@ jQuery(document).ready(function () {
     $("#itemPrice").val(itemPrice);
     $("#itemSalePrice").val(itemSalePrice);
 
-    calculatePayment();
+    calculatePayment("salePrice");
 
     focusAfterModal = true;
     setTimeout(() => $("#itemQty").focus(), 200);
@@ -850,7 +851,7 @@ jQuery(document).ready(function () {
     $("#itemQty").val(1);
     $("#payment_type").prop("disabled", true);
 
-    calculatePayment();
+    calculatePayment("discount");
 
     focusAfterModal = true;
     setTimeout(() => $("#itemQty").focus(), 200);
@@ -1993,7 +1994,7 @@ jQuery(document).ready(function () {
                 <td>${name}</td>
                 <td class="item-price">${price.toFixed(2)}</td>
                 <td class="item-qty">${qty}</td>
-                <td class="item-discount">${discount}</td>
+                <td class="item-discount">${discount} ${discount > 0 ? `<br><small class="text-danger">(${( (discount / price) * 100 ).toFixed(2)}%)</small>` : ""}</td>
                 <td class="item-sell-price">${(price - discount).toFixed(
         2
       )}</td>
@@ -2116,7 +2117,7 @@ jQuery(document).ready(function () {
           }</td>
                   <td class="item-price">${displayPrice.toFixed(2)}</td>
                   <td class="item-qty">${allocQty}</td>
-                  <td class="item-discount">${discount}</td>
+                  <td class="item-discount">${discount} ${discount > 0 ? `<br><small class="text-danger">(${( (discount / displayPrice) * 100 ).toFixed(2)}%)</small>` : ""}</td>
                   <td class="item-sell-price">${(
             displayPrice - discount
           ).toFixed(2)}</td>
@@ -2141,7 +2142,7 @@ jQuery(document).ready(function () {
     // Clear input fields
     updateFinalTotal();
     $(
-      "#itemCode, #itemName, #itemPrice,#item_cost_arn, #itemQty, #itemDiscount, #item_id, #itemSalePrice, #itemSerialNo"
+      "#itemCode, #itemName, #itemPrice,#item_cost_arn, #itemQty, #itemDiscount, #itemDiscountPercentage, #item_id, #itemSalePrice, #itemSerialNo"
     ).val("");
     $("#vehicleNo, #currentKm, #nextServiceDays").val("");
     // Reset service dropdowns and related fields
@@ -2338,23 +2339,43 @@ jQuery(document).ready(function () {
     const price = parseFloat($("#itemPrice").val()) || 0;
     const qty = parseFloat($("#itemQty").val()) || 0;
     const discount = parseFloat($("#itemDiscount").val()) || 0;
+    const discountPercentage =
+      parseFloat($("#itemDiscountPercentage").val()) || 0;
     const salePrice = parseFloat($("#itemSalePrice").val()) || 0;
 
     let finalSalePrice = salePrice;
     let finalDiscount = discount;
 
-    if (changedField === "price" || changedField === "discount") {
+    if (changedField === "discountPercentage") {
+      // Calculate Discount Amount from Percentage
+      finalDiscount = (price * discountPercentage) / 100;
+      $("#itemDiscount").val(finalDiscount.toFixed(2));
+      finalSalePrice = price - finalDiscount;
+      $("#itemSalePrice").val(finalSalePrice.toFixed(2));
+    } else if (changedField === "price" || changedField === "discount") {
       // Recalculate Sale Price using fixed discount value per unit
       finalSalePrice = price - discount;
       if (finalSalePrice < 0) {
         finalSalePrice = 0;
       }
       $("#itemSalePrice").val(finalSalePrice.toFixed(2));
+
+      // Update Percentage field
+      if (price > 0) {
+        let perc = (discount / price) * 100;
+        $("#itemDiscountPercentage").val(perc.toFixed(2));
+      } else {
+        $("#itemDiscountPercentage").val(0);
+      }
     } else if (changedField === "salePrice") {
       // Recalculate Discount as fixed value per unit (can be negative if selling price > list price)
       if (price > 0) {
         finalDiscount = price - salePrice;
         $("#itemDiscount").val(finalDiscount.toFixed(2));
+
+        // Update Percentage field
+        let perc = (finalDiscount / price) * 100;
+        $("#itemDiscountPercentage").val(perc.toFixed(2));
       }
     }
 
@@ -2381,6 +2402,9 @@ jQuery(document).ready(function () {
   });
   $("#itemDiscount").on("input", function () {
     calculatePayment("discount");
+  });
+  $("#itemDiscountPercentage").on("input", function () {
+    calculatePayment("discountPercentage");
   });
   $("#itemSalePrice").on("input", function () {
     calculatePayment("salePrice");
@@ -2606,7 +2630,10 @@ jQuery(document).ready(function () {
                                 <td>${item.item_name}</td>
                                 <td><input type="number" class="item-price form-control form-control-sm price" value="${price.toFixed(2)}" readonly></td>
                                 <td><input type="number" class="item-qty form-control form-control-sm qty" value="${qty}"></td>
-                                <td><input type="number" class="item-discount form-control form-control-sm discount" value="${discount}"></td>
+                                <td>
+                                  <input type="number" class="item-discount form-control form-control-sm discount" value="${discount}">
+                                  ${discount > 0 ? `<small class="text-danger">(${( (discount / price) * 100 ).toFixed(2)}%)</small>` : ""}
+                                </td>
                                 <td class="item-sell-price">${(price - discount).toFixed(2)}</td>
                                 <td class="item-serial-no"></td>
                                 <td class="item-vat-amount vat-column" style="display: ${$("#is_vat_invoice").is(":checked") ? "" : "none"}">0.00</td>
@@ -3031,7 +3058,10 @@ jQuery(document).ready(function () {
                   <td>${name}</td>
                   <td class="item-price">${price.toFixed(2)}</td>
                   <td class="item-qty">${qty}</td>
-                  <td class="item-discount">${discount.toFixed(2)}</td>
+                  <td class="item-discount">
+                    ${discount.toFixed(2)}
+                    ${discount > 0 ? `<br><small class="text-danger">(${( (discount / price) * 100 ).toFixed(2)}%)</small>` : ""}
+                  </td>
                   <td class="item-sell-price">${sellingPrice.toFixed(2)}</td>
                   <td class="item-serial-no">${serialNo}</td>
                   <td class="item-vat-amount">${itemVatAmount.toLocaleString(undefined, {

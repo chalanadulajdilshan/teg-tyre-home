@@ -374,10 +374,10 @@ include './auth.php';
                                                     <input type="text" id="itemName" class="form-control"
                                                         placeholder="Name" readonly>
                                                 </div>
-                                                <div class="col-md-2">
-                                                    <label class="form-label">List Price</label>
+                                                <div class="col-md-1">
+                                                    <label class="form-label">Price</label>
                                                     <input type="number" id="itemPrice" class="form-control"
-                                                        placeholder="Price" oninput="calculatePayment()">
+                                                        placeholder="Price">
                                                 </div>
                                                 <div class="col-md-1">
                                                     <label class="form-label">Cost</label>
@@ -387,17 +387,22 @@ include './auth.php';
                                                 <div class="col-md-1">
                                                     <label class="form-label">Qty</label>
                                                     <input type="number" id="itemQty" class="form-control"
-                                                        placeholder="Qty" oninput="calculatePayment()">
+                                                        placeholder="Qty">
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <label class="form-label">Dis %</label>
+                                                    <input type="number" id="itemDiscountPercentage" class="form-control" min="0" max="100"
+                                                        placeholder="%">
                                                 </div>
                                                 <div class="col-md-1">
                                                     <label class="form-label">Dis Amount</label>
                                                     <input type="number" id="itemDiscount" class="form-control" min="0"
-                                                        placeholder="Dis Amount" oninput="calculatePayment()">
+                                                        placeholder="Dis Amount">
                                                 </div>
                                                 <div class="col-md-1">
                                                     <label class="form-label">Selling Price</label>
                                                     <input type="number" id="itemSalePrice" class="form-control" min="0"
-                                                        placeholder="Sale Price" oninput="calculatePayment()">
+                                                        placeholder="Sale Price">
                                                 </div>
                                                 <div class="col-md-1">
                                                     <label class="form-label">Serial No</label>

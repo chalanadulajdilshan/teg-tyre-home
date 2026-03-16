@@ -281,12 +281,17 @@ if (!empty($customerMobile)) {
                                         $key++;
                                         $price = $temp_items['price'];
                                         $quantity = (int) $temp_items['quantity'];
-                                        $discount_percentage = isset($temp_items['discount']) ? (float) $temp_items['discount'] : 0;
-                                        $discount_per_item = $price * ($discount_percentage / 100);
+                                        $list_price = (float)($temp_items['list_price'] ?: $temp_items['price']);
+                                        $discount_value = isset($temp_items['discount']) ? (float)$temp_items['discount'] : 0;
+                                        
+                                        // Calculate percentage: (Total Discount / Total Original Price) * 100
+                                        $discount_percentage = ($list_price > 0 && $quantity > 0) ? ($discount_value / ($list_price * $quantity)) * 100 : 0;
+                                        
+                                        $discount_per_item = $quantity > 0 ? $discount_value / $quantity : 0;
                                         $selling_price = $price * $quantity;
                                         $line_total = $price * $quantity;
-                                        $subtotal += $price * $quantity;
-                                        $total_discount += $discount_per_item * $quantity;
+                                        $subtotal += $list_price * $quantity;
+                                        $total_discount += $discount_value;
                                         ?>
                                         <?php
                                         $item_vat = 0;
@@ -309,7 +314,12 @@ if (!empty($customerMobile)) {
                                             </td>
                                             <td><?php echo isset($temp_items['serial_no']) ? $temp_items['serial_no'] : ''; ?>
                                             </td>
-                                            <td><?php echo number_format($price, 2); ?></td>
+                                            <td>
+                                                <?php echo number_format($price, 2); ?>
+                                                <?php if ($discount_percentage > 0): ?>
+                                                    <br><small class="text-danger">(<?php echo number_format($discount_percentage, 2); ?>%)</small>
+                                                <?php endif; ?>
+                                            </td>
                                             <td><?php echo $quantity; ?></td>
                                             <?php if ($SALES_INVOICE->tax > 0): ?>
                                                 <td class="text-center"><?php echo number_format($item_vat, 2); ?></td>

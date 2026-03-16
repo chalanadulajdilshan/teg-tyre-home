@@ -311,7 +311,16 @@ $CUSTOMER = new CustomerMaster($SALES_INVOICE->customer_id);
                                                                 <td><?php echo number_format($item['list_price'] ?: $item['price'], 2) ?>
                                                                 </td>
                                                                 <td><?php echo $item['quantity'] ?></td>
-                                                                <td><?php echo number_format($item['discount'], 2) ?></td>
+                                                                <td>
+                                                                    <?php echo number_format($item['discount'], 2) ?>
+                                                                    <?php
+                                                                    $basePrice = $item['list_price'] ?: $item['price'];
+                                                                    if ($item['discount'] > 0 && $basePrice > 0):
+                                                                        $discountPercentage = ($item['discount'] / $basePrice) * 100;
+                                                                    ?>
+                                                                        <br><small class="text-danger">(<?php echo number_format($discountPercentage, 2) ?>%)</small>
+                                                                    <?php endif; ?>
+                                                                </td>
                                                                 <td><?php echo number_format($item['price'], 2) ?></td>
                                                                 <td><?php echo $item['serial_no'] ?></td>
                                                                 <?php if ($SALES_INVOICE->tax > 0): ?>
