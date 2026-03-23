@@ -334,50 +334,11 @@ if (!empty($customerMobile)) {
                                     $rowSpan = ($SALES_INVOICE->payment_type == 2) ? 5 : 3;
                                     ?>
                                     <tr>
-                                        <td colspan="<?php echo ($SALES_INVOICE->tax > 0) ? 8 : 7; ?>"
-                                            class="text-end font-weight-bold"><strong>Gross Amount:-</strong>
+                                        <td colspan="<?php echo ($SALES_INVOICE->tax > 0) ? 8 : 7; ?>" class="text-end font-weight-bold">
+                                            <strong>Grand Total:-</strong>
                                         </td>
                                         <td class="text-end font-weight-bold">
-                                            <strong><?php echo number_format($subtotal, 2); ?></strong>
-                                        </td>
-                                    </tr>
-                                    <?php if ($SALES_INVOICE->payment_type == 2): // Credit payment 
-                                                ?>
-                                        <tr>
-                                            <td colspan="<?php echo ($SALES_INVOICE->tax > 0) ? 8 : 7; ?>"
-                                                class="text-end font-weight-bold"><strong>Paid Amount:-</strong>
-                                            </td>
-                                            <td class="text-end font-weight-bold">
-                                                <strong><?php echo number_format($SALES_INVOICE->outstanding_settle_amount, 2); ?></strong>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="<?php echo ($SALES_INVOICE->tax > 0) ? 8 : 7; ?>"
-                                                class="text-end font-weight-bold"><strong>Payable Amount:-</strong>
-                                            </td>
-                                            <td class="text-end font-weight-bold">
-                                                <strong><?php echo number_format($SALES_INVOICE->grand_total - $SALES_INVOICE->outstanding_settle_amount, 2); ?></strong>
-                                            </td>
-                                        </tr>
-                                    <?php endif; ?>
-                                    <tr hidden>
-                                        <td colspan="4" class="text-end font-weight-bold">Discount:-</td>
-                                        <td class="text-end font-weight-bold">-
-                                            <?php echo number_format($total_discount, 2); ?>
-                                        </td>
-                                    </tr>
-                                    <tr hidden>
-                                        <td colspan="4" class="text-end font-weight-bold"><strong>VAT :-</strong></td>
-                                        <td class="text-end font-weight-bold">
-                                            <strong><?php echo number_format($SALES_INVOICE->tax, 2); ?></strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="<?php echo ($SALES_INVOICE->tax > 0) ? 8 : 7; ?>" class="text-end">
-                                            <strong>Net Amount:-</strong>
-                                        </td>
-                                        <td class="text-end">
-                                            <strong><?php echo number_format($subtotal, 2); ?></strong>
+                                            <strong><?php echo number_format($SALES_INVOICE->grand_total, 2); ?></strong>
                                         </td>
                                     </tr>
                                     <tr>
