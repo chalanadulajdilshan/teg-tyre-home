@@ -317,7 +317,9 @@ if (!empty($customerMobile)) {
                                             <td>
                                                 <?php echo number_format($price, 2); ?>
                                                 <?php if ($discount_percentage > 0): ?>
-                                                    <br><small class="text-danger">(<?php echo number_format($discount_percentage, 2); ?>%)</small>
+                                                    <span class="no-print">
+                                                        <br><small class="text-danger">(<?php echo number_format($discount_percentage, 2); ?>%)</small>
+                                                    </span>
                                                 <?php endif; ?>
                                             </td>
                                             <td><?php echo $quantity; ?></td>
